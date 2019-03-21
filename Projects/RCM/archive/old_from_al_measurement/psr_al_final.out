@@ -1,0 +1,330 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/31/2015   6:58 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  PSR AL Model
+  DATA:
+  FILE = "psr_al_final.dat";
+
+  VARIABLE:
+  NAMES = F PR SR NegAff PosAff m2famnum m2aadv LifeStress Smoke PhysAct
+       p4majorconditions;
+   MISSING=.;
+
+    USEVARIABLES = F m2aadv
+      LifeStress Smoke PhysAct p4majorconditions
+      PR SR NegAff PosAff
+      SESxPR SESxSR StressxPR StressxSR;
+
+    IDVARIABLE = m2famnum;
+    !COUNT = LifeStress p4majorconditions;
+    !CATEGORICAL = Smoke PhysAct;
+    DEFINE:
+     SESxPR = m2aadv * PR;
+     SESxSR = m2aadv * SR;
+     StressxPR = LifeStress * PR;
+     StressxSR = LifeStress * SR;
+
+
+  ANALYSIS:
+
+    Estimator = MLR;
+
+  MODEL:
+
+    p4majorconditions ON
+      ! biobehavioral
+      F Smoke PhysAct
+      ! SES
+      m2aadv
+      PR SR;
+      !SESxPR SESxSR;
+
+    F ON Smoke PhysAct;
+
+    F Smoke PhysAct ON
+      PosAff NegAff
+      m2aadv
+      PR SR;
+      !SESxPR SESxSR;
+
+    PosAff NegAff ON
+    LifeStress
+    PR SR
+    StressxPR StressxSR;
+    PosAff WITH NegAff*;
+
+    LifeStress ON
+      m2aadv PR SR
+      SESxPR SESxSR;
+
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+PSR AL Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1050
+
+Number of dependent variables                                    7
+Number of independent variables                                  7
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   F           LIFESTRESS  SMOKE       PHYSACT     P4MAJORCON  NEGAFF
+   POSAFF
+
+Observed independent variables
+   M2AADV      PR          SR          SESXPR      SESXSR      STRESSXP
+   STRESSXS
+
+Variables with special functions
+
+  ID variable           M2FAMNUM
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  psr_al_final.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              F             LIFESTRE      SMOKE         PHYSACT       P4MAJORC
+              ________      ________      ________      ________      ________
+ F              1.000
+ LIFESTRE       1.000         1.000
+ SMOKE          1.000         1.000         1.000
+ PHYSACT        1.000         1.000         1.000         1.000
+ P4MAJORC       1.000         1.000         1.000         1.000         1.000
+ NEGAFF         1.000         1.000         1.000         1.000         1.000
+ POSAFF         1.000         1.000         1.000         1.000         1.000
+ M2AADV         1.000         1.000         1.000         1.000         1.000
+ PR             1.000         1.000         1.000         1.000         1.000
+ SR             1.000         1.000         1.000         1.000         1.000
+ SESXPR         1.000         1.000         1.000         1.000         1.000
+ SESXSR         1.000         1.000         1.000         1.000         1.000
+ STRESSXP       1.000         1.000         1.000         1.000         1.000
+ STRESSXS       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              NEGAFF        POSAFF        M2AADV        PR            SR
+              ________      ________      ________      ________      ________
+ NEGAFF         1.000
+ POSAFF         1.000         1.000
+ M2AADV         1.000         1.000         1.000
+ PR             1.000         1.000         1.000         1.000
+ SR             1.000         1.000         1.000         1.000         1.000
+ SESXPR         1.000         1.000         1.000         1.000         1.000
+ SESXSR         1.000         1.000         1.000         1.000         1.000
+ STRESSXP       1.000         1.000         1.000         1.000         1.000
+ STRESSXS       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              SESXPR        SESXSR        STRESSXP      STRESSXS
+              ________      ________      ________      ________
+ SESXPR         1.000
+ SESXSR         1.000         1.000
+ STRESSXP       1.000         1.000         1.000
+ STRESSXS       1.000         1.000         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       53
+
+Loglikelihood
+
+          H0 Value                      -10303.998
+          H0 Scaling Correction Factor      1.0143
+            for MLR
+          H1 Value                      -10209.749
+          H1 Scaling Correction Factor      1.0508
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   20713.996
+          Bayesian (BIC)                 20976.693
+          Sample-Size Adjusted BIC       20808.357
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            169.343*
+          Degrees of Freedom                    31
+          P-Value                           0.0000
+          Scaling Correction Factor         1.1131
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.065
+          90 Percent C.I.                    0.056  0.075
+          Probability RMSEA <= .05           0.004
+
+CFI/TLI
+
+          CFI                                0.920
+          TLI                                0.820
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           1801.300
+          Degrees of Freedom                    70
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.029
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ P4MAJORC ON
+    F                  0.272      0.036      7.668      0.000
+    SMOKE              0.018      0.048      0.372      0.710
+    PHYSACT           -0.117      0.031     -3.735      0.000
+    M2AADV            -0.022      0.014     -1.642      0.101
+    PR                -0.024      0.043     -0.556      0.579
+    SR                 0.056      0.043      1.292      0.196
+
+ F        ON
+    SMOKE              0.095      0.044      2.162      0.031
+    PHYSACT           -0.188      0.026     -7.253      0.000
+    POSAFF            -0.066      0.046     -1.440      0.150
+    NEGAFF             0.041      0.045      0.921      0.357
+    M2AADV            -0.051      0.012     -4.262      0.000
+    PR                 0.105      0.044      2.387      0.017
+    SR                 0.020      0.038      0.536      0.592
+
+ SMOKE    ON
+    POSAFF            -0.059      0.032     -1.834      0.067
+    NEGAFF             0.045      0.031      1.473      0.141
+    M2AADV            -0.038      0.008     -4.548      0.000
+    PR                 0.051      0.029      1.752      0.080
+    SR                 0.004      0.026      0.162      0.871
+
+ PHYSACT  ON
+    POSAFF            -0.033      0.051     -0.644      0.519
+    NEGAFF            -0.020      0.051     -0.381      0.703
+    M2AADV             0.019      0.013      1.447      0.148
+    PR                 0.124      0.048      2.567      0.010
+    SR                -0.013      0.041     -0.323      0.747
+
+ POSAFF   ON
+    LIFESTRESS        -0.027      0.011     -2.437      0.015
+    PR                 0.410      0.051      8.081      0.000
+    SR                 0.138      0.053      2.584      0.010
+    STRESSXPR          0.036      0.013      2.856      0.004
+    STRESSXSR         -0.024      0.013     -1.835      0.066
+
+ NEGAFF   ON
+    LIFESTRESS         0.043      0.011      3.925      0.000
+    PR                -0.324      0.054     -6.002      0.000
+    SR                -0.114      0.055     -2.075      0.038
+    STRESSXPR         -0.051      0.012     -4.138      0.000
+    STRESSXSR          0.024      0.013      1.856      0.064
+
+ LIFESTRE ON
+    M2AADV            -0.247      0.028     -8.802      0.000
+    PR                -0.085      0.238     -0.359      0.720
+    SR                -0.711      0.221     -3.213      0.001
+    SESXPR             0.029      0.032      0.900      0.368
+    SESXSR             0.060      0.031      1.904      0.057
+
+ POSAFF   WITH
+    NEGAFF            -0.387      0.026    -14.680      0.000
+
+ Intercepts
+    F                  0.507      0.125      4.071      0.000
+    LIFESTRESS         4.694      0.192     24.456      0.000
+    SMOKE              1.775      0.054     33.167      0.000
+    PHYSACT            2.442      0.084     29.213      0.000
+    P4MAJORCON         1.461      0.143     10.243      0.000
+    NEGAFF            -0.146      0.043     -3.425      0.001
+    POSAFF             0.095      0.043      2.231      0.026
+
+ Residual Variances
+    F                  0.878      0.035     24.877      0.000
+    LIFESTRESS         5.216      0.276     18.912      0.000
+    SMOKE              0.458      0.017     27.388      0.000
+    PHYSACT            1.153      0.031     37.010      0.000
+    P4MAJORCON         1.187      0.067     17.780      0.000
+    NEGAFF             0.656      0.032     20.605      0.000
+    POSAFF             0.646      0.035     18.378      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.111E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  18:58:38
+        Ending Time:  18:58:39
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

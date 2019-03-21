@@ -1,0 +1,1195 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+02/05/2015   9:42 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  PSR AL Model
+  DATA:
+  FILE = implist.dat;
+  TYPE = IMPUTATION;
+
+  VARIABLE:
+    NAMES = M2ID Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM PESSIMISM
+  FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bisym bihpa bicard bigluc
+  bilipid biinfl bipara F NegAff PosAff m2famnum b1page_m2 sex
+  m1chadv m2aadv LifeStress Smoke PhysAct p4majorconditions
+  p4minorconditions p4sumburden;
+
+  MISSING=.;
+
+    USEVARIABLES =
+      m1chadv m2aadv PR !SR
+      LifeStress
+      sex b1page_m2
+      NegAff PosAff
+      F Smoke PhysAct
+      p4majorconditions
+      !SESxPR SESxSR
+      dSESxPR
+      !dSESxSR
+      !StressxPR StressxSR;
+      !SexxPR SexxSR
+      ;
+
+    IDVARIABLE = M2ID;
+    CLUSTER = m2famnum;
+    COUNT = LifeStress p4majorconditions;
+    CATEGORICAL = Smoke PhysAct;
+    DEFINE:
+    !SESxPR = m1chadv * PR;
+    !SESxSR = m1chadv * SR;
+    dSESxPR = m2aadv * PR;
+    !dSESxSR = m2aadv * SR;
+
+    !StressxPR = LifeStress * PR;
+    !StressxSR = LifeStress * SR;
+    !SexxPR = Sex * PR;
+    !SexxSR = Sex * SR;
+
+  ANALYSIS:
+    TYPE = COMPLEX;
+    Estimator = ML;
+    PROCESSORS = 10;
+
+  MODEL:
+    ! Step 1
+    LifeStress ON
+      sex b1page_m2 m1chadv m2aadv
+      ;
+
+    PR ON
+      sex b1page_m2
+      m1chadv m2aadv
+      LifeStress;
+
+    ! Step 2
+    PosAff ON
+      sex b1page_m2 m1chadv m2aadv
+      PR
+      LifeStress
+      !SESxPR SESxSR
+      !dSESxPR dSESxSR
+      !StressxPR (int0a)
+      !StressxSR (int0b)
+      !SexxPR SexxSR
+      ;
+    NegAff ON
+      sex b1page_m2 m1chadv
+      m2aadv (nases)
+      PR (napr)
+      LifeStress
+      !SESxPR SESxSR
+      dSESxPR (nasxpr)
+      !dSESxSR
+      !StressxPR (int1a)
+      !StressxSR (int1b)
+      !SexxPR SexxSR
+      ;
+     PosAff WITH NegAff*;
+
+    ! Step 3
+      F ON
+      sex b1page_m2 m1chadv m2aadv
+      PR
+      LifeStress
+      PosAff NegAff
+      !SESxPR SESxSR
+      !dSESxPR dSESxSR
+      !StressxPR (int2a)
+      !StressxSR (int2b)
+      !SexxPR SexxSR
+      Smoke
+      PhysAct (fphys);
+
+      Smoke ON
+      sex b1page_m2 m1chadv m2aadv
+      PR
+      LifeStress
+      PosAff NegAff
+      !SESxPR SESxSR
+      !dSESxPR dSESxSR
+      !StressxPR (int3a)
+      !StressxSR (int3b)
+      !SexxPR SexxSR
+      ;
+
+      PhysAct ON
+      sex b1page_m2 m1chadv m2aadv
+      PR (physpr)
+      LifeStress
+      PosAff NegAff
+      !SESxPR SESxSR
+      !dSESxPR dSESxSR
+      !StressxPR (int4a)
+      !StressxSR (int4b)
+      !SexxPR SexxSR
+      ;
+
+      !PhysAct WITH Smoke*;
+
+      ! Step 4
+
+      p4majorconditions ON
+      sex b1page_m2 m1chadv m2aadv
+      PR
+      LifeStress
+      PosAff
+      NegAff (cna)
+      !SESxPR SESxSR
+      !dSESxPR dSESxSR
+      !StressxPR (int5a)
+      !StressxSR (int5b)
+      !SexxPR SexxSR
+      F Smoke PhysAct;
+
+  MODEL CONSTRAINT:
+    new(indf1 indc1l indc1m indc1h);
+    indf1 = physpr * fphys;
+    indc1l = (napr - 1.277168 * nasxpr) * cna;
+    indc1m = (napr + 0 * nasxpr) * cna;
+    indc1h = (napr + 1.277168 * nasxpr) * cna;
+
+
+  !MODEL TEST:
+    !int1a = 0;
+    !int1b = 0;
+    !int2a = 0;
+    !int2b = 0;
+    !int3a = 0;
+    !int3b = 0;
+    !int4a = 0;
+    !int4b = 0;
+    !int5a = 0;
+    !int5b = 0;
+
+  OUTPUT:
+    STDYX;
+    CINTERVAL;
+
+
+
+*** WARNING in ANALYSIS command
+  Use ESTIMATOR=MLR instead of ESTIMATOR=ML for TYPE=COMPLEX.
+  Default estimator will be used.
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING in OUTPUT command
+  CINTERVAL option is not available with multiple imputation.
+  Request for CINTERVAL is ignored.
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+PSR AL Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Average number of observations                                1050
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                    8
+Number of independent variables                                  5
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   PR          NEGAFF      POSAFF      F
+
+  Binary and ordered categorical (ordinal)
+   SMOKE       PHYSACT
+
+  Count
+   LIFESTRE    P4MAJORC
+
+Observed independent variables
+   M1CHADV     M2AADV      SEX         B1PAGE_M    DSESXPR
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  Multiple data files from
+    implist.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA FOR THE FIRST DATA SET
+
+     Number of missing data patterns             1
+     Number of clusters         894
+
+
+
+SUMMARY OF MISSING DATA PATTERNS FOR THE FIRST DATA SET
+
+
+     MISSING DATA PATTERNS FOR Y (x = not missing)
+
+           1
+ PR        x
+ NEGAFF    x
+ POSAFF    x
+ F         x
+ M1CHADV   x
+ M2AADV    x
+ SEX       x
+ B1PAGE_M  x
+ DSESXPR   x
+
+
+     MISSING DATA PATTERN FREQUENCIES FOR Y
+
+    Pattern   Frequency
+          1        1050
+
+
+COVARIANCE COVERAGE OF DATA FOR THE FIRST DATA SET
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              PR            NEGAFF        POSAFF        F             M1CHADV
+              ________      ________      ________      ________      ________
+ PR             1.000
+ NEGAFF         1.000         1.000
+ POSAFF         1.000         1.000         1.000
+ F              1.000         1.000         1.000         1.000
+ M1CHADV        1.000         1.000         1.000         1.000         1.000
+ M2AADV         1.000         1.000         1.000         1.000         1.000
+ SEX            1.000         1.000         1.000         1.000         1.000
+ B1PAGE_M       1.000         1.000         1.000         1.000         1.000
+ DSESXPR        1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________
+ M2AADV         1.000
+ SEX            1.000         1.000
+ B1PAGE_M       1.000         1.000         1.000
+ DSESXPR        1.000         1.000         1.000         1.000
+
+
+UNIVARIATE PROPORTIONS FOR CATEGORICAL VARIABLES
+
+NOTE:  These are average results over 50 data sets.
+
+    SMOKE
+      Category 1    0.553
+      Category 2    0.332
+      Category 3    0.114
+    PHYSACT
+      Category 1    0.215
+      Category 2    0.259
+      Category 3    0.278
+      Category 4    0.248
+
+
+COUNT PROPORTION OF ZERO, MINIMUM AND MAXIMUM VALUES
+
+      LIFESTRE    0.072         0        13
+      P4MAJORC    0.411         0         6
+
+
+SAMPLE STATISTICS
+
+NOTE:  These are average results over 50 data sets.
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              PR            NEGAFF        POSAFF        F             M1CHADV
+              ________      ________      ________      ________      ________
+ 1              0.108        -0.032         0.035        -0.111         0.000
+
+
+           Means
+              M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________
+ 1              0.000         0.548         0.023         0.242
+
+
+           Covariances
+              PR            NEGAFF        POSAFF        F             M1CHADV
+              ________      ________      ________      ________      ________
+ PR             1.027
+ NEGAFF        -0.536         0.974
+ POSAFF         0.575        -0.695         0.960
+ F             -0.044         0.072        -0.082         0.907
+ M1CHADV        0.079        -0.016         0.013        -0.103         0.999
+ M2AADV         0.242        -0.230         0.194        -0.025        -0.815
+ SEX           -0.006         0.039        -0.013        -0.031        -0.011
+ B1PAGE_M       0.187        -0.289         0.243         0.045        -0.170
+ DSESXPR       -0.033         0.101        -0.049         0.065        -0.064
+
+
+           Covariances
+              M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________
+ M2AADV         1.630
+ SEX           -0.054         0.248
+ B1PAGE_M       0.271        -0.033         1.385
+ DSESXPR        0.059        -0.001         0.004         1.704
+
+
+           Correlations
+              PR            NEGAFF        POSAFF        F             M1CHADV
+              ________      ________      ________      ________      ________
+ PR             1.000
+ NEGAFF        -0.536         1.000
+ POSAFF         0.579        -0.719         1.000
+ F             -0.046         0.077        -0.088         1.000
+ M1CHADV        0.078        -0.016         0.013        -0.108         1.000
+ M2AADV         0.187        -0.183         0.155        -0.021        -0.639
+ SEX           -0.011         0.080        -0.027        -0.065        -0.023
+ B1PAGE_M       0.157        -0.249         0.211         0.040        -0.145
+ DSESXPR       -0.025         0.079        -0.038         0.052        -0.049
+
+
+           Correlations
+              M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________
+ M2AADV         1.000
+ SEX           -0.085         1.000
+ B1PAGE_M       0.181        -0.056         1.000
+ DSESXPR        0.035        -0.002         0.002         1.000
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       75
+
+Loglikelihood
+
+    H0 Value
+
+        Mean                            -11062.641
+        Std Dev                             40.167
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980       -11156.082     -11161.432
+           0.980       0.980       -11145.132     -11161.432
+           0.950       0.940       -11128.712     -11137.207
+           0.900       0.940       -11114.119     -11113.854
+           0.800       0.760       -11096.446     -11103.672
+           0.700       0.720       -11083.705     -11082.345
+           0.500       0.520       -11062.641     -11061.123
+           0.300       0.300       -11041.578     -11044.698
+           0.200       0.160       -11028.837     -11034.071
+           0.100       0.100       -11011.163     -11011.817
+           0.050       0.060       -10996.570     -11006.624
+           0.020       0.020       -10980.150     -10982.761
+           0.010       0.000       -10969.201     -10982.761
+
+Information Criteria
+
+    Akaike (AIC)
+
+        Mean                             22275.282
+        Std Dev                             80.334
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        22088.401      22105.112
+           0.980       0.980        22110.300      22105.112
+           0.950       0.940        22143.141      22115.523
+           0.900       0.900        22172.326      22163.249
+           0.800       0.840        22207.673      22210.380
+           0.700       0.700        22233.155      22230.884
+           0.500       0.480        22275.282      22263.462
+           0.300       0.280        22317.410      22312.130
+           0.200       0.240        22342.892      22347.336
+           0.100       0.060        22378.239      22372.964
+           0.050       0.060        22407.424      22377.708
+           0.020       0.020        22440.265      22424.415
+           0.010       0.020        22462.164      22424.415
+
+    Bayesian (BIC)
+
+        Mean                             22647.023
+        Std Dev                             80.334
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        22460.142      22476.853
+           0.980       0.980        22482.041      22476.853
+           0.950       0.940        22514.882      22487.264
+           0.900       0.900        22544.067      22534.989
+           0.800       0.840        22579.414      22582.121
+           0.700       0.700        22604.896      22602.625
+           0.500       0.480        22647.023      22635.203
+           0.300       0.280        22689.151      22683.871
+           0.200       0.240        22714.633      22719.077
+           0.100       0.060        22749.979      22744.705
+           0.050       0.060        22779.165      22749.448
+           0.020       0.020        22812.005      22796.156
+           0.010       0.020        22833.904      22796.156
+
+    Sample-Size Adjusted BIC (n* = (n + 2) / 24)
+
+        Mean                             22408.812
+        Std Dev                             80.334
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        22221.931      22238.642
+           0.980       0.980        22243.830      22238.642
+           0.950       0.940        22276.671      22249.052
+           0.900       0.900        22305.856      22296.778
+           0.800       0.840        22341.203      22343.910
+           0.700       0.700        22366.685      22364.414
+           0.500       0.480        22408.812      22396.991
+           0.300       0.280        22450.939      22445.659
+           0.200       0.240        22476.421      22480.866
+           0.100       0.060        22511.768      22506.493
+           0.050       0.060        22540.954      22511.237
+           0.020       0.020        22573.794      22557.945
+           0.010       0.020        22595.693      22557.945
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed   Rate of
+                    Estimate       S.E.  Est./S.E.    P-Value    Missing
+
+ LIFESTRESS ON
+    SEX               -0.144      0.044     -3.263      0.001      0.000
+    B1PAGE_M2          0.019      0.018      1.051      0.293      0.000
+    M1CHADV           -0.318      0.026    -12.330      0.000      0.000
+    M2AADV            -0.207      0.022     -9.419      0.000      0.000
+
+ PR         ON
+    SEX                0.061      0.067      0.920      0.357      0.119
+    B1PAGE_M2          0.122      0.028      4.365      0.000      0.128
+    M1CHADV            0.314      0.046      6.882      0.000      0.105
+    M2AADV             0.283      0.034      8.288      0.000      0.158
+    LIFESTRESS        -0.034      0.014     -2.484      0.013      0.085
+
+ POSAFF     ON
+    SEX               -0.038      0.056     -0.670      0.503      0.197
+    B1PAGE_M2          0.102      0.023      4.366      0.000      0.122
+    M1CHADV           -0.025      0.037     -0.687      0.492      0.179
+    M2AADV             0.006      0.031      0.183      0.855      0.184
+    PR                 0.528      0.031     17.303      0.000      0.286
+    LIFESTRESS        -0.034      0.012     -2.996      0.003      0.125
+
+ NEGAFF     ON
+    SEX                0.133      0.058      2.281      0.023      0.220
+    B1PAGE_M2         -0.138      0.025     -5.623      0.000      0.150
+    M1CHADV           -0.009      0.038     -0.236      0.813      0.175
+    M2AADV            -0.044      0.030     -1.454      0.146      0.196
+    PR                -0.464      0.033    -14.036      0.000      0.368
+    LIFESTRESS         0.050      0.012      3.995      0.000      0.158
+    DSESXPR            0.035      0.018      1.963      0.050      0.260
+
+ F          ON
+    SEX               -0.161      0.087     -1.850      0.064      0.554
+    B1PAGE_M2          0.022      0.038      0.585      0.558      0.545
+    M1CHADV           -0.142      0.049     -2.877      0.004      0.282
+    M2AADV            -0.087      0.038     -2.314      0.021      0.258
+    PR                 0.074      0.045      1.640      0.101      0.360
+    LIFESTRESS         0.034      0.015      2.171      0.030      0.270
+    POSAFF            -0.075      0.056     -1.345      0.179      0.370
+    NEGAFF             0.018      0.052      0.341      0.733      0.344
+    SMOKE              0.066      0.049      1.362      0.173      0.182
+    PHYSACT           -0.182      0.031     -5.864      0.000      0.292
+
+ SMOKE      ON
+    SEX               -0.354      0.132     -2.684      0.007      0.006
+    B1PAGE_M2          0.091      0.055      1.668      0.095      0.010
+    M1CHADV           -0.219      0.091     -2.398      0.016      0.010
+    M2AADV            -0.165      0.073     -2.259      0.024      0.011
+    PR                 0.182      0.084      2.175      0.030      0.198
+    LIFESTRESS         0.188      0.028      6.585      0.000      0.004
+    POSAFF            -0.159      0.104     -1.530      0.126      0.221
+    NEGAFF             0.141      0.106      1.327      0.184      0.234
+
+ PHYSACT    ON
+    SEX               -0.232      0.119     -1.960      0.050      0.005
+    B1PAGE_M2         -0.124      0.047     -2.645      0.008      0.009
+    M1CHADV            0.147      0.083      1.773      0.076      0.011
+    M2AADV             0.072      0.062      1.163      0.245      0.013
+    PR                 0.206      0.081      2.536      0.011      0.207
+    LIFESTRESS         0.006      0.026      0.221      0.825      0.004
+    POSAFF            -0.007      0.101     -0.072      0.943      0.174
+    NEGAFF            -0.005      0.101     -0.048      0.962      0.252
+
+ P4MAJORCON ON
+    SEX                0.096      0.067      1.446      0.148      0.083
+    B1PAGE_M2          0.336      0.028     12.097      0.000      0.064
+    M1CHADV           -0.044      0.046     -0.961      0.337      0.043
+    M2AADV            -0.065      0.036     -1.771      0.077      0.052
+    PR                 0.006      0.047      0.129      0.897      0.276
+    LIFESTRESS         0.021      0.014      1.508      0.132      0.036
+    POSAFF             0.036      0.057      0.625      0.532      0.241
+    NEGAFF             0.109      0.054      2.023      0.043      0.264
+    F                  0.253      0.037      6.815      0.000      0.246
+    SMOKE             -0.007      0.049     -0.150      0.880      0.019
+    PHYSACT           -0.083      0.028     -2.932      0.003      0.052
+
+ POSAFF   WITH
+    NEGAFF            -0.362      0.032    -11.313      0.000      0.379
+
+ Intercepts
+    PR                 0.186      0.073      2.547      0.011      0.119
+    NEGAFF            -0.227      0.065     -3.499      0.000      0.229
+    POSAFF             0.111      0.062      1.798      0.072      0.206
+    F                  0.105      0.098      1.080      0.280      0.393
+    LIFESTRESS         1.257      0.031     40.155      0.000      0.000
+    P4MAJORCON        -0.063      0.086     -0.732      0.464      0.047
+
+ Thresholds
+    SMOKE$1            0.677      0.138      4.900      0.000      0.007
+    SMOKE$2            2.661      0.174     15.288      0.000      0.006
+    PHYSACT$1         -1.406      0.140    -10.072      0.000      0.004
+    PHYSACT$2         -0.188      0.135     -1.393      0.164      0.005
+    PHYSACT$3          1.052      0.140      7.491      0.000      0.005
+
+ Residual Variances
+    PR                 0.897      0.049     18.133      0.000      0.329
+    NEGAFF             0.640      0.042     15.373      0.000      0.425
+    POSAFF             0.616      0.040     15.271      0.000      0.277
+    F                  0.819      0.051     16.061      0.000      0.532
+
+New/Additional Parameters
+    INDF1             -0.037      0.016     -2.340      0.019      0.209
+    INDC1L            -0.055      0.028     -2.004      0.045      0.254
+    INDC1M            -0.050      0.025     -2.013      0.044      0.251
+    INDC1H            -0.045      0.023     -1.998      0.046      0.249
+
+
+STANDARDIZED MODEL RESULTS
+
+     STANDARDIZED COEFFICIENTS WERE NOT COMPUTED.  CHECK TECH9 OUTPUT FOR
+     ERRORS RELATED TO THE COMPUTATION OF STANDARDIZED COEFFICIENTS.
+
+
+R-SQUARE
+
+     R-SQUARE OUTPUT IS NOT AVAILABLE.  CHECK TECH9 OUTPUT FOR
+     ERRORS RELATED TO THE COMPUTATION OF STANDARDIZED COEFFICIENTS.
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Average Condition Number for the Information Matrix      0.117E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           TAU
+              SMOKE$1       SMOKE$2       PHYSACT$      PHYSACT$      PHYSACT$
+              ________      ________      ________      ________      ________
+ 1                 71            72            73            74            75
+
+
+           NU
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           LAMBDA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ SMOKE              0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PR                 0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ POSAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           LAMBDA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ SMOKE              0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PR                 0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ POSAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           LAMBDA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ SMOKE              0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PR                 0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ POSAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           THETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE           0
+ LIFESTRE           0             0
+ P4MAJORC           0             0             0
+ P4MAJORC           0             0             0             0
+ SMOKE              0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PR                 0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ POSAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           THETA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ PHYSACT            0
+ PR                 0             0
+ NEGAFF             0             0             0
+ POSAFF             0             0             0             0
+ F                  0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           THETA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ M1CHADV            0
+ M2AADV             0             0
+ SEX                0             0             0
+ B1PAGE_M           0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           ALPHA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ 1                  0             1             0             2             0
+
+
+           ALPHA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ 1                  0             3             4             5             6
+
+
+           ALPHA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           BETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0            11             0             0            12
+ SMOKE              0            22             0             0             0
+ PHYSACT            0            30             0             0             0
+ PR                 0            38             0             0             0
+ NEGAFF             0            43             0             0             0
+ POSAFF             0            50             0             0             0
+ F                  0            56             0             0            57
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           BETA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC          13            14            15            16            17
+ SMOKE              0            23            24            25             0
+ PHYSACT            0            31            32            33             0
+ PR                 0             0             0             0             0
+ NEGAFF             0            44             0             0             0
+ POSAFF             0            51             0             0             0
+ F                 58            59            60            61             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           BETA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           7             8             9            10             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC          18            19            20            21             0
+ SMOKE             26            27            28            29             0
+ PHYSACT           34            35            36            37             0
+ PR                39            40            41            42             0
+ NEGAFF            45            46            47            48            49
+ POSAFF            52            53            54            55             0
+ F                 62            63            64            65             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           PSI
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE           0
+ LIFESTRE           0             0
+ P4MAJORC           0             0             0
+ P4MAJORC           0             0             0             0
+ SMOKE              0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PR                 0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ POSAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           PSI
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ PHYSACT            0
+ PR                 0            66
+ NEGAFF             0             0            67
+ POSAFF             0             0            68            69
+ F                  0             0             0             0            70
+ M1CHADV            0             0             0             0             0
+ M2AADV             0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+           PSI
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ M1CHADV            0
+ M2AADV             0             0
+ SEX                0             0             0
+ B1PAGE_M           0             0             0             0
+ DSESXPR            0             0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR THE ADDITIONAL PARAMETERS
+
+
+           NEW/ADDITIONAL PARAMETERS
+              INDF1         INDC1L        INDC1M        INDC1H
+              ________      ________      ________      ________
+ 1                 76            77            78            79
+
+
+     STARTING VALUES
+
+
+           TAU
+              SMOKE$1       SMOKE$2       PHYSACT$      PHYSACT$      PHYSACT$
+              ________      ________      ________      ________      ________
+ 1              0.214         2.048        -1.294        -0.103         1.111
+
+
+           NU
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE       1.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         1.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         1.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         1.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         1.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PR             0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         0.000
+ PHYSACT        1.000         0.000         0.000         0.000         0.000
+ PR             0.000         1.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         1.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         1.000         0.000
+ F              0.000         0.000         0.000         0.000         1.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PR             0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        1.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         1.000         0.000         0.000         0.000
+ SEX            0.000         0.000         1.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         1.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000
+ LIFESTRE       0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PR             0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ PHYSACT        0.000
+ PR             0.000         0.000
+ NEGAFF         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ M1CHADV        0.000
+ M2AADV         0.000         0.000
+ SEX            0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ 1            -20.000         1.416       -20.000         0.256         0.000
+
+
+           ALPHA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ 1              0.000         0.075        -0.031         0.043        -0.109
+
+
+           ALPHA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PR             0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PR             0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PR             0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      SMOKE
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000
+ LIFESTRE       0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000
+ SMOKE          0.000         0.000         0.000         0.000         1.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PR             0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ POSAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PHYSACT       PR            NEGAFF        POSAFF        F
+              ________      ________      ________      ________      ________
+ PHYSACT        1.000
+ PR             0.000         0.516
+ NEGAFF         0.000         0.000         0.488
+ POSAFF         0.000         0.000         0.000         0.500
+ F              0.000         0.000         0.000         0.000         0.477
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ M2AADV         0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ DSESXPR        0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              M1CHADV       M2AADV        SEX           B1PAGE_M      DSESXPR
+              ________      ________      ________      ________      ________
+ M1CHADV        0.500
+ M2AADV         0.000         0.815
+ SEX            0.000         0.000         0.124
+ B1PAGE_M       0.000         0.000         0.000         0.692
+ DSESXPR        0.000         0.000         0.000         0.000         0.912
+
+
+     STARTING VALUES FOR THE ADDITIONAL PARAMETERS
+
+
+           NEW/ADDITIONAL PARAMETERS
+              INDF1         INDC1L        INDC1M        INDC1H
+              ________      ________      ________      ________
+ 1              0.500         0.500         0.500         0.500
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\joshua wiley\documents\research\midus\jw-midus-al\psr_al_final_imputed\psr_al_final3_pr
+
+     Beginning Time:  09:42:48
+        Ending Time:  09:43:06
+       Elapsed Time:  00:00:18
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

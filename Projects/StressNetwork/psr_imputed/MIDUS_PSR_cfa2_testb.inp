@@ -1,0 +1,120 @@
+DATA:
+FILE = "MIDUS_PSR_cfa2.dat";
+ 
+VARIABLE:
+NAMES = M2ID M2FAMNUM M1 M2 M3 M4 LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8 SE1 SE2 SE3 SE4
+     SE5 SE6 SE7 Opt1 Opt2 Opt3 Pess1 Pess2 Pess3 PLife1 PLife2 PLife3 PLife4 PLife5
+     PLife6 PLife7 Ctrl1 Ctrl2 Ctrl3 Con1 Con2 Con3 Con4 Con5 Ext1 Ext2 Ext3 Ext4
+     Ext5 FamS1 FamS2 FamS3 FamS4 FriS1 FriS2 FriS3 FriS4 SpoS1 SpoS2 SpoS3 SpoS4
+     SpoS5 SpoS6 SI1 SI2 SI3 AGE; 
+ MISSING=.;
+ 
+USEVARIABLES ARE
+ M1 M2 M3 M4
+ LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8
+ !SE1
+ SE2 SE3 SE4 SE5 SE6 SE7
+ Opt1 Opt2 Opt3 Pess1 Pess2 Pess3
+ !PLife1 PLife7
+ PLife2 PLife3 PLife4 PLife5 PLife6
+ !Ctrl1 Ctrl2
+ !Ctrl3
+ Con1 Con2 Con3 Con4 Con5
+ Ext1 Ext2 Ext3 Ext4 Ext5
+ FamS1 FamS2 FamS3 FamS4
+ FriS1 FriS2 FriS3 FriS4
+ SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6
+ SI1 SI2 SI3
+ !Comp 
+ ;
+
+CATEGORICAL ARE
+ M1 M2 M3 M4
+ LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8
+ !SE1
+ SE2 SE3 SE4 SE5 SE6 SE7
+ Opt1 Opt2 Opt3 Pess1 Pess2 Pess3
+ !PLife1 PLife7
+ PLife2 PLife3 PLife4 PLife5 PLife6
+ !Ctrl1 Ctrl2
+ !Ctrl3
+ Con1 Con2 Con3 Con4 Con5
+ Ext1 Ext2 Ext3 Ext4 Ext5
+ FamS1 FamS2 FamS3 FamS4
+ FriS1 FriS2 FriS3 FriS4
+ SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6
+ SI1 SI2 SI3;
+
+IDVARIABLE = M2ID;
+!CLUSTER = M2FAMNUM;
+
+!DEFINE:
+! Comp = M2 -LC2 + SE2 + Opt2 +
+!   PLife5 + Ctrl1 + Con2 + Ext4 +
+!   FamS1 + FamS2 + 
+!   FriS1 + FriS2 +
+!   SpoS2 + SpoS3 -
+!   SI1 + SI2;
+
+
+ANALYSIS:
+
+  !TYPE = COMPLEX;
+  ESTIMATOR = BAYES;
+  PROCESSORS = 4;
+  FBITER = 3000;
+MODEL:
+
+ M BY M1@1 M2*1 M3*1 M4*1;
+ LC BY LC1@-1 LC2*-1 LC3*-1 LC4*-1 LC5*-1 LC6*-1 LC7*-1 LC8*-1;
+ SE BY SE2@1 SE3*-1 SE4*1 SE5*-1 SE6*1 SE7*-1;
+ Opt BY Opt1 Opt2 Opt3 Pess1*-1 Pess2*-1 Pess3*-1;
+ PLife BY PLife2@1 PLife3 PLife4 PLife5 PLife6 ;
+ Con BY Con1@1 Con2 Con3 Con4 Con5;
+ EXT BY Ext1@1 Ext2 Ext3 Ext4 Ext5;
+ FamS BY FamS1 FamS2 FamS3 FamS4;
+ FriS BY FriS1 FriS2 FriS3 FriS4;
+ SpoS BY SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6;
+ SI BY SI1@-1 SI2*1 SI3*1;
+
+ M BY LC1-SI3*0 (a1-a52);
+ LC BY M1-M4 (b1-b4);
+ LC BY SE2-SI3 (b5-b48);
+ SE BY M1-LC8 (c1-c12);
+ SE BY Opt1-SI3 (c13-c50);
+ Opt BY M1-SE7 (d1-d18);
+ Opt BY PLife2-SI3 (d19-d50);
+ PLife BY M1-Pess3 (e1-e24);
+ PLife BY Con1-SI3 (e25-e51);
+ Con BY M1-PLife6 (f1-f29);
+ Con BY Ext1-SI3 (f30-f51);
+ Ext BY M1-Con5 (g1-g34);
+ Ext BY FamS1-SI3 (g35-g51);
+ FamS BY M1-Ext5 (g1-g39);
+ FamS BY FriS1-SI3 (g40-g52);
+ FriS BY M1-FamS4 (h1-h43);
+ FriS BY SpoS1-SI3 (h44-h52);
+ SpoS BY M1-FriS4 (i1-i47);
+ SpoS BY SI1-SI3 (i48-i50);
+ SI BY M1-SpoS6 (j1-j53);
+
+ !PR BY M LC SE Opt PLife Con EXT;
+ !SR BY FamS FriS SpoS SI;
+ !PR WITH SR 
+ !Ctrl WITH PR SR;
+
+MODEL PRIORS:
+ a1-a52 ~ N(0, .01);
+ b1-b48 ~ N(0, .01);
+ c1-c50 ~ N(0, .01);
+ d1-d50 ~ N(0, .01);
+ e1-e51 ~ N(0, .01);
+ f1-f51 ~ N(0, .01);
+ g1-g52 ~ N(0, .01);
+ h1-h52 ~ N(0, .01);
+ i1-i50 ~ N(0, .01);
+ j1-j53 ~ N(0, .01);
+
+OUTPUT:
+STDYX;
+!MODINDICES (ALL 10);

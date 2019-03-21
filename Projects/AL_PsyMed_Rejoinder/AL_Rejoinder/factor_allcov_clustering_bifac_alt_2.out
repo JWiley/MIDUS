@@ -1,0 +1,1793 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+08/02/2016   5:30 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   BiFactor Model of biomarkers;
+  DATA:
+  FILE = "factor_allcov_clustering_BiFac.dat";
+
+  VARIABLE:
+  NAMES = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf avgb_hf Rb4p1d Radj_crt b4bdheas
+       Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs b4bha1c Rb4bgluc
+       p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr m2famnum m2id b1pgender b1page_m2
+       Agecat MedGroup white p4majorconditions p4minorconditions p4sumburden b3tem
+       exec_fxn compression bending impact reg_izallo GNNregAL RXNNregAL;
+   MISSING=.;
+
+    usevariables =
+      Radj_epi Radj_nor
+      avgb_sd avgb_rm avgb_lf avgb_hf Rb4p1d
+      !Radj_crt b4bdheas
+      !Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel
+      pulpress Rb4p1gs
+      b4bha1c Rb4bgluc p4homair
+      !b4bldl b4bhdl Rb4btrig Rb4pwhr
+      b1pgender b1page_m2;
+
+      !CLUSTER = m2famnum;
+      idvariable = m2id;
+
+  ANALYSIS:
+
+      !TYPE = COMPLEX;
+      ESTIMATOR = BAYES;
+      PROCESSORS = 2;
+      FBITERATIONS = 3000;
+      THIN = 50;
+      CHAINS = 2;
+
+  MODEL:
+
+      Radj_epi Radj_nor ON b1pgender b1page_m2;
+      avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      Rb4p1d ON b1pgender b1page_m2;
+      !Radj_crt b4bdheas ON b1pgender b1page_m2;
+      !Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      Rb4p1gs pulpress ON b1pgender b1page_m2;
+      Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      !Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      sym BY Radj_nor@1 Radj_epi@1;
+      !hpa BY Radj_crt@1 b4bdheas@1;
+      card BY Rb4p1gs@1 pulpress@1;
+      gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      !lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1;
+      !infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      !avgb_sd@0;
+      avgb_rm WITH avgb_hf*;
+
+
+      !AL1 BY
+      ! Radj_crt*0 b4bdheas
+      ! Rb4pwhr Rb4btrig b4bhdl b4bldl
+      ! Rb4bcrp b4bil6@1 b4bfgn b4bsicam b4bsesel;
+
+      AL2 BY
+        Radj_nor*0 Radj_epi
+        Rb4p1gs pulpress
+        Rb4bgluc p4homair@1 b4bha1c
+        avgb_sd avgb_rm avgb_hf avgb_lf Rb4p1d;
+
+
+      !AL1@1;
+      !AL2@1;
+      !AL1 WITH AL2;
+      !AL1 WITH
+        !sym@0 para@0 card@0 gluc@0
+      !  hpa@0 infl@0 lipid@0
+      !  ;
+      AL2 WITH
+        sym@0 para@0 card@0 gluc@0
+        !hpa@0 infl@0 lipid@0
+        ;
+
+      !Rb4bgluc@0;
+  OUTPUT:
+
+      STDYX;
+      CINTERVAL;
+
+  DATA IMPUTATION:
+    NDATASETS = 50;
+    SAVE = al_alt_2_imp*.dat;
+  SAVEDATA:
+    FILE = al_alt_2_plaus.dat;
+    SAVE = FSCORES (50);
+    FACTORS = AL2;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  Data set contains cases with missing on all variables except
+  x-variables.  These cases were not included in the analysis.
+  Number of cases with missing on all variables except x-variables:  1
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+BiFactor Model of biomarkers;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1254
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                   12
+Number of independent variables                                  2
+Number of continuous latent variables                            5
+
+Observed dependent variables
+
+  Continuous
+   RADJ_EPI    RADJ_NOR    AVGB_SD     AVGB_RM     AVGB_LF     AVGB_HF
+   RB4P1D      PULPRESS    RB4P1GS     B4BHA1C     RB4BGLUC    P4HOMAIR
+
+Observed independent variables
+   B1PGENDE    B1PAGE_M
+
+Continuous latent variables
+   SYM         CARD        GLUC        PARA        AL2
+
+Variables with special functions
+
+  ID variable           M2ID
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               2
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Treatment of categorical mediator                         LATENT
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Fixed number of iterations                                  3000
+  K-th iteration used for thinning                              50
+Specifications for Data Imputation
+  Number of imputed data sets                                   50
+  Iteration intervals for thinning                             100
+
+Input data file(s)
+  factor_allcov_clustering_BiFac.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+
+
+SUMMARY OF MISSING DATA PATTERNS
+
+     Number of missing data patterns            13
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1  2  3  4  5  6  7  8  9 10 11 12 13
+ RADJ_EPI  x  x  x     x  x        x  x  x  x  x
+ RADJ_NOR  x  x  x     x  x     x  x  x  x  x  x
+ AVGB_SD   x     x     x     x  x  x  x  x
+ AVGB_RM   x     x     x     x  x  x  x  x
+ AVGB_LF   x     x     x     x  x  x  x  x
+ AVGB_HF   x     x     x     x  x  x  x  x
+ RB4P1D    x  x     x  x  x  x  x  x  x  x  x  x
+ PULPRESS  x  x  x  x  x  x  x  x  x  x  x  x  x
+ RB4P1GS   x  x  x  x  x  x  x  x  x  x  x  x  x
+ B4BHA1C   x  x  x           x  x     x  x     x
+ RB4BGLUC  x  x  x           x  x  x  x     x
+ P4HOMAIR  x  x  x           x  x  x        x
+ B1PGENDE  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1PAGE_M  x  x  x  x  x  x  x  x  x  x  x  x  x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1        1104           6           1          11           7
+          2          96           7          14          12           1
+          3           1           8          10          13           1
+          4           2           9           7
+          5           8          10           2
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.979
+ RADJ_NOR       0.979         0.987
+ AVGB_SD        0.900         0.908         0.919
+ AVGB_RM        0.900         0.908         0.919         0.919
+ AVGB_LF        0.900         0.908         0.919         0.919         0.919
+ AVGB_HF        0.900         0.908         0.919         0.919         0.919
+ RB4P1D         0.978         0.986         0.919         0.919         0.919
+ PULPRESS       0.979         0.987         0.919         0.919         0.919
+ RB4P1GS        0.979         0.987         0.919         0.919         0.919
+ B4BHA1C        0.966         0.974         0.907         0.907         0.907
+ RB4BGLUC       0.966         0.974         0.907         0.907         0.907
+ P4HOMAIR       0.964         0.972         0.906         0.906         0.906
+ B1PGENDE       0.979         0.987         0.919         0.919         0.919
+ B1PAGE_M       0.979         0.987         0.919         0.919         0.919
+
+
+           Covariance Coverage
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.919
+ RB4P1D         0.919         0.999
+ PULPRESS       0.919         0.999         1.000
+ RB4P1GS        0.919         0.999         1.000         1.000
+ B4BHA1C        0.907         0.984         0.985         0.985         0.985
+ RB4BGLUC       0.907         0.984         0.985         0.985         0.978
+ P4HOMAIR       0.906         0.982         0.983         0.983         0.977
+ B1PGENDE       0.919         0.999         1.000         1.000         0.985
+ B1PAGE_M       0.919         0.999         1.000         1.000         0.985
+
+
+           Covariance Coverage
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ RB4BGLUC       0.985
+ P4HOMAIR       0.983         0.983
+ B1PGENDE       0.985         0.983         1.000
+ B1PAGE_M       0.985         0.983         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              77
+
+Bayesian Posterior Predictive Checking using Chi-Square
+
+          95% Confidence Interval for the Difference Between
+          the Observed and the Replicated Chi-Square Values
+
+                                116.965           199.396
+
+          Posterior Predictive P-Value              0.000
+
+Information Criterion
+
+          Deviance (DIC)                        31104.894
+          Estimated Number of Parameters (pD)      76.968
+          Bayesian (BIC)                        31499.643
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+ SYM      BY
+    RADJ_NOR           1.000       0.000      0.000       1.000       1.000
+    RADJ_EPI           1.000       0.000      0.000       1.000       1.000
+
+ CARD     BY
+    RB4P1GS            1.000       0.000      0.000       1.000       1.000
+    PULPRESS           1.000       0.000      0.000       1.000       1.000
+
+ GLUC     BY
+    RB4BGLUC           1.000       0.000      0.000       1.000       1.000
+    P4HOMAIR           0.395       0.055      0.000       0.268       0.485      *
+    B4BHA1C            0.748       0.048      0.000       0.683       0.872      *
+
+ PARA     BY
+    AVGB_SD           -1.000       0.000      0.000      -1.000      -1.000
+    AVGB_RM           -0.867       0.018      0.000      -0.903      -0.831      *
+    AVGB_HF           -0.813       0.019      0.000      -0.851      -0.776      *
+    AVGB_LF           -0.820       0.015      0.000      -0.850      -0.789      *
+    RB4P1D             0.340       0.032      0.000       0.275       0.404      *
+
+ AL2      BY
+    RADJ_NOR           0.281       0.128      0.000       0.110       0.594      *
+    RADJ_EPI          -0.460       0.104      0.000      -0.688      -0.280      *
+    RB4P1GS            0.301       0.082      0.000       0.161       0.482      *
+    PULPRESS           0.230       0.068      0.001       0.105       0.371      *
+    RB4BGLUC           0.606       0.083      0.000       0.446       0.774      *
+    P4HOMAIR           1.000       0.000      0.000       1.000       1.000
+    B4BHA1C            0.424       0.086      0.000       0.257       0.599      *
+    AVGB_SD           -0.387       0.098      0.000      -0.612      -0.230      *
+    AVGB_RM           -0.281       0.092      0.000      -0.494      -0.126      *
+    AVGB_HF           -0.280       0.090      0.000      -0.484      -0.130      *
+    AVGB_LF           -0.389       0.092      0.000      -0.598      -0.237      *
+    RB4P1D             0.539       0.133      0.000       0.340       0.866      *
+
+ RADJ_EPI   ON
+    B1PGENDER          0.059       0.057      0.142      -0.049       0.173
+    B1PAGE_M2          0.014       0.002      0.000       0.010       0.019      *
+
+ RADJ_NOR   ON
+    B1PGENDER          0.459       0.054      0.000       0.352       0.566      *
+    B1PAGE_M2          0.021       0.002      0.000       0.017       0.026      *
+
+ AVGB_SD    ON
+    B1PGENDER         -0.142       0.059      0.009      -0.252      -0.033      *
+    B1PAGE_M2         -0.025       0.002      0.000      -0.030      -0.020      *
+
+ AVGB_RM    ON
+    B1PGENDER          0.028       0.061      0.329      -0.089       0.143
+    B1PAGE_M2         -0.017       0.003      0.000      -0.021      -0.012      *
+
+ AVGB_HF    ON
+    B1PGENDER          0.116       0.059      0.025       0.001       0.233      *
+    B1PAGE_M2         -0.023       0.003      0.000      -0.027      -0.018      *
+
+ AVGB_LF    ON
+    B1PGENDER         -0.266       0.057      0.000      -0.377      -0.156      *
+    B1PAGE_M2         -0.033       0.002      0.000      -0.038      -0.028      *
+
+ RB4P1D     ON
+    B1PGENDER          0.246       0.058      0.000       0.131       0.362      *
+    B1PAGE_M2         -0.001       0.002      0.344      -0.006       0.004
+
+ RB4P1GS    ON
+    B1PGENDER         -0.125       0.054      0.014      -0.230      -0.014      *
+    B1PAGE_M2          0.024       0.002      0.000       0.019       0.028      *
+
+ PULPRESS   ON
+    B1PGENDER          0.184       0.051      0.000       0.083       0.287      *
+    B1PAGE_M2          0.037       0.002      0.000       0.033       0.042      *
+
+ RB4BGLUC   ON
+    B1PGENDER         -0.268       0.057      0.000      -0.378      -0.155      *
+    B1PAGE_M2          0.004       0.002      0.041       0.000       0.009
+
+ P4HOMAIR   ON
+    B1PGENDER         -0.203       0.057      0.001      -0.314      -0.089      *
+    B1PAGE_M2         -0.002       0.002      0.152      -0.007       0.002
+
+ B4BHA1C    ON
+    B1PGENDER          0.019       0.056      0.374      -0.089       0.129
+    B1PAGE_M2          0.014       0.002      0.000       0.010       0.019      *
+
+ AL2      WITH
+    SYM                0.000       0.000      1.000       0.000       0.000
+    PARA               0.000       0.000      1.000       0.000       0.000
+    CARD               0.000       0.000      1.000       0.000       0.000
+    GLUC               0.000       0.000      1.000       0.000       0.000
+
+ CARD     WITH
+    SYM                0.062       0.022      0.003       0.019       0.105      *
+
+ GLUC     WITH
+    SYM                0.029       0.028      0.161      -0.032       0.081
+    CARD               0.029       0.028      0.145      -0.024       0.084
+
+ PARA     WITH
+    SYM                0.049       0.026      0.031      -0.002       0.102
+    CARD              -0.073       0.027      0.003      -0.126      -0.021      *
+    GLUC               0.008       0.033      0.403      -0.056       0.076
+
+ AVGB_RM  WITH
+    AVGB_HF            0.275       0.013      0.000       0.251       0.301      *
+
+ Intercepts
+    RADJ_EPI          -0.811       0.140      0.000      -1.091      -0.539      *
+    RADJ_NOR          -1.420       0.133      0.000      -1.684      -1.162      *
+    AVGB_SD            1.449       0.144      0.000       1.157       1.717      *
+    AVGB_RM            0.883       0.149      0.000       0.589       1.173      *
+    AVGB_LF            1.943       0.138      0.000       1.661       2.205      *
+    AVGB_HF            1.147       0.146      0.000       0.864       1.427      *
+    RB4P1D            -0.089       0.141      0.264      -0.366       0.191
+    PULPRESS          -2.133       0.127      0.000      -2.380      -1.894      *
+    RB4P1GS           -1.211       0.134      0.000      -1.479      -0.952      *
+    B4BHA1C           -0.803       0.139      0.000      -1.081      -0.522      *
+    RB4BGLUC          -0.084       0.141      0.289      -0.363       0.184
+    P4HOMAIR           0.248       0.140      0.032      -0.018       0.532
+
+ Variances
+    SYM                0.505       0.030      0.000       0.449       0.565      *
+    CARD               0.679       0.032      0.000       0.620       0.746      *
+    GLUC               0.806       0.070      0.000       0.646       0.925      *
+    PARA               0.864       0.041      0.000       0.787       0.947      *
+    AL2                0.356       0.086      0.000       0.207       0.544      *
+
+ Residual Variances
+    RADJ_EPI           0.394       0.039      0.000       0.315       0.471      *
+    RADJ_NOR           0.369       0.039      0.000       0.286       0.439      *
+    AVGB_SD            0.002       0.002      0.000       0.000       0.009      *
+    AVGB_RM            0.293       0.013      0.000       0.269       0.319      *
+    AVGB_LF            0.212       0.009      0.000       0.194       0.230      *
+    AVGB_HF            0.336       0.015      0.000       0.309       0.367      *
+    RB4P1D             0.785       0.037      0.000       0.712       0.859      *
+    PULPRESS           0.111       0.015      0.000       0.083       0.142      *
+    RB4P1GS            0.216       0.017      0.000       0.184       0.251      *
+    B4BHA1C            0.455       0.029      0.000       0.386       0.502      *
+    RB4BGLUC           0.038       0.035      0.000       0.003       0.133      *
+    P4HOMAIR           0.499       0.054      0.000       0.383       0.593      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+ SYM      BY
+    RADJ_NOR           0.705       0.018      0.000       0.671       0.740      *
+    RADJ_EPI           0.709       0.018      0.000       0.673       0.743      *
+
+ CARD     BY
+    RB4P1GS            0.820       0.013      0.000       0.792       0.844      *
+    PULPRESS           0.821       0.015      0.000       0.793       0.850      *
+
+ GLUC     BY
+    RB4BGLUC           0.897       0.036      0.000       0.808       0.949      *
+    P4HOMAIR           0.355       0.056      0.000       0.224       0.446      *
+    B4BHA1C            0.672       0.030      0.000       0.614       0.731      *
+
+ PARA     BY
+    AVGB_SD           -0.923       0.014      0.000      -0.949      -0.894      *
+    AVGB_RM           -0.801       0.014      0.000      -0.827      -0.771      *
+    AVGB_HF           -0.751       0.016      0.000      -0.780      -0.718      *
+    AVGB_LF           -0.758       0.017      0.000      -0.789      -0.722      *
+    RB4P1D             0.315       0.030      0.000       0.252       0.372      *
+
+ AL2      BY
+    RADJ_NOR           0.168       0.058      0.000       0.072       0.292      *
+    RADJ_EPI          -0.276       0.054      0.000      -0.375      -0.163      *
+    RB4P1GS            0.180       0.041      0.000       0.098       0.259      *
+    PULPRESS           0.138       0.039      0.001       0.060       0.213      *
+    RB4BGLUC           0.361       0.063      0.000       0.243       0.489      *
+    P4HOMAIR           0.599       0.069      0.000       0.461       0.735      *
+    B4BHA1C            0.253       0.055      0.000       0.141       0.360      *
+    AVGB_SD           -0.230       0.046      0.000      -0.320      -0.141      *
+    AVGB_RM           -0.168       0.046      0.000      -0.257      -0.078      *
+    AVGB_HF           -0.165       0.044      0.000      -0.254      -0.079      *
+    AVGB_LF           -0.231       0.043      0.000      -0.313      -0.148      *
+    RB4P1D             0.320       0.049      0.000       0.227       0.421      *
+
+ RADJ_EPI   ON
+    B1PGENDER          0.029       0.028      0.142      -0.024       0.086
+    B1PAGE_M2          0.166       0.027      0.000       0.112       0.219      *
+
+ RADJ_NOR   ON
+    B1PGENDER          0.226       0.026      0.000       0.175       0.276      *
+    B1PAGE_M2          0.248       0.026      0.000       0.196       0.299      *
+
+ AVGB_SD    ON
+    B1PGENDER         -0.070       0.029      0.009      -0.123      -0.016      *
+    B1PAGE_M2         -0.294       0.027      0.000      -0.342      -0.237      *
+
+ AVGB_RM    ON
+    B1PGENDER          0.014       0.030      0.329      -0.044       0.070
+    B1PAGE_M2         -0.193       0.029      0.000      -0.247      -0.135      *
+
+ AVGB_HF    ON
+    B1PGENDER          0.057       0.029      0.025       0.000       0.115      *
+    B1PAGE_M2         -0.261       0.028      0.000      -0.313      -0.205      *
+
+ AVGB_LF    ON
+    B1PGENDER         -0.131       0.028      0.000      -0.185      -0.076      *
+    B1PAGE_M2         -0.386       0.025      0.000      -0.430      -0.336      *
+
+ RB4P1D     ON
+    B1PGENDER          0.122       0.028      0.000       0.065       0.178      *
+    B1PAGE_M2         -0.011       0.028      0.344      -0.066       0.046
+
+ RB4P1GS    ON
+    B1PGENDER         -0.062       0.027      0.014      -0.113      -0.007      *
+    B1PAGE_M2          0.274       0.025      0.000       0.222       0.323      *
+
+ PULPRESS   ON
+    B1PGENDER          0.091       0.025      0.000       0.041       0.140      *
+    B1PAGE_M2          0.434       0.022      0.000       0.390       0.475      *
+
+ RB4BGLUC   ON
+    B1PGENDER         -0.133       0.028      0.000      -0.185      -0.077      *
+    B1PAGE_M2          0.050       0.028      0.041      -0.005       0.105
+
+ P4HOMAIR   ON
+    B1PGENDER         -0.101       0.028      0.001      -0.155      -0.044      *
+    B1PAGE_M2         -0.029       0.028      0.152      -0.087       0.026
+
+ B4BHA1C    ON
+    B1PGENDER          0.009       0.028      0.374      -0.044       0.064
+    B1PAGE_M2          0.169       0.027      0.000       0.113       0.223      *
+
+ AL2      WITH
+    SYM                0.000       0.000      1.000       0.000       0.000
+    PARA               0.000       0.000      1.000       0.000       0.000
+    CARD               0.000       0.000      1.000       0.000       0.000
+    GLUC               0.000       0.000      1.000       0.000       0.000
+
+ CARD     WITH
+    SYM                0.107       0.037      0.003       0.032       0.178      *
+
+ GLUC     WITH
+    SYM                0.045       0.045      0.161      -0.049       0.129
+    CARD               0.038       0.037      0.145      -0.034       0.109
+
+ PARA     WITH
+    SYM                0.074       0.040      0.031      -0.003       0.152
+    CARD              -0.095       0.035      0.003      -0.164      -0.027      *
+    GLUC               0.010       0.040      0.403      -0.069       0.088
+
+ AVGB_RM  WITH
+    AVGB_HF            0.875       0.007      0.000       0.861       0.888      *
+
+ Intercepts
+    RADJ_EPI          -0.807       0.136      0.000      -1.073      -0.543      *
+    RADJ_NOR          -1.410       0.124      0.000      -1.656      -1.163      *
+    AVGB_SD            1.438       0.134      0.000       1.159       1.681      *
+    AVGB_RM            0.877       0.144      0.000       0.592       1.151      *
+    AVGB_LF            1.930       0.121      0.000       1.687       2.145      *
+    AVGB_HF            1.140       0.139      0.000       0.870       1.399      *
+    RB4P1D            -0.090       0.140      0.264      -0.363       0.189
+    PULPRESS          -2.125       0.109      0.000      -2.332      -1.907      *
+    RB4P1GS           -1.205       0.127      0.000      -1.451      -0.954      *
+    B4BHA1C           -0.800       0.136      0.000      -1.068      -0.526      *
+    RB4BGLUC          -0.084       0.140      0.289      -0.360       0.182
+    P4HOMAIR           0.249       0.139      0.032      -0.018       0.533
+
+ Variances
+    SYM                1.000       0.000      0.000       1.000       1.000
+    CARD               1.000       0.000      0.000       1.000       1.000
+    GLUC               1.000       0.000      0.000       1.000       1.000
+    PARA               1.000       0.000      0.000       1.000       1.000
+    AL2                1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI           0.392       0.036      0.000       0.318       0.458      *
+    RADJ_NOR           0.364       0.036      0.000       0.284       0.425      *
+    AVGB_SD            0.002       0.002      0.000       0.000       0.009      *
+    AVGB_RM            0.289       0.015      0.000       0.262       0.319      *
+    AVGB_LF            0.208       0.011      0.000       0.188       0.231      *
+    AVGB_HF            0.332       0.016      0.000       0.302       0.365      *
+    RB4P1D             0.779       0.029      0.000       0.720       0.831      *
+    PULPRESS           0.110       0.015      0.000       0.083       0.140      *
+    RB4P1GS            0.213       0.015      0.000       0.184       0.243      *
+    B4BHA1C            0.452       0.029      0.000       0.385       0.502      *
+    RB4BGLUC           0.038       0.035      0.000       0.003       0.134      *
+    P4HOMAIR           0.502       0.055      0.000       0.383       0.598      *
+
+
+R-SQUARE
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    RADJ_EPI           0.608       0.036      0.000       0.542       0.682
+    RADJ_NOR           0.636       0.036      0.000       0.575       0.716
+    AVGB_SD            0.998       0.002      0.000       0.991       1.000
+    AVGB_RM            0.711       0.015      0.000       0.681       0.738
+    AVGB_LF            0.792       0.011      0.000       0.769       0.812
+    AVGB_HF            0.668       0.016      0.000       0.635       0.698
+    RB4P1D             0.221       0.029      0.000       0.169       0.280
+    PULPRESS           0.890       0.015      0.000       0.860       0.917
+    RB4P1GS            0.787       0.015      0.000       0.757       0.816
+    B4BHA1C            0.548       0.029      0.000       0.498       0.615
+    RB4BGLUC           0.962       0.035      0.000       0.866       0.997
+    P4HOMAIR           0.498       0.055      0.000       0.402       0.616
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ SYM      BY
+    RADJ_NOR         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RADJ_EPI         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CARD     BY
+    RB4P1GS          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PULPRESS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ GLUC     BY
+    RB4BGLUC         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    P4HOMAIR         0.205       0.268       0.293       0.395       0.472       0.485       0.509
+    B4BHA1C          0.665       0.683       0.693       0.748       0.844       0.872       0.935
+
+ PARA     BY
+    AVGB_SD         -1.000      -1.000      -1.000      -1.000      -1.000      -1.000      -1.000
+    AVGB_RM         -0.916      -0.903      -0.897      -0.867      -0.838      -0.831      -0.822
+    AVGB_HF         -0.864      -0.851      -0.845      -0.813      -0.781      -0.776      -0.768
+    AVGB_LF         -0.861      -0.850      -0.845      -0.820      -0.795      -0.789      -0.780
+    RB4P1D           0.252       0.275       0.288       0.340       0.394       0.404       0.423
+
+ AL2      BY
+    RADJ_NOR         0.064       0.110       0.133       0.281       0.537       0.594       0.775
+    RADJ_EPI        -0.794      -0.688      -0.643      -0.460      -0.310      -0.280      -0.220
+    RB4P1GS          0.119       0.161       0.183       0.301       0.450       0.482       0.557
+    PULPRESS         0.053       0.105       0.127       0.230       0.347       0.371       0.412
+    RB4BGLUC         0.398       0.446       0.470       0.606       0.745       0.774       0.835
+    P4HOMAIR         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BHA1C          0.210       0.257       0.283       0.424       0.568       0.599       0.656
+    AVGB_SD         -0.737      -0.612      -0.561      -0.387      -0.248      -0.230      -0.195
+    AVGB_RM         -0.596      -0.494      -0.441      -0.281      -0.149      -0.126      -0.084
+    AVGB_HF         -0.589      -0.484      -0.441      -0.280      -0.150      -0.130      -0.086
+    AVGB_LF         -0.701      -0.598      -0.551      -0.389      -0.256      -0.237      -0.198
+    RB4P1D           0.287       0.340       0.364       0.539       0.794       0.866       0.988
+
+ RADJ_EPI ON
+    B1PGENDER       -0.087      -0.049      -0.033       0.059       0.153       0.173       0.205
+    B1PAGE_M2        0.008       0.010       0.010       0.014       0.018       0.019       0.020
+
+ RADJ_NOR ON
+    B1PGENDER        0.318       0.352       0.369       0.459       0.546       0.566       0.594
+    B1PAGE_M2        0.016       0.017       0.018       0.021       0.025       0.026       0.028
+
+ AVGB_SD  ON
+    B1PGENDER       -0.289      -0.252      -0.239      -0.142      -0.050      -0.033       0.008
+    B1PAGE_M2       -0.031      -0.030      -0.029      -0.025      -0.021      -0.020      -0.019
+
+ AVGB_RM  ON
+    B1PGENDER       -0.126      -0.089      -0.071       0.028       0.126       0.143       0.183
+    B1PAGE_M2       -0.023      -0.021      -0.021      -0.017      -0.012      -0.012      -0.010
+
+ AVGB_HF  ON
+    B1PGENDER       -0.032       0.001       0.018       0.116       0.212       0.233       0.267
+    B1PAGE_M2       -0.028      -0.027      -0.026      -0.023      -0.018      -0.018      -0.016
+
+ AVGB_LF  ON
+    B1PGENDER       -0.405      -0.377      -0.361      -0.266      -0.174      -0.156      -0.126
+    B1PAGE_M2       -0.039      -0.038      -0.037      -0.033      -0.029      -0.028      -0.027
+
+ RB4P1D   ON
+    B1PGENDER        0.096       0.131       0.151       0.246       0.345       0.362       0.401
+    B1PAGE_M2       -0.007      -0.006      -0.005      -0.001       0.003       0.004       0.005
+
+ RB4P1GS  ON
+    B1PGENDER       -0.264      -0.230      -0.213      -0.125      -0.032      -0.014       0.017
+    B1PAGE_M2        0.017       0.019       0.020       0.024       0.027       0.028       0.029
+
+ PULPRESS ON
+    B1PGENDER        0.056       0.083       0.100       0.184       0.270       0.287       0.321
+    B1PAGE_M2        0.031       0.033       0.034       0.037       0.041       0.042       0.043
+
+ RB4BGLUC ON
+    B1PGENDER       -0.419      -0.378      -0.358      -0.268      -0.174      -0.155      -0.124
+    B1PAGE_M2       -0.002       0.000       0.000       0.004       0.008       0.009       0.011
+
+ P4HOMAIR ON
+    B1PGENDER       -0.357      -0.314      -0.295      -0.203      -0.107      -0.089      -0.049
+    B1PAGE_M2       -0.009      -0.007      -0.007      -0.002       0.001       0.002       0.004
+
+ B4BHA1C  ON
+    B1PGENDER       -0.124      -0.089      -0.074       0.019       0.111       0.129       0.164
+    B1PAGE_M2        0.008       0.010       0.011       0.014       0.018       0.019       0.021
+
+ AL2      WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ CARD     WITH
+    SYM              0.004       0.019       0.027       0.062       0.098       0.105       0.120
+
+ GLUC     WITH
+    SYM             -0.054      -0.032      -0.020       0.029       0.073       0.081       0.096
+    CARD            -0.040      -0.024      -0.017       0.029       0.075       0.084       0.101
+
+ PARA     WITH
+    SYM             -0.020      -0.002       0.005       0.049       0.093       0.102       0.119
+    CARD            -0.141      -0.126      -0.117      -0.073      -0.028      -0.021      -0.007
+    GLUC            -0.077      -0.056      -0.046       0.008       0.063       0.076       0.095
+
+ AVGB_RM  WITH
+    AVGB_HF          0.244       0.251       0.255       0.275       0.297       0.301       0.310
+
+ Intercepts
+    RADJ_EPI        -1.160      -1.091      -1.044      -0.811      -0.577      -0.539      -0.467
+    RADJ_NOR        -1.783      -1.684      -1.637      -1.420      -1.203      -1.162      -1.087
+    AVGB_SD          1.048       1.157       1.209       1.449       1.670       1.717       1.809
+    AVGB_RM          0.500       0.589       0.634       0.883       1.125       1.173       1.263
+    AVGB_LF          1.587       1.661       1.708       1.943       2.158       2.205       2.289
+    AVGB_HF          0.751       0.864       0.910       1.147       1.385       1.427       1.510
+    RB4P1D          -0.450      -0.366      -0.325      -0.089       0.140       0.191       0.255
+    PULPRESS        -2.444      -2.380      -2.349      -2.133      -1.926      -1.894      -1.797
+    RB4P1GS         -1.548      -1.479      -1.433      -1.211      -0.992      -0.952      -0.875
+    B4BHA1C         -1.172      -1.081      -1.031      -0.803      -0.574      -0.522      -0.430
+    RB4BGLUC        -0.451      -0.363      -0.315      -0.084       0.146       0.184       0.281
+    P4HOMAIR        -0.107      -0.018       0.021       0.248       0.486       0.532       0.596
+
+ Variances
+    SYM              0.427       0.449       0.458       0.505       0.556       0.565       0.585
+    CARD             0.601       0.620       0.629       0.679       0.734       0.746       0.768
+    GLUC             0.596       0.646       0.679       0.806       0.906       0.925       0.960
+    PARA             0.760       0.787       0.800       0.864       0.933       0.947       0.977
+    AL2              0.168       0.207       0.230       0.356       0.513       0.544       0.608
+
+ Residual Variances
+    RADJ_EPI         0.287       0.315       0.327       0.394       0.457       0.471       0.493
+    RADJ_NOR         0.256       0.286       0.299       0.369       0.429       0.439       0.458
+    AVGB_SD          0.000       0.000       0.000       0.002       0.008       0.009       0.013
+    AVGB_RM          0.262       0.269       0.273       0.293       0.314       0.319       0.327
+    AVGB_LF          0.190       0.194       0.197       0.212       0.227       0.230       0.236
+    AVGB_HF          0.300       0.309       0.314       0.336       0.362       0.367       0.378
+    RB4P1D           0.688       0.712       0.724       0.785       0.848       0.859       0.881
+    PULPRESS         0.074       0.083       0.088       0.111       0.137       0.142       0.151
+    RB4P1GS          0.174       0.184       0.188       0.216       0.245       0.251       0.262
+    B4BHA1C          0.355       0.386       0.403       0.455       0.495       0.502       0.519
+    RB4BGLUC         0.000       0.003       0.005       0.038       0.113       0.133       0.165
+    P4HOMAIR         0.328       0.383       0.400       0.499       0.578       0.593       0.627
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ SYM      BY
+    RADJ_NOR         0.658       0.671       0.676       0.705       0.735       0.740       0.755
+    RADJ_EPI         0.662       0.673       0.679       0.709       0.737       0.743       0.755
+
+ CARD     BY
+    RB4P1GS          0.784       0.792       0.798       0.820       0.840       0.844       0.851
+    PULPRESS         0.783       0.793       0.797       0.821       0.845       0.850       0.859
+
+ GLUC     BY
+    RB4BGLUC         0.775       0.808       0.823       0.897       0.942       0.949       0.959
+    P4HOMAIR         0.168       0.224       0.250       0.355       0.433       0.446       0.471
+    B4BHA1C          0.589       0.614       0.624       0.672       0.720       0.731       0.753
+
+ PARA     BY
+    AVGB_SD         -0.956      -0.949      -0.945      -0.923      -0.899      -0.894      -0.880
+    AVGB_RM         -0.833      -0.827      -0.823      -0.801      -0.777      -0.771      -0.761
+    AVGB_HF         -0.790      -0.780      -0.775      -0.751      -0.724      -0.718      -0.707
+    AVGB_LF         -0.797      -0.789      -0.785      -0.758      -0.728      -0.722      -0.708
+    RB4P1D           0.229       0.252       0.265       0.315       0.365       0.372       0.389
+
+ AL2      BY
+    RADJ_NOR         0.042       0.072       0.086       0.168       0.273       0.292       0.349
+    RADJ_EPI        -0.407      -0.375      -0.360      -0.276      -0.183      -0.163      -0.120
+    RB4P1GS          0.070       0.098       0.113       0.180       0.246       0.259       0.283
+    PULPRESS         0.025       0.060       0.074       0.138       0.199       0.213       0.237
+    RB4BGLUC         0.203       0.243       0.260       0.361       0.466       0.489       0.539
+    P4HOMAIR         0.411       0.461       0.486       0.599       0.713       0.735       0.781
+    B4BHA1C          0.116       0.141       0.161       0.253       0.343       0.360       0.393
+    AVGB_SD         -0.357      -0.320      -0.304      -0.230      -0.155      -0.141      -0.112
+    AVGB_RM         -0.289      -0.257      -0.242      -0.168      -0.093      -0.078      -0.047
+    AVGB_HF         -0.284      -0.254      -0.238      -0.165      -0.094      -0.079      -0.053
+    AVGB_LF         -0.356      -0.313      -0.300      -0.231      -0.159      -0.148      -0.117
+    RB4P1D           0.202       0.227       0.241       0.320       0.404       0.421       0.451
+
+ RADJ_EPI ON
+    B1PGENDER       -0.043      -0.024      -0.017       0.029       0.075       0.086       0.102
+    B1PAGE_M2        0.096       0.112       0.120       0.166       0.211       0.219       0.236
+
+ RADJ_NOR ON
+    B1PGENDER        0.158       0.175       0.183       0.226       0.266       0.276       0.289
+    B1PAGE_M2        0.181       0.196       0.205       0.248       0.289       0.299       0.316
+
+ AVGB_SD  ON
+    B1PGENDER       -0.141      -0.123      -0.117      -0.070      -0.025      -0.016       0.004
+    B1PAGE_M2       -0.356      -0.342      -0.335      -0.294      -0.247      -0.237      -0.221
+
+ AVGB_RM  ON
+    B1PGENDER       -0.061      -0.044      -0.035       0.014       0.061       0.070       0.090
+    B1PAGE_M2       -0.261      -0.247      -0.240      -0.193      -0.143      -0.135      -0.116
+
+ AVGB_HF  ON
+    B1PGENDER       -0.016       0.000       0.009       0.057       0.104       0.115       0.132
+    B1PAGE_M2       -0.329      -0.313      -0.304      -0.261      -0.214      -0.205      -0.186
+
+ AVGB_LF  ON
+    B1PGENDER       -0.199      -0.185      -0.177      -0.131      -0.086      -0.076      -0.061
+    B1PAGE_M2       -0.446      -0.430      -0.424      -0.386      -0.343      -0.336      -0.318
+
+ RB4P1D   ON
+    B1PGENDER        0.047       0.065       0.075       0.122       0.169       0.178       0.193
+    B1PAGE_M2       -0.082      -0.066      -0.058      -0.011       0.034       0.046       0.062
+
+ RB4P1GS  ON
+    B1PGENDER       -0.130      -0.113      -0.104      -0.062      -0.016      -0.007       0.008
+    B1PAGE_M2        0.205       0.222       0.232       0.274       0.314       0.323       0.336
+
+ PULPRESS ON
+    B1PGENDER        0.028       0.041       0.050       0.091       0.133       0.140       0.157
+    B1PAGE_M2        0.375       0.390       0.397       0.434       0.470       0.475       0.486
+
+ RB4BGLUC ON
+    B1PGENDER       -0.205      -0.185      -0.176      -0.133      -0.086      -0.077      -0.062
+    B1PAGE_M2       -0.024      -0.005       0.004       0.050       0.095       0.105       0.123
+
+ P4HOMAIR ON
+    B1PGENDER       -0.175      -0.155      -0.146      -0.101      -0.054      -0.044      -0.024
+    B1PAGE_M2       -0.104      -0.087      -0.077      -0.029       0.016       0.026       0.049
+
+ B4BHA1C  ON
+    B1PGENDER       -0.060      -0.044      -0.036       0.009       0.055       0.064       0.080
+    B1PAGE_M2        0.095       0.113       0.124       0.169       0.213       0.223       0.238
+
+ AL2      WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ CARD     WITH
+    SYM              0.007       0.032       0.046       0.107       0.166       0.178       0.202
+
+ GLUC     WITH
+    SYM             -0.087      -0.049      -0.031       0.045       0.117       0.129       0.159
+    CARD            -0.060      -0.034      -0.024       0.038       0.099       0.109       0.131
+
+ PARA     WITH
+    SYM             -0.031      -0.003       0.008       0.074       0.140       0.152       0.179
+    CARD            -0.183      -0.164      -0.153      -0.095      -0.036      -0.027      -0.008
+    GLUC            -0.096      -0.069      -0.057       0.010       0.076       0.088       0.112
+
+ AVGB_RM  WITH
+    AVGB_HF          0.856       0.861       0.863       0.875       0.886       0.888       0.893
+
+ Intercepts
+    RADJ_EPI        -1.149      -1.073      -1.032      -0.807      -0.578      -0.543      -0.462
+    RADJ_NOR        -1.740      -1.656      -1.610      -1.410      -1.207      -1.163      -1.078
+    AVGB_SD          1.057       1.159       1.215       1.438       1.643       1.681       1.767
+    AVGB_RM          0.500       0.592       0.635       0.877       1.108       1.151       1.234
+    AVGB_LF          1.596       1.687       1.721       1.930       2.115       2.145       2.229
+    AVGB_HF          0.761       0.870       0.904       1.140       1.359       1.399       1.498
+    RB4P1D          -0.450      -0.363      -0.324      -0.090       0.139       0.189       0.254
+    PULPRESS        -2.389      -2.332      -2.303      -2.125      -1.945      -1.907      -1.834
+    RB4P1GS         -1.516      -1.451      -1.413      -1.205      -0.991      -0.954      -0.879
+    B4BHA1C         -1.145      -1.068      -1.023      -0.800      -0.574      -0.526      -0.436
+    RB4BGLUC        -0.448      -0.360      -0.314      -0.084       0.146       0.182       0.287
+    P4HOMAIR        -0.108      -0.018       0.020       0.249       0.485       0.533       0.608
+
+ Variances
+    SYM              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    CARD             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GLUC             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PARA             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    AL2              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI         0.295       0.318       0.329       0.392       0.448       0.458       0.483
+    RADJ_NOR         0.257       0.284       0.297       0.364       0.415       0.425       0.444
+    AVGB_SD          0.000       0.000       0.000       0.002       0.007       0.009       0.013
+    AVGB_RM          0.254       0.262       0.266       0.289       0.314       0.319       0.329
+    AVGB_LF          0.181       0.188       0.191       0.208       0.228       0.231       0.238
+    AVGB_HF          0.293       0.302       0.306       0.332       0.360       0.365       0.374
+    RB4P1D           0.688       0.720       0.729       0.779       0.823       0.831       0.846
+    PULPRESS         0.074       0.083       0.087       0.110       0.135       0.140       0.148
+    RB4P1GS          0.174       0.184       0.189       0.213       0.239       0.243       0.253
+    B4BHA1C          0.350       0.385       0.400       0.452       0.493       0.502       0.516
+    RB4BGLUC         0.000       0.003       0.005       0.038       0.113       0.134       0.164
+    P4HOMAIR         0.328       0.383       0.403       0.502       0.584       0.598       0.624
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ 1                  0             0             0             0
+
+
+           LAMBDA
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ RADJ_EPI           0             0             0             0             0
+ RADJ_NOR           0             0             0             0             0
+ AVGB_SD            0             0             0             0             0
+ AVGB_RM            0             0             0             0             0
+ AVGB_LF            0             0             0             0             0
+ AVGB_HF            0             0             0             0             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI           0             0             0             0             0
+ RADJ_NOR           0             0             0             0             0
+ AVGB_SD            0             0             0             0             0
+ AVGB_RM            0             0             0             0             0
+ AVGB_LF            0             0             0             0             0
+ AVGB_HF            0             0             0             0             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ RADJ_EPI           0             0             0             0             0
+ RADJ_NOR           0             0             0             0             0
+ AVGB_SD            0             0             0             0             0
+ AVGB_RM            0             0             0             0             0
+ AVGB_LF            0             0             0             0             0
+ AVGB_HF            0             0             0             0             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ RADJ_EPI           0             0             0             0
+ RADJ_NOR           0             0             0             0
+ AVGB_SD            0             0             0             0
+ AVGB_RM            0             0             0             0
+ AVGB_LF            0             0             0             0
+ AVGB_HF            0             0             0             0
+ RB4P1D             0             0             0             0
+ PULPRESS           0             0             0             0
+ RB4P1GS            0             0             0             0
+ B4BHA1C            0             0             0             0
+ RB4BGLUC           0             0             0             0
+ P4HOMAIR           0             0             0             0
+ B1PGENDE           0             0             0             0
+ B1PAGE_M           0             0             0             0
+
+
+           THETA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI           0
+ RADJ_NOR           0             0
+ AVGB_SD            0             0             0
+ AVGB_RM            0             0             0             0
+ AVGB_LF            0             0             0             0             0
+ AVGB_HF            0             0             0             0             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ AVGB_HF            0
+ RB4P1D             0             0
+ PULPRESS           0             0             0
+ RB4P1GS            0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ RB4BGLUC           0
+ P4HOMAIR           0             0
+ B1PGENDE           0             0             0
+ B1PAGE_M           0             0             0             0
+
+
+           ALPHA
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           ALPHA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ 1                  1             2             3             4             5
+
+
+           ALPHA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ 1                  6             7             8             9            10
+
+
+           ALPHA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ 1                 11            12             0             0
+
+
+           BETA
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ SYM                0             0             0             0             0
+ CARD               0             0             0             0             0
+ GLUC               0             0             0             0             0
+ PARA               0             0             0             0             0
+ AL2                0             0             0             0             0
+ RADJ_EPI           0             0             0             0            13
+ RADJ_NOR           0             0             0             0            16
+ AVGB_SD            0             0             0             0            19
+ AVGB_RM            0             0             0            22            23
+ AVGB_LF            0             0             0            26            27
+ AVGB_HF            0             0             0            30            31
+ RB4P1D             0             0             0            34            35
+ PULPRESS           0             0             0             0            38
+ RB4P1GS            0             0             0             0            41
+ B4BHA1C            0             0            44             0            45
+ RB4BGLUC           0             0             0             0            48
+ P4HOMAIR           0             0            51             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ SYM                0             0             0             0             0
+ CARD               0             0             0             0             0
+ GLUC               0             0             0             0             0
+ PARA               0             0             0             0             0
+ AL2                0             0             0             0             0
+ RADJ_EPI           0             0             0             0             0
+ RADJ_NOR           0             0             0             0             0
+ AVGB_SD            0             0             0             0             0
+ AVGB_RM            0             0             0             0             0
+ AVGB_LF            0             0             0             0             0
+ AVGB_HF            0             0             0             0             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ SYM                0             0             0             0             0
+ CARD               0             0             0             0             0
+ GLUC               0             0             0             0             0
+ PARA               0             0             0             0             0
+ AL2                0             0             0             0             0
+ RADJ_EPI           0             0             0             0             0
+ RADJ_NOR           0             0             0             0             0
+ AVGB_SD            0             0             0             0             0
+ AVGB_RM            0             0             0             0             0
+ AVGB_LF            0             0             0             0             0
+ AVGB_HF            0             0             0             0             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ SYM                0             0             0             0
+ CARD               0             0             0             0
+ GLUC               0             0             0             0
+ PARA               0             0             0             0
+ AL2                0             0             0             0
+ RADJ_EPI           0             0            14            15
+ RADJ_NOR           0             0            17            18
+ AVGB_SD            0             0            20            21
+ AVGB_RM            0             0            24            25
+ AVGB_LF            0             0            28            29
+ AVGB_HF            0             0            32            33
+ RB4P1D             0             0            36            37
+ PULPRESS           0             0            39            40
+ RB4P1GS            0             0            42            43
+ B4BHA1C            0             0            46            47
+ RB4BGLUC           0             0            49            50
+ P4HOMAIR           0             0            52            53
+ B1PGENDE           0             0             0             0
+ B1PAGE_M           0             0             0             0
+
+
+           PSI
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ SYM               54
+ CARD              55            56
+ GLUC              57            58            59
+ PARA              60            61            62            63
+ AL2                0             0             0             0            64
+ RADJ_EPI           0             0             0             0             0
+ RADJ_NOR           0             0             0             0             0
+ AVGB_SD            0             0             0             0             0
+ AVGB_RM            0             0             0             0             0
+ AVGB_LF            0             0             0             0             0
+ AVGB_HF            0             0             0             0             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI          65
+ RADJ_NOR           0            66
+ AVGB_SD            0             0            67
+ AVGB_RM            0             0             0            68
+ AVGB_LF            0             0             0             0            69
+ AVGB_HF            0             0             0            70             0
+ RB4P1D             0             0             0             0             0
+ PULPRESS           0             0             0             0             0
+ RB4P1GS            0             0             0             0             0
+ B4BHA1C            0             0             0             0             0
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ AVGB_HF           71
+ RB4P1D             0            72
+ PULPRESS           0             0            73
+ RB4P1GS            0             0             0            74
+ B4BHA1C            0             0             0             0            75
+ RB4BGLUC           0             0             0             0             0
+ P4HOMAIR           0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ RB4BGLUC          76
+ P4HOMAIR           0            77
+ B1PGENDE           0             0             0
+ B1PAGE_M           0             0             0             0
+
+
+     STARTING VALUES
+
+
+           NU
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.000         0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       1.000         0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         1.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         1.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         1.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000         1.000
+ AVGB_HF        0.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.000         0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000         0.000
+ AVGB_HF        1.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         1.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         1.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         1.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         1.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ RADJ_EPI       0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000
+ RB4BGLUC       1.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         1.000         0.000         0.000
+ B1PGENDE       0.000         0.000         1.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         1.000
+
+
+           THETA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.000
+ RADJ_NOR       0.000         0.000
+ AVGB_SD        0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.000
+ RB4P1D         0.000         0.000
+ PULPRESS       0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ RB4BGLUC       0.000
+ P4HOMAIR       0.000         0.000
+ B1PGENDE       0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000
+
+
+           BETA
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ SYM            0.000         0.000         0.000         0.000         0.000
+ CARD           0.000         0.000         0.000         0.000         0.000
+ GLUC           0.000         0.000         0.000         0.000         0.000
+ PARA           0.000         0.000         0.000         0.000         0.000
+ AL2            0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI       1.000         0.000         0.000         0.000         1.000
+ RADJ_NOR       1.000         0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000        -1.000         1.000
+ AVGB_RM        0.000         0.000         0.000        -1.000         1.000
+ AVGB_LF        0.000         0.000         0.000        -1.000         1.000
+ AVGB_HF        0.000         0.000         0.000        -1.000         1.000
+ RB4P1D         0.000         0.000         0.000         1.000         1.000
+ PULPRESS       0.000         1.000         0.000         0.000         1.000
+ RB4P1GS        0.000         1.000         0.000         0.000         1.000
+ B4BHA1C        0.000         0.000         1.000         0.000         1.000
+ RB4BGLUC       0.000         0.000         1.000         0.000         1.000
+ P4HOMAIR       0.000         0.000         1.000         0.000         1.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ SYM            0.000         0.000         0.000         0.000         0.000
+ CARD           0.000         0.000         0.000         0.000         0.000
+ GLUC           0.000         0.000         0.000         0.000         0.000
+ PARA           0.000         0.000         0.000         0.000         0.000
+ AL2            0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI       0.000         0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ SYM            0.000         0.000         0.000         0.000         0.000
+ CARD           0.000         0.000         0.000         0.000         0.000
+ GLUC           0.000         0.000         0.000         0.000         0.000
+ PARA           0.000         0.000         0.000         0.000         0.000
+ AL2            0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI       0.000         0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ SYM            0.000         0.000         0.000         0.000
+ CARD           0.000         0.000         0.000         0.000
+ GLUC           0.000         0.000         0.000         0.000
+ PARA           0.000         0.000         0.000         0.000
+ AL2            0.000         0.000         0.000         0.000
+ RADJ_EPI       0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000
+
+
+           PSI
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ SYM            1.000
+ CARD           0.000         1.000
+ GLUC           0.000         0.000         1.000
+ PARA           0.000         0.000         0.000         1.000
+ AL2            0.000         0.000         0.000         0.000         1.000
+ RADJ_EPI       0.000         0.000         0.000         0.000         0.000
+ RADJ_NOR       0.000         0.000         0.000         0.000         0.000
+ AVGB_SD        0.000         0.000         0.000         0.000         0.000
+ AVGB_RM        0.000         0.000         0.000         0.000         0.000
+ AVGB_LF        0.000         0.000         0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.500
+ RADJ_NOR       0.000         0.500
+ AVGB_SD        0.000         0.000         0.500
+ AVGB_RM        0.000         0.000         0.000         0.500
+ AVGB_LF        0.000         0.000         0.000         0.000         0.500
+ AVGB_HF        0.000         0.000         0.000         0.000         0.000
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              AVGB_HF       RB4P1D        PULPRESS      RB4P1GS       B4BHA1C
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.500
+ RB4P1D         0.000         0.500
+ PULPRESS       0.000         0.000         0.500
+ RB4P1GS        0.000         0.000         0.000         0.500
+ B4BHA1C        0.000         0.000         0.000         0.000         0.500
+ RB4BGLUC       0.000         0.000         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              RB4BGLUC      P4HOMAIR      B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________
+ RB4BGLUC       0.500
+ P4HOMAIR       0.000         0.500
+ B1PGENDE       0.000         0.000         0.123
+ B1PAGE_M       0.000         0.000         0.000        68.541
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 3~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 4~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 14~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 15~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 16~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 17~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 18~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 19~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 20~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 21~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 22~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 23~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 24~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 25~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 26~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 27~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 28~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 29~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 30~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 31~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 32~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 33~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 34~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 35~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 36~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 37~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 38~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 39~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 40~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 41~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 42~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 43~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 44~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 45~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 46~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 47~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 48~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 49~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 50~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 51~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 52~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 53~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 54~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 55~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 56~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 57~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 58~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 59~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 60~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 61~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 62~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 63~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 64~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 65~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 66~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 67~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 68~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 69~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 70~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 71~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 72~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 73~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 74~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 75~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 76~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 77~IG(-1.000,0.000)         infinity            infinity            infinity
+
+
+SUMMARIES OF PLAUSIBLE VALUES (N = NUMBER OF OBSERVATIONS * NUMBER OF IMPUTATIONS)
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ 1              0.001        -0.001        -0.004        -0.001         0.000
+
+
+           Covariances
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ SYM            0.499
+ CARD           0.058         0.677
+ GLUC           0.027         0.027         0.789
+ PARA           0.044        -0.075         0.011         0.861
+ AL2           -0.002        -0.001         0.003        -0.002         0.358
+
+
+           Correlations
+              SYM           CARD          GLUC          PARA          AL2
+              ________      ________      ________      ________      ________
+ SYM            1.000
+ CARD           0.099         1.000
+ GLUC           0.043         0.037         1.000
+ PARA           0.067        -0.098         0.014         1.000
+ AL2           -0.005        -0.002         0.005        -0.004         1.000
+
+
+SUMMARY OF PLAUSIBLE STANDARD DEVIATION (N = NUMBER OF OBSERVATIONS)
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              SYM_SD        CARD_SD       GLUC_SD       PARA_SD       AL2_SD
+              ________      ________      ________      ________      ________
+ 1              0.375         0.278         0.338         0.234         0.423
+
+
+           Covariances
+              SYM_SD        CARD_SD       GLUC_SD       PARA_SD       AL2_SD
+              ________      ________      ________      ________      ________
+ SYM_SD         0.003
+ CARD_SD        0.000         0.001
+ GLUC_SD        0.001         0.000         0.005
+ PARA_SD        0.000         0.000         0.001         0.036
+ AL2_SD         0.000         0.000         0.002         0.001         0.002
+
+
+           Correlations
+              SYM_SD        CARD_SD       GLUC_SD       PARA_SD       AL2_SD
+              ________      ________      ________      ________      ________
+ SYM_SD         1.000
+ CARD_SD        0.015         1.000
+ GLUC_SD        0.144         0.110         1.000
+ PARA_SD        0.046         0.024         0.103         1.000
+ AL2_SD         0.110         0.121         0.503         0.134         1.000
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    al_alt_2_imp*.dat
+
+  Order of variables
+
+    RADJ_EPI
+    RADJ_NOR
+    AVGB_SD
+    AVGB_RM
+    AVGB_LF
+    AVGB_HF
+    RB4P1D
+    PULPRESS
+    RB4P1GS
+    B4BHA1C
+    RB4BGLUC
+    P4HOMAIR
+    B1PGENDE
+    B1PAGE_M
+    M2ID
+    SYM
+    CARD
+    GLUC
+    PARA
+    AL2
+
+  Save file format           Free
+
+  Save file record length    10000
+
+
+  Save file
+    al_alt_2_plaus.dat
+
+  Order and format of variables
+
+    RADJ_EPI                         F10.3
+    RADJ_NOR                         F10.3
+    AVGB_SD                          F10.3
+    AVGB_RM                          F10.3
+    AVGB_LF                          F10.3
+    AVGB_HF                          F10.3
+    RB4P1D                           F10.3
+    PULPRESS                         F10.3
+    RB4P1GS                          F10.3
+    B4BHA1C                          F10.3
+    RB4BGLUC                         F10.3
+    P4HOMAIR                         F10.3
+    B1PGENDE                         F10.3
+    B1PAGE_M                         F10.3
+    M2ID                             I6
+    SYM Mean                         F10.3
+    SYM Median                       F10.3
+    SYM Standard Deviation           F10.3
+    SYM 2.5% Value                   F10.3
+    SYM 97.5% Value                  F10.3
+    CARD Mean                        F10.3
+    CARD Median                      F10.3
+    CARD Standard Deviation          F10.3
+    CARD 2.5% Value                  F10.3
+    CARD 97.5% Value                 F10.3
+    GLUC Mean                        F10.3
+    GLUC Median                      F10.3
+    GLUC Standard Deviation          F10.3
+    GLUC 2.5% Value                  F10.3
+    GLUC 97.5% Value                 F10.3
+    PARA Mean                        F10.3
+    PARA Median                      F10.3
+    PARA Standard Deviation          F10.3
+    PARA 2.5% Value                  F10.3
+    PARA 97.5% Value                 F10.3
+   +AL2                              F10.3
+    AL2 Mean                         F10.3
+    AL2 Median                       F10.3
+    AL2 Standard Deviation           F10.3
+    AL2 2.5% Value                   F10.3
+    AL2 97.5% Value                  F10.3
+
+  + variables that have a value for each of the 50 imputations
+
+  Save file format
+    14F10.3 I6 75F10.3
+
+  Save file record length    10000
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\jwile\onedrive\projects\midus\jw-midus-al\al_rejoinder\factor_allcov_clustering_bifac_a
+
+     Beginning Time:  17:30:47
+        Ending Time:  17:46:09
+       Elapsed Time:  00:15:22
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

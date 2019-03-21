@@ -1,0 +1,2092 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+04/28/2015   5:43 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   CFA for BiFactor of biomarkers, age config;
+  DATA:
+  FILE = "factor_allcov_clustering_MGBiFacConfig.dat";
+
+  VARIABLE:
+  NAMES = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf avgb_hf Rb4p1d Radj_crt b4bdheas
+       Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs b4bha1c Rb4bgluc
+       p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr m2famnum m2id b1pgender b1page_m2
+       Agecat MedGroup white p4majorconditions p4minorconditions p4sumburden b3tem
+       exec_fxn compression bending impact reg_izallo GNNregAL RXNNregAL;
+   MISSING=.;
+
+    usevariables = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf
+      avgb_hf Radj_crt b4bdheas Rb4bcrp
+      b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs Rb4p1d
+      b4bha1c Rb4bgluc
+      p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr
+      b1pgender b1page_m2;
+      CLUSTER = m2famnum;
+      idvariable = m2id;
+
+
+    GROUPING = Agecat (1 = young 2 = middle 3 = old);
+  ANALYSIS:
+
+      TYPE = COMPLEX;
+      ESTIMATOR = MLR;
+      PROCESSORS = 4;
+  MODEL:
+
+      Radj_epi Radj_nor ON b1pgender b1page_m2;
+      avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      Rb4p1d ON b1pgender b1page_m2;
+      Radj_crt b4bdheas ON b1pgender b1page_m2;
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      Rb4p1gs pulpress ON b1pgender b1page_m2;
+      Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      sym BY Radj_nor@1 Radj_epi@1;
+      hpa BY Radj_crt@1 b4bdheas@1;
+      card BY Rb4p1gs@1 pulpress@1;
+      gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1 p4homair*1;
+      infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      avgb_sd@0;
+      avgb_rm WITH avgb_hf*;
+
+      AL BY Radj_epi*1 Radj_nor*1 avgb_sd*-1 avgb_rm*-1 avgb_lf*-1
+      avgb_hf*-1 Radj_crt*1 b4bdheas*1 Rb4bcrp*1
+      b4bil6*1 b4bfgn*1 b4bsicam*1 b4bsesel*1 pulpress*1 Rb4p1gs*1 Rb4p1d*1
+      b4bha1c*1 Rb4bgluc*1
+      p4homair*1 b4bldl*-1 b4bhdl*1 Rb4btrig*1 Rb4pwhr*1;
+      AL@1;
+      AL WITH sym@0 para@0 hpa@0 infl@0
+      card@0 gluc@0 lipid@0;
+      Rb4bgluc@0;
+   MODEL YOUNG:
+
+      Radj_epi Radj_nor ON b1pgender b1page_m2;
+      avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      Rb4p1d ON b1pgender b1page_m2;
+      Radj_crt b4bdheas ON b1pgender b1page_m2;
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      Rb4p1gs pulpress ON b1pgender b1page_m2;
+      Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      sym BY Radj_nor@1 Radj_epi@1;
+      hpa BY Radj_crt@1 b4bdheas@1;
+      card BY Rb4p1gs@1 pulpress@1;
+      gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1 p4homair*1;
+      infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      avgb_sd@0;
+      avgb_rm WITH avgb_hf*;
+
+      AL BY Radj_epi*1 Radj_nor*1 avgb_sd*-1 avgb_rm*-1 avgb_lf*-1
+      avgb_hf*-1 Radj_crt*1 b4bdheas*1 Rb4bcrp*1
+      b4bil6*1 b4bfgn*1 b4bsicam*1 b4bsesel*1 pulpress*1 Rb4p1gs*1 Rb4p1d*1
+      b4bha1c*1 Rb4bgluc*1
+      p4homair*1 b4bldl*-1 b4bhdl*1 Rb4btrig*1 Rb4pwhr*1;
+      AL@1;
+      AL WITH sym@0 para@0 hpa@0 infl@0
+      card@0 gluc@0 lipid@0;
+      Rb4bgluc@0;
+  [Radj_epi* Radj_nor* avgb_sd* avgb_rm* avgb_lf*
+     avgb_hf* Radj_crt* b4bdheas* Rb4bcrp*
+     b4bil6* b4bfgn* b4bsicam* b4bsesel* pulpress* Rb4p1gs* Rb4p1d*
+     b4bha1c* Rb4bgluc*
+     p4homair* b4bldl* b4bhdl* Rb4btrig* Rb4pwhr*];
+    [AL@0 SYM@0 PARA@0 HPA@0 INFL@0 CARD@0 GLUC@0 LIPID@0];
+  MODEL MIDDLE:
+
+      Radj_epi Radj_nor ON b1pgender b1page_m2;
+      avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      Rb4p1d ON b1pgender b1page_m2;
+      Radj_crt b4bdheas ON b1pgender b1page_m2;
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      Rb4p1gs pulpress ON b1pgender b1page_m2;
+      Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      sym BY Radj_nor@1 Radj_epi@1;
+      hpa BY Radj_crt@1 b4bdheas@1;
+      card BY Rb4p1gs@1 pulpress@1;
+      gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1 p4homair*1;
+      infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      avgb_sd@0;
+      avgb_rm WITH avgb_hf*;
+
+      AL BY Radj_epi*1 Radj_nor*1 avgb_sd*-1 avgb_rm*-1 avgb_lf*-1
+      avgb_hf*-1 Radj_crt*1 b4bdheas*1 Rb4bcrp*1
+      b4bil6*1 b4bfgn*1 b4bsicam*1 b4bsesel*1 pulpress*1 Rb4p1gs*1 Rb4p1d*1
+      b4bha1c*1 Rb4bgluc*1
+      p4homair*1 b4bldl*-1 b4bhdl*1 Rb4btrig*1 Rb4pwhr*1;
+      AL@1;
+      AL WITH sym@0 para@0 hpa@0 infl@0
+      card@0 gluc@0 lipid@0;
+      Rb4bgluc@0;
+  [Radj_epi* Radj_nor* avgb_sd* avgb_rm* avgb_lf*
+     avgb_hf* Radj_crt* b4bdheas* Rb4bcrp*
+     b4bil6* b4bfgn* b4bsicam* b4bsesel* pulpress* Rb4p1gs* Rb4p1d*
+     b4bha1c* Rb4bgluc*
+     p4homair* b4bldl* b4bhdl* Rb4btrig* Rb4pwhr*];
+    [AL@0 SYM@0 PARA@0 HPA@0 INFL@0 CARD@0 GLUC@0 LIPID@0];
+  MODEL OLD:
+
+      Radj_epi Radj_nor ON b1pgender b1page_m2;
+      avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      Rb4p1d ON b1pgender b1page_m2;
+      Radj_crt b4bdheas ON b1pgender b1page_m2;
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      Rb4p1gs pulpress ON b1pgender b1page_m2;
+      Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      sym BY Radj_nor@1 Radj_epi@1;
+      hpa BY Radj_crt@1 b4bdheas@1;
+      card BY Rb4p1gs@1 pulpress@1;
+      gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1 p4homair*1;
+      infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      avgb_sd@0;
+      avgb_rm WITH avgb_hf*;
+
+      AL BY Radj_epi*1 Radj_nor*1 avgb_sd*-1 avgb_rm*-1 avgb_lf*-1
+      avgb_hf*-1 Radj_crt*1 b4bdheas*1 Rb4bcrp*1
+      b4bil6*1 b4bfgn*1 b4bsicam*1 b4bsesel*1 pulpress*1 Rb4p1gs*1 Rb4p1d*1
+      b4bha1c*1 Rb4bgluc*1
+      p4homair*1 b4bldl*-1 b4bhdl*1 Rb4btrig*1 Rb4pwhr*1;
+      AL@1;
+      AL WITH sym@0 para@0 hpa@0 infl@0
+      card@0 gluc@0 lipid@0;
+      Rb4bgluc@0;
+  [Radj_epi* Radj_nor* avgb_sd* avgb_rm* avgb_lf*
+     avgb_hf* Radj_crt* b4bdheas* Rb4bcrp*
+     b4bil6* b4bfgn* b4bsicam* b4bsesel* pulpress* Rb4p1gs* Rb4p1d*
+     b4bha1c* Rb4bgluc*
+     p4homair* b4bldl* b4bhdl* Rb4btrig* Rb4pwhr*];
+    [AL@0 SYM@0 PARA@0 HPA@0 INFL@0 CARD@0 GLUC@0 LIPID@0];
+  OUTPUT:
+
+      STDYX;
+      CINTERVAL;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  Data set contains cases with missing on all variables except
+  x-variables.  These cases were not included in the analysis.
+  Number of cases with missing on all variables except x-variables:  1
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+CFA for BiFactor of biomarkers, age config;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 3
+Number of observations
+   Group YOUNG                                                 324
+   Group MIDDLE                                                557
+   Group OLD                                                   373
+   Total sample size                                          1254
+
+Number of dependent variables                                   23
+Number of independent variables                                  2
+Number of continuous latent variables                            8
+
+Observed dependent variables
+
+  Continuous
+   RADJ_EPI    RADJ_NOR    AVGB_SD     AVGB_RM     AVGB_LF     AVGB_HF
+   RADJ_CRT    B4BDHEAS    RB4BCRP     B4BIL6      B4BFGN      B4BSICAM
+   B4BSESEL    PULPRESS    RB4P1GS     RB4P1D      B4BHA1C     RB4BGLUC
+   P4HOMAIR    B4BLDL      B4BHDL      RB4BTRIG    RB4PWHR
+
+Observed independent variables
+   B1PGENDE    B1PAGE_M
+
+Continuous latent variables
+   SYM         HPA         CARD        GLUC        LIPID       INFL
+   PARA        AL
+
+Variables with special functions
+
+  Grouping variable     AGECAT
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  factor_allcov_clustering_MGBiFacConfig.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+   Group YOUNG
+     Number of missing data patterns            11
+     Number of clusters         277
+
+
+   Group MIDDLE
+     Number of missing data patterns            21
+     Number of clusters         488
+
+
+   Group OLD
+     Number of missing data patterns             9
+     Number of clusters         334
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR YOUNG
+
+
+           Covariance Coverage
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.991
+ RADJ_NOR       0.991         1.000
+ AVGB_SD        0.951         0.960         0.960
+ AVGB_RM        0.951         0.960         0.960         0.960
+ AVGB_LF        0.951         0.960         0.960         0.960         0.960
+ AVGB_HF        0.951         0.960         0.960         0.960         0.960
+ RADJ_CRT       0.991         1.000         0.960         0.960         0.960
+ B4BDHEAS       0.985         0.994         0.954         0.954         0.954
+ RB4BCRP        0.972         0.981         0.941         0.941         0.941
+ B4BIL6         0.985         0.994         0.954         0.954         0.954
+ B4BFGN         0.975         0.985         0.944         0.944         0.944
+ B4BSICAM       0.981         0.991         0.951         0.951         0.951
+ B4BSESEL       0.981         0.991         0.951         0.951         0.951
+ PULPRESS       0.991         1.000         0.960         0.960         0.960
+ RB4P1GS        0.991         1.000         0.960         0.960         0.960
+ RB4P1D         0.991         1.000         0.960         0.960         0.960
+ B4BHA1C        0.969         0.978         0.938         0.938         0.938
+ RB4BGLUC       0.981         0.991         0.951         0.951         0.951
+ P4HOMAIR       0.978         0.988         0.948         0.948         0.948
+ B4BLDL         0.985         0.994         0.954         0.954         0.954
+ B4BHDL         0.985         0.994         0.954         0.954         0.954
+ RB4BTRIG       0.985         0.994         0.954         0.954         0.954
+ RB4PWHR        0.988         0.997         0.957         0.957         0.957
+ B1PGENDE       0.991         1.000         0.960         0.960         0.960
+ B1PAGE_M       0.991         1.000         0.960         0.960         0.960
+
+
+           Covariance Coverage
+              AVGB_HF       RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.960
+ RADJ_CRT       0.960         1.000
+ B4BDHEAS       0.954         0.994         0.994
+ RB4BCRP        0.941         0.981         0.981         0.981
+ B4BIL6         0.954         0.994         0.994         0.981         0.994
+ B4BFGN         0.944         0.985         0.985         0.981         0.985
+ B4BSICAM       0.951         0.991         0.991         0.978         0.991
+ B4BSESEL       0.951         0.991         0.991         0.978         0.991
+ PULPRESS       0.960         1.000         0.994         0.981         0.994
+ RB4P1GS        0.960         1.000         0.994         0.981         0.994
+ RB4P1D         0.960         1.000         0.994         0.981         0.994
+ B4BHA1C        0.938         0.978         0.978         0.972         0.978
+ RB4BGLUC       0.951         0.991         0.991         0.978         0.991
+ P4HOMAIR       0.948         0.988         0.988         0.975         0.988
+ B4BLDL         0.954         0.994         0.994         0.981         0.994
+ B4BHDL         0.954         0.994         0.994         0.981         0.994
+ RB4BTRIG       0.954         0.994         0.994         0.981         0.994
+ RB4PWHR        0.957         0.997         0.991         0.978         0.991
+ B1PGENDE       0.960         1.000         0.994         0.981         0.994
+ B1PAGE_M       0.960         1.000         0.994         0.981         0.994
+
+
+           Covariance Coverage
+              B4BFGN        B4BSICAM      B4BSESEL      PULPRESS      RB4P1GS
+              ________      ________      ________      ________      ________
+ B4BFGN         0.985
+ B4BSICAM       0.981         0.991
+ B4BSESEL       0.981         0.991         0.991
+ PULPRESS       0.985         0.991         0.991         1.000
+ RB4P1GS        0.985         0.991         0.991         1.000         1.000
+ RB4P1D         0.985         0.991         0.991         1.000         1.000
+ B4BHA1C        0.975         0.978         0.978         0.978         0.978
+ RB4BGLUC       0.981         0.991         0.991         0.991         0.991
+ P4HOMAIR       0.978         0.988         0.988         0.988         0.988
+ B4BLDL         0.985         0.991         0.991         0.994         0.994
+ B4BHDL         0.985         0.991         0.991         0.994         0.994
+ RB4BTRIG       0.985         0.991         0.991         0.994         0.994
+ RB4PWHR        0.981         0.988         0.988         0.997         0.997
+ B1PGENDE       0.985         0.991         0.991         1.000         1.000
+ B1PAGE_M       0.985         0.991         0.991         1.000         1.000
+
+
+           Covariance Coverage
+              RB4P1D        B4BHA1C       RB4BGLUC      P4HOMAIR      B4BLDL
+              ________      ________      ________      ________      ________
+ RB4P1D         1.000
+ B4BHA1C        0.978         0.978
+ RB4BGLUC       0.991         0.978         0.991
+ P4HOMAIR       0.988         0.975         0.988         0.988
+ B4BLDL         0.994         0.978         0.991         0.988         0.994
+ B4BHDL         0.994         0.978         0.991         0.988         0.994
+ RB4BTRIG       0.994         0.978         0.991         0.988         0.994
+ RB4PWHR        0.997         0.975         0.988         0.985         0.991
+ B1PGENDE       1.000         0.978         0.991         0.988         0.994
+ B1PAGE_M       1.000         0.978         0.991         0.988         0.994
+
+
+           Covariance Coverage
+              B4BHDL        RB4BTRIG      RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________      ________
+ B4BHDL         0.994
+ RB4BTRIG       0.994         0.994
+ RB4PWHR        0.991         0.991         0.997
+ B1PGENDE       0.994         0.994         0.997         1.000
+ B1PAGE_M       0.994         0.994         0.997         1.000         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR MIDDLE
+
+
+           Covariance Coverage
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.975
+ RADJ_NOR       0.975         0.982
+ AVGB_SD        0.914         0.921         0.935
+ AVGB_RM        0.914         0.921         0.935         0.935
+ AVGB_LF        0.914         0.921         0.935         0.935         0.935
+ AVGB_HF        0.914         0.921         0.935         0.935         0.935
+ RADJ_CRT       0.975         0.982         0.932         0.932         0.932
+ B4BDHEAS       0.961         0.968         0.925         0.925         0.925
+ RB4BCRP        0.961         0.968         0.925         0.925         0.925
+ B4BIL6         0.968         0.975         0.930         0.930         0.930
+ B4BFGN         0.961         0.968         0.925         0.925         0.925
+ B4BSICAM       0.968         0.975         0.930         0.930         0.930
+ B4BSESEL       0.968         0.975         0.930         0.930         0.930
+ PULPRESS       0.975         0.982         0.935         0.935         0.935
+ RB4P1GS        0.975         0.982         0.935         0.935         0.935
+ RB4P1D         0.973         0.980         0.934         0.934         0.934
+ B4BHA1C        0.962         0.969         0.926         0.926         0.926
+ RB4BGLUC       0.959         0.966         0.923         0.923         0.923
+ P4HOMAIR       0.957         0.964         0.921         0.921         0.921
+ B4BLDL         0.966         0.973         0.928         0.928         0.928
+ B4BHDL         0.966         0.973         0.928         0.928         0.928
+ RB4BTRIG       0.966         0.973         0.928         0.928         0.928
+ RB4PWHR        0.975         0.982         0.935         0.935         0.935
+ B1PGENDE       0.975         0.982         0.935         0.935         0.935
+ B1PAGE_M       0.975         0.982         0.935         0.935         0.935
+
+
+           Covariance Coverage
+              AVGB_HF       RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.935
+ RADJ_CRT       0.932         0.993
+ B4BDHEAS       0.925         0.978         0.982
+ RB4BCRP        0.925         0.978         0.973         0.982
+ B4BIL6         0.930         0.986         0.982         0.980         0.989
+ B4BFGN         0.925         0.978         0.973         0.982         0.980
+ B4BSICAM       0.930         0.986         0.982         0.980         0.989
+ B4BSESEL       0.930         0.986         0.982         0.980         0.989
+ PULPRESS       0.935         0.993         0.982         0.982         0.989
+ RB4P1GS        0.935         0.993         0.982         0.982         0.989
+ RB4P1D         0.934         0.991         0.980         0.982         0.987
+ B4BHA1C        0.926         0.980         0.975         0.978         0.982
+ RB4BGLUC       0.923         0.977         0.977         0.971         0.980
+ P4HOMAIR       0.921         0.975         0.975         0.969         0.978
+ B4BLDL         0.928         0.984         0.978         0.978         0.986
+ B4BHDL         0.928         0.984         0.978         0.978         0.986
+ RB4BTRIG       0.928         0.984         0.978         0.978         0.986
+ RB4PWHR        0.935         0.993         0.982         0.982         0.989
+ B1PGENDE       0.935         0.993         0.982         0.982         0.989
+ B1PAGE_M       0.935         0.993         0.982         0.982         0.989
+
+
+           Covariance Coverage
+              B4BFGN        B4BSICAM      B4BSESEL      PULPRESS      RB4P1GS
+              ________      ________      ________      ________      ________
+ B4BFGN         0.982
+ B4BSICAM       0.980         0.989
+ B4BSESEL       0.980         0.989         0.989
+ PULPRESS       0.982         0.989         0.989         1.000
+ RB4P1GS        0.982         0.989         0.989         1.000         1.000
+ RB4P1D         0.982         0.987         0.987         0.998         0.998
+ B4BHA1C        0.978         0.982         0.982         0.984         0.984
+ RB4BGLUC       0.971         0.980         0.980         0.980         0.980
+ P4HOMAIR       0.969         0.978         0.978         0.978         0.978
+ B4BLDL         0.978         0.986         0.986         0.987         0.987
+ B4BHDL         0.978         0.986         0.986         0.987         0.987
+ RB4BTRIG       0.978         0.986         0.986         0.987         0.987
+ RB4PWHR        0.982         0.989         0.989         1.000         1.000
+ B1PGENDE       0.982         0.989         0.989         1.000         1.000
+ B1PAGE_M       0.982         0.989         0.989         1.000         1.000
+
+
+           Covariance Coverage
+              RB4P1D        B4BHA1C       RB4BGLUC      P4HOMAIR      B4BLDL
+              ________      ________      ________      ________      ________
+ RB4P1D         0.998
+ B4BHA1C        0.982         0.984
+ RB4BGLUC       0.978         0.973         0.980
+ P4HOMAIR       0.977         0.971         0.978         0.978
+ B4BLDL         0.986         0.980         0.977         0.975         0.987
+ B4BHDL         0.986         0.980         0.977         0.975         0.987
+ RB4BTRIG       0.986         0.980         0.977         0.975         0.987
+ RB4PWHR        0.998         0.984         0.980         0.978         0.987
+ B1PGENDE       0.998         0.984         0.980         0.978         0.987
+ B1PAGE_M       0.998         0.984         0.980         0.978         0.987
+
+
+           Covariance Coverage
+              B4BHDL        RB4BTRIG      RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________      ________
+ B4BHDL         0.987
+ RB4BTRIG       0.987         0.987
+ RB4PWHR        0.987         0.987         1.000
+ B1PGENDE       0.987         0.987         1.000         1.000
+ B1PAGE_M       0.987         0.987         1.000         1.000         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR OLD
+
+
+           Covariance Coverage
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.976
+ RADJ_NOR       0.976         0.984
+ AVGB_SD        0.836         0.845         0.861
+ AVGB_RM        0.836         0.845         0.861         0.861
+ AVGB_LF        0.836         0.845         0.861         0.861         0.861
+ AVGB_HF        0.836         0.845         0.861         0.861         0.861
+ RADJ_CRT       0.976         0.984         0.853         0.853         0.853
+ B4BDHEAS       0.968         0.976         0.853         0.853         0.853
+ RB4BCRP        0.962         0.971         0.850         0.850         0.850
+ B4BIL6         0.968         0.976         0.853         0.853         0.853
+ B4BFGN         0.965         0.973         0.850         0.850         0.850
+ B4BSICAM       0.968         0.976         0.853         0.853         0.853
+ B4BSESEL       0.968         0.976         0.853         0.853         0.853
+ PULPRESS       0.976         0.984         0.861         0.861         0.861
+ RB4P1GS        0.976         0.984         0.861         0.861         0.861
+ RB4P1D         0.976         0.984         0.861         0.861         0.861
+ B4BHA1C        0.968         0.976         0.853         0.853         0.853
+ RB4BGLUC       0.962         0.971         0.847         0.847         0.847
+ P4HOMAIR       0.962         0.971         0.847         0.847         0.847
+ B4BLDL         0.968         0.976         0.853         0.853         0.853
+ B4BHDL         0.968         0.976         0.853         0.853         0.853
+ RB4BTRIG       0.968         0.976         0.853         0.853         0.853
+ RB4PWHR        0.976         0.984         0.861         0.861         0.861
+ B1PGENDE       0.976         0.984         0.861         0.861         0.861
+ B1PAGE_M       0.976         0.984         0.861         0.861         0.861
+
+
+           Covariance Coverage
+              AVGB_HF       RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.861
+ RADJ_CRT       0.853         0.992
+ B4BDHEAS       0.853         0.984         0.992
+ RB4BCRP        0.850         0.979         0.987         0.987
+ B4BIL6         0.853         0.984         0.992         0.987         0.992
+ B4BFGN         0.850         0.981         0.989         0.987         0.989
+ B4BSICAM       0.853         0.984         0.992         0.987         0.992
+ B4BSESEL       0.853         0.984         0.992         0.987         0.992
+ PULPRESS       0.861         0.992         0.992         0.987         0.992
+ RB4P1GS        0.861         0.992         0.992         0.987         0.992
+ RB4P1D         0.861         0.992         0.992         0.987         0.992
+ B4BHA1C        0.853         0.984         0.992         0.987         0.992
+ RB4BGLUC       0.847         0.979         0.987         0.984         0.987
+ P4HOMAIR       0.847         0.979         0.987         0.984         0.987
+ B4BLDL         0.853         0.984         0.992         0.987         0.992
+ B4BHDL         0.853         0.984         0.992         0.987         0.992
+ RB4BTRIG       0.853         0.984         0.992         0.987         0.992
+ RB4PWHR        0.861         0.992         0.992         0.987         0.992
+ B1PGENDE       0.861         0.992         0.992         0.987         0.992
+ B1PAGE_M       0.861         0.992         0.992         0.987         0.992
+
+
+           Covariance Coverage
+              B4BFGN        B4BSICAM      B4BSESEL      PULPRESS      RB4P1GS
+              ________      ________      ________      ________      ________
+ B4BFGN         0.989
+ B4BSICAM       0.989         0.992
+ B4BSESEL       0.989         0.992         0.992
+ PULPRESS       0.989         0.992         0.992         1.000
+ RB4P1GS        0.989         0.992         0.992         1.000         1.000
+ RB4P1D         0.989         0.992         0.992         1.000         1.000
+ B4BHA1C        0.989         0.992         0.992         0.992         0.992
+ RB4BGLUC       0.987         0.987         0.987         0.987         0.987
+ P4HOMAIR       0.987         0.987         0.987         0.987         0.987
+ B4BLDL         0.989         0.992         0.992         0.992         0.992
+ B4BHDL         0.989         0.992         0.992         0.992         0.992
+ RB4BTRIG       0.989         0.992         0.992         0.992         0.992
+ RB4PWHR        0.989         0.992         0.992         1.000         1.000
+ B1PGENDE       0.989         0.992         0.992         1.000         1.000
+ B1PAGE_M       0.989         0.992         0.992         1.000         1.000
+
+
+           Covariance Coverage
+              RB4P1D        B4BHA1C       RB4BGLUC      P4HOMAIR      B4BLDL
+              ________      ________      ________      ________      ________
+ RB4P1D         1.000
+ B4BHA1C        0.992         0.992
+ RB4BGLUC       0.987         0.987         0.987
+ P4HOMAIR       0.987         0.987         0.987         0.987
+ B4BLDL         0.992         0.992         0.987         0.987         0.992
+ B4BHDL         0.992         0.992         0.987         0.987         0.992
+ RB4BTRIG       0.992         0.992         0.987         0.987         0.992
+ RB4PWHR        1.000         0.992         0.987         0.987         0.992
+ B1PGENDE       1.000         0.992         0.987         0.987         0.992
+ B1PAGE_M       1.000         0.992         0.987         0.987         0.992
+
+
+           Covariance Coverage
+              B4BHDL        RB4BTRIG      RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________      ________
+ B4BHDL         0.992
+ RB4BTRIG       0.992         0.992
+ RB4PWHR        0.992         0.992         1.000
+ B1PGENDE       0.992         0.992         1.000         1.000
+ B1PAGE_M       0.992         0.992         1.000         1.000         1.000
+
+
+
+     NO CONVERGENCE.  NUMBER OF ITERATIONS EXCEEDED.
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Group YOUNG
+
+ SYM      BY
+    RADJ_NOR           1.000
+    RADJ_EPI           1.000
+
+ HPA      BY
+    RADJ_CRT           1.000
+    B4BDHEAS           1.000
+
+ CARD     BY
+    RB4P1GS            1.000
+    PULPRESS           1.000
+
+ GLUC     BY
+    RB4BGLUC           1.000
+    P4HOMAIR           0.749
+    B4BHA1C            0.856
+
+ LIPID    BY
+    RB4PWHR            1.000
+    RB4BTRIG           0.717
+    B4BHDL            -1.064
+    B4BLDL             1.024
+    P4HOMAIR           0.957
+
+ INFL     BY
+    RB4BCRP            1.000
+    B4BIL6             1.019
+    B4BFGN             0.911
+    B4BSICAM           0.292
+    B4BSESEL           0.497
+
+ PARA     BY
+    AVGB_SD           -1.000
+    AVGB_RM           -0.976
+    AVGB_HF           -0.940
+    AVGB_LF           -0.905
+    RB4P1D             0.789
+
+ AL       BY
+    RADJ_EPI           0.939
+    RADJ_NOR           1.019
+    AVGB_SD           -1.110
+    AVGB_RM           -0.968
+    AVGB_LF           -0.982
+    AVGB_HF           -0.985
+    RADJ_CRT           0.962
+    B4BDHEAS           0.947
+    RB4BCRP            1.021
+    B4BIL6             1.003
+    B4BFGN             0.991
+    B4BSICAM           0.960
+    B4BSESEL           0.993
+    PULPRESS           0.968
+    RB4P1GS            1.016
+    RB4P1D             0.989
+    B4BHA1C            0.984
+    RB4BGLUC           1.131
+    P4HOMAIR           0.948
+    B4BLDL            -0.913
+    B4BHDL             0.914
+    RB4BTRIG           0.968
+    RB4PWHR            0.954
+
+ RADJ_EPI ON
+    B1PGENDER         -0.021
+    B1PAGE_M2         -0.001
+
+ RADJ_NOR ON
+    B1PGENDER          0.060
+    B1PAGE_M2         -0.001
+
+ AVGB_SD  ON
+    B1PGENDER         -0.069
+    B1PAGE_M2          0.002
+
+ AVGB_RM  ON
+    B1PGENDER          0.007
+    B1PAGE_M2          0.001
+
+ AVGB_HF  ON
+    B1PGENDER          0.069
+    B1PAGE_M2          0.000
+
+ AVGB_LF  ON
+    B1PGENDER         -0.056
+    B1PAGE_M2          0.002
+
+ RB4P1D   ON
+    B1PGENDER          0.013
+    B1PAGE_M2         -0.001
+
+ RADJ_CRT ON
+    B1PGENDER          0.060
+    B1PAGE_M2          0.001
+
+ B4BDHEAS ON
+    B1PGENDER         -0.098
+    B1PAGE_M2         -0.002
+
+ RB4BCRP  ON
+    B1PGENDER          0.048
+    B1PAGE_M2         -0.001
+
+ B4BIL6   ON
+    B1PGENDER          0.017
+    B1PAGE_M2         -0.003
+
+ B4BFGN   ON
+    B1PGENDER          0.050
+    B1PAGE_M2          0.000
+
+ B4BSICAM ON
+    B1PGENDER          0.008
+    B1PAGE_M2         -0.001
+
+ B4BSESEL ON
+    B1PGENDER         -0.045
+    B1PAGE_M2          0.000
+
+ RB4P1GS  ON
+    B1PGENDER         -0.028
+    B1PAGE_M2          0.000
+
+ PULPRESS ON
+    B1PGENDER          0.015
+    B1PAGE_M2          0.000
+
+ RB4BGLUC ON
+    B1PGENDER         -0.118
+    B1PAGE_M2          0.000
+
+ P4HOMAIR ON
+    B1PGENDER          0.078
+    B1PAGE_M2         -0.001
+
+ B4BHA1C  ON
+    B1PGENDER          0.031
+    B1PAGE_M2         -0.001
+
+ RB4PWHR  ON
+    B1PGENDER         -0.135
+    B1PAGE_M2          0.000
+
+ RB4BTRIG ON
+    B1PGENDER         -0.054
+    B1PAGE_M2          0.000
+
+ B4BHDL   ON
+    B1PGENDER          0.058
+    B1PAGE_M2         -0.002
+
+ B4BLDL   ON
+    B1PGENDER         -0.012
+    B1PAGE_M2          0.001
+
+ AL       WITH
+    SYM                0.000
+    PARA               0.000
+    HPA                0.000
+    INFL               0.000
+    CARD               0.000
+    GLUC               0.000
+    LIPID              0.000
+
+ HPA      WITH
+    SYM                0.010
+
+ CARD     WITH
+    SYM               -0.064
+    HPA               -0.022
+
+ GLUC     WITH
+    SYM               -0.164
+    HPA               -0.165
+    CARD              -0.109
+
+ LIPID    WITH
+    SYM               -0.114
+    HPA               -0.094
+    CARD               0.067
+    GLUC               0.001
+
+ INFL     WITH
+    SYM               -0.084
+    HPA               -0.192
+    CARD               0.001
+    GLUC              -0.082
+    LIPID              0.097
+
+ PARA     WITH
+    SYM               -0.022
+    HPA               -0.089
+    CARD              -0.151
+    GLUC              -0.095
+    LIPID              0.077
+    INFL               0.007
+
+ AVGB_RM  WITH
+    AVGB_HF            0.272
+
+ Means
+    SYM                0.000
+    HPA                0.000
+    CARD               0.000
+    GLUC               0.000
+    LIPID              0.000
+    INFL               0.000
+    PARA               0.000
+    AL                 0.000
+
+ Intercepts
+    RADJ_EPI          -0.163
+    RADJ_NOR          -0.357
+    AVGB_SD            0.375
+    AVGB_RM            0.307
+    AVGB_LF            0.427
+    AVGB_HF            0.380
+    RADJ_CRT          -0.073
+    B4BDHEAS           0.528
+    RB4BCRP            0.021
+    B4BIL6            -0.138
+    B4BFGN            -0.155
+    B4BSICAM          -0.147
+    B4BSESEL           0.146
+    PULPRESS          -0.459
+    RB4P1GS           -0.355
+    RB4P1D            -0.002
+    B4BHA1C           -0.255
+    RB4BGLUC          -0.133
+    P4HOMAIR          -0.055
+    B4BLDL             0.018
+    B4BHDL            -0.073
+    RB4BTRIG          -0.054
+    RB4PWHR           -0.167
+
+ Variances
+    SYM                0.306
+    HPA                0.186
+    CARD               0.287
+    GLUC               0.718
+    LIPID              0.387
+    INFL               0.335
+    PARA               0.664
+    AL                 1.000
+
+ Residual Variances
+    RADJ_EPI           0.518
+    RADJ_NOR           0.542
+    AVGB_SD            0.000
+    AVGB_RM            0.261
+    AVGB_LF            0.210
+    AVGB_HF            0.343
+    RADJ_CRT           0.594
+    B4BDHEAS           0.489
+    RB4BCRP            0.582
+    B4BIL6             0.570
+    B4BFGN             0.477
+    B4BSICAM           0.768
+    B4BSESEL           0.711
+    PULPRESS           0.173
+    RB4P1GS            0.377
+    RB4P1D             0.706
+    B4BHA1C            0.472
+    RB4BGLUC           0.000
+    P4HOMAIR           0.618
+    B4BLDL             0.710
+    B4BHDL             0.628
+    RB4BTRIG           0.686
+    RB4PWHR            0.522
+
+Group MIDDLE
+
+ SYM      BY
+    RADJ_NOR           1.000
+    RADJ_EPI           1.000
+
+ HPA      BY
+    RADJ_CRT           1.000
+    B4BDHEAS           1.000
+
+ CARD     BY
+    RB4P1GS            1.000
+    PULPRESS           1.000
+
+ GLUC     BY
+    RB4BGLUC           1.000
+    P4HOMAIR           0.650
+    B4BHA1C            0.800
+
+ LIPID    BY
+    RB4PWHR            1.000
+    RB4BTRIG           0.715
+    B4BHDL            -1.085
+    B4BLDL             0.933
+    P4HOMAIR           0.974
+
+ INFL     BY
+    RB4BCRP            1.000
+    B4BIL6             1.015
+    B4BFGN             0.897
+    B4BSICAM           0.287
+    B4BSESEL           0.501
+
+ PARA     BY
+    AVGB_SD           -1.000
+    AVGB_RM           -0.979
+    AVGB_HF           -0.853
+    AVGB_LF           -0.841
+    RB4P1D             0.636
+
+ AL       BY
+    RADJ_EPI           0.948
+    RADJ_NOR           1.028
+    AVGB_SD           -1.152
+    AVGB_RM           -0.991
+    AVGB_LF           -0.991
+    AVGB_HF           -0.943
+    RADJ_CRT           0.945
+    B4BDHEAS           0.945
+    RB4BCRP            1.016
+    B4BIL6             0.971
+    B4BFGN             1.012
+    B4BSICAM           0.941
+    B4BSESEL           0.950
+    PULPRESS           0.991
+    RB4P1GS            1.003
+    RB4P1D             0.978
+    B4BHA1C            0.966
+    RB4BGLUC           1.230
+    P4HOMAIR           0.921
+    B4BLDL            -0.869
+    B4BHDL             0.823
+    RB4BTRIG           0.933
+    RB4PWHR            0.906
+
+ RADJ_EPI ON
+    B1PGENDER         -0.014
+    B1PAGE_M2         -0.001
+
+ RADJ_NOR ON
+    B1PGENDER          0.093
+    B1PAGE_M2          0.005
+
+ AVGB_SD  ON
+    B1PGENDER         -0.022
+    B1PAGE_M2         -0.002
+
+ AVGB_RM  ON
+    B1PGENDER          0.007
+    B1PAGE_M2         -0.003
+
+ AVGB_HF  ON
+    B1PGENDER          0.079
+    B1PAGE_M2         -0.005
+
+ AVGB_LF  ON
+    B1PGENDER         -0.080
+    B1PAGE_M2         -0.002
+
+ RB4P1D   ON
+    B1PGENDER          0.060
+    B1PAGE_M2         -0.007
+
+ RADJ_CRT ON
+    B1PGENDER          0.098
+    B1PAGE_M2          0.000
+
+ B4BDHEAS ON
+    B1PGENDER         -0.148
+    B1PAGE_M2         -0.008
+
+ RB4BCRP  ON
+    B1PGENDER          0.054
+    B1PAGE_M2         -0.006
+
+ B4BIL6   ON
+    B1PGENDER          0.036
+    B1PAGE_M2         -0.003
+
+ B4BFGN   ON
+    B1PGENDER          0.086
+    B1PAGE_M2         -0.002
+
+ B4BSICAM ON
+    B1PGENDER         -0.005
+    B1PAGE_M2          0.000
+
+ B4BSESEL ON
+    B1PGENDER         -0.044
+    B1PAGE_M2         -0.006
+
+ RB4P1GS  ON
+    B1PGENDER         -0.038
+    B1PAGE_M2          0.006
+
+ PULPRESS ON
+    B1PGENDER          0.095
+    B1PAGE_M2          0.005
+
+ RB4BGLUC ON
+    B1PGENDER         -0.171
+    B1PAGE_M2          0.003
+
+ P4HOMAIR ON
+    B1PGENDER          0.089
+    B1PAGE_M2         -0.001
+
+ B4BHA1C  ON
+    B1PGENDER          0.050
+    B1PAGE_M2          0.003
+
+ RB4PWHR  ON
+    B1PGENDER         -0.252
+    B1PAGE_M2          0.006
+
+ RB4BTRIG ON
+    B1PGENDER         -0.030
+    B1PAGE_M2         -0.001
+
+ B4BHDL   ON
+    B1PGENDER          0.105
+    B1PAGE_M2         -0.002
+
+ B4BLDL   ON
+    B1PGENDER          0.072
+    B1PAGE_M2          0.002
+
+ AL       WITH
+    SYM                0.000
+    PARA               0.000
+    HPA                0.000
+    INFL               0.000
+    CARD               0.000
+    GLUC               0.000
+    LIPID              0.000
+
+ HPA      WITH
+    SYM                0.063
+
+ CARD     WITH
+    SYM                0.001
+    HPA                0.000
+
+ GLUC     WITH
+    SYM               -0.191
+    HPA               -0.138
+    CARD              -0.101
+
+ LIPID    WITH
+    SYM               -0.150
+    HPA               -0.097
+    CARD               0.012
+    GLUC              -0.040
+
+ INFL     WITH
+    SYM               -0.026
+    HPA               -0.146
+    CARD              -0.035
+    GLUC              -0.089
+    LIPID              0.089
+
+ PARA     WITH
+    SYM               -0.050
+    HPA               -0.134
+    CARD              -0.141
+    GLUC              -0.109
+    LIPID              0.049
+    INFL               0.010
+
+ AVGB_RM  WITH
+    AVGB_HF            0.284
+
+ Means
+    SYM                0.000
+    HPA                0.000
+    CARD               0.000
+    GLUC               0.000
+    LIPID              0.000
+    INFL               0.000
+    PARA               0.000
+    AL                 0.000
+
+ Intercepts
+    RADJ_EPI          -0.169
+    RADJ_NOR          -0.356
+    AVGB_SD            0.378
+    AVGB_RM            0.295
+    AVGB_LF            0.436
+    AVGB_HF            0.381
+    RADJ_CRT          -0.074
+    B4BDHEAS           0.534
+    RB4BCRP            0.020
+    B4BIL6            -0.144
+    B4BFGN            -0.150
+    B4BSICAM          -0.143
+    B4BSESEL           0.151
+    PULPRESS          -0.467
+    RB4P1GS           -0.350
+    RB4P1D             0.002
+    B4BHA1C           -0.258
+    RB4BGLUC          -0.129
+    P4HOMAIR          -0.061
+    B4BLDL             0.024
+    B4BHDL            -0.073
+    RB4BTRIG          -0.053
+    RB4PWHR           -0.167
+
+ Variances
+    SYM                0.365
+    HPA                0.292
+    CARD               0.524
+    GLUC               0.854
+    LIPID              0.311
+    INFL               0.359
+    PARA               0.816
+    AL                 1.000
+
+ Residual Variances
+    RADJ_EPI           0.551
+    RADJ_NOR           0.535
+    AVGB_SD            0.000
+    AVGB_RM            0.266
+    AVGB_LF            0.157
+    AVGB_HF            0.406
+    RADJ_CRT           0.687
+    B4BDHEAS           0.607
+    RB4BCRP            0.541
+    B4BIL6             0.529
+    B4BFGN             0.575
+    B4BSICAM           0.798
+    B4BSESEL           0.798
+    PULPRESS           0.200
+    RB4P1GS            0.275
+    RB4P1D             0.818
+    B4BHA1C            0.546
+    RB4BGLUC           0.000
+    P4HOMAIR           0.619
+    B4BLDL             0.826
+    B4BHDL             0.712
+    RB4BTRIG           0.638
+    RB4PWHR            0.640
+
+Group OLD
+
+ SYM      BY
+    RADJ_NOR           1.000
+    RADJ_EPI           1.000
+
+ HPA      BY
+    RADJ_CRT           1.000
+    B4BDHEAS           1.000
+
+ CARD     BY
+    RB4P1GS            1.000
+    PULPRESS           1.000
+
+ GLUC     BY
+    RB4BGLUC           1.000
+    P4HOMAIR           0.800
+    B4BHA1C            0.803
+
+ LIPID    BY
+    RB4PWHR            1.000
+    RB4BTRIG           0.695
+    B4BHDL            -1.034
+    B4BLDL             0.942
+    P4HOMAIR           0.977
+
+ INFL     BY
+    RB4BCRP            1.000
+    B4BIL6             1.008
+    B4BFGN             0.930
+    B4BSICAM           0.270
+    B4BSESEL           0.499
+
+ PARA     BY
+    AVGB_SD           -1.000
+    AVGB_RM           -0.945
+    AVGB_HF           -0.855
+    AVGB_LF           -0.850
+    RB4P1D             0.642
+
+ AL       BY
+    RADJ_EPI           0.997
+    RADJ_NOR           1.001
+    AVGB_SD           -1.097
+    AVGB_RM           -0.982
+    AVGB_LF           -1.021
+    AVGB_HF           -0.994
+    RADJ_CRT           0.964
+    B4BDHEAS           0.983
+    RB4BCRP            1.006
+    B4BIL6             1.002
+    B4BFGN             1.009
+    B4BSICAM           0.937
+    B4BSESEL           0.959
+    PULPRESS           1.006
+    RB4P1GS            1.010
+    RB4P1D             0.950
+    B4BHA1C            0.959
+    RB4BGLUC           1.148
+    P4HOMAIR           0.952
+    B4BLDL            -0.913
+    B4BHDL             0.892
+    RB4BTRIG           0.947
+    RB4PWHR            0.926
+
+ RADJ_EPI ON
+    B1PGENDER         -0.001
+    B1PAGE_M2          0.003
+
+ RADJ_NOR ON
+    B1PGENDER          0.060
+    B1PAGE_M2          0.004
+
+ AVGB_SD  ON
+    B1PGENDER         -0.068
+    B1PAGE_M2         -0.006
+
+ AVGB_RM  ON
+    B1PGENDER         -0.016
+    B1PAGE_M2         -0.004
+
+ AVGB_HF  ON
+    B1PGENDER          0.050
+    B1PAGE_M2         -0.008
+
+ AVGB_LF  ON
+    B1PGENDER         -0.008
+    B1PAGE_M2         -0.010
+
+ RB4P1D   ON
+    B1PGENDER          0.020
+    B1PAGE_M2         -0.004
+
+ RADJ_CRT ON
+    B1PGENDER          0.073
+    B1PAGE_M2         -0.002
+
+ B4BDHEAS ON
+    B1PGENDER         -0.107
+    B1PAGE_M2         -0.017
+
+ RB4BCRP  ON
+    B1PGENDER          0.048
+    B1PAGE_M2         -0.001
+
+ B4BIL6   ON
+    B1PGENDER         -0.011
+    B1PAGE_M2          0.004
+
+ B4BFGN   ON
+    B1PGENDER          0.064
+    B1PAGE_M2          0.002
+
+ B4BSICAM ON
+    B1PGENDER         -0.003
+    B1PAGE_M2          0.001
+
+ B4BSESEL ON
+    B1PGENDER         -0.017
+    B1PAGE_M2         -0.006
+
+ RB4P1GS  ON
+    B1PGENDER         -0.007
+    B1PAGE_M2          0.007
+
+ PULPRESS ON
+    B1PGENDER          0.080
+    B1PAGE_M2          0.011
+
+ RB4BGLUC ON
+    B1PGENDER         -0.049
+    B1PAGE_M2         -0.001
+
+ P4HOMAIR ON
+    B1PGENDER          0.020
+    B1PAGE_M2         -0.006
+
+ B4BHA1C  ON
+    B1PGENDER          0.056
+    B1PAGE_M2          0.003
+
+ RB4PWHR  ON
+    B1PGENDER         -0.210
+    B1PAGE_M2          0.002
+
+ RB4BTRIG ON
+    B1PGENDER         -0.015
+    B1PAGE_M2         -0.004
+
+ B4BHDL   ON
+    B1PGENDER          0.076
+    B1PAGE_M2         -0.001
+
+ B4BLDL   ON
+    B1PGENDER          0.121
+    B1PAGE_M2         -0.004
+
+ AL       WITH
+    SYM                0.000
+    PARA               0.000
+    HPA                0.000
+    INFL               0.000
+    CARD               0.000
+    GLUC               0.000
+    LIPID              0.000
+
+ HPA      WITH
+    SYM                0.052
+
+ CARD     WITH
+    SYM                0.007
+    HPA               -0.032
+
+ GLUC     WITH
+    SYM               -0.085
+    HPA               -0.156
+    CARD              -0.112
+
+ LIPID    WITH
+    SYM               -0.099
+    HPA               -0.058
+    CARD              -0.045
+    GLUC              -0.007
+
+ INFL     WITH
+    SYM               -0.035
+    HPA               -0.064
+    CARD              -0.041
+    GLUC              -0.099
+    LIPID              0.047
+
+ PARA     WITH
+    SYM               -0.061
+    HPA               -0.085
+    CARD              -0.135
+    GLUC              -0.166
+    LIPID             -0.023
+    INFL              -0.043
+
+ AVGB_RM  WITH
+    AVGB_HF            0.357
+
+ Means
+    SYM                0.000
+    HPA                0.000
+    CARD               0.000
+    GLUC               0.000
+    LIPID              0.000
+    INFL               0.000
+    PARA               0.000
+    AL                 0.000
+
+ Intercepts
+    RADJ_EPI          -0.174
+    RADJ_NOR          -0.350
+    AVGB_SD            0.362
+    AVGB_RM            0.299
+    AVGB_LF            0.440
+    AVGB_HF            0.378
+    RADJ_CRT          -0.078
+    B4BDHEAS           0.529
+    RB4BCRP            0.022
+    B4BIL6            -0.146
+    B4BFGN            -0.151
+    B4BSICAM          -0.147
+    B4BSESEL           0.148
+    PULPRESS          -0.465
+    RB4P1GS           -0.351
+    RB4P1D            -0.009
+    B4BHA1C           -0.267
+    RB4BGLUC          -0.113
+    P4HOMAIR          -0.055
+    B4BLDL             0.022
+    B4BHDL            -0.073
+    RB4BTRIG          -0.048
+    RB4PWHR           -0.171
+
+ Variances
+    SYM                0.387
+    HPA                0.259
+    CARD               0.513
+    GLUC               0.680
+    LIPID              0.198
+    INFL               0.321
+    PARA               0.877
+    AL                 1.000
+
+ Residual Variances
+    RADJ_EPI           0.519
+    RADJ_NOR           0.481
+    AVGB_SD            0.000
+    AVGB_RM            0.386
+    AVGB_LF            0.293
+    AVGB_HF            0.393
+    RADJ_CRT           0.674
+    B4BDHEAS           0.614
+    RB4BCRP            0.558
+    B4BIL6             0.545
+    B4BFGN             0.585
+    B4BSICAM           0.699
+    B4BSESEL           0.635
+    PULPRESS           0.308
+    RB4P1GS            0.324
+    RB4P1D             0.837
+    B4BHA1C            0.529
+    RB4BGLUC           0.000
+    P4HOMAIR           0.510
+    B4BLDL             0.823
+    B4BHDL             0.678
+    RB4BTRIG           0.654
+    RB4PWHR            0.634
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     sym BY radj_nor;
+     sym BY radj_epi;
+     hpa BY radj_crt;
+     hpa BY b4bdheas;
+     card BY rb4p1gs;
+     card BY pulpress;
+     gluc BY rb4bgluc;
+     gluc BY p4homair;
+     gluc BY b4bha1c;
+     lipid BY rb4pwhr;
+     lipid BY rb4btrig;
+     lipid BY b4bhdl;
+     lipid BY b4bldl;
+     lipid BY p4homair;
+     infl BY rb4bcrp;
+     infl BY b4bil6;
+     infl BY b4bfgn;
+     infl BY b4bsicam;
+     infl BY b4bsesel;
+     para BY avgb_sd;
+     para BY avgb_rm;
+     para BY avgb_hf;
+     para BY avgb_lf;
+     para BY rb4p1d;
+     al BY radj_epi;
+     al BY radj_nor;
+     al BY avgb_sd;
+     al BY avgb_rm;
+     al BY avgb_lf;
+     al BY avgb_hf;
+     al BY radj_crt;
+     al BY b4bdheas;
+     al BY rb4bcrp;
+     al BY b4bil6;
+     al BY b4bfgn;
+     al BY b4bsicam;
+     al BY b4bsesel;
+     al BY pulpress;
+     al BY rb4p1gs;
+     al BY rb4p1d;
+     al BY b4bha1c;
+     al BY rb4bgluc;
+     al BY p4homair;
+     al BY b4bldl;
+     al BY b4bhdl;
+     al BY rb4btrig;
+     al BY rb4pwhr;
+
+     radj_epi ON b1pgender;
+     radj_epi ON b1page_m2;
+     radj_nor ON b1pgender;
+     radj_nor ON b1page_m2;
+     avgb_sd ON b1pgender;
+     avgb_sd ON b1page_m2;
+     avgb_rm ON b1pgender;
+     avgb_rm ON b1page_m2;
+     avgb_hf ON b1pgender;
+     avgb_hf ON b1page_m2;
+     avgb_lf ON b1pgender;
+     avgb_lf ON b1page_m2;
+     rb4p1d ON b1pgender;
+     rb4p1d ON b1page_m2;
+     radj_crt ON b1pgender;
+     radj_crt ON b1page_m2;
+     b4bdheas ON b1pgender;
+     b4bdheas ON b1page_m2;
+     rb4bcrp ON b1pgender;
+     rb4bcrp ON b1page_m2;
+     b4bil6 ON b1pgender;
+     b4bil6 ON b1page_m2;
+     b4bfgn ON b1pgender;
+     b4bfgn ON b1page_m2;
+     b4bsicam ON b1pgender;
+     b4bsicam ON b1page_m2;
+     b4bsesel ON b1pgender;
+     b4bsesel ON b1page_m2;
+     rb4p1gs ON b1pgender;
+     rb4p1gs ON b1page_m2;
+     pulpress ON b1pgender;
+     pulpress ON b1page_m2;
+     rb4bgluc ON b1pgender;
+     rb4bgluc ON b1page_m2;
+     p4homair ON b1pgender;
+     p4homair ON b1page_m2;
+     b4bha1c ON b1pgender;
+     b4bha1c ON b1page_m2;
+     rb4pwhr ON b1pgender;
+     rb4pwhr ON b1page_m2;
+     rb4btrig ON b1pgender;
+     rb4btrig ON b1page_m2;
+     b4bhdl ON b1pgender;
+     b4bhdl ON b1page_m2;
+     b4bldl ON b1pgender;
+     b4bldl ON b1page_m2;
+
+  MODEL YOUNG:
+
+     sym BY radj_nor@1;
+     sym BY radj_epi@1;
+     hpa BY radj_crt@1;
+     hpa BY b4bdheas@1;
+     card BY rb4p1gs@1;
+     card BY pulpress@1;
+     gluc BY rb4bgluc@1;
+     gluc BY p4homair*0.74864;
+     gluc BY b4bha1c*0.85632;
+     lipid BY rb4pwhr@1;
+     lipid BY rb4btrig*0.71740;
+     lipid BY b4bhdl*-1.06366;
+     lipid BY b4bldl*1.02389;
+     lipid BY p4homair*0.95688;
+     infl BY rb4bcrp@1;
+     infl BY b4bil6*1.01873;
+     infl BY b4bfgn*0.91125;
+     infl BY b4bsicam*0.29163;
+     infl BY b4bsesel*0.49727;
+     para BY avgb_sd@-1;
+     para BY avgb_rm*-0.97578;
+     para BY avgb_hf*-0.93958;
+     para BY avgb_lf*-0.90532;
+     para BY rb4p1d*0.78929;
+     al BY radj_epi*0.93946;
+     al BY radj_nor*1.01861;
+     al BY avgb_sd*-1.11023;
+     al BY avgb_rm*-0.96825;
+     al BY avgb_lf*-0.98213;
+     al BY avgb_hf*-0.98487;
+     al BY radj_crt*0.96235;
+     al BY b4bdheas*0.94709;
+     al BY rb4bcrp*1.02108;
+     al BY b4bil6*1.00324;
+     al BY b4bfgn*0.99080;
+     al BY b4bsicam*0.95987;
+     al BY b4bsesel*0.99312;
+     al BY pulpress*0.96797;
+     al BY rb4p1gs*1.01640;
+     al BY rb4p1d*0.98873;
+     al BY b4bha1c*0.98443;
+     al BY rb4bgluc*1.13093;
+     al BY p4homair*0.94826;
+     al BY b4bldl*-0.91347;
+     al BY b4bhdl*0.91419;
+     al BY rb4btrig*0.96773;
+     al BY rb4pwhr*0.95442;
+
+     radj_epi ON b1pgender*-0.02088;
+     radj_epi ON b1page_m2*-0.00082;
+     radj_nor ON b1pgender*0.05979;
+     radj_nor ON b1page_m2*-0.00129;
+     avgb_sd ON b1pgender*-0.06898;
+     avgb_sd ON b1page_m2*0.00156;
+     avgb_rm ON b1pgender*0.00740;
+     avgb_rm ON b1page_m2*0.00073;
+     avgb_hf ON b1pgender*0.06866;
+     avgb_hf ON b1page_m2*-0.00050;
+     avgb_lf ON b1pgender*-0.05590;
+     avgb_lf ON b1page_m2*0.00172;
+     rb4p1d ON b1pgender*0.01328;
+     rb4p1d ON b1page_m2*-0.00119;
+     radj_crt ON b1pgender*0.05973;
+     radj_crt ON b1page_m2*0.00085;
+     b4bdheas ON b1pgender*-0.09758;
+     b4bdheas ON b1page_m2*-0.00213;
+     rb4bcrp ON b1pgender*0.04816;
+     rb4bcrp ON b1page_m2*-0.00054;
+     b4bil6 ON b1pgender*0.01652;
+     b4bil6 ON b1page_m2*-0.00271;
+     b4bfgn ON b1pgender*0.05001;
+     b4bfgn ON b1page_m2*0.00037;
+     b4bsicam ON b1pgender*0.00818;
+     b4bsicam ON b1page_m2*-0.00107;
+     b4bsesel ON b1pgender*-0.04466;
+     b4bsesel ON b1page_m2*-0.00050;
+     rb4p1gs ON b1pgender*-0.02835;
+     rb4p1gs ON b1page_m2*-0.00023;
+     pulpress ON b1pgender*0.01536;
+     pulpress ON b1page_m2*0.00029;
+     rb4bgluc ON b1pgender*-0.11781;
+     rb4bgluc ON b1page_m2*0.00009;
+     p4homair ON b1pgender*0.07805;
+     p4homair ON b1page_m2*-0.00057;
+     b4bha1c ON b1pgender*0.03132;
+     b4bha1c ON b1page_m2*-0.00066;
+     rb4pwhr ON b1pgender*-0.13477;
+     rb4pwhr ON b1page_m2*0.00011;
+     rb4btrig ON b1pgender*-0.05430;
+     rb4btrig ON b1page_m2*-0.00039;
+     b4bhdl ON b1pgender*0.05840;
+     b4bhdl ON b1page_m2*-0.00188;
+     b4bldl ON b1pgender*-0.01229;
+     b4bldl ON b1page_m2*0.00130;
+
+     avgb_rm WITH avgb_hf*0.27166;
+     al WITH sym@0;
+     al WITH para@0;
+     al WITH hpa@0;
+     al WITH infl@0;
+     al WITH card@0;
+     al WITH gluc@0;
+     al WITH lipid@0;
+     hpa WITH sym*0.00963;
+     card WITH sym*-0.06446;
+     card WITH hpa*-0.02236;
+     gluc WITH sym*-0.16354;
+     gluc WITH hpa*-0.16467;
+     gluc WITH card*-0.10920;
+     lipid WITH sym*-0.11367;
+     lipid WITH hpa*-0.09352;
+     lipid WITH card*0.06732;
+     lipid WITH gluc*0.00148;
+     infl WITH sym*-0.08359;
+     infl WITH hpa*-0.19235;
+     infl WITH card*0.00064;
+     infl WITH gluc*-0.08218;
+     infl WITH lipid*0.09664;
+     para WITH sym*-0.02216;
+     para WITH hpa*-0.08869;
+     para WITH card*-0.15080;
+     para WITH gluc*-0.09501;
+     para WITH lipid*0.07707;
+     para WITH infl*0.00750;
+
+     [ radj_epi*-0.16250 ];
+     [ radj_nor*-0.35703 ];
+     [ avgb_sd*0.37485 ];
+     [ avgb_rm*0.30651 ];
+     [ avgb_lf*0.42743 ];
+     [ avgb_hf*0.38012 ];
+     [ radj_crt*-0.07320 ];
+     [ b4bdheas*0.52784 ];
+     [ rb4bcrp*0.02083 ];
+     [ b4bil6*-0.13789 ];
+     [ b4bfgn*-0.15458 ];
+     [ b4bsicam*-0.14706 ];
+     [ b4bsesel*0.14617 ];
+     [ pulpress*-0.45886 ];
+     [ rb4p1gs*-0.35451 ];
+     [ rb4p1d*-0.00243 ];
+     [ b4bha1c*-0.25486 ];
+     [ rb4bgluc*-0.13331 ];
+     [ p4homair*-0.05502 ];
+     [ b4bldl*0.01845 ];
+     [ b4bhdl*-0.07304 ];
+     [ rb4btrig*-0.05430 ];
+     [ rb4pwhr*-0.16676 ];
+     [ sym@0 ];
+     [ hpa@0 ];
+     [ card@0 ];
+     [ gluc@0 ];
+     [ lipid@0 ];
+     [ infl@0 ];
+     [ para@0 ];
+     [ al@0 ];
+
+     radj_epi*0.51824;
+     radj_nor*0.54248;
+     avgb_sd@0;
+     avgb_rm*0.26149;
+     avgb_lf*0.21036;
+     avgb_hf*0.34266;
+     radj_crt*0.59389;
+     b4bdheas*0.48907;
+     rb4bcrp*0.58195;
+     b4bil6*0.57014;
+     b4bfgn*0.47675;
+     b4bsicam*0.76762;
+     b4bsesel*0.71141;
+     pulpress*0.17265;
+     rb4p1gs*0.37650;
+     rb4p1d*0.70626;
+     b4bha1c*0.47157;
+     rb4bgluc@0;
+     p4homair*0.61811;
+     b4bldl*0.71007;
+     b4bhdl*0.62847;
+     rb4btrig*0.68578;
+     rb4pwhr*0.52228;
+     sym*0.30612;
+     hpa*0.18559;
+     card*0.28750;
+     gluc*0.71760;
+     lipid*0.38673;
+     infl*0.33514;
+     para*0.66374;
+     al@1;
+
+  MODEL MIDDLE:
+
+     sym BY radj_nor@1;
+     sym BY radj_epi@1;
+     hpa BY radj_crt@1;
+     hpa BY b4bdheas@1;
+     card BY rb4p1gs@1;
+     card BY pulpress@1;
+     gluc BY rb4bgluc@1;
+     gluc BY p4homair*0.65014;
+     gluc BY b4bha1c*0.79969;
+     lipid BY rb4pwhr@1;
+     lipid BY rb4btrig*0.71544;
+     lipid BY b4bhdl*-1.08519;
+     lipid BY b4bldl*0.93254;
+     lipid BY p4homair*0.97409;
+     infl BY rb4bcrp@1;
+     infl BY b4bil6*1.01501;
+     infl BY b4bfgn*0.89747;
+     infl BY b4bsicam*0.28690;
+     infl BY b4bsesel*0.50085;
+     para BY avgb_sd@-1;
+     para BY avgb_rm*-0.97898;
+     para BY avgb_hf*-0.85283;
+     para BY avgb_lf*-0.84083;
+     para BY rb4p1d*0.63641;
+     al BY radj_epi*0.94816;
+     al BY radj_nor*1.02779;
+     al BY avgb_sd*-1.15150;
+     al BY avgb_rm*-0.99093;
+     al BY avgb_lf*-0.99100;
+     al BY avgb_hf*-0.94324;
+     al BY radj_crt*0.94486;
+     al BY b4bdheas*0.94486;
+     al BY rb4bcrp*1.01637;
+     al BY b4bil6*0.97101;
+     al BY b4bfgn*1.01230;
+     al BY b4bsicam*0.94126;
+     al BY b4bsesel*0.95021;
+     al BY pulpress*0.99127;
+     al BY rb4p1gs*1.00343;
+     al BY rb4p1d*0.97842;
+     al BY b4bha1c*0.96551;
+     al BY rb4bgluc*1.22983;
+     al BY p4homair*0.92113;
+     al BY b4bldl*-0.86862;
+     al BY b4bhdl*0.82251;
+     al BY rb4btrig*0.93322;
+     al BY rb4pwhr*0.90559;
+
+     radj_epi ON b1pgender*-0.01419;
+     radj_epi ON b1page_m2*-0.00087;
+     radj_nor ON b1pgender*0.09290;
+     radj_nor ON b1page_m2*0.00500;
+     avgb_sd ON b1pgender*-0.02170;
+     avgb_sd ON b1page_m2*-0.00248;
+     avgb_rm ON b1pgender*0.00669;
+     avgb_rm ON b1page_m2*-0.00330;
+     avgb_hf ON b1pgender*0.07894;
+     avgb_hf ON b1page_m2*-0.00532;
+     avgb_lf ON b1pgender*-0.08023;
+     avgb_lf ON b1page_m2*-0.00216;
+     rb4p1d ON b1pgender*0.05996;
+     rb4p1d ON b1page_m2*-0.00667;
+     radj_crt ON b1pgender*0.09775;
+     radj_crt ON b1page_m2*0.00026;
+     b4bdheas ON b1pgender*-0.14767;
+     b4bdheas ON b1page_m2*-0.00773;
+     rb4bcrp ON b1pgender*0.05449;
+     rb4bcrp ON b1page_m2*-0.00576;
+     b4bil6 ON b1pgender*0.03552;
+     b4bil6 ON b1page_m2*-0.00342;
+     b4bfgn ON b1pgender*0.08633;
+     b4bfgn ON b1page_m2*-0.00200;
+     b4bsicam ON b1pgender*-0.00474;
+     b4bsicam ON b1page_m2*0.00007;
+     b4bsesel ON b1pgender*-0.04422;
+     b4bsesel ON b1page_m2*-0.00611;
+     rb4p1gs ON b1pgender*-0.03795;
+     rb4p1gs ON b1page_m2*0.00644;
+     pulpress ON b1pgender*0.09498;
+     pulpress ON b1page_m2*0.00468;
+     rb4bgluc ON b1pgender*-0.17090;
+     rb4bgluc ON b1page_m2*0.00283;
+     p4homair ON b1pgender*0.08934;
+     p4homair ON b1page_m2*-0.00145;
+     b4bha1c ON b1pgender*0.05011;
+     b4bha1c ON b1page_m2*0.00252;
+     rb4pwhr ON b1pgender*-0.25187;
+     rb4pwhr ON b1page_m2*0.00615;
+     rb4btrig ON b1pgender*-0.02971;
+     rb4btrig ON b1page_m2*-0.00132;
+     b4bhdl ON b1pgender*0.10518;
+     b4bhdl ON b1page_m2*-0.00229;
+     b4bldl ON b1pgender*0.07152;
+     b4bldl ON b1page_m2*0.00170;
+
+     avgb_rm WITH avgb_hf*0.28370;
+     al WITH sym@0;
+     al WITH para@0;
+     al WITH hpa@0;
+     al WITH infl@0;
+     al WITH card@0;
+     al WITH gluc@0;
+     al WITH lipid@0;
+     hpa WITH sym*0.06334;
+     card WITH sym*0.00055;
+     card WITH hpa*-0.00012;
+     gluc WITH sym*-0.19075;
+     gluc WITH hpa*-0.13750;
+     gluc WITH card*-0.10116;
+     lipid WITH sym*-0.14966;
+     lipid WITH hpa*-0.09700;
+     lipid WITH card*0.01230;
+     lipid WITH gluc*-0.04026;
+     infl WITH sym*-0.02647;
+     infl WITH hpa*-0.14631;
+     infl WITH card*-0.03470;
+     infl WITH gluc*-0.08876;
+     infl WITH lipid*0.08917;
+     para WITH sym*-0.04960;
+     para WITH hpa*-0.13397;
+     para WITH card*-0.14116;
+     para WITH gluc*-0.10929;
+     para WITH lipid*0.04934;
+     para WITH infl*0.01011;
+
+     [ radj_epi*-0.16860 ];
+     [ radj_nor*-0.35589 ];
+     [ avgb_sd*0.37769 ];
+     [ avgb_rm*0.29468 ];
+     [ avgb_lf*0.43632 ];
+     [ avgb_hf*0.38059 ];
+     [ radj_crt*-0.07419 ];
+     [ b4bdheas*0.53413 ];
+     [ rb4bcrp*0.02043 ];
+     [ b4bil6*-0.14375 ];
+     [ b4bfgn*-0.14998 ];
+     [ b4bsicam*-0.14332 ];
+     [ b4bsesel*0.15059 ];
+     [ pulpress*-0.46684 ];
+     [ rb4p1gs*-0.34994 ];
+     [ rb4p1d*0.00162 ];
+     [ b4bha1c*-0.25832 ];
+     [ rb4bgluc*-0.12864 ];
+     [ p4homair*-0.06056 ];
+     [ b4bldl*0.02352 ];
+     [ b4bhdl*-0.07258 ];
+     [ rb4btrig*-0.05287 ];
+     [ rb4pwhr*-0.16654 ];
+     [ sym@0 ];
+     [ hpa@0 ];
+     [ card@0 ];
+     [ gluc@0 ];
+     [ lipid@0 ];
+     [ infl@0 ];
+     [ para@0 ];
+     [ al@0 ];
+
+     radj_epi*0.55110;
+     radj_nor*0.53468;
+     avgb_sd@0;
+     avgb_rm*0.26577;
+     avgb_lf*0.15744;
+     avgb_hf*0.40558;
+     radj_crt*0.68729;
+     b4bdheas*0.60744;
+     rb4bcrp*0.54091;
+     b4bil6*0.52901;
+     b4bfgn*0.57490;
+     b4bsicam*0.79785;
+     b4bsesel*0.79816;
+     pulpress*0.20017;
+     rb4p1gs*0.27469;
+     rb4p1d*0.81751;
+     b4bha1c*0.54642;
+     rb4bgluc@0;
+     p4homair*0.61859;
+     b4bldl*0.82588;
+     b4bhdl*0.71248;
+     rb4btrig*0.63768;
+     rb4pwhr*0.64002;
+     sym*0.36456;
+     hpa*0.29236;
+     card*0.52424;
+     gluc*0.85443;
+     lipid*0.31146;
+     infl*0.35914;
+     para*0.81589;
+     al@1;
+
+  MODEL OLD:
+
+     sym BY radj_nor@1;
+     sym BY radj_epi@1;
+     hpa BY radj_crt@1;
+     hpa BY b4bdheas@1;
+     card BY rb4p1gs@1;
+     card BY pulpress@1;
+     gluc BY rb4bgluc@1;
+     gluc BY p4homair*0.80015;
+     gluc BY b4bha1c*0.80272;
+     lipid BY rb4pwhr@1;
+     lipid BY rb4btrig*0.69549;
+     lipid BY b4bhdl*-1.03410;
+     lipid BY b4bldl*0.94191;
+     lipid BY p4homair*0.97719;
+     infl BY rb4bcrp@1;
+     infl BY b4bil6*1.00796;
+     infl BY b4bfgn*0.93040;
+     infl BY b4bsicam*0.27025;
+     infl BY b4bsesel*0.49917;
+     para BY avgb_sd@-1;
+     para BY avgb_rm*-0.94543;
+     para BY avgb_hf*-0.85499;
+     para BY avgb_lf*-0.85040;
+     para BY rb4p1d*0.64248;
+     al BY radj_epi*0.99726;
+     al BY radj_nor*1.00083;
+     al BY avgb_sd*-1.09748;
+     al BY avgb_rm*-0.98183;
+     al BY avgb_lf*-1.02142;
+     al BY avgb_hf*-0.99392;
+     al BY radj_crt*0.96422;
+     al BY b4bdheas*0.98264;
+     al BY rb4bcrp*1.00568;
+     al BY b4bil6*1.00232;
+     al BY b4bfgn*1.00867;
+     al BY b4bsicam*0.93700;
+     al BY b4bsesel*0.95873;
+     al BY pulpress*1.00573;
+     al BY rb4p1gs*1.00994;
+     al BY rb4p1d*0.95040;
+     al BY b4bha1c*0.95902;
+     al BY rb4bgluc*1.14815;
+     al BY p4homair*0.95246;
+     al BY b4bldl*-0.91259;
+     al BY b4bhdl*0.89165;
+     al BY rb4btrig*0.94723;
+     al BY rb4pwhr*0.92625;
+
+     radj_epi ON b1pgender*-0.00105;
+     radj_epi ON b1page_m2*0.00257;
+     radj_nor ON b1pgender*0.06019;
+     radj_nor ON b1page_m2*0.00385;
+     avgb_sd ON b1pgender*-0.06759;
+     avgb_sd ON b1page_m2*-0.00642;
+     avgb_rm ON b1pgender*-0.01623;
+     avgb_rm ON b1page_m2*-0.00439;
+     avgb_hf ON b1pgender*0.04980;
+     avgb_hf ON b1page_m2*-0.00762;
+     avgb_lf ON b1pgender*-0.00801;
+     avgb_lf ON b1page_m2*-0.01034;
+     rb4p1d ON b1pgender*0.01981;
+     rb4p1d ON b1page_m2*-0.00363;
+     radj_crt ON b1pgender*0.07252;
+     radj_crt ON b1page_m2*-0.00211;
+     b4bdheas ON b1pgender*-0.10688;
+     b4bdheas ON b1page_m2*-0.01697;
+     rb4bcrp ON b1pgender*0.04783;
+     rb4bcrp ON b1page_m2*-0.00082;
+     b4bil6 ON b1pgender*-0.01095;
+     b4bil6 ON b1page_m2*0.00374;
+     b4bfgn ON b1pgender*0.06418;
+     b4bfgn ON b1page_m2*0.00236;
+     b4bsicam ON b1pgender*-0.00265;
+     b4bsicam ON b1page_m2*0.00138;
+     b4bsesel ON b1pgender*-0.01742;
+     b4bsesel ON b1page_m2*-0.00557;
+     rb4p1gs ON b1pgender*-0.00705;
+     rb4p1gs ON b1page_m2*0.00674;
+     pulpress ON b1pgender*0.07967;
+     pulpress ON b1page_m2*0.01107;
+     rb4bgluc ON b1pgender*-0.04860;
+     rb4bgluc ON b1page_m2*-0.00074;
+     p4homair ON b1pgender*0.01987;
+     p4homair ON b1page_m2*-0.00608;
+     b4bha1c ON b1pgender*0.05622;
+     b4bha1c ON b1page_m2*0.00274;
+     rb4pwhr ON b1pgender*-0.21042;
+     rb4pwhr ON b1page_m2*0.00226;
+     rb4btrig ON b1pgender*-0.01546;
+     rb4btrig ON b1page_m2*-0.00358;
+     b4bhdl ON b1pgender*0.07605;
+     b4bhdl ON b1page_m2*-0.00064;
+     b4bldl ON b1pgender*0.12120;
+     b4bldl ON b1page_m2*-0.00412;
+
+     avgb_rm WITH avgb_hf*0.35701;
+     al WITH sym@0;
+     al WITH para@0;
+     al WITH hpa@0;
+     al WITH infl@0;
+     al WITH card@0;
+     al WITH gluc@0;
+     al WITH lipid@0;
+     hpa WITH sym*0.05160;
+     card WITH sym*0.00743;
+     card WITH hpa*-0.03207;
+     gluc WITH sym*-0.08478;
+     gluc WITH hpa*-0.15582;
+     gluc WITH card*-0.11188;
+     lipid WITH sym*-0.09940;
+     lipid WITH hpa*-0.05822;
+     lipid WITH card*-0.04515;
+     lipid WITH gluc*-0.00730;
+     infl WITH sym*-0.03534;
+     infl WITH hpa*-0.06440;
+     infl WITH card*-0.04099;
+     infl WITH gluc*-0.09893;
+     infl WITH lipid*0.04718;
+     para WITH sym*-0.06125;
+     para WITH hpa*-0.08451;
+     para WITH card*-0.13472;
+     para WITH gluc*-0.16595;
+     para WITH lipid*-0.02347;
+     para WITH infl*-0.04304;
+
+     [ radj_epi*-0.17385 ];
+     [ radj_nor*-0.35016 ];
+     [ avgb_sd*0.36152 ];
+     [ avgb_rm*0.29902 ];
+     [ avgb_lf*0.44009 ];
+     [ avgb_hf*0.37823 ];
+     [ radj_crt*-0.07751 ];
+     [ b4bdheas*0.52903 ];
+     [ rb4bcrp*0.02183 ];
+     [ b4bil6*-0.14595 ];
+     [ b4bfgn*-0.15062 ];
+     [ b4bsicam*-0.14703 ];
+     [ b4bsesel*0.14776 ];
+     [ pulpress*-0.46478 ];
+     [ rb4p1gs*-0.35056 ];
+     [ rb4p1d*-0.00899 ];
+     [ b4bha1c*-0.26673 ];
+     [ rb4bgluc*-0.11326 ];
+     [ p4homair*-0.05503 ];
+     [ b4bldl*0.02246 ];
+     [ b4bhdl*-0.07335 ];
+     [ rb4btrig*-0.04764 ];
+     [ rb4pwhr*-0.17055 ];
+     [ sym@0 ];
+     [ hpa@0 ];
+     [ card@0 ];
+     [ gluc@0 ];
+     [ lipid@0 ];
+     [ infl@0 ];
+     [ para@0 ];
+     [ al@0 ];
+
+     radj_epi*0.51906;
+     radj_nor*0.48071;
+     avgb_sd@0;
+     avgb_rm*0.38637;
+     avgb_lf*0.29269;
+     avgb_hf*0.39267;
+     radj_crt*0.67369;
+     b4bdheas*0.61436;
+     rb4bcrp*0.55815;
+     b4bil6*0.54518;
+     b4bfgn*0.58508;
+     b4bsicam*0.69922;
+     b4bsesel*0.63524;
+     pulpress*0.30819;
+     rb4p1gs*0.32374;
+     rb4p1d*0.83698;
+     b4bha1c*0.52908;
+     rb4bgluc@0;
+     p4homair*0.51035;
+     b4bldl*0.82341;
+     b4bhdl*0.67830;
+     rb4btrig*0.65445;
+     rb4pwhr*0.63431;
+     sym*0.38714;
+     hpa*0.25899;
+     card*0.51288;
+     gluc*0.67961;
+     lipid*0.19755;
+     infl*0.32057;
+     para*0.87672;
+     al@1;
+
+
+
+     Beginning Time:  17:43:17
+        Ending Time:  17:43:38
+       Elapsed Time:  00:00:21
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

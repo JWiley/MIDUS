@@ -1,0 +1,243 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+06/05/2017   9:36 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m4a_v1_a5709ad69fbf5ddda0d6734eccbcce75.dat";
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM B1Age C1Age LastAge DECEASED B1SOL C1SOL;
+   MISSING=.;
+
+    IDVARIABLE = M2ID;
+    CLUSTER = M2FAMNUM;
+    TSCORES = B1Age C1Age;
+    SURVIVAL = LastAge;
+    TIMECENSORED = DECEASED (0=RIGHT, 1=NOT);
+  ANALYSIS:
+
+    TYPE = COMPLEX RANDOM;
+    ESTIMATOR = MLR;
+    PROCESSORS = 2;
+  MODEL:
+
+    i s | B1SOL C1SOL at B1Age C1Age;
+    B1SOL C1SOL (e);
+    i WITH s*;
+    i* s*;
+
+    LastAge ON i s;
+
+  OUTPUT:
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4759
+
+Number of dependent variables                                    3
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   B1SOL       C1SOL
+
+  Time-to-event (survival)
+
+    Semi-parametric (time intervals)
+     LASTAGE (10)
+
+Continuous latent variables
+   I           S
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+  Time-censoring variables
+   DECEASED
+
+  Time scores
+   B1AGE       C1AGE
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Base Hazard                                                     ON
+Cholesky                                                       OFF
+
+Input data file(s)
+  m4a_v1_a5709ad69fbf5ddda0d6734eccbcce75.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             4
+     Number of clusters        3695
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              B1SOL         C1SOL
+              ________      ________
+ B1SOL          0.946
+ C1SOL          0.521         0.564
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        8
+
+Loglikelihood
+
+          H0 Value                      -33921.792
+          H0 Scaling Correction Factor      1.2160
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   67859.584
+          Bayesian (BIC)                 67911.326
+          Sample-Size Adjusted BIC       67885.905
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ LASTAGE    ON
+    I                  0.018      0.005      3.665      0.000
+    S                 -0.090      0.036     -2.470      0.014
+
+ I        WITH
+    S                -32.359     14.094     -2.296      0.022
+
+ Means
+    I                  5.830      0.609      9.580      0.000
+    S                  0.727      0.194      3.750      0.000
+
+ Intercepts
+    B1SOL              0.000      0.000    999.000    999.000
+    C1SOL              0.000      0.000    999.000    999.000
+
+ Variances
+    I                322.950     44.330      7.285      0.000
+    S                 10.342      4.426      2.336      0.019
+
+ Residual Variances
+    B1SOL            153.579      8.987     17.089      0.000
+    C1SOL            153.579      8.987     17.089      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.220E-08
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ LASTAGE  ON
+    I                0.005       0.008       0.010       0.018       0.026       0.028       0.031
+    S               -0.184      -0.161      -0.150      -0.090      -0.030      -0.019       0.004
+
+ I        WITH
+    S              -68.662     -59.983     -55.544     -32.359      -9.174      -4.734       3.945
+
+ Means
+    I                4.263       4.637       4.829       5.830       6.831       7.023       7.398
+    S                0.228       0.347       0.408       0.727       1.045       1.106       1.226
+
+ Intercepts
+    B1SOL            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    C1SOL            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I              208.765     236.064     250.028     322.950     395.873     409.837     437.135
+    S               -1.060       1.666       3.060      10.342      17.623      19.017      21.743
+
+ Residual Variances
+    B1SOL          130.430     135.964     138.795     153.579     168.362     171.193     176.727
+    C1SOL          130.430     135.964     138.795     153.579     168.362     171.193     176.727
+
+
+     Beginning Time:  09:36:03
+        Ending Time:  09:37:08
+       Elapsed Time:  00:01:05
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

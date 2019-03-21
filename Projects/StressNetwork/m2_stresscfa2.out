@@ -1,0 +1,334 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+02/06/2017  11:13 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m2_stresscfa2.dat";
+
+  VARIABLE:
+  NAMES = B1SJOBDI B1SDAYDI B1SKINNE B1SFDSNE B1SLFEDI B1SPIFAM B1SPIHOM B1SPIWOR
+       B1SSPCRI B4QPS_PS M2FAMNUM;
+   MISSING=.;
+   CLUSTER = M2FAMNUM;
+  ANALYSIS:
+
+     TYPE = COMPLEX;
+     ESTIMATOR = MLR;
+     PROCESSORS = 2;
+  MODEL:
+
+     Disc BY B1SLFEDI B1SDAYDI B1SJOBDI;
+     Ineq BY B1SPIWOR B1SPIHOM B1SPIFAM;
+     Perc BY B4QPS_PS B1SKINNE B1SFDSNE B1SSPCRI;
+
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  2088
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4620
+
+Number of dependent variables                                   10
+Number of independent variables                                  0
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Continuous
+   B1SJOBDI    B1SDAYDI    B1SKINNE    B1SFDSNE    B1SLFEDI    B1SPIFAM
+   B1SPIHOM    B1SPIWOR    B1SSPCRI    B4QPS_PS
+
+Continuous latent variables
+   DISC        INEQ        PERC
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  m2_stresscfa2.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            95
+     Number of clusters        3613
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              B1SJOBDI      B1SDAYDI      B1SKINNE      B1SFDSNE      B1SLFEDI
+              ________      ________      ________      ________      ________
+ B1SJOBDI       0.643
+ B1SDAYDI       0.637         0.986
+ B1SKINNE       0.640         0.982         0.994
+ B1SFDSNE       0.638         0.977         0.987         0.990
+ B1SLFEDI       0.626         0.960         0.963         0.958         0.967
+ B1SPIFAM       0.555         0.859         0.867         0.863         0.841
+ B1SPIHOM       0.641         0.984         0.992         0.988         0.964
+ B1SPIWOR       0.637         0.634         0.637         0.636         0.624
+ B1SSPCRI       0.481         0.701         0.706         0.703         0.684
+ B4QPS_PS       0.189         0.268         0.269         0.268         0.266
+
+
+           Covariance Coverage
+              B1SPIFAM      B1SPIHOM      B1SPIWOR      B1SSPCRI      B4QPS_PS
+              ________      ________      ________      ________      ________
+ B1SPIFAM       0.869
+ B1SPIHOM       0.866         0.996
+ B1SPIWOR       0.552         0.639         0.640
+ B1SSPCRI       0.654         0.706         0.479         0.708
+ B4QPS_PS       0.235         0.269         0.188         0.190         0.270
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       33
+
+Loglikelihood
+
+          H0 Value                      -51349.000
+          H0 Scaling Correction Factor      1.2752
+            for MLR
+          H1 Value                      -51111.005
+          H1 Scaling Correction Factor      1.2152
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  102764.000
+          Bayesian (BIC)                102976.458
+          Sample-Size Adjusted BIC      102871.597
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            412.688*
+          Degrees of Freedom                    32
+          P-Value                           0.0000
+          Scaling Correction Factor         1.1534
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.051
+          90 Percent C.I.                    0.046  0.055
+          Probability RMSEA <= .05           0.380
+
+CFI/TLI
+
+          CFI                                0.926
+          TLI                                0.895
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           5158.896
+          Degrees of Freedom                    45
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.051
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    B1SLFEDI           1.000      0.000    999.000    999.000
+    B1SDAYDI           3.516      0.147     23.985      0.000
+    B1SJOBDI           2.574      0.174     14.769      0.000
+
+ INEQ     BY
+    B1SPIWOR           1.000      0.000    999.000    999.000
+    B1SPIHOM           0.798      0.051     15.609      0.000
+    B1SPIFAM           0.778      0.054     14.473      0.000
+
+ PERC     BY
+    B4QPS_PS           1.000      0.000    999.000    999.000
+    B1SKINNE           0.137      0.009     14.779      0.000
+    B1SFDSNE           0.097      0.007     13.943      0.000
+    B1SSPCRI           0.093      0.007     13.702      0.000
+
+ INEQ     WITH
+    DISC               0.199      0.018     10.938      0.000
+
+ PERC     WITH
+    DISC               1.882      0.154     12.188      0.000
+    INEQ               0.641      0.063     10.168      0.000
+
+ Intercepts
+    B1SJOBDI          10.535      0.081    130.082      0.000
+    B1SDAYDI          12.868      0.070    184.223      0.000
+    B1SKINNE           2.063      0.010    213.836      0.000
+    B1SFDSNE           1.843      0.008    232.068      0.000
+    B1SLFEDI           1.050      0.026     40.185      0.000
+    B1SPIFAM           1.582      0.008    196.226      0.000
+    B1SPIHOM           1.469      0.008    193.438      0.000
+    B1SPIWOR           1.611      0.010    163.070      0.000
+    B1SSPCRI           2.162      0.011    198.836      0.000
+    B4QPS_PS          22.160      0.170    130.493      0.000
+
+ Variances
+    DISC               0.901      0.074     12.251      0.000
+    INEQ               0.121      0.010     12.010      0.000
+    PERC              11.229      1.402      8.012      0.000
+
+ Residual Variances
+    B1SJOBDI          13.898      0.582     23.881      0.000
+    B1SDAYDI           9.534      0.566     16.832      0.000
+    B1SKINNE           0.176      0.009     19.948      0.000
+    B1SFDSNE           0.169      0.006     29.917      0.000
+    B1SLFEDI           1.957      0.076     25.691      0.000
+    B1SPIFAM           0.177      0.007     27.101      0.000
+    B1SPIHOM           0.169      0.007     25.698      0.000
+    B1SPIWOR           0.176      0.010     18.466      0.000
+    B1SSPCRI           0.287      0.010     29.073      0.000
+    B4QPS_PS          28.482      1.501     18.976      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    B1SLFEDI           0.561      0.018     31.833      0.000
+    B1SDAYDI           0.734      0.019     38.358      0.000
+    B1SJOBDI           0.548      0.026     21.362      0.000
+
+ INEQ     BY
+    B1SPIWOR           0.638      0.024     26.408      0.000
+    B1SPIHOM           0.560      0.019     28.704      0.000
+    B1SPIFAM           0.541      0.022     25.112      0.000
+
+ PERC     BY
+    B4QPS_PS           0.532      0.029     18.101      0.000
+    B1SKINNE           0.738      0.015     49.194      0.000
+    B1SFDSNE           0.619      0.016     39.247      0.000
+    B1SSPCRI           0.502      0.020     24.589      0.000
+
+ INEQ     WITH
+    DISC               0.602      0.033     18.245      0.000
+
+ PERC     WITH
+    DISC               0.592      0.023     25.282      0.000
+    INEQ               0.549      0.024     22.786      0.000
+
+ Intercepts
+    B1SJOBDI           2.364      0.028     85.569      0.000
+    B1SDAYDI           2.831      0.025    113.623      0.000
+    B1SKINNE           3.313      0.034     98.463      0.000
+    B1SFDSNE           3.523      0.037     96.471      0.000
+    B1SLFEDI           0.621      0.009     69.911      0.000
+    B1SPIFAM           3.160      0.031    103.355      0.000
+    B1SPIHOM           2.959      0.030     97.275      0.000
+    B1SPIWOR           2.954      0.030     97.164      0.000
+    B1SSPCRI           3.492      0.041     84.878      0.000
+    B4QPS_PS           3.517      0.068     52.054      0.000
+
+ Variances
+    DISC               1.000      0.000    999.000    999.000
+    INEQ               1.000      0.000    999.000    999.000
+    PERC               1.000      0.000    999.000    999.000
+
+ Residual Variances
+    B1SJOBDI           0.700      0.028     24.873      0.000
+    B1SDAYDI           0.461      0.028     16.427      0.000
+    B1SKINNE           0.455      0.022     20.516      0.000
+    B1SFDSNE           0.616      0.020     31.524      0.000
+    B1SLFEDI           0.685      0.020     34.582      0.000
+    B1SPIFAM           0.707      0.023     30.358      0.000
+    B1SPIHOM           0.687      0.022     31.481      0.000
+    B1SPIWOR           0.592      0.031     19.197      0.000
+    B1SSPCRI           0.748      0.021     36.435      0.000
+    B4QPS_PS           0.717      0.031     22.956      0.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    B1SJOBDI           0.300      0.028     10.681      0.000
+    B1SDAYDI           0.539      0.028     19.179      0.000
+    B1SKINNE           0.545      0.022     24.597      0.000
+    B1SFDSNE           0.384      0.020     19.623      0.000
+    B1SLFEDI           0.315      0.020     15.916      0.000
+    B1SPIFAM           0.293      0.023     12.556      0.000
+    B1SPIHOM           0.313      0.022     14.352      0.000
+    B1SPIWOR           0.408      0.031     13.204      0.000
+    B1SSPCRI           0.252      0.021     12.294      0.000
+    B4QPS_PS           0.283      0.031      9.050      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.623E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  11:13:03
+        Ending Time:  11:13:03
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

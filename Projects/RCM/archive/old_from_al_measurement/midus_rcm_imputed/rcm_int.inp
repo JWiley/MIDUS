@@ -1,0 +1,269 @@
+TITLE:
+RCM
+DATA:
+FILE = "rcm_int.dat";
+TYPE = IMPUTATION;
+ 
+VARIABLE:
+NAMES = M2ID M2FAMNUM B1PAGE_M2 B1NegAff B1PosAff m1chadv m2aadv B1PR B1SR B1SC1
+     B1Sleep B1SSQ B1LifeStress B1PhysAct B4F B4bi_sym B4bi_hpa B4bi_card B4bi_gluc
+     B4bi_lipid B4bi_infl B4bi_para B1SCHRON C1SCHRON Female dSES B1PSR B1SmokePast
+     B1SmokeCurrent B1AlcoholHeavy B1AlcoholModerate RAA ROther; 
+ MISSING=.;
+ 
+  USEVARIABLES =
+    !covariates
+    B1PAGE_M2 RAA ROther Female B1SC1
+    ! SES and stress and PSRs
+    m1chadv dSES B1LifeStress B1PSR
+    ! negative affect
+    B1NegAff
+    ! health behaviors
+    B1SmokePast B1SmokeCurrent
+    B1AlcoholHeavy B1AlcoholModerate
+    B1Sleep B1SSQ B1PhysAct
+    ! allostatic load
+    B4F
+    ! chronic conditions
+    C1SCHRON B1SCHRON
+    ! created variables
+    PSRxSES PSRxdSES
+    !PSRxSex PSRxAge
+    !PSRxStress
+    B1Sleep2 !B1SSQ2
+  ;
+
+  IDVARIABLE = M2ID;
+  CLUSTER = M2FAMNUM;
+  COUNT =
+    B1LifeStress (nb)
+    B1SCHRON (nb)
+    C1SCHRON (nb)
+  ;
+  CATEGORICAL =
+    B1SmokePast B1SmokeCurrent
+    B1AlcoholHeavy B1AlcoholModerate
+  ;
+
+  DEFINE:
+    !PSRxStress = B1LifeStress * B1PSR;
+    PSRxSES = m1chadv * B1PSR;
+    PSRxdSES = dSES * B1PSR;
+    !PSRxSex = Female * B1PSR;
+    !PSRxAge = B1PSR * B1PAGE_M2;
+    B1Sleep2 = B1Sleep * B1Sleep;
+    !B1SSQ2 = B1SSQ * B1SSQ;
+
+
+ANALYSIS:
+
+  TYPE = COMPLEX;
+  Estimator = MLR;
+  PROCESSORS = 2;
+
+MODEL:
+
+  ! Step 1
+    B1LifeStress ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a1a)
+      dSES (a1b)
+    ;
+
+    B1PSR ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a2a)
+      dSES (a2b)
+    ;
+
+    ! Step 2
+    B1NegAff ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a3a)
+      dSES (a3b)
+      B1PSR (b3)
+      B1LifeStress (c3)
+      !PSRxStress
+      PSRxSES (ab3a)
+      PSRxdSES (ab3b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    ! Step 3
+    B1Sleep ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a4a)
+      dSES (a4b)
+      B1PSR (b4)
+      B1LifeStress (c4)
+      B1NegAff (d4)
+      !PSRxStress
+      PSRxSES (ab4a)
+      !PSRxdSES (ab4b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    B1SmokePast ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a5a)
+      dSES (a5b)
+      B1PSR (b5)
+      B1LifeStress (c5)
+      B1NegAff (d5)
+      !PSRxStress
+      !PSRxSES (ab5a)
+      !PSRxdSES (ab5b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    B1SmokeCurrent ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a6a)
+      dSES (a6b)
+      B1PSR (b6)
+      B1LifeStress (c6)
+      B1NegAff (d6)
+      !PSRxStress
+      !PSRxSES (ab6a)
+      !PSRxdSES (ab6b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    B1AlcoholHeavy ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a7a)
+      dSES (a7b)
+      B1PSR (b7)
+      B1LifeStress (c7)
+      B1NegAff (d7)
+      !PSRxStress
+      !PSRxSES (ab7a)
+      !PSRxdSES (ab7b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    B1AlcoholModerate ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a8a)
+      dSES (a8b)
+      B1PSR (b8)
+      B1LifeStress (c8)
+      B1NegAff (d8)
+      !PSRxStress
+      !PSRxSES (ab8a)
+      !PSRxdSES (ab8b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    B1SSQ ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a9a)
+      dSES (a9b)
+      B1PSR (b9)
+      B1LifeStress (c9)
+      B1NegAff (d9)
+      !PSRxStress
+      !PSRxSES (ab9a)
+      PSRxdSES (ab9b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    B1PhysAct ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv (a12a)
+      dSES (a12b)
+      B1PSR (b12)
+      B1LifeStress (c12)
+      B1NegAff (d12)
+      !PSRxStress
+      !PSRxSES (ab12a)
+      !PSRxdSES (ab12b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    ! Step 4
+    B4F ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv
+      dSES
+      m1chadv
+      dSES
+      B1PSR
+      B1LifeStress
+      B1NegAff
+
+      B1SmokePast B1SmokeCurrent
+      B1AlcoholHeavy B1AlcoholModerate
+      B1Sleep B1SSQ B1PhysAct
+      B1Sleep2 !B1SSQ2
+
+      !PSRxStress
+      !PSRxSES (ab13a)
+      !PSRxdSES (ab13b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    ! Step 5
+    B1SCHRON ON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv
+      dSES
+      m1chadv
+      dSES
+      B1PSR
+      B1LifeStress
+      B1NegAff
+
+      B1SmokePast B1SmokeCurrent
+      B1AlcoholHeavy B1AlcoholModerate
+      B1Sleep B1SSQ B1PhysAct
+      B1Sleep2 !B1SSQ2
+
+      B4F
+
+      !PSRxStress
+      !PSRxSES (ab14a)
+      !PSRxdSES (ab14b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+    C1SCHRON ON
+      B1SCHRON
+      B1PAGE_M2 RAA ROther Female B1SC1
+      m1chadv
+      dSES
+      m1chadv
+      dSES
+      B1PSR
+      B1LifeStress
+      B1NegAff
+
+      B1SmokePast B1SmokeCurrent
+      B1AlcoholHeavy B1AlcoholModerate
+      B1Sleep B1SSQ B1PhysAct
+      !B1Sleep2 B1SSQ2
+
+      B4F
+
+      !PSRxStress
+      !PSRxSES (ab15a)
+      !PSRxdSES (ab15b)
+      !PSRxSex
+      !PSRxAge
+    ;
+
+
+OUTPUT:
+
+   !STDYX;
+   !CINTERVAL;

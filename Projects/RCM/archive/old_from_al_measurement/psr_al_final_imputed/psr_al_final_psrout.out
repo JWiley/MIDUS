@@ -1,0 +1,539 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+09/06/2015   3:34 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  PSR AL Model
+  DATA:
+  FILE = "psr_al_final_psrout.dat";
+  TYPE = IMPUTATION;
+
+  VARIABLE:
+  NAMES = M2ID m2famnum b1page_m2 b1pgender m1chadv m2aadv LifeStress
+       p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+       PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+       FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+       B4QMA_LI B4QMA_AA B4QMA_PA Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM
+       PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bi_sym bi_hpa bi_card bi_gluc
+       bi_lipid bi_infl bi_para F NegAff PosAff PSR CAHeavy CAFrequent CAInfrequent
+       CANone dSES Milwaukee;
+   MISSING=.;
+
+     USEVARIABLES =
+        PSR
+        F
+        ;
+
+    IDVARIABLE = M2ID;
+      CLUSTER = m2famnum;
+
+  ANALYSIS:
+
+    TYPE = COMPLEX;
+    Estimator = MLR;
+    PROCESSORS = 8;
+    !MCONVERGENCE  = .000005;
+    !H1CONVERGENCE = .000005;
+    !LOGCRITERION  = .000005;
+    !RLOGCRITERION = .000005;
+    !ITERATIONS = 15000;
+    !MITERATIONS = 7500;
+    !H1ITERATIONS = 15000;
+    INTEGRATION = MONTECARLO (500);
+
+  MODEL:
+
+        ! Step 5
+        F ON
+          PSR;
+        ;
+
+
+  OUTPUT:
+
+     CINTERVAL;
+
+
+
+*** WARNING in ANALYSIS command
+  The INTEGRATION option is not available with this analysis.
+  INTEGRATION will be ignored.
+  Specify ALGORITHM=INTEGRATION to use this option.
+*** WARNING in OUTPUT command
+  CINTERVAL option is not available with multiple imputation.
+  Request for CINTERVAL is ignored.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+PSR AL Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Average number of observations                                1254
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                    1
+Number of independent variables                                  1
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   F
+
+Observed independent variables
+   PSR
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  Multiple data files from
+    psr_al_final_psrout.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA FOR THE FIRST DATA SET
+
+     Number of missing data patterns             1
+     Number of clusters        1097
+
+
+
+SUMMARY OF MISSING DATA PATTERNS FOR THE FIRST DATA SET
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1
+ F         x
+ PSR       x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency
+          1        1254
+
+
+COVARIANCE COVERAGE OF DATA FOR THE FIRST DATA SET
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              F             PSR
+              ________      ________
+ F              1.000
+ PSR            1.000         1.000
+
+
+SAMPLE STATISTICS
+
+NOTE:  These are average results over 50 data sets.
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              F             PSR
+              ________      ________
+ 1             -0.001         0.000
+
+
+           Covariances
+              F             PSR
+              ________      ________
+ F              0.983
+ PSR           -0.056         0.999
+
+
+           Correlations
+              F             PSR
+              ________      ________
+ F              1.000
+ PSR           -0.056         1.000
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+    H0 Value
+
+        Mean                             -1765.647
+        Std Dev                             25.228
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980        -1824.335      -1833.661
+           0.980       0.980        -1817.458      -1833.661
+           0.950       0.980        -1807.145      -1800.315
+           0.900       0.940        -1797.980      -1794.925
+           0.800       0.740        -1786.879      -1791.266
+           0.700       0.680        -1778.877      -1779.827
+           0.500       0.420        -1765.647      -1770.138
+           0.300       0.320        -1752.417      -1749.704
+           0.200       0.220        -1744.415      -1743.620
+           0.100       0.100        -1733.314      -1734.102
+           0.050       0.040        -1724.149      -1732.545
+           0.020       0.020        -1713.836      -1714.609
+           0.010       0.020        -1706.958      -1714.609
+
+    H1 Value
+
+        Mean                             -1765.647
+        Std Dev                             25.228
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980        -1824.335      -1833.661
+           0.980       0.980        -1817.458      -1833.661
+           0.950       0.980        -1807.145      -1800.315
+           0.900       0.940        -1797.980      -1794.925
+           0.800       0.740        -1786.879      -1791.266
+           0.700       0.680        -1778.877      -1779.827
+           0.500       0.420        -1765.647      -1770.138
+           0.300       0.320        -1752.417      -1749.704
+           0.200       0.220        -1744.415      -1743.620
+           0.100       0.100        -1733.314      -1734.102
+           0.050       0.040        -1724.149      -1732.545
+           0.020       0.020        -1713.836      -1714.609
+           0.010       0.020        -1706.958      -1714.609
+
+Information Criteria
+
+    Akaike (AIC)
+
+        Mean                              3537.294
+        Std Dev                             50.457
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980         3419.917       3405.154
+           0.980       0.980         3433.671       3405.154
+           0.950       0.960         3454.298       3435.218
+           0.900       0.900         3472.629       3471.091
+           0.800       0.780         3494.830       3484.467
+           0.700       0.680         3510.834       3502.332
+           0.500       0.580         3537.294       3545.825
+           0.300       0.320         3563.753       3565.271
+           0.200       0.260         3579.758       3584.885
+           0.100       0.060         3601.959       3591.205
+           0.050       0.020         3620.290       3595.850
+           0.020       0.020         3640.917       3606.631
+           0.010       0.020         3654.671       3606.631
+
+    Bayesian (BIC)
+
+        Mean                              3552.696
+        Std Dev                             50.457
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980         3435.319       3420.557
+           0.980       0.980         3449.074       3420.557
+           0.950       0.960         3469.700       3450.620
+           0.900       0.900         3488.031       3486.493
+           0.800       0.780         3510.232       3499.869
+           0.700       0.680         3526.237       3517.734
+           0.500       0.580         3552.696       3561.227
+           0.300       0.320         3579.156       3580.673
+           0.200       0.260         3595.160       3600.287
+           0.100       0.060         3617.361       3606.607
+           0.050       0.020         3635.692       3611.252
+           0.020       0.020         3656.319       3622.033
+           0.010       0.020         3670.073       3622.033
+
+    Sample-Size Adjusted BIC (n* = (n + 2) / 24)
+
+        Mean                              3543.167
+        Std Dev                             50.457
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980         3425.790       3411.027
+           0.980       0.980         3439.544       3411.027
+           0.950       0.960         3460.171       3441.090
+           0.900       0.900         3478.502       3476.964
+           0.800       0.780         3500.703       3490.340
+           0.700       0.680         3516.707       3508.205
+           0.500       0.580         3543.167       3551.698
+           0.300       0.320         3569.626       3571.144
+           0.200       0.260         3585.631       3590.757
+           0.100       0.060         3607.832       3597.078
+           0.050       0.020         3626.163       3601.722
+           0.020       0.020         3646.789       3612.504
+           0.010       0.020         3660.544       3612.504
+
+Chi-Square Test of Model Fit
+
+        Degrees of freedom                       0
+
+        Mean                                 0.000
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000            0.000          0.000
+           0.980       1.000            0.000          0.000
+           0.950       1.000            0.000          0.000
+           0.900       1.000            0.000          0.000
+           0.800       1.000            0.000          0.000
+           0.700       1.000            0.000          0.000
+           0.500       1.000            0.000          0.000
+           0.300       1.000            0.000          0.000
+           0.200       1.000            0.000          0.000
+           0.100       1.000            0.000          0.000
+           0.050       1.000            0.000          0.000
+           0.020       1.000            0.000          0.000
+           0.010       1.000            0.000          0.000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+        Mean                                 0.000
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.000            0.000          0.000
+           0.980       0.000            0.000          0.000
+           0.950       0.000            0.000          0.000
+           0.900       0.000            0.000          0.000
+           0.800       0.000            0.000          0.000
+           0.700       0.000            0.000          0.000
+           0.500       0.000            0.000          0.000
+           0.300       0.000            0.000          0.000
+           0.200       0.000            0.000          0.000
+           0.100       0.000            0.000          0.000
+           0.050       0.000            0.000          0.000
+           0.020       0.000            0.000          0.000
+           0.010       0.000            0.000          0.000
+
+CFI/TLI
+
+    CFI
+
+        Mean                                 0.900
+        Std Dev                              0.300
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.900            0.202          0.000
+           0.980       0.900            0.284          0.000
+           0.950       0.900            0.407          0.000
+           0.900       0.900            0.516          0.000
+           0.800       0.900            0.648          1.000
+           0.700       0.900            0.743          1.000
+           0.500       0.900            0.900          1.000
+           0.300       0.000            1.057          1.000
+           0.200       0.000            1.152          1.000
+           0.100       0.000            1.284          1.000
+           0.050       0.000            1.393          1.000
+           0.020       0.000            1.516          1.000
+           0.010       0.000            1.598          1.000
+
+    TLI
+
+        Mean                                 1.000
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.000            1.000          1.000
+           0.980       0.000            1.000          1.000
+           0.950       0.000            1.000          1.000
+           0.900       0.000            1.000          1.000
+           0.800       0.000            1.000          1.000
+           0.700       0.000            1.000          1.000
+           0.500       0.000            1.000          1.000
+           0.300       0.000            1.000          1.000
+           0.200       0.000            1.000          1.000
+           0.100       0.000            1.000          1.000
+           0.050       0.000            1.000          1.000
+           0.020       0.000            1.000          1.000
+           0.010       0.000            1.000          1.000
+
+SRMR (Standardized Root Mean Square Residual)
+
+        Mean                                 0.000
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000            0.000          0.000
+           0.980       1.000            0.000          0.000
+           0.950       1.000            0.000          0.000
+           0.900       0.820            0.000          0.000
+           0.800       0.740            0.000          0.000
+           0.700       0.700            0.000          0.000
+           0.500       0.500            0.000          0.000
+           0.300       0.340            0.000          0.000
+           0.200       0.240            0.000          0.000
+           0.100       0.120            0.000          0.000
+           0.050       0.040            0.000          0.000
+           0.020       0.000            0.000          0.000
+           0.010       0.000            0.000          0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed   Rate of
+                    Estimate       S.E.  Est./S.E.    P-Value    Missing
+
+ F        ON
+    PSR               -0.056      0.034     -1.660      0.097      0.305
+
+ Intercepts
+    F                 -0.001      0.041     -0.036      0.972      0.519
+
+ Residual Variances
+    F                  0.979      0.055     17.685      0.000      0.529
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Average Condition Number for the Information Matrix      0.521E+00
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              F             PSR
+              ________      ________
+      1           0             0
+
+
+           LAMBDA
+              F             PSR
+              ________      ________
+ F                  0             0
+ PSR                0             0
+
+
+           THETA
+              F             PSR
+              ________      ________
+ F                  0
+ PSR                0             0
+
+
+           ALPHA
+              F             PSR
+              ________      ________
+      1           1             0
+
+
+           BETA
+              F             PSR
+              ________      ________
+ F                  0             2
+ PSR                0             0
+
+
+           PSI
+              F             PSR
+              ________      ________
+ F                  3
+ PSR                0             0
+
+
+     STARTING VALUES
+
+
+           NU
+              F             PSR
+              ________      ________
+      1         0.000         0.000
+
+
+           LAMBDA
+              F             PSR
+              ________      ________
+ F              1.000         0.000
+ PSR            0.000         1.000
+
+
+           THETA
+              F             PSR
+              ________      ________
+ F              0.000
+ PSR            0.000         0.000
+
+
+           ALPHA
+              F             PSR
+              ________      ________
+      1        -0.010         0.000
+
+
+           BETA
+              F             PSR
+              ________      ________
+ F              0.000         0.000
+ PSR            0.000         0.000
+
+
+           PSI
+              F             PSR
+              ________      ________
+ F              0.509
+ PSR            0.000         0.999
+
+
+     Beginning Time:  15:34:53
+        Ending Time:  15:34:56
+       Elapsed Time:  00:00:03
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,347 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+06/05/2017  10:10 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m3b_v1_5b91edbb74c3bd8754de90b1206305a0.dat";
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM B1Age C1Age LastAge DECEASED B1Sleep C1Sleep Sex B1SBMI
+       B1SCHRON White SmokeCurr SmokePast AlcHigh AlcMod m2ed_all;
+   MISSING=.;
+
+    IDVARIABLE = M2ID;
+    CLUSTER = M2FAMNUM;
+    TSCORES = B1Age C1Age;
+    SURVIVAL = LastAge;
+    TIMECENSORED = DECEASED (0=RIGHT, 1=NOT);
+  ANALYSIS:
+
+    TYPE = COMPLEX RANDOM;
+    ESTIMATOR = MLR;
+    ALGORITHM = INTEGRATION;
+    INTEGRATION = MONTECARLO (1000);
+    PROCESSORS = 2;
+  MODEL:
+
+    i s | B1Sleep C1Sleep at B1Age C1Age;
+    B1Sleep C1Sleep (e);
+    i WITH s*;
+    i* s*;
+    i2 | i XWITH i;
+
+    LastAge ON i i2 s;
+    LastAge i s ON Sex B1SBMI B1SCHRON White SmokeCurr SmokePast AlcHigh AlcMod m2ed_all;
+    ![B1SBMI];
+
+  OUTPUT:
+  CINTERVAL;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  454
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4305
+
+Number of dependent variables                                    3
+Number of independent variables                                  9
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Continuous
+   B1SLEEP     C1SLEEP
+
+  Time-to-event (survival)
+
+    Semi-parametric (time intervals)
+     LASTAGE (10)
+
+Observed independent variables
+   SEX         B1SBMI      B1SCHRON    WHITE       SMOKECUR    SMOKEPAS
+   ALCHIGH     ALCMOD      M2ED_ALL
+
+Continuous latent variables
+   I2          I           S
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+  Time-censoring variables
+   DECEASED
+
+  Time scores
+   B1AGE       C1AGE
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                  MONTECARLO
+  Number of integration points                                1000
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+  Monte Carlo integration seed                                   0
+Base Hazard                                                     ON
+Cholesky                                                       OFF
+
+Input data file(s)
+  m3b_v1_5b91edbb74c3bd8754de90b1206305a0.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             3
+     Number of clusters        3402
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              B1SLEEP       C1SLEEP       SEX           B1SBMI        B1SCHRON
+              ________      ________      ________      ________      ________
+ B1SLEEP        0.999
+ C1SLEEP        0.561         0.563
+ SEX            0.999         0.563         1.000
+ B1SBMI         0.999         0.563         1.000         1.000
+ B1SCHRON       0.999         0.563         1.000         1.000         1.000
+ WHITE          0.999         0.563         1.000         1.000         1.000
+ SMOKECUR       0.999         0.563         1.000         1.000         1.000
+ SMOKEPAS       0.999         0.563         1.000         1.000         1.000
+ ALCHIGH        0.999         0.563         1.000         1.000         1.000
+ ALCMOD         0.999         0.563         1.000         1.000         1.000
+ M2ED_ALL       0.999         0.563         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              WHITE         SMOKECUR      SMOKEPAS      ALCHIGH       ALCMOD
+              ________      ________      ________      ________      ________
+ WHITE          1.000
+ SMOKECUR       1.000         1.000
+ SMOKEPAS       1.000         1.000         1.000
+ ALCHIGH        1.000         1.000         1.000         1.000
+ ALCMOD         1.000         1.000         1.000         1.000         1.000
+ M2ED_ALL       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              M2ED_ALL
+              ________
+ M2ED_ALL       1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       36
+
+Loglikelihood
+
+          H0 Value                      -12530.131
+          H0 Scaling Correction Factor      1.0948
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   25132.263
+          Bayesian (BIC)                 25361.494
+          Sample-Size Adjusted BIC       25247.101
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ I          ON
+    SEX                0.461      0.079      5.847      0.000
+    B1SBMI            -0.007      0.007     -1.024      0.306
+    B1SCHRON          -0.098      0.021     -4.684      0.000
+    WHITE              0.378      0.114      3.324      0.001
+    SMOKECURR         -0.513      0.131     -3.917      0.000
+    SMOKEPAST         -0.175      0.085     -2.070      0.038
+    ALCHIGH            0.255      0.112      2.274      0.023
+    ALCMOD             0.187      0.085      2.197      0.028
+    M2ED_ALL           0.037      0.049      0.767      0.443
+
+ S          ON
+    SEX               -0.135      0.026     -5.263      0.000
+    B1SBMI             0.001      0.002      0.330      0.742
+    B1SCHRON           0.014      0.006      2.185      0.029
+    WHITE              0.008      0.041      0.202      0.840
+    SMOKECURR          0.108      0.047      2.283      0.022
+    SMOKEPAST          0.048      0.027      1.812      0.070
+    ALCHIGH           -0.048      0.041     -1.182      0.237
+    ALCMOD            -0.037      0.027     -1.366      0.172
+    M2ED_ALL          -0.003      0.015     -0.198      0.843
+
+ LASTAGE    ON
+    I                  0.268      0.095      2.834      0.005
+    I2                 0.174      0.054      3.213      0.001
+    S                 -0.340      0.639     -0.532      0.595
+
+ LASTAGE    ON
+    SEX               -0.602      0.153     -3.934      0.000
+    B1SBMI             0.023      0.010      2.326      0.020
+    B1SCHRON           0.090      0.024      3.704      0.000
+    WHITE             -0.134      0.147     -0.908      0.364
+    SMOKECURR          1.160      0.184      6.305      0.000
+    SMOKEPAST          0.274      0.116      2.358      0.018
+    ALCHIGH            0.095      0.166      0.569      0.569
+    ALCMOD            -0.235      0.116     -2.022      0.043
+    M2ED_ALL          -0.168      0.063     -2.651      0.008
+
+ I        WITH
+    S                 -0.079      0.030     -2.676      0.007
+
+ Intercepts
+    B1SLEEP            0.000      0.000    999.000    999.000
+    C1SLEEP            0.000      0.000    999.000    999.000
+    I                 -0.954      0.302     -3.158      0.002
+    S                  0.159      0.099      1.595      0.111
+
+ Residual Variances
+    B1SLEEP            0.572      0.025     22.458      0.000
+    C1SLEEP            0.572      0.025     22.458      0.000
+    I                  0.843      0.091      9.224      0.000
+    S                  0.040      0.010      4.012      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.238E-08
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ I        ON
+    SEX              0.258       0.306       0.331       0.461       0.590       0.615       0.663
+    B1SBMI          -0.026      -0.022      -0.019      -0.007       0.005       0.007       0.011
+    B1SCHRON        -0.152      -0.139      -0.132      -0.098      -0.063      -0.057      -0.044
+    WHITE            0.085       0.155       0.191       0.378       0.566       0.602       0.672
+    SMOKECURR       -0.851      -0.770      -0.729      -0.513      -0.298      -0.256      -0.176
+    SMOKEPAST       -0.393      -0.341      -0.315      -0.175      -0.036      -0.009       0.043
+    ALCHIGH         -0.034       0.035       0.071       0.255       0.440       0.475       0.544
+    ALCMOD          -0.032       0.020       0.047       0.187       0.326       0.353       0.405
+    M2ED_ALL        -0.088      -0.058      -0.043       0.037       0.117       0.133       0.163
+
+ S        ON
+    SEX             -0.201      -0.186      -0.177      -0.135      -0.093      -0.085      -0.069
+    B1SBMI          -0.006      -0.004      -0.003       0.001       0.005       0.006       0.007
+    B1SCHRON        -0.003       0.001       0.003       0.014       0.025       0.027       0.031
+    WHITE           -0.099      -0.073      -0.060       0.008       0.077       0.090       0.115
+    SMOKECURR       -0.014       0.015       0.030       0.108       0.186       0.201       0.231
+    SMOKEPAST       -0.020      -0.004       0.004       0.048       0.092       0.101       0.117
+    ALCHIGH         -0.153      -0.128      -0.115      -0.048       0.019       0.032       0.057
+    ALCMOD          -0.107      -0.090      -0.082      -0.037       0.008       0.016       0.033
+    M2ED_ALL        -0.042      -0.033      -0.028      -0.003       0.022       0.027       0.036
+
+ LASTAGE  ON
+    I                0.024       0.083       0.113       0.268       0.424       0.454       0.512
+    I2               0.034       0.068       0.085       0.174       0.263       0.280       0.313
+    S               -1.986      -1.593      -1.391      -0.340       0.711       0.913       1.306
+
+ LASTAGE  ON
+    SEX             -0.996      -0.902      -0.854      -0.602      -0.350      -0.302      -0.208
+    B1SBMI          -0.002       0.004       0.007       0.023       0.040       0.043       0.049
+    B1SCHRON         0.027       0.042       0.050       0.090       0.129       0.137       0.152
+    WHITE           -0.513      -0.422      -0.376      -0.134       0.109       0.155       0.246
+    SMOKECURR        0.686       0.799       0.857       1.160       1.463       1.520       1.634
+    SMOKEPAST       -0.025       0.046       0.083       0.274       0.464       0.501       0.572
+    ALCHIGH         -0.333      -0.231      -0.179       0.095       0.368       0.420       0.523
+    ALCMOD          -0.534      -0.463      -0.426      -0.235      -0.044      -0.007       0.064
+    M2ED_ALL        -0.332      -0.293      -0.273      -0.168      -0.064      -0.044      -0.005
+
+ I        WITH
+    S               -0.155      -0.137      -0.128      -0.079      -0.030      -0.021      -0.003
+
+ Intercepts
+    B1SLEEP          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    C1SLEEP          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    I               -1.733      -1.547      -1.451      -0.954      -0.457      -0.362      -0.176
+    S               -0.097      -0.036      -0.005       0.159       0.322       0.354       0.415
+
+ Residual Variances
+    B1SLEEP          0.507       0.522       0.530       0.572       0.614       0.622       0.638
+    C1SLEEP          0.507       0.522       0.530       0.572       0.614       0.622       0.638
+    I                0.607       0.664       0.692       0.843       0.993       1.022       1.078
+    S                0.014       0.020       0.023       0.040       0.056       0.059       0.065
+
+
+     Beginning Time:  10:10:40
+        Ending Time:  10:23:40
+       Elapsed Time:  00:13:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,316 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+02/06/2017  11:10 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m1_stresscfa2.dat";
+
+  VARIABLE:
+  NAMES = A1SKINNE A1SFDSNE A1SPIFAM A1SPIHOM A1SPIWOR A1SSPCRI A1SLFEDI A1SDAYDI
+       M2FAMNUM;
+   MISSING=.;
+   CLUSTER = M2FAMNUM;
+  ANALYSIS:
+
+     TYPE = COMPLEX;
+     ESTIMATOR = MLR;
+     PROCESSORS = 2;
+  MODEL:
+
+     Disc BY A1SLFEDI A1SDAYDI;
+     Ineq BY A1SPIWOR A1SPIHOM A1SPIFAM;
+     Perc BY A1SKINNE A1SFDSNE A1SSPCRI;
+
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  825
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        6278
+
+Number of dependent variables                                    8
+Number of independent variables                                  0
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Continuous
+   A1SKINNE    A1SFDSNE    A1SPIFAM    A1SPIHOM    A1SPIWOR    A1SSPCRI
+   A1SLFEDI    A1SDAYDI
+
+Continuous latent variables
+   DISC        INEQ        PERC
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  m1_stresscfa2.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            68
+     Number of clusters        4575
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              A1SKINNE      A1SFDSNE      A1SPIFAM      A1SPIHOM      A1SPIWOR
+              ________      ________      ________      ________      ________
+ A1SKINNE       0.993
+ A1SFDSNE       0.991         0.993
+ A1SPIFAM       0.805         0.805         0.808
+ A1SPIHOM       0.992         0.991         0.806         0.995
+ A1SPIWOR       0.722         0.722         0.572         0.724         0.726
+ A1SSPCRI       0.738         0.737         0.651         0.738         0.543
+ A1SLFEDI       0.956         0.956         0.776         0.957         0.706
+ A1SDAYDI       0.975         0.975         0.793         0.976         0.716
+
+
+           Covariance Coverage
+              A1SSPCRI      A1SLFEDI      A1SDAYDI
+              ________      ________      ________
+ A1SSPCRI       0.741
+ A1SLFEDI       0.713         0.961
+ A1SDAYDI       0.729         0.959         0.980
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       27
+
+Loglikelihood
+
+          H0 Value                      -52140.124
+          H0 Scaling Correction Factor      1.3273
+            for MLR
+          H1 Value                      -52060.038
+          H1 Scaling Correction Factor      1.2556
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  104334.248
+          Bayesian (BIC)                104516.358
+          Sample-Size Adjusted BIC      104430.559
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            140.307*
+          Degrees of Freedom                    17
+          P-Value                           0.0000
+          Scaling Correction Factor         1.1416
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.034
+          90 Percent C.I.                    0.029  0.039
+          Probability RMSEA <= .05           1.000
+
+CFI/TLI
+
+          CFI                                0.978
+          TLI                                0.964
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           5684.276
+          Degrees of Freedom                    28
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.027
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    A1SLFEDI           1.000      0.000    999.000    999.000
+    A1SDAYDI           6.169      0.374     16.505      0.000
+
+ INEQ     BY
+    A1SPIWOR           1.000      0.000    999.000    999.000
+    A1SPIHOM           0.991      0.049     20.413      0.000
+    A1SPIFAM           0.881      0.044     19.856      0.000
+
+ PERC     BY
+    A1SKINNE           1.000      0.000    999.000    999.000
+    A1SFDSNE           0.770      0.027     28.997      0.000
+    A1SSPCRI           0.673      0.033     20.616      0.000
+
+ INEQ     WITH
+    DISC               0.097      0.008     12.362      0.000
+
+ PERC     WITH
+    DISC               0.140      0.010     13.414      0.000
+    INEQ               0.074      0.005     15.973      0.000
+
+ Intercepts
+    A1SKINNE           2.112      0.008    253.134      0.000
+    A1SFDSNE           1.932      0.007    293.914      0.000
+    A1SPIFAM           1.637      0.007    225.043      0.000
+    A1SPIHOM           1.500      0.007    218.639      0.000
+    A1SPIWOR           1.716      0.009    199.942      0.000
+    A1SSPCRI           2.244      0.009    237.952      0.000
+    A1SLFEDI           0.717      0.018     39.930      0.000
+    A1SDAYDI          12.876      0.064    202.419      0.000
+
+ Variances
+    DISC               0.462      0.040     11.523      0.000
+    INEQ               0.104      0.007     14.701      0.000
+    PERC               0.185      0.008     21.977      0.000
+
+ Residual Variances
+    A1SKINNE           0.187      0.007     25.331      0.000
+    A1SFDSNE           0.146      0.005     29.433      0.000
+    A1SPIFAM           0.173      0.005     31.624      0.000
+    A1SPIHOM           0.163      0.006     26.643      0.000
+    A1SPIWOR           0.217      0.007     30.480      0.000
+    A1SSPCRI           0.308      0.009     36.074      0.000
+    A1SLFEDI           1.281      0.049     26.113      0.000
+    A1SDAYDI           4.417      0.959      4.605      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    A1SLFEDI           0.515      0.017     29.451      0.000
+    A1SDAYDI           0.894      0.025     36.211      0.000
+
+ INEQ     BY
+    A1SPIWOR           0.569      0.017     32.847      0.000
+    A1SPIHOM           0.621      0.016     38.129      0.000
+    A1SPIFAM           0.564      0.017     33.586      0.000
+
+ PERC     BY
+    A1SKINNE           0.705      0.014     52.129      0.000
+    A1SFDSNE           0.655      0.014     45.748      0.000
+    A1SSPCRI           0.462      0.018     25.710      0.000
+
+ INEQ     WITH
+    DISC               0.442      0.021     20.764      0.000
+
+ PERC     WITH
+    DISC               0.480      0.020     23.695      0.000
+    INEQ               0.530      0.021     25.237      0.000
+
+ Intercepts
+    A1SKINNE           3.464      0.032    107.732      0.000
+    A1SFDSNE           3.825      0.037    103.439      0.000
+    A1SPIFAM           3.248      0.029    110.767      0.000
+    A1SPIHOM           2.913      0.026    111.576      0.000
+    A1SPIWOR           3.029      0.028    109.769      0.000
+    A1SSPCRI           3.586      0.036    100.664      0.000
+    A1SLFEDI           0.543      0.007     73.647      0.000
+    A1SDAYDI           2.746      0.022    125.664      0.000
+
+ Variances
+    DISC               1.000      0.000    999.000    999.000
+    INEQ               1.000      0.000    999.000    999.000
+    PERC               1.000      0.000    999.000    999.000
+
+ Residual Variances
+    A1SKINNE           0.503      0.019     26.368      0.000
+    A1SFDSNE           0.570      0.019     30.377      0.000
+    A1SPIFAM           0.682      0.019     36.041      0.000
+    A1SPIHOM           0.615      0.020     30.412      0.000
+    A1SPIWOR           0.676      0.020     34.283      0.000
+    A1SSPCRI           0.786      0.017     47.332      0.000
+    A1SLFEDI           0.735      0.018     40.855      0.000
+    A1SDAYDI           0.201      0.044      4.553      0.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    A1SKINNE           0.497      0.019     26.064      0.000
+    A1SFDSNE           0.430      0.019     22.874      0.000
+    A1SPIFAM           0.318      0.019     16.793      0.000
+    A1SPIHOM           0.385      0.020     19.065      0.000
+    A1SPIWOR           0.324      0.020     16.423      0.000
+    A1SSPCRI           0.214      0.017     12.855      0.000
+    A1SLFEDI           0.265      0.018     14.726      0.000
+    A1SDAYDI           0.799      0.044     18.106      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.292E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  11:10:40
+        Ending Time:  11:10:40
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

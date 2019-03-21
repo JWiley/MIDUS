@@ -1,0 +1,888 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/13/2016  10:19 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m2_stress_lca9.dat";
+
+  VARIABLE:
+  NAMES = B1SJOBDI B1SPIWOR B1SPIHOM B1SKINNE B1SFDSNE B1SSPCRI B1SPIFAM B1SLFEDI
+       B1SDAYDI B4QPS_PS;
+   MISSING=.;
+
+      CLASSES = c (9);
+
+  ANALYSIS:
+
+     TYPE = MIXTURE;
+     ESTIMATOR = BAYES;
+     BITERATIONS = 20000 (4000);
+     STARTS = 600 120;
+     STVALUES = ML;
+     PROCESSORS = 8;
+
+  MODEL:
+
+     %OVERALL%
+     [B1SLFEDI* B1SDAYDI* B1SJOBDI*
+      B1SPIWOR* B1SPIHOM* B1SPIFAM*
+      B4QPS_PS* B1SKINNE* B1SFDSNE* B1SSPCRI*];
+     B1SLFEDI* B1SDAYDI* B1SJOBDI*
+      B1SPIWOR* B1SPIHOM* B1SPIFAM*
+      B4QPS_PS* B1SKINNE* B1SFDSNE* B1SSPCRI*;
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  2364
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4621
+
+Number of dependent variables                                   10
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   B1SJOBDI    B1SPIWOR    B1SPIHOM    B1SKINNE    B1SFDSNE    B1SSPCRI
+   B1SPIFAM    B1SLFEDI    B1SDAYDI    B4QPS_PS
+
+Categorical latent variables
+   C
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               2
+  Random seed for the first chain                                0
+  Starting value information                                    ML
+  Treatment of categorical mediator                         LATENT
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               20000
+  K-th iteration used for thinning                               1
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Random Starts Specifications
+  Number of initial stage random starts                        600
+  Number of final stage optimizations                          120
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+Cholesky                                                       OFF
+
+Input data file(s)
+  m2_stress_lca9.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+     Number of missing data patterns            95
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              B1SJOBDI      B1SPIWOR      B1SPIHOM      B1SKINNE      B1SFDSNE
+              ________      ________      ________      ________      ________
+ B1SJOBDI       0.642
+ B1SPIWOR       0.636         0.639
+ B1SPIHOM       0.640         0.638         0.996
+ B1SKINNE       0.639         0.637         0.992         0.994
+ B1SFDSNE       0.637         0.635         0.988         0.987         0.990
+ B1SSPCRI       0.480         0.479         0.707         0.706         0.703
+ B1SPIFAM       0.554         0.551         0.866         0.866         0.862
+ B1SLFEDI       0.626         0.623         0.964         0.963         0.958
+ B1SDAYDI       0.636         0.633         0.984         0.982         0.977
+ B4QPS_PS       0.189         0.188         0.269         0.269         0.267
+
+
+           Covariance Coverage
+              B1SSPCRI      B1SPIFAM      B1SLFEDI      B1SDAYDI      B4QPS_PS
+              ________      ________      ________      ________      ________
+ B1SSPCRI       0.708
+ B1SPIFAM       0.653         0.868
+ B1SLFEDI       0.684         0.840         0.967
+ B1SDAYDI       0.701         0.858         0.960         0.986
+ B4QPS_PS       0.190         0.234         0.266         0.268         0.270
+
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+          -48961.087  471040           403
+          -48961.087  526324           178
+          -48961.088  399508           415
+          -48961.089  933578           506
+          -48961.089  978781           497
+          -48961.089  193569           440
+          -48961.089  78862            529
+          -48961.090  215353           164
+          -48961.090  746978           410
+          -48961.090  232559           136
+          -48961.090  568859           49
+          -48961.090  592219           119
+          -48961.090  59674            240
+          -48961.090  107446           12
+          -48961.090  605565           404
+          -48961.090  279850           555
+          -48961.090  783110           72
+          -48961.090  748692           204
+          -48961.090  715561           125
+          -48961.090  260953           589
+          -48961.090  21132            351
+          -48961.090  621542           375
+          -48961.091  509733           130
+          -48961.091  754100           56
+          -48961.091  801717           364
+          -48961.091  835767           210
+          -48961.091  519357           559
+          -48961.092  432148           30
+          -48961.092  762461           425
+          -48961.092  836515           341
+          -48961.092  378393           509
+          -48961.092  15715            274
+          -48961.093  996231           310
+          -48961.093  294669           501
+          -49087.870  606576           151
+          -49087.870  772131           407
+          -49087.872  742688           594
+          -49087.872  751054           117
+          -49087.872  475420           71
+          -49087.873  314034           513
+          -49087.873  354624           448
+          -49087.873  848163           47
+          -49087.873  366533           484
+          -49087.873  319144           176
+          -49087.874  635245           121
+          -49087.874  569131           26
+          -49087.874  331681           549
+          -49092.542  193847           354
+          -49132.513  415931           10
+          -49132.516  112586           494
+          -49132.535  926283           269
+          -49149.349  292884           103
+          -49149.350  605358           321
+          -49149.352  193042           316
+          -49149.353  152496           123
+          -49149.353  608849           224
+          -49149.353  364676           27
+          -49213.507  206099           363
+          -49213.524  686482           215
+          -49213.535  17896            592
+          -49213.535  534483           290
+          -49213.535  640833           434
+          -49213.536  170118           238
+          -49243.395  967902           52
+          -49243.395  479273           156
+          -49243.395  760878           249
+          -49243.395  846194           93
+          -49243.395  17359            227
+          -49243.395  723775           97
+          -49243.395  165853           105
+          -49243.395  252346           528
+          -49243.395  505244           582
+          -49243.395  481835           57
+          -49243.395  434915           552
+          -49243.396  587946           120
+          -49243.396  595153           230
+          -49243.396  898745           466
+          -49243.396  349360           464
+          -49243.396  85462            51
+          -49255.419  879338           309
+          -49255.420  616917           261
+          -49255.421  195763           358
+          -49255.421  67009            564
+          -49255.421  21345            199
+          -49255.422  298275           418
+          -49255.422  654136           167
+          -49255.422  137305           379
+          -49255.423  436460           89
+          -49255.423  790059           469
+          -49255.423  622860           259
+          -49255.423  618760           489
+          -49255.424  784664           75
+          -49291.270  922042           492
+          -49291.275  614009           317
+          -49291.301  387701           275
+          -49291.357  798821           423
+          -49291.372  535804           111
+          -49291.691  414284           158
+          -49352.421  278692           342
+          -49352.421  496710           386
+          -49352.421  156536           245
+          -49352.422  617243           237
+          -49352.422  685268           596
+          -49352.423  626087           314
+          -49352.425  286735           175
+          -49352.426  508482           446
+          -49352.426  726035           191
+          -49352.426  411615           171
+          -49352.426  376411           473
+          -49352.426  802682           419
+          -49352.427  404426           344
+          -49352.427  358074           560
+          -49352.448  358488           264
+          -49407.689  972430           491
+          -49423.278  178475           231
+          -49423.297  831410           567
+          -49423.308  113138           585
+          -49423.325  887676           22
+          -49423.331  22089            143
+          -49448.143  652266           490
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                             108
+
+Bayesian Posterior Predictive Checking using Chi-Square
+
+          95% Confidence Interval for the Difference Between
+          the Observed and the Replicated Chi-Square Values
+
+                        2584.998          2897.627
+
+          Posterior Predictive P-Value       0.000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        907.10268          0.19630
+       2       1789.24146          0.38720
+       3        258.08259          0.05585
+       4        324.93653          0.07032
+       5        385.29064          0.08338
+       6        499.74718          0.10815
+       7         92.45486          0.02001
+       8        207.62493          0.04493
+       9        153.03472          0.03312
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        916.14008          0.19826
+       2       1813.15263          0.39237
+       3        253.39178          0.05483
+       4        321.29225          0.06953
+       5        383.09272          0.08290
+       6        500.75205          0.10836
+       7         84.52815          0.01829
+       8        202.16236          0.04375
+       9        146.48799          0.03170
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              848          0.18353
+       2             1912          0.41378
+       3              248          0.05358
+       4              312          0.06762
+       5              371          0.08035
+       6              492          0.10652
+       7               82          0.01785
+       8              206          0.04462
+       9              149          0.03216
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.849
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3        4        5        6        7        8        9
+
+    1   0.821    0.176    0.000    0.002    0.000    0.002    0.000    0.000    0.000
+    2   0.114    0.841    0.000    0.015    0.025    0.005    0.000    0.000    0.000
+    3   0.000    0.000    0.930    0.002    0.006    0.054    0.000    0.003    0.005
+    4   0.006    0.063    0.002    0.864    0.063    0.002    0.000    0.000    0.000
+    5   0.001    0.095    0.005    0.055    0.844    0.001    0.000    0.000    0.000
+    6   0.001    0.003    0.031    0.001    0.001    0.962    0.000    0.002    0.000
+    7   0.000    0.000    0.000    0.000    0.000    0.000    0.989    0.003    0.008
+    8   0.000    0.000    0.011    0.000    0.000    0.005    0.007    0.947    0.030
+    9   0.000    0.000    0.023    0.000    0.000    0.000    0.011    0.034    0.932
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Latent Class 1
+
+ Means
+    B1SJOBDI           8.206       0.194      0.000       7.822       8.582      *
+    B1SPIWOR           1.358       0.026      0.000       1.306       1.407      *
+    B1SPIHOM           1.263       0.016      0.000       1.232       1.293      *
+    B1SKINNE           1.501       0.027      0.000       1.448       1.551      *
+    B1SFDSNE           1.357       0.027      0.000       1.304       1.406      *
+    B1SSPCRI           1.734       0.029      0.000       1.675       1.788      *
+    B1SPIFAM           1.359       0.021      0.000       1.319       1.400      *
+    B1SLFEDI           0.133       0.018      0.000       0.096       0.169      *
+    B1SDAYDI          10.204       0.137      0.000       9.925      10.468      *
+    B4QPS_PS          18.002       0.431      0.000      17.158      18.837      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 2
+
+ Means
+    B1SJOBDI           9.519       0.140      0.000       9.249       9.796      *
+    B1SPIWOR           1.451       0.018      0.000       1.416       1.485      *
+    B1SPIHOM           1.316       0.012      0.000       1.294       1.339      *
+    B1SKINNE           2.079       0.020      0.000       2.042       2.118      *
+    B1SFDSNE           1.911       0.017      0.000       1.879       1.945      *
+    B1SSPCRI           2.165       0.020      0.000       2.128       2.205      *
+    B1SPIFAM           1.506       0.014      0.000       1.477       1.533      *
+    B1SLFEDI           0.219       0.013      0.000       0.193       0.245      *
+    B1SDAYDI          11.413       0.117      0.000      11.186      11.647      *
+    B4QPS_PS          21.691       0.320      0.000      21.093      22.335      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 3
+
+ Means
+    B1SJOBDI          14.695       0.382      0.000      13.960      15.477      *
+    B1SPIWOR           2.060       0.048      0.000       1.964       2.156      *
+    B1SPIHOM           1.861       0.039      0.000       1.790       1.943      *
+    B1SKINNE           2.651       0.043      0.000       2.569       2.736      *
+    B1SFDSNE           2.263       0.037      0.000       2.194       2.338      *
+    B1SSPCRI           2.562       0.052      0.000       2.462       2.664      *
+    B1SPIFAM           1.870       0.039      0.000       1.793       1.948      *
+    B1SLFEDI           2.520       0.059      0.000       2.429       2.668      *
+    B1SDAYDI          18.188       0.306      0.000      17.595      18.807      *
+    B4QPS_PS          27.492       0.805      0.000      25.953      29.119      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 4
+
+ Means
+    B1SJOBDI          11.047       0.320      0.000      10.405      11.662      *
+    B1SPIWOR           1.978       0.039      0.000       1.900       2.054      *
+    B1SPIHOM           2.451       0.035      0.000       2.381       2.519      *
+    B1SKINNE           2.224       0.043      0.000       2.134       2.306      *
+    B1SFDSNE           1.905       0.036      0.000       1.832       1.971      *
+    B1SSPCRI           2.445       0.057      0.000       2.338       2.558      *
+    B1SPIFAM           2.022       0.036      0.000       1.951       2.093      *
+    B1SLFEDI           0.275       0.033      0.000       0.210       0.338      *
+    B1SDAYDI          12.660       0.298      0.000      12.072      13.239      *
+    B4QPS_PS          27.149       0.764      0.000      25.682      28.704      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 5
+
+ Means
+    B1SJOBDI          15.388       0.396      0.000      14.636      16.164      *
+    B1SPIWOR           2.077       0.040      0.000       2.004       2.158      *
+    B1SPIHOM           1.581       0.038      0.000       1.506       1.654      *
+    B1SKINNE           2.580       0.041      0.000       2.501       2.661      *
+    B1SFDSNE           2.198       0.032      0.000       2.136       2.262      *
+    B1SSPCRI           2.632       0.050      0.000       2.533       2.729      *
+    B1SPIFAM           1.813       0.037      0.000       1.738       1.884      *
+    B1SLFEDI           0.395       0.032      0.000       0.334       0.459      *
+    B1SDAYDI          16.740       0.344      0.000      16.096      17.448      *
+    B4QPS_PS          26.700       0.719      0.000      25.343      28.134      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 6
+
+ Means
+    B1SJOBDI           9.608       0.236      0.000       9.148      10.062      *
+    B1SPIWOR           1.486       0.027      0.000       1.433       1.538      *
+    B1SPIHOM           1.346       0.019      0.000       1.308       1.384      *
+    B1SKINNE           1.978       0.028      0.000       1.923       2.033      *
+    B1SFDSNE           1.785       0.024      0.000       1.736       1.830      *
+    B1SSPCRI           2.033       0.032      0.000       1.971       2.096      *
+    B1SPIFAM           1.505       0.025      0.000       1.457       1.554      *
+    B1SLFEDI           2.274       0.026      0.000       2.224       2.324      *
+    B1SDAYDI          13.280       0.206      0.000      12.879      13.677      *
+    B4QPS_PS          19.903       0.502      0.000      18.894      20.871      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 7
+
+ Means
+    B1SJOBDI          14.078       0.548      0.000      12.996      15.165      *
+    B1SPIWOR           2.010       0.068      0.000       1.874       2.140      *
+    B1SPIHOM           1.625       0.044      0.000       1.540       1.712      *
+    B1SKINNE           2.488       0.061      0.000       2.372       2.611      *
+    B1SFDSNE           2.073       0.050      0.000       1.971       2.169      *
+    B1SSPCRI           2.421       0.091      0.000       2.237       2.594      *
+    B1SPIFAM           1.776       0.056      0.000       1.665       1.888      *
+    B1SLFEDI           7.531       0.073      0.000       7.368       7.660      *
+    B1SDAYDI          19.948       0.419      0.000      19.114      20.792      *
+    B4QPS_PS          25.325       0.889      0.000      23.583      27.059      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 8
+
+ Means
+    B1SJOBDI          10.827       0.391      0.000      10.041      11.570      *
+    B1SPIWOR           1.660       0.047      0.000       1.564       1.748      *
+    B1SPIHOM           1.407       0.031      0.000       1.344       1.466      *
+    B1SKINNE           2.053       0.043      0.000       1.965       2.133      *
+    B1SFDSNE           1.843       0.039      0.000       1.764       1.916      *
+    B1SSPCRI           2.199       0.054      0.000       2.089       2.304      *
+    B1SPIFAM           1.521       0.039      0.000       1.443       1.598      *
+    B1SLFEDI           4.557       0.053      0.000       4.449       4.657      *
+    B1SDAYDI          15.333       0.329      0.000      14.665      15.947      *
+    B4QPS_PS          23.032       0.692      0.000      21.662      24.405      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Latent Class 9
+
+ Means
+    B1SJOBDI          17.827       0.513      0.000      16.836      18.818      *
+    B1SPIWOR           2.381       0.062      0.000       2.260       2.505      *
+    B1SPIHOM           1.944       0.045      0.000       1.852       2.031      *
+    B1SKINNE           2.712       0.057      0.000       2.600       2.827      *
+    B1SFDSNE           2.309       0.050      0.000       2.208       2.406      *
+    B1SSPCRI           2.564       0.072      0.000       2.424       2.704      *
+    B1SPIFAM           2.031       0.053      0.000       1.930       2.138      *
+    B1SLFEDI           5.154       0.093      0.000       5.002       5.382      *
+    B1SDAYDI          19.628       0.398      0.000      18.875      20.447      *
+    B4QPS_PS          27.962       0.896      0.000      26.192      29.748      *
+
+ Variances
+    B1SJOBDI          13.443       0.456      0.000      12.573      14.350      *
+    B1SPIWOR           0.212       0.006      0.000       0.200       0.225      *
+    B1SPIHOM           0.143       0.004      0.000       0.136       0.152      *
+    B1SKINNE           0.265       0.007      0.000       0.252       0.278      *
+    B1SFDSNE           0.197       0.005      0.000       0.186       0.207      *
+    B1SSPCRI           0.304       0.008      0.000       0.288       0.321      *
+    B1SPIFAM           0.208       0.005      0.000       0.199       0.218      *
+    B1SLFEDI           0.219       0.006      0.000       0.208       0.231      *
+    B1SDAYDI          12.966       0.372      0.000      12.237      13.702      *
+    B4QPS_PS          29.734       1.337      0.000      27.200      32.471      *
+
+Categorical Latent Variables
+
+ Means
+    C#1                1.777       0.127      0.000       1.538       2.035      *
+    C#2                2.457       0.110      0.000       2.242       2.675      *
+    C#3                0.519       0.129      0.000       0.272       0.774      *
+    C#4                0.751       0.131      0.000       0.500       1.013      *
+    C#5                0.921       0.131      0.000       0.669       1.178      *
+    C#6                1.182       0.117      0.000       0.959       1.420      *
+    C#7               -0.509       0.155      0.000      -0.806      -0.204      *
+    C#8                0.304       0.145      0.018       0.020       0.588      *
+
+Class Proportions
+
+    Class 1            0.196       0.015      0.000       0.168       0.226
+    Class 2            0.387       0.015      0.000       0.357       0.417
+    Class 3            0.056       0.004      0.000       0.048       0.065
+    Class 4            0.070       0.005      0.000       0.060       0.082
+    Class 5            0.083       0.007      0.000       0.071       0.097
+    Class 6            0.108       0.006      0.000       0.098       0.119
+    Class 7            0.020       0.002      0.000       0.016       0.025
+    Class 8            0.045       0.004      0.000       0.038       0.052
+    Class 9            0.033       0.003      0.000       0.027       0.040
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+Latent Class 1
+
+ Means
+    B1SJOBDI           2.239       0.064      0.000       2.113       2.363      *
+    B1SPIWOR           2.950       0.068      0.000       2.817       3.084      *
+    B1SPIHOM           3.339       0.058      0.000       3.224       3.454      *
+    B1SKINNE           2.917       0.059      0.000       2.798       3.033      *
+    B1SFDSNE           3.061       0.065      0.000       2.928       3.187      *
+    B1SSPCRI           3.146       0.062      0.000       3.019       3.262      *
+    B1SPIFAM           2.977       0.056      0.000       2.866       3.085      *
+    B1SLFEDI           0.285       0.039      0.000       0.206       0.363      *
+    B1SDAYDI           2.833       0.055      0.000       2.725       2.941      *
+    B4QPS_PS           3.305       0.104      0.000       3.098       3.505      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    B1SJOBDI           2.596       0.054      0.000       2.495       2.706      *
+    B1SPIWOR           3.151       0.059      0.000       3.038       3.269      *
+    B1SPIHOM           3.478       0.057      0.000       3.369       3.589      *
+    B1SKINNE           4.041       0.066      0.000       3.914       4.170      *
+    B1SFDSNE           4.310       0.074      0.000       4.173       4.460      *
+    B1SSPCRI           3.927       0.066      0.000       3.799       4.060      *
+    B1SPIFAM           3.297       0.049      0.000       3.202       3.390      *
+    B1SLFEDI           0.468       0.029      0.000       0.414       0.524      *
+    B1SDAYDI           3.171       0.051      0.000       3.070       3.273      *
+    B4QPS_PS           3.978       0.111      0.000       3.775       4.210      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    B1SJOBDI           4.011       0.129      0.000       3.763       4.274      *
+    B1SPIWOR           4.474       0.127      0.000       4.228       4.721      *
+    B1SPIHOM           4.918       0.135      0.000       4.667       5.200      *
+    B1SKINNE           5.151       0.112      0.000       4.933       5.370      *
+    B1SFDSNE           5.106       0.113      0.000       4.888       5.331      *
+    B1SSPCRI           4.650       0.114      0.000       4.427       4.878      *
+    B1SPIFAM           4.096       0.101      0.000       3.897       4.299      *
+    B1SLFEDI           5.388       0.148      0.000       5.143       5.742      *
+    B1SDAYDI           5.050       0.121      0.000       4.820       5.290      *
+    B4QPS_PS           5.042       0.192      0.000       4.677       5.432      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 4
+
+ Means
+    B1SJOBDI           3.014       0.097      0.000       2.824       3.200      *
+    B1SPIWOR           4.297       0.109      0.000       4.077       4.508      *
+    B1SPIHOM           6.479       0.134      0.000       6.209       6.729      *
+    B1SKINNE           4.318       0.097      0.000       4.131       4.513      *
+    B1SFDSNE           4.296       0.095      0.000       4.116       4.486      *
+    B1SSPCRI           4.434       0.121      0.000       4.203       4.676      *
+    B1SPIFAM           4.429       0.098      0.000       4.233       4.624      *
+    B1SLFEDI           0.588       0.070      0.000       0.450       0.722      *
+    B1SDAYDI           3.520       0.086      0.000       3.347       3.685      *
+    B4QPS_PS           4.983       0.186      0.000       4.632       5.365      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 5
+
+ Means
+    B1SJOBDI           4.196       0.150      0.000       3.906       4.496      *
+    B1SPIWOR           4.516       0.116      0.000       4.296       4.751      *
+    B1SPIHOM           4.179       0.110      0.000       3.961       4.393      *
+    B1SKINNE           5.013       0.114      0.000       4.793       5.250      *
+    B1SFDSNE           4.957       0.105      0.000       4.759       5.173      *
+    B1SSPCRI           4.773       0.119      0.000       4.545       5.012      *
+    B1SPIFAM           3.970       0.096      0.000       3.778       4.161      *
+    B1SLFEDI           0.844       0.071      0.000       0.711       0.987      *
+    B1SDAYDI           4.650       0.137      0.000       4.396       4.928      *
+    B4QPS_PS           4.897       0.178      0.000       4.564       5.241      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 6
+
+ Means
+    B1SJOBDI           2.621       0.074      0.000       2.478       2.765      *
+    B1SPIWOR           3.226       0.074      0.000       3.084       3.377      *
+    B1SPIHOM           3.556       0.067      0.000       3.423       3.687      *
+    B1SKINNE           3.843       0.069      0.000       3.703       3.977      *
+    B1SFDSNE           4.024       0.071      0.000       3.891       4.167      *
+    B1SSPCRI           3.688       0.075      0.000       3.539       3.833      *
+    B1SPIFAM           3.298       0.066      0.000       3.171       3.427      *
+    B1SLFEDI           4.862       0.085      0.000       4.692       5.028      *
+    B1SDAYDI           3.687       0.072      0.000       3.548       3.829      *
+    B4QPS_PS           3.650       0.118      0.000       3.417       3.887      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 7
+
+ Means
+    B1SJOBDI           3.844       0.161      0.000       3.519       4.158      *
+    B1SPIWOR           4.368       0.162      0.000       4.046       4.688      *
+    B1SPIHOM           4.294       0.131      0.000       4.038       4.550      *
+    B1SKINNE           4.834       0.134      0.000       4.581       5.104      *
+    B1SFDSNE           4.678       0.129      0.000       4.422       4.929      *
+    B1SSPCRI           4.389       0.175      0.000       4.047       4.733      *
+    B1SPIFAM           3.892       0.131      0.000       3.627       4.144      *
+    B1SLFEDI          16.092       0.276      0.000      15.527      16.601      *
+    B1SDAYDI           5.540       0.142      0.000       5.265       5.823      *
+    B4QPS_PS           4.646       0.191      0.000       4.263       5.025      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 8
+
+ Means
+    B1SJOBDI           2.952       0.116      0.000       2.723       3.180      *
+    B1SPIWOR           3.606       0.114      0.000       3.373       3.824      *
+    B1SPIHOM           3.715       0.094      0.000       3.534       3.898      *
+    B1SKINNE           3.987       0.094      0.000       3.800       4.172      *
+    B1SFDSNE           4.156       0.098      0.000       3.962       4.353      *
+    B1SSPCRI           3.991       0.110      0.000       3.770       4.201      *
+    B1SPIFAM           3.330       0.094      0.000       3.139       3.517      *
+    B1SLFEDI           9.736       0.147      0.000       9.444      10.021      *
+    B1SDAYDI           4.255       0.103      0.000       4.047       4.460      *
+    B4QPS_PS           4.224       0.157      0.000       3.912       4.529      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+Latent Class 9
+
+ Means
+    B1SJOBDI           4.864       0.173      0.000       4.522       5.199      *
+    B1SPIWOR           5.172       0.163      0.000       4.847       5.488      *
+    B1SPIHOM           5.137       0.147      0.000       4.848       5.423      *
+    B1SKINNE           5.269       0.137      0.000       5.006       5.541      *
+    B1SFDSNE           5.210       0.139      0.000       4.928       5.477      *
+    B1SSPCRI           4.649       0.148      0.000       4.362       4.937      *
+    B1SPIFAM           4.452       0.132      0.000       4.199       4.718      *
+    B1SLFEDI          11.022       0.270      0.000      10.546      11.599      *
+    B1SDAYDI           5.450       0.142      0.000       5.184       5.744      *
+    B4QPS_PS           5.130       0.208      0.000       4.718       5.538      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+
+     Beginning Time:  10:19:05
+        Ending Time:  10:23:29
+       Elapsed Time:  00:04:24
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

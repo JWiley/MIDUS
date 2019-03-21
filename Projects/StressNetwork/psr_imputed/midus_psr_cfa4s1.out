@@ -1,0 +1,472 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+02/12/2016   8:31 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "MIDUS_PSR_cfa4s1.dat";
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM M1 M2 M3 M4 LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8 SE1 SE2 SE3 SE4
+       SE5 SE6 SE7 Opt1 Opt2 Opt3 Pess1 Pess2 Pess3 PLife1 PLife2 PLife3 PLife4 PLife5
+       PLife6 PLife7 Ctrl1 Ctrl2 Ctrl3 Con1 Con2 Con3 Con4 Con5 Ext1 Ext2 Ext3 Ext4
+       Ext5 FamS1 FamS2 FamS3 FamS4 FriS1 FriS2 FriS3 FriS4 SpoS1 SpoS2 SpoS3 SpoS4
+       SpoS5 SpoS6 SI1 SI2 SI3 AGE;
+   MISSING=.;
+
+  USEVARIABLES ARE
+   M2 LC2 SE2 Opt3 Pess2
+   PLife3 Con2 Ext4
+   FamS2 FriS1 SpoS3 SI1;
+
+  CATEGORICAL ARE
+   M2 LC2 SE2 Opt3 Pess2
+   PLife3 Con2 Ext4
+   FamS2 FriS1 SpoS3 SI1;
+
+  IDVARIABLE = M2ID;
+  CLUSTER = M2FAMNUM;
+
+  ANALYSIS:
+
+    TYPE = COMPLEX;
+    ESTIMATOR = WLSMV;
+    PROCESSORS = 2;
+  MODEL:
+
+   GPR@1;
+   GPR BY M2*1 LC2*-1 SE2 Opt3 Pess2*-1
+   PLife3 Con2 Ext4
+  ! GSR@1;
+  ! GSR BY
+   FamS2*1 FriS1 SpoS3 SI1;
+
+   !GPR WITH GSR*;
+
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  923
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4632
+
+Number of dependent variables                                   12
+Number of independent variables                                  0
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   M2          LC2         SE2         OPT3        PESS2       PLIFE3
+   CON2        EXT4        FAMS2       FRIS1       SPOS3       SI1
+
+Continuous latent variables
+   GPR
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                    WLSMV
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Parameterization                                             DELTA
+
+Input data file(s)
+  MIDUS_PSR_cfa4s1.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            76
+     Number of clusters        3621
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              M2            LC2           SE2           OPT3          PESS2
+              ________      ________      ________      ________      ________
+ M2             0.950
+ LC2            0.947         0.950
+ SE2            0.945         0.945         0.949
+ OPT3           0.946         0.946         0.946         0.953
+ PESS2          0.942         0.942         0.942         0.948         0.949
+ PLIFE3         0.946         0.946         0.946         0.947         0.944
+ CON2           0.945         0.945         0.945         0.946         0.942
+ EXT4           0.936         0.936         0.935         0.937         0.933
+ FAMS2          0.942         0.942         0.942         0.945         0.941
+ FRIS1          0.935         0.935         0.935         0.938         0.934
+ SPOS3          0.686         0.685         0.685         0.687         0.686
+ SI1            0.936         0.936         0.936         0.939         0.935
+
+
+           Covariance Coverage
+              PLIFE3        CON2          EXT4          FAMS2         FRIS1
+              ________      ________      ________      ________      ________
+ PLIFE3         0.951
+ CON2           0.946         0.950
+ EXT4           0.937         0.939         0.941
+ FAMS2          0.944         0.942         0.933         0.992
+ FRIS1          0.937         0.935         0.926         0.982         0.984
+ SPOS3          0.687         0.686         0.680         0.703         0.700
+ SI1            0.938         0.937         0.927         0.939         0.933
+
+
+           Covariance Coverage
+              SPOS3         SI1
+              ________      ________
+ SPOS3          0.706
+ SI1            0.684         0.944
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    M2
+      Category 1    0.402     1769.000
+      Category 2    0.378     1664.000
+      Category 3    0.127      558.000
+      Category 4    0.046      202.000
+      Category 5    0.019       85.000
+      Category 6    0.018       77.000
+      Category 7    0.010       44.000
+    LC2
+      Category 1    0.025      108.000
+      Category 2    0.071      314.000
+      Category 3    0.124      547.000
+      Category 4    0.068      297.000
+      Category 5    0.092      403.000
+      Category 6    0.242     1064.000
+      Category 7    0.379     1666.000
+    SE2
+      Category 1    0.423     1860.000
+      Category 2    0.355     1561.000
+      Category 3    0.123      540.000
+      Category 4    0.033      146.000
+      Category 5    0.034      150.000
+      Category 6    0.022       97.000
+      Category 7    0.010       44.000
+    OPT3
+      Category 1    0.472     2081.000
+      Category 2    0.337     1488.000
+      Category 3    0.114      505.000
+      Category 4    0.049      214.000
+      Category 5    0.028      124.000
+    PESS2
+      Category 1    0.035      155.000
+      Category 2    0.138      605.000
+      Category 3    0.152      670.000
+      Category 4    0.287     1262.000
+      Category 5    0.387     1702.000
+    PLIFE3
+      Category 1    0.027      119.000
+      Category 2    0.056      248.000
+      Category 3    0.091      403.000
+      Category 4    0.107      473.000
+      Category 5    0.072      318.000
+      Category 6    0.224      987.000
+      Category 7    0.422     1859.000
+    CON2
+      Category 1    0.765     3368.000
+      Category 2    0.206      906.000
+      Category 3    0.025      112.000
+      Category 4    0.003       15.000
+    EXT4
+      Category 1    0.381     1658.000
+      Category 2    0.417     1816.000
+      Category 3    0.175      764.000
+      Category 4    0.027      119.000
+    FAMS2
+      Category 1    0.474     2179.000
+      Category 2    0.388     1782.000
+      Category 3    0.109      499.000
+      Category 4    0.029      134.000
+    FRIS1
+      Category 1    0.534     2436.000
+      Category 2    0.367     1674.000
+      Category 3    0.083      379.000
+      Category 4    0.016       71.000
+    SPOS3
+      Category 1    0.696     2274.000
+      Category 2    0.225      736.000
+      Category 3    0.063      205.000
+      Category 4    0.017       54.000
+    SI1
+      Category 1    0.028      122.000
+      Category 2    0.063      276.000
+      Category 3    0.094      412.000
+      Category 4    0.152      665.000
+      Category 5    0.095      417.000
+      Category 6    0.205      898.000
+      Category 7    0.362     1581.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       65
+
+Chi-Square Test of Model Fit
+
+          Value                           1453.715*
+          Degrees of Freedom                    54
+          P-Value                           0.0000
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.075
+          90 Percent C.I.                    0.072  0.078
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.941
+          TLI                                0.928
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          23869.566
+          Degrees of Freedom                    66
+          P-Value                           0.0000
+
+WRMR (Weighted Root Mean Square Residual)
+
+          Value                              2.790
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ GPR      BY
+    M2                 0.601      0.011     53.371      0.000
+    LC2               -0.716      0.009    -76.508      0.000
+    SE2                0.777      0.008     94.265      0.000
+    OPT3               0.665      0.011     60.316      0.000
+    PESS2             -0.630      0.011    -57.720      0.000
+    PLIFE3            -0.682      0.010    -65.820      0.000
+    CON2               0.485      0.018     26.450      0.000
+    EXT4               0.562      0.013     44.729      0.000
+    FAMS2              0.451      0.015     30.568      0.000
+    FRIS1              0.483      0.015     32.386      0.000
+    SPOS3              0.420      0.022     19.084      0.000
+    SI1               -0.550      0.012    -44.786      0.000
+
+ Thresholds
+    M2$1              -0.248      0.020    -12.684      0.000
+    M2$2               0.774      0.022     35.692      0.000
+    M2$3               1.324      0.027     49.529      0.000
+    M2$4               1.676      0.033     51.470      0.000
+    M2$5               1.919      0.039     48.914      0.000
+    M2$6               2.326      0.056     41.363      0.000
+    LC2$1             -1.968      0.041    -48.135      0.000
+    LC2$2             -1.305      0.027    -49.117      0.000
+    LC2$3             -0.771      0.021    -36.154      0.000
+    LC2$4             -0.560      0.020    -27.705      0.000
+    LC2$5             -0.307      0.019    -15.811      0.000
+    LC2$6              0.309      0.020     15.751      0.000
+    SE2$1             -0.194      0.020     -9.916      0.000
+    SE2$2              0.765      0.022     35.326      0.000
+    SE2$3              1.285      0.026     48.855      0.000
+    SE2$4              1.505      0.030     50.807      0.000
+    SE2$5              1.851      0.037     50.208      0.000
+    SE2$6              2.326      0.056     41.446      0.000
+    OPT3$1            -0.071      0.020     -3.616      0.000
+    OPT3$2             0.874      0.022     39.598      0.000
+    OPT3$3             1.428      0.028     50.832      0.000
+    OPT3$4             1.909      0.039     49.205      0.000
+    PESS2$1           -1.808      0.036    -49.743      0.000
+    PESS2$2           -0.943      0.023    -40.827      0.000
+    PESS2$3           -0.453      0.021    -21.950      0.000
+    PESS2$4            0.286      0.020     14.531      0.000
+    PLIFE3$1          -1.927      0.039    -49.063      0.000
+    PLIFE3$2          -1.383      0.027    -50.306      0.000
+    PLIFE3$3          -0.936      0.023    -41.107      0.000
+    PLIFE3$4          -0.577      0.021    -27.882      0.000
+    PLIFE3$5          -0.374      0.020    -18.773      0.000
+    PLIFE3$6           0.197      0.020     10.098      0.000
+    CON2$1             0.723      0.021     34.372      0.000
+    CON2$2             1.898      0.039     48.994      0.000
+    CON2$3             2.706      0.086     31.605      0.000
+    EXT4$1            -0.304      0.020    -15.265      0.000
+    EXT4$2             0.832      0.022     37.742      0.000
+    EXT4$3             1.922      0.039     48.813      0.000
+    FAMS2$1           -0.064      0.019     -3.382      0.001
+    FAMS2$2            1.090      0.024     46.054      0.000
+    FAMS2$3            1.893      0.038     50.142      0.000
+    FRIS1$1            0.086      0.019      4.507      0.000
+    FRIS1$2            1.289      0.026     49.790      0.000
+    FRIS1$3            2.155      0.047     45.433      0.000
+    SPOS3$1            0.512      0.023     21.907      0.000
+    SPOS3$2            1.410      0.032     43.627      0.000
+    SPOS3$3            2.132      0.055     38.785      0.000
+    SI1$1             -1.912      0.039    -48.613      0.000
+    SI1$2             -1.334      0.027    -48.918      0.000
+    SI1$3             -0.895      0.022    -39.905      0.000
+    SI1$4             -0.419      0.020    -21.106      0.000
+    SI1$5             -0.169      0.020     -8.655      0.000
+    SI1$6              0.354      0.020     17.759      0.000
+
+ Variances
+    GPR                1.000      0.000    999.000    999.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ GPR      BY
+    M2                 0.601      0.011     53.371      0.000
+    LC2               -0.716      0.009    -76.508      0.000
+    SE2                0.777      0.008     94.265      0.000
+    OPT3               0.665      0.011     60.316      0.000
+    PESS2             -0.630      0.011    -57.720      0.000
+    PLIFE3            -0.682      0.010    -65.820      0.000
+    CON2               0.485      0.018     26.450      0.000
+    EXT4               0.562      0.013     44.729      0.000
+    FAMS2              0.451      0.015     30.568      0.000
+    FRIS1              0.483      0.015     32.386      0.000
+    SPOS3              0.420      0.022     19.084      0.000
+    SI1               -0.550      0.012    -44.786      0.000
+
+ Thresholds
+    M2$1              -0.248      0.020    -12.684      0.000
+    M2$2               0.774      0.022     35.692      0.000
+    M2$3               1.324      0.027     49.529      0.000
+    M2$4               1.676      0.033     51.470      0.000
+    M2$5               1.919      0.039     48.914      0.000
+    M2$6               2.326      0.056     41.363      0.000
+    LC2$1             -1.968      0.041    -48.135      0.000
+    LC2$2             -1.305      0.027    -49.117      0.000
+    LC2$3             -0.771      0.021    -36.154      0.000
+    LC2$4             -0.560      0.020    -27.705      0.000
+    LC2$5             -0.307      0.019    -15.811      0.000
+    LC2$6              0.309      0.020     15.751      0.000
+    SE2$1             -0.194      0.020     -9.916      0.000
+    SE2$2              0.765      0.022     35.326      0.000
+    SE2$3              1.285      0.026     48.855      0.000
+    SE2$4              1.505      0.030     50.807      0.000
+    SE2$5              1.851      0.037     50.208      0.000
+    SE2$6              2.326      0.056     41.446      0.000
+    OPT3$1            -0.071      0.020     -3.616      0.000
+    OPT3$2             0.874      0.022     39.598      0.000
+    OPT3$3             1.428      0.028     50.832      0.000
+    OPT3$4             1.909      0.039     49.205      0.000
+    PESS2$1           -1.808      0.036    -49.743      0.000
+    PESS2$2           -0.943      0.023    -40.827      0.000
+    PESS2$3           -0.453      0.021    -21.950      0.000
+    PESS2$4            0.286      0.020     14.531      0.000
+    PLIFE3$1          -1.927      0.039    -49.063      0.000
+    PLIFE3$2          -1.383      0.027    -50.306      0.000
+    PLIFE3$3          -0.936      0.023    -41.107      0.000
+    PLIFE3$4          -0.577      0.021    -27.882      0.000
+    PLIFE3$5          -0.374      0.020    -18.773      0.000
+    PLIFE3$6           0.197      0.020     10.098      0.000
+    CON2$1             0.723      0.021     34.372      0.000
+    CON2$2             1.898      0.039     48.994      0.000
+    CON2$3             2.706      0.086     31.605      0.000
+    EXT4$1            -0.304      0.020    -15.265      0.000
+    EXT4$2             0.832      0.022     37.742      0.000
+    EXT4$3             1.922      0.039     48.813      0.000
+    FAMS2$1           -0.064      0.019     -3.382      0.001
+    FAMS2$2            1.090      0.024     46.054      0.000
+    FAMS2$3            1.893      0.038     50.142      0.000
+    FRIS1$1            0.086      0.019      4.507      0.000
+    FRIS1$2            1.289      0.026     49.790      0.000
+    FRIS1$3            2.155      0.047     45.433      0.000
+    SPOS3$1            0.512      0.023     21.907      0.000
+    SPOS3$2            1.410      0.032     43.627      0.000
+    SPOS3$3            2.132      0.055     38.785      0.000
+    SI1$1             -1.912      0.039    -48.613      0.000
+    SI1$2             -1.334      0.027    -48.918      0.000
+    SI1$3             -0.895      0.022    -39.905      0.000
+    SI1$4             -0.419      0.020    -21.106      0.000
+    SI1$5             -0.169      0.020     -8.655      0.000
+    SI1$6              0.354      0.020     17.759      0.000
+
+ Variances
+    GPR                1.000      0.000    999.000    999.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed   Residual
+    Variable        Estimate       S.E.  Est./S.E.    P-Value    Variance
+
+    M2                 0.361      0.014     26.685      0.000      0.639
+    LC2                0.513      0.013     38.254      0.000      0.487
+    SE2                0.604      0.013     47.132      0.000      0.396
+    OPT3               0.443      0.015     30.158      0.000      0.557
+    PESS2              0.397      0.014     28.860      0.000      0.603
+    PLIFE3             0.466      0.014     32.910      0.000      0.534
+    CON2               0.236      0.018     13.225      0.000      0.764
+    EXT4               0.315      0.014     22.364      0.000      0.685
+    FAMS2              0.204      0.013     15.284      0.000      0.796
+    FRIS1              0.233      0.014     16.193      0.000      0.767
+    SPOS3              0.176      0.018      9.542      0.000      0.824
+    SI1                0.303      0.014     22.393      0.000      0.697
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.627E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  20:31:04
+        Ending Time:  20:31:05
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,255 @@
+TITLE:
+PSR Lipid Model
+DATA:
+FILE = "psr_lipid_final_interactions6.dat";
+TYPE = IMPUTATION;
+ 
+VARIABLE:
+NAMES = M2ID m2famnum b1page_m2 b1pgender m1chadv m2aadv LifeStress
+     p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+     PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+     FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+     B4QMA_LI B4QMA_AA B4QMA_PA Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM
+     PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bi_sym bi_hpa bi_card bi_gluc
+     bi_lipid bi_infl bi_para F NegAff PosAff PSR CAHeavy CAFrequent CAInfrequent
+     CANone dSES Milwaukee; 
+ MISSING=.;
+ 
+   USEVARIABLES =
+      m1chadv dSES PSR LifeStress
+      b1page_m2
+      NegAff
+      bi_lipid
+      PSQI3 CurrentSmoke RiskyBehaviors
+      CANone CAFrequent CAHeavy PhysAct
+      OverallDiet
+      p4majorconditions
+      sex
+      !PSRxStress
+      PSRxSES PSRxdSES
+ !     PSRxSex
+      ;
+
+  IDVARIABLE = M2ID;
+    CLUSTER = m2famnum;
+    COUNT = LifeStress p4majorconditions;
+    CATEGORICAL = CANone CAFrequent CAHeavy
+       CurrentSmoke PhysAct RiskyBehaviors;
+    DEFINE:
+    Sex = b1pgender;
+    !PSRxStress = LifeStress * PSR;
+    PSRxSES = m1chadv * PSR;
+    PSRxdSES = dSES * PSR;
+!    PSRxSex = Sex * PSR;
+
+
+ANALYSIS:
+
+  TYPE = COMPLEX;
+  Estimator = MLR;
+  PROCESSORS = 8;
+  !MCONVERGENCE  = .000005;
+  !H1CONVERGENCE = .000005;
+  !LOGCRITERION  = .000005;
+  !RLOGCRITERION = .000005;
+  !ITERATIONS = 15000;
+  !MITERATIONS = 7500;
+  !H1ITERATIONS = 15000;
+  INTEGRATION = MONTECARLO (500);
+
+MODEL:
+
+!  [PSRxStress PSRxSES PSRxdSES PSRxSex];
+!  PSRxStress WITH PSRxSES* PSRxdSES* PSRxSex*;
+!  PSRxSES WITH PSRxdSES* PSRxSex*;
+!  PSRxdSES WITH PSRxSex*;
+
+  [PSRxSES PSRxdSES];
+  PSRxSES WITH PSRxdSES*;
+
+  ! Step 1
+    LifeStress ON
+      sex b1page_m2
+      m1chadv (a1a)
+      dSES (a1b)
+      ;
+
+    PSR ON
+      sex b1page_m2
+      m1chadv (a2a)
+      dSES (a2b)
+      ;
+
+    ! Step 2
+    NegAff ON
+      sex b1page_m2
+      m1chadv (a3a)
+      dSES (a3b)
+      PSR (b3)
+      LifeStress (c3)
+      !PSRxStress
+      PSRxSES (ab3a)
+      PSRxdSES (ab3b)
+      !PSRxSex
+      ;
+
+    ! Step 3
+      PSQI3 ON
+      sex b1page_m2
+      m1chadv (a4a)
+      dSES (a4b)
+      PSR (b4)
+      LifeStress (c4)
+      NegAff (d4)
+      !PSRxStress
+      PSRxSES (ab4a)
+      PSRxdSES (ab4b)
+      !PSRxSex
+      ;
+
+      CurrentSmoke ON
+      sex b1page_m2
+      m1chadv (a5a)
+      dSES (a5b)
+      PSR (b5)
+      LifeStress (c5)
+      NegAff (d5)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+      RiskyBehaviors ON
+      sex b1page_m2
+      m1chadv (a6a)
+      dSES (a6b)
+      PSR (b6)
+      LifeStress (c6)
+      NegAff (d6)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+      CANone ON
+      sex b1page_m2
+      m1chadv (a7a)
+      dSES (a7b)
+      PSR (b7)
+      LifeStress (c7)
+      NegAff (d7)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+      CAFrequent ON
+      sex b1page_m2
+      m1chadv (a8a)
+      dSES (a8b)
+      PSR (b8)
+      LifeStress (c8)
+      NegAff (d8)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+      CAHeavy ON
+      sex b1page_m2
+      m1chadv (a9a)
+      dSES (a9b)
+      PSR (b9)
+      LifeStress (c9)
+      NegAff (d9)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+
+      PhysAct ON
+      sex b1page_m2
+      m1chadv (a10a)
+      dSES (a10b)
+      PSR (b10)
+      LifeStress (c10)
+      NegAff (d10)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+      ! use OverallDietsq ?
+      OverallDiet ON
+      sex b1page_m2
+      m1chadv (a11a)
+      dSES (a11b)
+      PSR (b11)
+      LifeStress (c11)
+      NegAff (d11)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+
+    ! Step 4
+      bi_lipid ON
+      sex b1page_m2
+      m1chadv (a12a)
+      dSES (a12b)
+      PSR (b12)
+      LifeStress (c12)
+      NegAff (d12)
+      PSQI3 (e12)
+      CurrentSmoke (f12)
+      RiskyBehaviors (g12)
+      CANone (h12)
+      CAFrequent (i12)
+      CAHeavy (j12)
+      PhysAct (k12)
+      OverallDiet (l12)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+     ;
+
+      ! Step 5
+      p4majorconditions ON
+      sex b1page_m2
+      m1chadv (a13a)
+      dSES (a13b)
+      PSR (b13)
+      LifeStress (c13)
+      NegAff (d13)
+      PSQI3 (e13)
+      CurrentSmoke (f13)
+      RiskyBehaviors (g13)
+      CANone (h13)
+      CAFrequent (i13)
+      CAHeavy (j13)
+      PhysAct (k13)
+      OverallDiet (l13)
+      bi_lipid (m13)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+     MODEL CONSTRAINT:
+       NEW(ind1 tot1 ind2);
+       ind1 = e12 * m13;
+       tot1 = ind1 + e13;
+       ind2 = ind1 * b4;
+
+OUTPUT:
+
+   CINTERVAL;

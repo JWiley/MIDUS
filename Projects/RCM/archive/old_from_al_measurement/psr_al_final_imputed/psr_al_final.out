@@ -1,0 +1,1446 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/11/2015   3:20 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  PSR AL Model
+  DATA:
+  FILE = implist.dat;
+  TYPE = IMPUTATION;
+
+  VARIABLE:
+
+  NAMES = M2ID m2famnum b1page_m2 sex m1chadv m2aadv LifeStress LifeStress2
+       p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+       PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+       FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+       B4QMA_LI B4QMA_AA B4QMA_PA Imputation_x Milwaukee dSES Imputation_y MASTERY
+       CONSTRAINT SELFESTEEM OPTIMISM PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR
+       bi_sym bi_hpa bi_card bi_gluc bi_lipid bi_infl bi_para F NegAff PosAff CurAlc2
+       PSR;
+
+     USEVARIABLES =
+        m1chadv dSES PSR LifeStress
+        sex b1page_m2
+        NegAff
+        F
+        PSQI3 CurrentSmoke RiskyBehaviors
+        CurrentAlcohol CurAlc2 PhysAct
+        OverallDiet
+        p4majorconditions
+        ;
+   MISSING=.;
+    IDVARIABLE = M2ID;
+      CLUSTER = m2famnum;
+      COUNT = LifeStress p4majorconditions;
+      CATEGORICAL = CurrentSmoke PhysAct RiskyBehaviors;
+  !    DEFINE:
+
+
+  ANALYSIS:
+
+    TYPE = COMPLEX;
+    Estimator = MLR;
+    PROCESSORS = 4;
+    INTEGRATION = MONTECARLO (250);
+
+  MODEL:
+
+    ! Step 1
+      LifeStress ON
+        sex b1page_m2 m1chadv dSES
+        ;
+
+      PSR ON
+        sex b1page_m2
+        m1chadv dSES;
+
+      ! Step 2
+      NegAff ON
+        sex b1page_m2 m1chadv
+        dSES
+        PSR
+        LifeStress
+        ;
+
+      ! Step 3
+        F ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        PSQI3 CurrentSmoke RiskyBehaviors
+        CurrentAlcohol CurAlc2 PhysAct
+        OverallDiet
+       ;
+
+        PSQI3 ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        ;
+
+        CurrentSmoke ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        ;
+
+        RiskyBehaviors ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        ;
+
+        CurrentAlcohol ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        ;
+
+        CurAlc2 ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        ;
+
+        PhysAct ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        ;
+
+        OverallDiet ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        ;
+
+        ! Step 4
+
+        p4majorconditions ON
+        sex b1page_m2 m1chadv dSES
+        PSR
+        LifeStress
+        NegAff
+        PSQI3 CurrentSmoke RiskyBehaviors
+        CurrentAlcohol CurAlc2 PhysAct
+        OverallDiet
+        F
+        ;
+
+
+  OUTPUT:
+
+     STDYX;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+PSR AL Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Average number of observations                                1254
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                   12
+Number of independent variables                                  4
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   PSR         NEGAFF      F           PSQI3       CURRENTALC  CURALC2
+   OVERALLDIE
+
+  Binary and ordered categorical (ordinal)
+   CURRENTS    RISKYBEH    PHYSACT
+
+  Count
+   LIFESTRE    P4MAJORC
+
+Observed independent variables
+   M1CHADV     DSES        SEX         B1PAGE_M
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                  MONTECARLO
+  Number of integration points                                 250
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+  Monte Carlo integration seed                                   0
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  Multiple data files from
+    implist.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA FOR THE FIRST DATA SET
+
+     Number of missing data patterns             3
+     Number of clusters        1097
+
+
+
+SUMMARY OF MISSING DATA PATTERNS FOR THE FIRST DATA SET
+
+
+     MISSING DATA PATTERNS FOR Y (x = not missing)
+
+           1  2  3
+ PSR       x     x
+ NEGAFF    x
+ F         x  x  x
+ PSQI3     x  x  x
+ CURRENTA  x  x  x
+ CURALC2   x  x  x
+ OVERALLD  x  x  x
+ M1CHADV   x  x  x
+ DSES      x  x  x
+ SEX       x  x  x
+ B1PAGE_M  x  x  x
+
+
+     MISSING DATA PATTERN FREQUENCIES FOR Y
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1        1050           2         201           3           3
+
+
+COVARIANCE COVERAGE OF DATA FOR THE FIRST DATA SET
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              PSR           NEGAFF        F             PSQI3         CURRENTA
+              ________      ________      ________      ________      ________
+ PSR            0.840
+ NEGAFF         0.837         0.837
+ F              0.840         0.837         1.000
+ PSQI3          0.840         0.837         1.000         1.000
+ CURRENTA       0.840         0.837         1.000         1.000         1.000
+ CURALC2        0.840         0.837         1.000         1.000         1.000
+ OVERALLD       0.840         0.837         1.000         1.000         1.000
+ M1CHADV        0.840         0.837         1.000         1.000         1.000
+ DSES           0.840         0.837         1.000         1.000         1.000
+ SEX            0.840         0.837         1.000         1.000         1.000
+ B1PAGE_M       0.840         0.837         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              CURALC2       OVERALLD      M1CHADV       DSES          SEX
+              ________      ________      ________      ________      ________
+ CURALC2        1.000
+ OVERALLD       1.000         1.000
+ M1CHADV        1.000         1.000         1.000
+ DSES           1.000         1.000         1.000         1.000
+ SEX            1.000         1.000         1.000         1.000         1.000
+ B1PAGE_M       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              B1PAGE_M
+              ________
+ B1PAGE_M       1.000
+
+
+UNIVARIATE PROPORTIONS FOR CATEGORICAL VARIABLES
+
+NOTE:  These are average results over 50 data sets.
+
+    CURRENTS
+      Category 1    0.851
+      Category 2    0.149
+    RISKYBEH
+      Category 1    0.933
+      Category 2    0.067
+    PHYSACT
+      Category 1    0.239
+      Category 2    0.255
+      Category 3    0.258
+      Category 4    0.247
+
+
+COUNT PROPORTION OF ZERO, MINIMUM AND MAXIMUM VALUES
+
+      LIFESTRE    0.072         0        13
+      P4MAJORC    0.390         0         6
+
+
+SAMPLE STATISTICS
+
+NOTE:  These are average results over 50 data sets.
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              PSR           NEGAFF        F             PSQI3         CURRENTA
+              ________      ________      ________      ________      ________
+ 1             -0.120         0.039        -0.001         6.027         0.944
+
+
+           Means
+              CURALC2       OVERALLD      M1CHADV       DSES          SEX
+              ________      ________      ________      ________      ________
+ 1              1.643         1.117         0.000         0.000         0.568
+
+
+           Means
+              B1PAGE_M
+              ________
+ 1             -0.047
+
+
+           Covariances
+              PSR           NEGAFF        F             PSQI3         CURRENTA
+              ________      ________      ________      ________      ________
+ PSR            3.358
+ NEGAFF        -0.968         1.008
+ F             -0.140         0.115         0.983
+ PSQI3         -1.486         1.103         0.716        13.307
+ CURRENTA       0.009         0.049        -0.037         0.099         0.751
+ CURALC2       -0.051         0.157        -0.001         0.485         1.798
+ OVERALLD      -0.228         0.098         0.147         0.273        -0.006
+ M1CHADV        0.219        -0.042        -0.125        -0.407         0.034
+ DSES           0.380        -0.248        -0.077        -0.500         0.019
+ SEX            0.022         0.037        -0.002         0.170        -0.088
+ B1PAGE_M       0.381        -0.317        -0.007        -0.216        -0.085
+
+
+           Covariances
+              CURALC2       OVERALLD      M1CHADV       DSES          SEX
+              ________      ________      ________      ________      ________
+ CURALC2        4.992
+ OVERALLD       0.040         0.507
+ M1CHADV        0.054        -0.061         0.999
+ DSES          -0.062        -0.056        -0.768         1.537
+ SEX           -0.244        -0.051        -0.021        -0.047         0.245
+ B1PAGE_M      -0.239        -0.129        -0.127         0.287        -0.026
+
+
+           Covariances
+              B1PAGE_M
+              ________
+ B1PAGE_M       1.371
+
+
+           Correlations
+              PSR           NEGAFF        F             PSQI3         CURRENTA
+              ________      ________      ________      ________      ________
+ PSR            1.000
+ NEGAFF        -0.526         1.000
+ F             -0.077         0.116         1.000
+ PSQI3         -0.222         0.301         0.198         1.000
+ CURRENTA       0.005         0.056        -0.044         0.031         1.000
+ CURALC2       -0.013         0.070         0.000         0.060         0.929
+ OVERALLD      -0.175         0.137         0.208         0.105        -0.009
+ M1CHADV        0.120        -0.042        -0.127        -0.112         0.039
+ DSES           0.167        -0.200        -0.063        -0.110         0.018
+ SEX            0.024         0.075        -0.004         0.094        -0.205
+ B1PAGE_M       0.178        -0.270        -0.006        -0.051        -0.084
+
+
+           Correlations
+              CURALC2       OVERALLD      M1CHADV       DSES          SEX
+              ________      ________      ________      ________      ________
+ CURALC2        1.000
+ OVERALLD       0.025         1.000
+ M1CHADV        0.024        -0.086         1.000
+ DSES          -0.022        -0.064        -0.620         1.000
+ SEX           -0.220        -0.145        -0.042        -0.077         1.000
+ B1PAGE_M      -0.091        -0.155        -0.108         0.197        -0.046
+
+
+           Correlations
+              B1PAGE_M
+              ________
+ B1PAGE_M       1.000
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      113
+
+Loglikelihood
+
+    H0 Value
+
+        Mean                            -20715.017
+        Std Dev                             40.714
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000       -20809.730     -20804.374
+           0.980       0.960       -20798.631     -20804.374
+           0.950       0.960       -20781.987     -20799.509
+           0.900       0.900       -20767.196     -20773.432
+           0.800       0.780       -20749.282     -20757.331
+           0.700       0.680       -20736.367     -20739.126
+           0.500       0.540       -20715.017     -20711.790
+           0.300       0.320       -20693.667     -20689.667
+           0.200       0.240       -20680.752     -20678.938
+           0.100       0.100       -20662.838     -20671.007
+           0.050       0.060       -20648.047     -20653.130
+           0.020       0.000       -20631.403     -20638.502
+           0.010       0.000       -20620.304     -20638.502
+
+Information Criteria
+
+    Akaike (AIC)
+
+        Mean                             41656.034
+        Std Dev                             81.428
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        41466.609      41490.732
+           0.980       1.000        41488.806      41490.732
+           0.950       0.940        41522.094      41503.005
+           0.900       0.900        41551.676      41532.260
+           0.800       0.760        41587.505      41578.178
+           0.700       0.680        41613.334      41602.037
+           0.500       0.460        41656.034      41646.762
+           0.300       0.320        41698.735      41702.967
+           0.200       0.220        41724.564      41734.807
+           0.100       0.100        41760.392      41759.528
+           0.050       0.040        41789.975      41772.863
+           0.020       0.040        41823.262      41825.019
+           0.010       0.000        41845.460      41825.019
+
+    Bayesian (BIC)
+
+        Mean                             42236.187
+        Std Dev                             81.428
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        42046.761      42070.885
+           0.980       1.000        42068.959      42070.885
+           0.950       0.940        42102.246      42083.158
+           0.900       0.900        42131.829      42112.413
+           0.800       0.760        42167.657      42158.330
+           0.700       0.680        42193.486      42182.189
+           0.500       0.460        42236.187      42226.914
+           0.300       0.320        42278.888      42283.119
+           0.200       0.220        42304.716      42314.960
+           0.100       0.100        42340.545      42339.681
+           0.050       0.040        42370.127      42353.016
+           0.020       0.040        42403.415      42405.171
+           0.010       0.000        42425.612      42405.171
+
+    Sample-Size Adjusted BIC (n* = (n + 2) / 24)
+
+        Mean                             41877.247
+        Std Dev                             81.428
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        41687.821      41711.945
+           0.980       1.000        41710.019      41711.945
+           0.950       0.940        41743.306      41724.218
+           0.900       0.900        41772.889      41753.473
+           0.800       0.760        41808.717      41799.390
+           0.700       0.680        41834.546      41823.249
+           0.500       0.460        41877.247      41867.974
+           0.300       0.320        41919.948      41924.179
+           0.200       0.220        41945.776      41956.020
+           0.100       0.100        41981.605      41980.741
+           0.050       0.040        42011.187      41994.076
+           0.020       0.040        42044.475      42046.231
+           0.010       0.000        42066.672      42046.231
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed   Rate of
+                    Estimate       S.E.  Est./S.E.    P-Value    Missing
+
+ LIFESTRESS ON
+    SEX               -0.154      0.041     -3.780      0.000      0.096
+    B1PAGE_M2          0.013      0.017      0.747      0.455      0.132
+    M1CHADV           -0.350      0.026    -13.530      0.000      0.243
+    DSES              -0.234      0.023    -10.058      0.000      0.280
+
+ PSR        ON
+    SEX                0.260      0.121      2.152      0.031      0.170
+    B1PAGE_M2          0.224      0.052      4.339      0.000      0.140
+    M1CHADV            0.673      0.080      8.388      0.000      0.111
+    DSES               0.549      0.063      8.763      0.000      0.149
+
+ NEGAFF     ON
+    SEX                0.138      0.060      2.300      0.021      0.217
+    B1PAGE_M2         -0.155      0.026     -6.026      0.000      0.164
+    M1CHADV           -0.049      0.041     -1.199      0.230      0.155
+    DSES              -0.093      0.033     -2.846      0.004      0.164
+    PSR               -0.246      0.018    -13.409      0.000      0.285
+    LIFESTRESS         0.049      0.013      3.707      0.000      0.173
+
+ F          ON
+    SEX               -0.059      0.088     -0.675      0.499      0.571
+    B1PAGE_M2          0.016      0.037      0.427      0.669      0.558
+    M1CHADV           -0.143      0.047     -3.036      0.002      0.295
+    DSES              -0.095      0.038     -2.536      0.011      0.279
+    PSR                0.039      0.025      1.598      0.110      0.379
+    LIFESTRESS         0.031      0.016      1.972      0.049      0.435
+    NEGAFF             0.040      0.044      0.897      0.369      0.327
+    PSQI3              0.032      0.010      3.281      0.001      0.308
+    CURRENTSMO         0.066      0.097      0.684      0.494      0.299
+    RISKYBEHAV         0.000      0.124     -0.001      0.999      0.230
+    CURRENTALC        -0.219      0.096     -2.287      0.022      0.219
+    CURALC2            0.072      0.038      1.927      0.054      0.198
+    PHYSACT           -0.157      0.028     -5.640      0.000      0.247
+    OVERALLDIE         0.190      0.045      4.173      0.000      0.262
+
+ PSQI3      ON
+    SEX                0.541      0.211      2.559      0.011      0.022
+    B1PAGE_M2          0.101      0.083      1.214      0.225      0.022
+    M1CHADV           -0.470      0.158     -2.979      0.003      0.065
+    DSES              -0.369      0.115     -3.208      0.001      0.069
+    PSR               -0.077      0.084     -0.923      0.356      0.281
+    LIFESTRESS         0.232      0.051      4.544      0.000      0.232
+    NEGAFF             0.792      0.146      5.414      0.000      0.214
+
+ CURRENTSMO ON
+    SEX               -0.462      0.180     -2.567      0.010      0.014
+    B1PAGE_M2         -0.329      0.076     -4.314      0.000      0.014
+    M1CHADV           -0.562      0.135     -4.167      0.000      0.060
+    DSES              -0.559      0.116     -4.819      0.000      0.045
+    PSR                0.047      0.078      0.605      0.545      0.214
+    LIFESTRESS         0.116      0.038      3.073      0.002      0.234
+    NEGAFF             0.402      0.142      2.843      0.004      0.162
+
+ RISKYBEHAV ON
+    SEX               -1.410      0.261     -5.411      0.000      0.005
+    B1PAGE_M2          0.003      0.090      0.038      0.969      0.018
+    M1CHADV           -0.448      0.171     -2.626      0.009      0.025
+    DSES              -0.356      0.131     -2.726      0.006      0.025
+    PSR               -0.026      0.089     -0.291      0.771      0.240
+    LIFESTRESS        -0.020      0.049     -0.402      0.688      0.120
+    NEGAFF             0.032      0.154      0.210      0.834      0.207
+
+ CURRENTALC ON
+    SEX               -0.358      0.052     -6.880      0.000      0.018
+    B1PAGE_M2         -0.060      0.023     -2.621      0.009      0.031
+    M1CHADV            0.084      0.037      2.243      0.025      0.064
+    DSES               0.067      0.029      2.310      0.021      0.055
+    PSR                0.044      0.029      1.492      0.136      0.297
+    LIFESTRESS         0.027      0.013      2.135      0.033      0.291
+    NEGAFF             0.111      0.051      2.181      0.029      0.229
+
+ CURALC2    ON
+    SEX               -1.030      0.137     -7.529      0.000      0.018
+    B1PAGE_M2         -0.154      0.055     -2.803      0.005      0.041
+    M1CHADV            0.070      0.099      0.705      0.481      0.073
+    DSES               0.026      0.076      0.339      0.735      0.063
+    PSR                0.123      0.077      1.605      0.109      0.292
+    LIFESTRESS         0.082      0.036      2.292      0.022      0.339
+    NEGAFF             0.296      0.134      2.200      0.028      0.218
+
+ PHYSACT    ON
+    SEX               -0.361      0.110     -3.277      0.001      0.010
+    B1PAGE_M2         -0.146      0.044     -3.330      0.001      0.013
+    M1CHADV            0.157      0.077      2.047      0.041      0.048
+    DSES               0.089      0.059      1.491      0.136      0.039
+    PSR                0.101      0.043      2.371      0.018      0.241
+    LIFESTRESS        -0.001      0.026     -0.050      0.960      0.213
+    NEGAFF            -0.030      0.079     -0.386      0.700      0.224
+
+ OVERALLDIE ON
+    SEX               -0.245      0.043     -5.711      0.000      0.086
+    B1PAGE_M2         -0.078      0.018     -4.221      0.000      0.120
+    M1CHADV           -0.125      0.030     -4.220      0.000      0.086
+    DSES              -0.078      0.024     -3.326      0.001      0.087
+    PSR               -0.030      0.017     -1.736      0.083      0.287
+    LIFESTRESS         0.005      0.010      0.470      0.638      0.309
+    NEGAFF             0.033      0.032      1.050      0.294      0.238
+
+ P4MAJORCON ON
+    SEX                0.064      0.062      1.024      0.306      0.080
+    B1PAGE_M2          0.337      0.025     13.239      0.000      0.077
+    M1CHADV           -0.022      0.040     -0.537      0.591      0.062
+    DSES              -0.070      0.034     -2.068      0.039      0.059
+    PSR                0.015      0.023      0.652      0.514      0.256
+    LIFESTRESS         0.018      0.013      1.400      0.161      0.233
+    NEGAFF             0.070      0.040      1.723      0.085      0.166
+    PSQI3              0.028      0.007      4.164      0.000      0.068
+    CURRENTSMO        -0.026      0.085     -0.302      0.762      0.047
+    RISKYBEHAV         0.220      0.110      2.003      0.045      0.022
+    CURRENTALC        -0.087      0.085     -1.024      0.306      0.024
+    CURALC2            0.007      0.033      0.200      0.842      0.027
+    PHYSACT           -0.084      0.025     -3.349      0.001      0.047
+    OVERALLDIE         0.007      0.041      0.158      0.874      0.112
+    F                  0.251      0.032      7.783      0.000      0.239
+
+ Intercepts
+    PSR               -0.258      0.089     -2.913      0.004      0.096
+    NEGAFF            -0.240      0.069     -3.488      0.000      0.231
+    F                 -0.164      0.127     -1.288      0.198      0.315
+    PSQI3              4.845      0.250     19.379      0.000      0.162
+    CURRENTALC         1.046      0.063     16.595      0.000      0.179
+    CURALC2            1.927      0.168     11.446      0.000      0.220
+    OVERALLDIE         1.229      0.052     23.790      0.000      0.241
+    LIFESTRESS         1.323      0.030     44.387      0.000      0.117
+    P4MAJORCON        -0.127      0.111     -1.141      0.254      0.094
+
+ Thresholds
+    CURRENTS$1         2.280      0.207     11.003      0.000      0.151
+    RISKYBEH$1         2.012      0.233      8.616      0.000      0.078
+    PHYSACT$1         -1.403      0.139    -10.119      0.000      0.118
+    PHYSACT$2         -0.234      0.135     -1.736      0.083      0.123
+    PHYSACT$3          0.933      0.139      6.718      0.000      0.114
+
+ Residual Variances
+    PSR                2.908      0.135     21.499      0.000      0.129
+    NEGAFF             0.678      0.044     15.379      0.000      0.390
+    F                  0.839      0.051     16.546      0.000      0.578
+    PSQI3             11.272      1.463      7.707      0.000      0.004
+    CURRENTALC         0.695      0.026     26.978      0.000      0.041
+    CURALC2            4.573      0.290     15.780      0.000      0.022
+    OVERALLDIE         0.460      0.027     17.180      0.000      0.183
+
+
+STANDARDIZED MODEL RESULTS
+
+     STANDARDIZED COEFFICIENTS WERE NOT COMPUTED.  CHECK TECH9 OUTPUT FOR
+     ERRORS RELATED TO THE COMPUTATION OF STANDARDIZED COEFFICIENTS.
+
+
+R-SQUARE
+
+     R-SQUARE OUTPUT IS NOT AVAILABLE.  CHECK TECH9 OUTPUT FOR
+     ERRORS RELATED TO THE COMPUTATION OF STANDARDIZED COEFFICIENTS.
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Average Condition Number for the Information Matrix      0.443E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           TAU
+              CURRENTS      RISKYBEH      PHYSACT$      PHYSACT$      PHYSACT$
+              ________      ________      ________      ________      ________
+ 1                109           110           111           112           113
+
+
+           NU
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           LAMBDA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PSR                0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTA           0             0             0             0             0
+ CURALC2            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PSR                0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTA           0             0             0             0             0
+ CURALC2            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PSR                0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTA           0             0             0             0             0
+ CURALC2            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ LIFESTRE           0             0             0
+ LIFESTRE           0             0             0
+ P4MAJORC           0             0             0
+ P4MAJORC           0             0             0
+ CURRENTS           0             0             0
+ RISKYBEH           0             0             0
+ PHYSACT            0             0             0
+ PSR                0             0             0
+ NEGAFF             0             0             0
+ F                  0             0             0
+ PSQI3              0             0             0
+ CURRENTA           0             0             0
+ CURALC2            0             0             0
+ OVERALLD           0             0             0
+ M1CHADV            0             0             0
+ DSES               0             0             0
+ SEX                0             0             0
+ B1PAGE_M           0             0             0
+
+
+           THETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE           0
+ LIFESTRE           0             0
+ P4MAJORC           0             0             0
+ P4MAJORC           0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PSR                0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTA           0             0             0             0             0
+ CURALC2            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ RISKYBEH           0
+ PHYSACT            0             0
+ PSR                0             0             0
+ NEGAFF             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTA           0             0             0             0             0
+ CURALC2            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ PSQI3              0
+ CURRENTA           0             0
+ CURALC2            0             0             0
+ OVERALLD           0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ DSES               0
+ SEX                0             0
+ B1PAGE_M           0             0             0
+
+
+           ALPHA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ 1                  0             1             0             2             0
+
+
+           ALPHA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ 1                  0             0             3             4             5
+
+
+           ALPHA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ 1                  6             7             8             9             0
+
+
+           ALPHA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           BETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC           0            14             0             0            15
+ CURRENTS           0            29             0             0             0
+ RISKYBEH           0            36             0             0             0
+ PHYSACT            0            43             0             0             0
+ PSR                0             0             0             0             0
+ NEGAFF             0            54             0             0             0
+ F                  0            60             0             0            61
+ PSQI3              0            74             0             0             0
+ CURRENTA           0            81             0             0             0
+ CURALC2            0            88             0             0             0
+ OVERALLD           0            95             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC          16            17            18            19            20
+ CURRENTS           0             0            30            31             0
+ RISKYBEH           0             0            37            38             0
+ PHYSACT            0             0            44            45             0
+ PSR                0             0             0             0             0
+ NEGAFF             0             0            55             0             0
+ F                 62            63            64            65             0
+ PSQI3              0             0            75            76             0
+ CURRENTA           0             0            82            83             0
+ CURALC2            0             0            89            90             0
+ OVERALLD           0             0            96            97             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ LIFESTRE           0             0             0             0             0
+ LIFESTRE           0             0             0             0            10
+ P4MAJORC           0             0             0             0             0
+ P4MAJORC          21            22            23            24            25
+ CURRENTS           0             0             0             0            32
+ RISKYBEH           0             0             0             0            39
+ PHYSACT            0             0             0             0            46
+ PSR                0             0             0             0            50
+ NEGAFF             0             0             0             0            56
+ F                 66            67            68            69            70
+ PSQI3              0             0             0             0            77
+ CURRENTA           0             0             0             0            84
+ CURALC2            0             0             0             0            91
+ OVERALLD           0             0             0             0            98
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ LIFESTRE           0             0             0
+ LIFESTRE          11            12            13
+ P4MAJORC           0             0             0
+ P4MAJORC          26            27            28
+ CURRENTS          33            34            35
+ RISKYBEH          40            41            42
+ PHYSACT           47            48            49
+ PSR               51            52            53
+ NEGAFF            57            58            59
+ F                 71            72            73
+ PSQI3             78            79            80
+ CURRENTA          85            86            87
+ CURALC2           92            93            94
+ OVERALLD          99           100           101
+ M1CHADV            0             0             0
+ DSES               0             0             0
+ SEX                0             0             0
+ B1PAGE_M           0             0             0
+
+
+           PSI
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE           0
+ LIFESTRE           0             0
+ P4MAJORC           0             0             0
+ P4MAJORC           0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ PSR                0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTA           0             0             0             0             0
+ CURALC2            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ RISKYBEH           0
+ PHYSACT            0             0
+ PSR                0             0           102
+ NEGAFF             0             0             0           103
+ F                  0             0             0             0           104
+ PSQI3              0             0             0             0             0
+ CURRENTA           0             0             0             0             0
+ CURALC2            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ PSQI3            105
+ CURRENTA           0           106
+ CURALC2            0             0           107
+ OVERALLD           0             0             0           108
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ DSES               0
+ SEX                0             0
+ B1PAGE_M           0             0             0
+
+
+     STARTING VALUES
+
+
+           TAU
+              CURRENTS      RISKYBEH      PHYSACT$      PHYSACT$      PHYSACT$
+              ________      ________      ________      ________      ________
+ 1              1.741         2.634        -1.157        -0.022         1.114
+
+
+           NU
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           LAMBDA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE       1.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         1.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         1.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         1.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         1.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PSR            0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       1.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         1.000         0.000         0.000         0.000
+ PSR            0.000         0.000         1.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         1.000         0.000
+ F              0.000         0.000         0.000         0.000         1.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PSR            0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          1.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         1.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         1.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         1.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         1.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000
+ PSR            0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000
+ F              0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000
+ DSES           1.000         0.000         0.000
+ SEX            0.000         1.000         0.000
+ B1PAGE_M       0.000         0.000         1.000
+
+
+           THETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000
+ LIFESTRE       0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PSR            0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ RISKYBEH       0.000
+ PHYSACT        0.000         0.000
+ PSR            0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ PSQI3          0.000
+ CURRENTA       0.000         0.000
+ CURALC2        0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ DSES           0.000
+ SEX            0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000
+
+
+           ALPHA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ 1            -20.000         1.492       -20.000         0.317         0.000
+
+
+           ALPHA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000        -0.031        -0.010
+
+
+           ALPHA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ 1              6.027         0.945         1.645         1.114         0.000
+
+
+           ALPHA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           BETA
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PSR            0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PSR            0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PSR            0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ LIFESTRE       0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000
+ PSR            0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000
+ F              0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000
+ DSES           0.000         0.000         0.000
+ SEX            0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000
+
+
+           PSI
+              LIFESTRE      LIFESTRE      P4MAJORC      P4MAJORC      CURRENTS
+              ________      ________      ________      ________      ________
+ LIFESTRE       0.000
+ LIFESTRE       0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         1.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ PSR            0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              RISKYBEH      PHYSACT       PSR           NEGAFF        F
+              ________      ________      ________      ________      ________
+ RISKYBEH       1.000
+ PHYSACT        0.000         1.000
+ PSR            0.000         0.000         1.593
+ NEGAFF         0.000         0.000         0.000         0.488
+ F              0.000         0.000         0.000         0.000         0.509
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTA       0.000         0.000         0.000         0.000         0.000
+ CURALC2        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PSQI3         CURRENTA      CURALC2       OVERALLD      M1CHADV
+              ________      ________      ________      ________      ________
+ PSQI3          6.654
+ CURRENTA       0.000         0.376
+ CURALC2        0.000         0.000         2.503
+ OVERALLD       0.000         0.000         0.000         0.251
+ M1CHADV        0.000         0.000         0.000         0.000         0.500
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              DSES          SEX           B1PAGE_M
+              ________      ________      ________
+ DSES           0.768
+ SEX            0.000         0.123
+ B1PAGE_M       0.000         0.000         0.685
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\joshua\documents\research\midus\jw-midus-al\psr_al_final_imputed\psr_al_final.dgm
+
+     Beginning Time:  03:20:18
+        Ending Time:  03:35:24
+       Elapsed Time:  00:15:06
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,90 @@
+TITLE:
+PSR AL Model
+DATA:
+FILE = implist.dat;
+TYPE = IMPUTATION;
+
+VARIABLE: 
+  NAMES = M2ID Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM PESSIMISM 
+FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bisym bihpa bicard bigluc 
+bilipid biinfl bipara F NegAff PosAff m2famnum b1page_m2 sex 
+m1chadv m2aadv LifeStress Smoke PhysAct p4majorconditions 
+p4minorconditions p4sumburden;
+
+MISSING=.;
+
+  USEVARIABLES = 
+    m1chadv m2aadv
+    !PR SR 
+    LifeStress 
+    sex b1page_m2
+    !NegAff PosAff
+    F Smoke PhysAct 
+    p4majorconditions
+    Aff PSR;
+  !  StressxPSR SESxPSR SexxPSR;
+
+  IDVARIABLE = M2ID;
+  CLUSTER = m2famnum;
+  COUNT = LifeStress p4majorconditions;
+  CATEGORICAL = Smoke PhysAct;
+  DEFINE:
+  Aff = (PosAff - NegAff)/2;
+  PSR = (PR + SR)/2;
+  !SESxPSR = m1chadv * PSR;
+  !StressxPSR = LifeStress * PSR;
+  !SexxPSR = Sex * PSR;
+
+ANALYSIS:
+  TYPE = COMPLEX;
+  Estimator = MLR;
+  PROCESSORS = 10;
+
+MODEL:
+  ! Step 1
+  LifeStress ON
+    sex b1page_m2 m1chadv m2aadv
+    PSR 
+    
+    ;
+
+  PSR ON
+    sex b1page_m2 m1chadv m2aadv;
+
+  ! Step 2
+  Aff ON 
+    sex b1page_m2 m1chadv m2aadv
+    LifeStress PSR ;
+
+  ! Step 3
+  F ON
+    sex b1page_m2 m1chadv m2aadv
+    Smoke PhysAct
+    Aff 
+    PSR
+    LifeStress
+         ;
+
+  Smoke ON
+    sex b1page_m2 m1chadv m2aadv
+    Aff 
+    PSR
+    LifeStress;
+
+  PhysAct ON
+    sex b1page_m2 m1chadv m2aadv
+    Aff
+    PSR
+    LifeStress;
+
+  ! Step 4
+  p4majorconditions ON
+    sex b1page_m2 m1chadv m2aadv
+    F Smoke PhysAct
+    Aff 
+    LifeStress
+    PSR;
+
+
+OUTPUT:
+  STDYX;

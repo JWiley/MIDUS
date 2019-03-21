@@ -1,0 +1,29 @@
+DATA:
+FILE = "m3a_v1_6dba33e47d7c2a9dbe80f47bb4e74023.dat";
+ 
+VARIABLE:
+NAMES = M2ID M2FAMNUM B1Age C1Age LastAge DECEASED B1Sleep C1Sleep; 
+ MISSING=.;
+ 
+  IDVARIABLE = M2ID;
+  CLUSTER = M2FAMNUM;
+  TSCORES = B1Age C1Age;
+  SURVIVAL = LastAge;
+  TIMECENSORED = DECEASED (0=RIGHT, 1=NOT);
+ANALYSIS:
+
+  TYPE = COMPLEX RANDOM;
+  ESTIMATOR = MLR;
+  PROCESSORS = 2;
+MODEL:
+
+  i s | B1Sleep C1Sleep at B1Age C1Age;
+  B1Sleep C1Sleep (e);
+  i WITH s*;
+  i* s*;
+  i2 | i XWITH i;
+
+  LastAge ON i i2 s;
+
+OUTPUT:
+CINTERVAL; STDYX;

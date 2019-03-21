@@ -1,0 +1,431 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+09/06/2015   3:14 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  PSR AL Model
+  DATA:
+  FILE = "psr_al_final_sesout.dat";
+  TYPE = IMPUTATION;
+
+  VARIABLE:
+  NAMES = M2ID m2famnum b1page_m2 b1pgender m1chadv m2aadv LifeStress
+       p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+       PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+       FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+       B4QMA_LI B4QMA_AA B4QMA_PA Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM
+       PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bi_sym bi_hpa bi_card bi_gluc
+       bi_lipid bi_infl bi_para F NegAff PosAff PSR CAHeavy CAFrequent CAInfrequent
+       CANone dSES Milwaukee;
+   MISSING=.;
+
+     USEVARIABLES =
+        m1chadv dSES
+        p4majorconditions
+        ;
+
+    IDVARIABLE = M2ID;
+      CLUSTER = m2famnum;
+      COUNT = p4majorconditions;
+
+
+  ANALYSIS:
+
+    TYPE = COMPLEX;
+    Estimator = MLR;
+    PROCESSORS = 8;
+    !MCONVERGENCE  = .000005;
+    !H1CONVERGENCE = .000005;
+    !LOGCRITERION  = .000005;
+    !RLOGCRITERION = .000005;
+    !ITERATIONS = 15000;
+    !MITERATIONS = 7500;
+    !H1ITERATIONS = 15000;
+    INTEGRATION = MONTECARLO (500);
+
+  MODEL:
+
+        ! Step 5
+        p4majorconditions ON
+        m1chadv (a13a)
+        dSES (a13b)
+        ;
+
+
+  OUTPUT:
+
+     CINTERVAL;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING in OUTPUT command
+  CINTERVAL option is not available with multiple imputation.
+  Request for CINTERVAL is ignored.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+PSR AL Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Average number of observations                                1253
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                    1
+Number of independent variables                                  2
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Count
+   P4MAJORC
+
+Observed independent variables
+   M1CHADV     DSES
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                  MONTECARLO
+  Number of integration points                                 500
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+  Monte Carlo integration seed                                   0
+Cholesky                                                       OFF
+
+Input data file(s)
+  Multiple data files from
+    psr_al_final_sesout.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA FOR THE FIRST DATA SET
+
+     Number of clusters        1096
+
+
+
+SUMMARY OF MISSING DATA PATTERNS FOR THE FIRST DATA SET
+
+
+COVARIANCE COVERAGE OF DATA FOR THE FIRST DATA SET
+
+Minimum covariance coverage value   0.100
+
+
+COUNT PROPORTION OF ZERO, MINIMUM AND MAXIMUM VALUES
+
+      P4MAJORC    0.390         0         6
+
+
+SAMPLE STATISTICS
+
+NOTE:  These are average results over 50 data sets.
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              M1CHADV       DSES
+              ________      ________
+ 1              0.000         0.001
+
+
+           Covariances
+              M1CHADV       DSES
+              ________      ________
+ M1CHADV        0.999
+ DSES          -0.769         1.536
+
+
+           Correlations
+              M1CHADV       DSES
+              ________      ________
+ M1CHADV        1.000
+ DSES          -0.621         1.000
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+    H0 Value
+
+        Mean                             -1776.470
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980        -1776.470      -1776.470
+           0.980       0.980        -1776.470      -1776.470
+           0.950       0.980        -1776.470      -1776.470
+           0.900       0.980        -1776.470      -1776.470
+           0.800       0.980        -1776.470      -1776.470
+           0.700       0.980        -1776.470      -1776.470
+           0.500       0.980        -1776.470      -1776.470
+           0.300       0.000        -1776.470      -1776.470
+           0.200       0.000        -1776.470      -1776.470
+           0.100       0.000        -1776.470      -1776.470
+           0.050       0.000        -1776.470      -1776.470
+           0.020       0.000        -1776.470      -1776.470
+           0.010       0.000        -1776.470      -1776.470
+
+Information Criteria
+
+    Akaike (AIC)
+
+        Mean                              3558.940
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000         3558.940       3558.940
+           0.980       1.000         3558.940       3558.940
+           0.950       1.000         3558.940       3558.940
+           0.900       1.000         3558.940       3558.940
+           0.800       1.000         3558.940       3558.940
+           0.700       1.000         3558.940       3558.940
+           0.500       0.020         3558.940       3558.940
+           0.300       0.020         3558.940       3558.940
+           0.200       0.020         3558.940       3558.940
+           0.100       0.020         3558.940       3558.940
+           0.050       0.020         3558.940       3558.940
+           0.020       0.020         3558.940       3558.940
+           0.010       0.020         3558.940       3558.940
+
+    Bayesian (BIC)
+
+        Mean                              3574.340
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000         3574.340       3574.340
+           0.980       1.000         3574.340       3574.340
+           0.950       1.000         3574.340       3574.340
+           0.900       1.000         3574.340       3574.340
+           0.800       1.000         3574.340       3574.340
+           0.700       1.000         3574.340       3574.340
+           0.500       0.020         3574.340       3574.340
+           0.300       0.020         3574.340       3574.340
+           0.200       0.020         3574.340       3574.340
+           0.100       0.020         3574.340       3574.340
+           0.050       0.020         3574.340       3574.340
+           0.020       0.020         3574.340       3574.340
+           0.010       0.020         3574.340       3574.340
+
+    Sample-Size Adjusted BIC (n* = (n + 2) / 24)
+
+        Mean                              3564.811
+        Std Dev                              0.000
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000         3564.811       3564.811
+           0.980       1.000         3564.811       3564.811
+           0.950       1.000         3564.811       3564.811
+           0.900       1.000         3564.811       3564.811
+           0.800       1.000         3564.811       3564.811
+           0.700       1.000         3564.811       3564.811
+           0.500       0.020         3564.811       3564.811
+           0.300       0.020         3564.811       3564.811
+           0.200       0.020         3564.811       3564.811
+           0.100       0.020         3564.811       3564.811
+           0.050       0.020         3564.811       3564.811
+           0.020       0.020         3564.811       3564.811
+           0.010       0.020         3564.811       3564.811
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed   Rate of
+                    Estimate       S.E.  Est./S.E.    P-Value    Missing
+
+ P4MAJORCON ON
+    M1CHADV           -0.164      0.039     -4.237      0.000      0.000
+    DSES              -0.120      0.032     -3.776      0.000      0.000
+
+ Intercepts
+    P4MAJORCON         0.082      0.032      2.571      0.010      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Average Condition Number for the Information Matrix      0.210E+00
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ 1                  0             0             0             0
+
+
+           LAMBDA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC           0             0             0             0
+ P4MAJORC           0             0             0             0
+ M1CHADV            0             0             0             0
+ DSES               0             0             0             0
+
+
+           THETA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC           0
+ P4MAJORC           0             0
+ M1CHADV            0             0             0
+ DSES               0             0             0             0
+
+
+           ALPHA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ 1                  0             1             0             0
+
+
+           BETA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC           0             0             0             0
+ P4MAJORC           0             0             2             3
+ M1CHADV            0             0             0             0
+ DSES               0             0             0             0
+
+
+           PSI
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC           0
+ P4MAJORC           0             0
+ M1CHADV            0             0             0
+ DSES               0             0             0             0
+
+
+     STARTING VALUES
+
+
+           NU
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC       1.000         0.000         0.000         0.000
+ P4MAJORC       0.000         1.000         0.000         0.000
+ M1CHADV        0.000         0.000         1.000         0.000
+ DSES           0.000         0.000         0.000         1.000
+
+
+           THETA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC       0.000
+ P4MAJORC       0.000         0.000
+ M1CHADV        0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ 1            -20.000         0.318         0.000         0.000
+
+
+           BETA
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC       0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000
+
+
+           PSI
+              P4MAJORC      P4MAJORC      M1CHADV       DSES
+              ________      ________      ________      ________
+ P4MAJORC       0.000
+ P4MAJORC       0.000         0.000
+ M1CHADV        0.000         0.000         0.500
+ DSES           0.000         0.000         0.000         0.768
+
+
+     Beginning Time:  15:14:18
+        Ending Time:  15:14:43
+       Elapsed Time:  00:00:25
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

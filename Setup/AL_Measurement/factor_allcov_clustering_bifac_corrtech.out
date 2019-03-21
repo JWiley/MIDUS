@@ -1,0 +1,2895 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+05/01/2015   5:31 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   BiFactor Model of biomarkers;
+  DATA:
+  FILE = "factor_allcov_clustering_BiFac.dat";
+
+  VARIABLE:
+  NAMES = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf avgb_hf Rb4p1d Radj_crt b4bdheas
+       Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs b4bha1c Rb4bgluc
+       p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr m2famnum m2id b1pgender b1page_m2
+       Agecat MedGroup white p4majorconditions p4minorconditions p4sumburden b3tem
+       exec_fxn compression bending impact reg_izallo GNNregAL RXNNregAL;
+   MISSING=.;
+
+    usevariables = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf
+      avgb_hf Radj_crt b4bdheas Rb4bcrp
+      b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs Rb4p1d
+      b4bha1c Rb4bgluc
+      p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr
+      b1pgender b1page_m2;
+      CLUSTER = m2famnum;
+      idvariable = m2id;
+
+  ANALYSIS:
+
+      TYPE = COMPLEX;
+      ESTIMATOR = MLR;
+      PROCESSORS = 4;
+  MODEL:
+
+      Radj_epi Radj_nor ON b1pgender b1page_m2;
+      avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      Rb4p1d ON b1pgender b1page_m2;
+      Radj_crt b4bdheas ON b1pgender b1page_m2;
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      Rb4p1gs pulpress ON b1pgender b1page_m2;
+      Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      sym BY Radj_nor@1 Radj_epi@1;
+      hpa BY Radj_crt@1 b4bdheas@1;
+      card BY Rb4p1gs@1 pulpress@1;
+      gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1 p4homair*1;
+      infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      avgb_sd@0;
+      avgb_rm WITH avgb_hf*;
+
+      AL BY Radj_epi*1 Radj_nor*1 avgb_sd*-1 avgb_rm*-1 avgb_lf*-1
+      avgb_hf*-1 Radj_crt*1 b4bdheas*1 Rb4bcrp*1
+      b4bil6*1 b4bfgn*1 b4bsicam*1 b4bsesel*1 pulpress*1 Rb4p1gs*1 Rb4p1d*1
+      b4bha1c*1 Rb4bgluc*1
+      p4homair*1 b4bldl*-1 b4bhdl*1 Rb4btrig*1 Rb4pwhr*1;
+      AL@1;
+      AL WITH sym@0 para@0 hpa@0 infl@0
+      card@0 gluc@0 lipid@0;
+      Rb4bgluc@0;
+  OUTPUT:
+
+      STDYX;
+      CINTERVAL;
+      TECH4;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  Data set contains cases with missing on all variables except
+  x-variables.  These cases were not included in the analysis.
+  Number of cases with missing on all variables except x-variables:  1
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+BiFactor Model of biomarkers;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1254
+
+Number of dependent variables                                   23
+Number of independent variables                                  2
+Number of continuous latent variables                            8
+
+Observed dependent variables
+
+  Continuous
+   RADJ_EPI    RADJ_NOR    AVGB_SD     AVGB_RM     AVGB_LF     AVGB_HF
+   RADJ_CRT    B4BDHEAS    RB4BCRP     B4BIL6      B4BFGN      B4BSICAM
+   B4BSESEL    PULPRESS    RB4P1GS     RB4P1D      B4BHA1C     RB4BGLUC
+   P4HOMAIR    B4BLDL      B4BHDL      RB4BTRIG    RB4PWHR
+
+Observed independent variables
+   B1PGENDE    B1PAGE_M
+
+Continuous latent variables
+   SYM         HPA         CARD        GLUC        LIPID       INFL
+   PARA        AL
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  factor_allcov_clustering_BiFac.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            26
+     Number of clusters        1097
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.979
+ RADJ_NOR       0.979         0.987
+ AVGB_SD        0.900         0.908         0.919
+ AVGB_RM        0.900         0.908         0.919         0.919
+ AVGB_LF        0.900         0.908         0.919         0.919         0.919
+ AVGB_HF        0.900         0.908         0.919         0.919         0.919
+ RADJ_CRT       0.979         0.987         0.915         0.915         0.915
+ B4BDHEAS       0.969         0.977         0.911         0.911         0.911
+ RB4BCRP        0.964         0.972         0.907         0.907         0.907
+ B4BIL6         0.972         0.980         0.913         0.913         0.913
+ B4BFGN         0.966         0.974         0.907         0.907         0.907
+ B4BSICAM       0.971         0.979         0.912         0.912         0.912
+ B4BSESEL       0.971         0.979         0.912         0.912         0.912
+ PULPRESS       0.979         0.987         0.919         0.919         0.919
+ RB4P1GS        0.979         0.987         0.919         0.919         0.919
+ RB4P1D         0.978         0.986         0.919         0.919         0.919
+ B4BHA1C        0.966         0.974         0.907         0.907         0.907
+ RB4BGLUC       0.966         0.974         0.907         0.907         0.907
+ P4HOMAIR       0.964         0.972         0.906         0.906         0.906
+ B4BLDL         0.971         0.979         0.912         0.912         0.912
+ B4BHDL         0.971         0.979         0.912         0.912         0.912
+ RB4BTRIG       0.971         0.979         0.912         0.912         0.912
+ RB4PWHR        0.978         0.986         0.919         0.919         0.919
+ B1PGENDE       0.979         0.987         0.919         0.919         0.919
+ B1PAGE_M       0.979         0.987         0.919         0.919         0.919
+
+
+           Covariance Coverage
+              AVGB_HF       RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.919
+ RADJ_CRT       0.915         0.994
+ B4BDHEAS       0.911         0.984         0.988
+ RB4BCRP        0.907         0.979         0.979         0.983
+ B4BIL6         0.913         0.987         0.988         0.982         0.991
+ B4BFGN         0.907         0.981         0.981         0.983         0.984
+ B4BSICAM       0.912         0.986         0.987         0.982         0.990
+ B4BSESEL       0.912         0.986         0.987         0.982         0.990
+ PULPRESS       0.919         0.994         0.988         0.983         0.991
+ RB4P1GS        0.919         0.994         0.988         0.983         0.991
+ RB4P1D         0.919         0.994         0.987         0.983         0.990
+ B4BHA1C        0.907         0.981         0.981         0.979         0.984
+ RB4BGLUC       0.907         0.981         0.983         0.977         0.985
+ P4HOMAIR       0.906         0.979         0.982         0.975         0.983
+ B4BLDL         0.912         0.986         0.986         0.982         0.990
+ B4BHDL         0.912         0.986         0.986         0.982         0.990
+ RB4BTRIG       0.912         0.986         0.986         0.982         0.990
+ RB4PWHR        0.919         0.994         0.987         0.982         0.990
+ B1PGENDE       0.919         0.994         0.988         0.983         0.991
+ B1PAGE_M       0.919         0.994         0.988         0.983         0.991
+
+
+           Covariance Coverage
+              B4BFGN        B4BSICAM      B4BSESEL      PULPRESS      RB4P1GS
+              ________      ________      ________      ________      ________
+ B4BFGN         0.985
+ B4BSICAM       0.983         0.990
+ B4BSESEL       0.983         0.990         0.990
+ PULPRESS       0.985         0.990         0.990         1.000
+ RB4P1GS        0.985         0.990         0.990         1.000         1.000
+ RB4P1D         0.985         0.990         0.990         0.999         0.999
+ B4BHA1C        0.981         0.984         0.984         0.985         0.985
+ RB4BGLUC       0.978         0.985         0.985         0.985         0.985
+ P4HOMAIR       0.977         0.983         0.983         0.983         0.983
+ B4BLDL         0.983         0.989         0.989         0.990         0.990
+ B4BHDL         0.983         0.989         0.989         0.990         0.990
+ RB4BTRIG       0.983         0.989         0.989         0.990         0.990
+ RB4PWHR        0.984         0.990         0.990         0.999         0.999
+ B1PGENDE       0.985         0.990         0.990         1.000         1.000
+ B1PAGE_M       0.985         0.990         0.990         1.000         1.000
+
+
+           Covariance Coverage
+              RB4P1D        B4BHA1C       RB4BGLUC      P4HOMAIR      B4BLDL
+              ________      ________      ________      ________      ________
+ RB4P1D         0.999
+ B4BHA1C        0.984         0.985
+ RB4BGLUC       0.984         0.978         0.985
+ P4HOMAIR       0.982         0.977         0.983         0.983
+ B4BLDL         0.990         0.983         0.983         0.982         0.990
+ B4BHDL         0.990         0.983         0.983         0.982         0.990
+ RB4BTRIG       0.990         0.983         0.983         0.982         0.990
+ RB4PWHR        0.998         0.984         0.984         0.982         0.990
+ B1PGENDE       0.999         0.985         0.985         0.983         0.990
+ B1PAGE_M       0.999         0.985         0.985         0.983         0.990
+
+
+           Covariance Coverage
+              B4BHDL        RB4BTRIG      RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________      ________
+ B4BHDL         0.990
+ RB4BTRIG       0.990         0.990
+ RB4PWHR        0.990         0.990         0.999
+ B1PGENDE       0.990         0.990         0.999         1.000
+ B1PAGE_M       0.990         0.990         0.999         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      156
+
+Loglikelihood
+
+          H0 Value                      -32719.103
+          H0 Scaling Correction Factor      1.2766
+            for MLR
+          H1 Value                      -32383.058
+          H1 Scaling Correction Factor      1.1676
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   65750.206
+          Bayesian (BIC)                 66551.125
+          Sample-Size Adjusted BIC       66055.597
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            623.638*
+          Degrees of Freedom                   189
+          P-Value                           0.0000
+          Scaling Correction Factor         1.0777
+            for MLR
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.043
+          90 Percent C.I.                    0.039  0.047
+          Probability RMSEA <= .05           0.999
+
+CFI/TLI
+
+          CFI                                0.967
+          TLI                                0.948
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          13396.604
+          Degrees of Freedom                   299
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.028
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ SYM      BY
+    RADJ_NOR           1.000      0.000    999.000    999.000
+    RADJ_EPI           1.000      0.000    999.000    999.000
+
+ HPA      BY
+    RADJ_CRT           1.000      0.000    999.000    999.000
+    B4BDHEAS           1.000      0.000    999.000    999.000
+
+ CARD     BY
+    RB4P1GS            1.000      0.000    999.000    999.000
+    PULPRESS           1.000      0.000    999.000    999.000
+
+ GLUC     BY
+    RB4BGLUC           1.000      0.000    999.000    999.000
+    P4HOMAIR           0.305      0.039      7.796      0.000
+    B4BHA1C            0.665      0.038     17.383      0.000
+
+ LIPID    BY
+    RB4PWHR            1.000      0.000    999.000    999.000
+    RB4BTRIG           5.379      2.371      2.269      0.023
+    B4BHDL            -3.293      0.986     -3.340      0.001
+    B4BLDL             1.942      0.783      2.480      0.013
+    P4HOMAIR           1.954      0.443      4.409      0.000
+
+ INFL     BY
+    RB4BCRP            1.000      0.000    999.000    999.000
+    B4BIL6             0.705      0.100      7.021      0.000
+    B4BFGN             1.023      0.157      6.524      0.000
+    B4BSICAM           0.170      0.096      1.768      0.077
+    B4BSESEL          -0.012      0.092     -0.126      0.900
+
+ PARA     BY
+    AVGB_SD           -1.000      0.000    999.000    999.000
+    AVGB_RM           -0.872      0.019    -46.471      0.000
+    AVGB_HF           -0.817      0.019    -42.845      0.000
+    AVGB_LF           -0.814      0.016    -49.492      0.000
+    RB4P1D             0.337      0.030     11.062      0.000
+
+ AL       BY
+    RADJ_EPI          -0.266      0.045     -5.922      0.000
+    RADJ_NOR           0.138      0.044      3.101      0.002
+    AVGB_SD           -0.199      0.044     -4.578      0.000
+    AVGB_RM           -0.108      0.043     -2.493      0.013
+    AVGB_LF           -0.231      0.039     -5.912      0.000
+    AVGB_HF           -0.112      0.041     -2.753      0.006
+    RADJ_CRT          -0.311      0.040     -7.689      0.000
+    B4BDHEAS          -0.059      0.036     -1.621      0.105
+    RB4BCRP            0.556      0.039     14.388      0.000
+    B4BIL6             0.528      0.040     13.220      0.000
+    B4BFGN             0.371      0.043      8.634      0.000
+    B4BSICAM           0.238      0.042      5.711      0.000
+    B4BSESEL           0.373      0.038      9.883      0.000
+    PULPRESS           0.088      0.036      2.447      0.014
+    RB4P1GS            0.120      0.039      3.079      0.002
+    RB4P1D             0.359      0.039      9.254      0.000
+    B4BHA1C            0.381      0.045      8.475      0.000
+    RB4BGLUC           0.406      0.049      8.375      0.000
+    P4HOMAIR           0.652      0.046     14.250      0.000
+    B4BLDL             0.015      0.047      0.323      0.747
+    B4BHDL            -0.319      0.052     -6.089      0.000
+    RB4BTRIG           0.371      0.061      6.071      0.000
+    RB4PWHR            0.434      0.032     13.515      0.000
+
+ RADJ_EPI ON
+    B1PGENDER          0.058      0.059      0.999      0.318
+    B1PAGE_M2          0.014      0.003      5.636      0.000
+
+ RADJ_NOR ON
+    B1PGENDER          0.461      0.056      8.232      0.000
+    B1PAGE_M2          0.021      0.002      9.075      0.000
+
+ AVGB_SD  ON
+    B1PGENDER         -0.141      0.057     -2.463      0.014
+    B1PAGE_M2         -0.025      0.003     -9.480      0.000
+
+ AVGB_RM  ON
+    B1PGENDER          0.030      0.058      0.509      0.611
+    B1PAGE_M2         -0.017      0.003     -6.194      0.000
+
+ AVGB_HF  ON
+    B1PGENDER          0.118      0.058      2.051      0.040
+    B1PAGE_M2         -0.022      0.003     -8.647      0.000
+
+ AVGB_LF  ON
+    B1PGENDER         -0.262      0.055     -4.778      0.000
+    B1PAGE_M2         -0.033      0.002    -13.351      0.000
+
+ RB4P1D   ON
+    B1PGENDER          0.246      0.059      4.196      0.000
+    B1PAGE_M2         -0.001      0.002     -0.378      0.706
+
+ RADJ_CRT ON
+    B1PGENDER          0.203      0.058      3.474      0.001
+    B1PAGE_M2          0.007      0.002      2.908      0.004
+
+ B4BDHEAS ON
+    B1PGENDER         -0.699      0.049    -14.242      0.000
+    B1PAGE_M2         -0.037      0.002    -17.387      0.000
+
+ RB4BCRP  ON
+    B1PGENDER          0.336      0.057      5.937      0.000
+    B1PAGE_M2          0.001      0.003      0.354      0.723
+
+ B4BIL6   ON
+    B1PGENDER          0.154      0.057      2.710      0.007
+    B1PAGE_M2          0.015      0.002      6.277      0.000
+
+ B4BFGN   ON
+    B1PGENDER          0.364      0.057      6.389      0.000
+    B1PAGE_M2          0.010      0.003      3.954      0.000
+
+ B4BSICAM ON
+    B1PGENDER          0.011      0.058      0.182      0.855
+    B1PAGE_M2          0.010      0.003      3.720      0.000
+
+ B4BSESEL ON
+    B1PGENDER         -0.178      0.060     -2.983      0.003
+    B1PAGE_M2         -0.009      0.002     -3.582      0.000
+
+ RB4P1GS  ON
+    B1PGENDER         -0.124      0.054     -2.322      0.020
+    B1PAGE_M2          0.024      0.002      9.825      0.000
+
+ PULPRESS ON
+    B1PGENDER          0.184      0.050      3.641      0.000
+    B1PAGE_M2          0.037      0.002     16.352      0.000
+
+ RB4BGLUC ON
+    B1PGENDER         -0.265      0.060     -4.432      0.000
+    B1PAGE_M2          0.004      0.002      1.793      0.073
+
+ P4HOMAIR ON
+    B1PGENDER         -0.200      0.059     -3.386      0.001
+    B1PAGE_M2         -0.003      0.002     -1.153      0.249
+
+ B4BHA1C  ON
+    B1PGENDER          0.022      0.060      0.369      0.712
+    B1PAGE_M2          0.014      0.002      6.255      0.000
+
+ RB4PWHR  ON
+    B1PGENDER         -1.277      0.044    -28.971      0.000
+    B1PAGE_M2          0.009      0.002      5.050      0.000
+
+ RB4BTRIG ON
+    B1PGENDER         -0.411      0.059     -7.004      0.000
+    B1PAGE_M2          0.000      0.002     -0.171      0.864
+
+ B4BHDL   ON
+    B1PGENDER          0.744      0.054     13.699      0.000
+    B1PAGE_M2          0.005      0.002      2.005      0.045
+
+ B4BLDL   ON
+    B1PGENDER          0.039      0.059      0.657      0.511
+    B1PAGE_M2         -0.009      0.002     -3.481      0.000
+
+ AL       WITH
+    SYM                0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+
+ HPA      WITH
+    SYM                0.072      0.018      3.950      0.000
+
+ CARD     WITH
+    SYM                0.060      0.023      2.647      0.008
+    HPA                0.058      0.018      3.201      0.001
+
+ GLUC     WITH
+    SYM                0.035      0.025      1.382      0.167
+    HPA                0.042      0.021      1.958      0.050
+    CARD               0.044      0.026      1.710      0.087
+
+ LIPID    WITH
+    SYM               -0.005      0.007     -0.719      0.472
+    HPA               -0.004      0.004     -0.937      0.349
+    CARD               0.015      0.008      1.838      0.066
+    GLUC               0.013      0.010      1.310      0.190
+
+ INFL     WITH
+    SYM                0.060      0.024      2.506      0.012
+    HPA                0.033      0.019      1.771      0.076
+    CARD               0.052      0.025      2.045      0.041
+    GLUC              -0.068      0.031     -2.178      0.029
+    LIPID             -0.004      0.007     -0.542      0.588
+
+ PARA     WITH
+    SYM                0.052      0.026      2.023      0.043
+    HPA                0.019      0.020      0.943      0.346
+    CARD              -0.059      0.028     -2.128      0.033
+    GLUC               0.011      0.034      0.330      0.741
+    LIPID              0.017      0.010      1.670      0.095
+    INFL               0.044      0.026      1.731      0.083
+
+ AVGB_RM  WITH
+    AVGB_HF            0.272      0.014     20.114      0.000
+
+ Intercepts
+    RADJ_EPI          -0.807      0.142     -5.684      0.000
+    RADJ_NOR          -1.423      0.137    -10.383      0.000
+    AVGB_SD            1.444      0.149      9.678      0.000
+    AVGB_RM            0.875      0.147      5.950      0.000
+    AVGB_LF            1.939      0.140     13.830      0.000
+    AVGB_HF            1.142      0.145      7.887      0.000
+    RADJ_CRT          -0.508      0.143     -3.556      0.000
+    B4BDHEAS           2.439      0.120     20.367      0.000
+    RB4BCRP           -0.232      0.147     -1.572      0.116
+    B4BIL6            -0.912      0.143     -6.397      0.000
+    B4BFGN            -0.743      0.142     -5.243      0.000
+    B4BSICAM          -0.531      0.152     -3.505      0.000
+    B4BSESEL           0.574      0.144      3.982      0.000
+    PULPRESS          -2.136      0.125    -17.033      0.000
+    RB4P1GS           -1.216      0.134     -9.108      0.000
+    RB4P1D            -0.089      0.146     -0.611      0.541
+    B4BHA1C           -0.799      0.139     -5.748      0.000
+    RB4BGLUC          -0.078      0.139     -0.559      0.576
+    P4HOMAIR           0.266      0.144      1.848      0.065
+    B4BLDL             0.449      0.147      3.055      0.002
+    B4BHDL            -0.681      0.137     -4.979      0.000
+    RB4BTRIG           0.259      0.146      1.771      0.077
+    RB4PWHR            0.220      0.108      2.036      0.042
+
+ Variances
+    SYM                0.489      0.030     16.128      0.000
+    HPA                0.093      0.029      3.195      0.001
+    CARD               0.688      0.035     19.851      0.000
+    GLUC               0.812      0.094      8.621      0.000
+    LIPID              0.019      0.015      1.271      0.204
+    INFL               0.302      0.058      5.209      0.000
+    PARA               0.873      0.043     20.502      0.000
+    AL                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    RADJ_EPI           0.404      0.033     12.276      0.000
+    RADJ_NOR           0.387      0.030     12.805      0.000
+    AVGB_SD            0.000      0.000    999.000    999.000
+    AVGB_RM            0.289      0.013     22.003      0.000
+    AVGB_LF            0.209      0.011     19.612      0.000
+    AVGB_HF            0.334      0.015     22.078      0.000
+    RADJ_CRT           0.776      0.042     18.630      0.000
+    B4BDHEAS           0.617      0.037     16.511      0.000
+    RB4BCRP            0.368      0.042      8.839      0.000
+    B4BIL6             0.535      0.036     14.761      0.000
+    B4BFGN             0.504      0.049     10.365      0.000
+    B4BSICAM           0.921      0.062     14.962      0.000
+    B4BSESEL           0.844      0.041     20.407      0.000
+    PULPRESS           0.106      0.015      7.255      0.000
+    RB4P1GS            0.220      0.017     12.629      0.000
+    RB4P1D             0.756      0.034     22.043      0.000
+    B4BHA1C            0.465      0.045     10.248      0.000
+    RB4BGLUC           0.000      0.000    999.000    999.000
+    P4HOMAIR           0.404      0.026     15.704      0.000
+    B4BLDL             0.919      0.042     22.043      0.000
+    B4BHDL             0.560      0.042     13.187      0.000
+    RB4BTRIG           0.285      0.098      2.909      0.004
+    RB4PWHR            0.374      0.020     18.706      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ SYM      BY
+    RADJ_NOR           0.698      0.017     40.417      0.000
+    RADJ_EPI           0.702      0.018     38.041      0.000
+
+ HPA      BY
+    RADJ_CRT           0.307      0.047      6.561      0.000
+    B4BDHEAS           0.303      0.046      6.570      0.000
+
+ CARD     BY
+    RB4P1GS            0.828      0.011     72.505      0.000
+    PULPRESS           0.831      0.015     56.338      0.000
+
+ GLUC     BY
+    RB4BGLUC           0.902      0.021     43.907      0.000
+    P4HOMAIR           0.275      0.039      7.044      0.000
+    B4BHA1C            0.600      0.040     14.919      0.000
+
+ LIPID    BY
+    RB4PWHR            0.136      0.054      2.538      0.011
+    RB4BTRIG           0.732      0.065     11.327      0.000
+    B4BHDL            -0.448      0.067     -6.702      0.000
+    B4BLDL             0.264      0.036      7.253      0.000
+    P4HOMAIR           0.266      0.065      4.115      0.000
+
+ INFL     BY
+    RB4BCRP            0.547      0.051     10.690      0.000
+    B4BIL6             0.387      0.047      8.307      0.000
+    B4BFGN             0.562      0.051     10.996      0.000
+    B4BSICAM           0.094      0.053      1.763      0.078
+    B4BSESEL          -0.006      0.050     -0.126      0.900
+
+ PARA     BY
+    AVGB_SD           -0.933      0.013    -73.814      0.000
+    AVGB_RM           -0.814      0.013    -62.452      0.000
+    AVGB_HF           -0.762      0.015    -50.229      0.000
+    AVGB_LF           -0.759      0.016    -46.687      0.000
+    RB4P1D             0.315      0.028     11.308      0.000
+
+ AL       BY
+    RADJ_EPI          -0.267      0.044     -6.054      0.000
+    RADJ_NOR           0.137      0.044      3.125      0.002
+    AVGB_SD           -0.199      0.043     -4.629      0.000
+    AVGB_RM           -0.108      0.043     -2.500      0.012
+    AVGB_LF           -0.230      0.038     -5.990      0.000
+    AVGB_HF           -0.112      0.041     -2.762      0.006
+    RADJ_CRT          -0.314      0.040     -7.836      0.000
+    B4BDHEAS          -0.059      0.036     -1.619      0.105
+    RB4BCRP            0.554      0.036     15.444      0.000
+    B4BIL6             0.528      0.038     13.990      0.000
+    B4BFGN             0.371      0.041      9.067      0.000
+    B4BSICAM           0.238      0.040      5.934      0.000
+    B4BSESEL           0.373      0.035     10.561      0.000
+    PULPRESS           0.088      0.036      2.454      0.014
+    RB4P1GS            0.120      0.039      3.087      0.002
+    RB4P1D             0.359      0.037      9.797      0.000
+    B4BHA1C            0.382      0.039      9.708      0.000
+    RB4BGLUC           0.407      0.045      9.013      0.000
+    P4HOMAIR           0.652      0.043     15.314      0.000
+    B4BLDL             0.015      0.047      0.323      0.747
+    B4BHDL            -0.319      0.052     -6.106      0.000
+    RB4BTRIG           0.371      0.059      6.236      0.000
+    RB4PWHR            0.434      0.031     14.011      0.000
+
+ RADJ_EPI ON
+    B1PGENDER          0.029      0.029      1.000      0.317
+    B1PAGE_M2          0.167      0.029      5.759      0.000
+
+ RADJ_NOR ON
+    B1PGENDER          0.228      0.027      8.541      0.000
+    B1PAGE_M2          0.249      0.027      9.253      0.000
+
+ AVGB_SD  ON
+    B1PGENDER         -0.070      0.028     -2.481      0.013
+    B1PAGE_M2         -0.296      0.030     -9.869      0.000
+
+ AVGB_RM  ON
+    B1PGENDER          0.015      0.029      0.509      0.611
+    B1PAGE_M2         -0.194      0.031     -6.195      0.000
+
+ AVGB_HF  ON
+    B1PGENDER          0.059      0.028      2.057      0.040
+    B1PAGE_M2         -0.262      0.030     -8.819      0.000
+
+ AVGB_LF  ON
+    B1PGENDER         -0.130      0.027     -4.844      0.000
+    B1PAGE_M2         -0.388      0.027    -14.426      0.000
+
+ RB4P1D   ON
+    B1PGENDER          0.122      0.029      4.226      0.000
+    B1PAGE_M2         -0.011      0.029     -0.378      0.706
+
+ RADJ_CRT ON
+    B1PGENDER          0.101      0.029      3.485      0.000
+    B1PAGE_M2          0.085      0.029      2.915      0.004
+
+ B4BDHEAS ON
+    B1PGENDER         -0.344      0.022    -15.691      0.000
+    B1PAGE_M2         -0.436      0.023    -18.636      0.000
+
+ RB4BCRP  ON
+    B1PGENDER          0.166      0.028      6.016      0.000
+    B1PAGE_M2          0.010      0.030      0.355      0.723
+
+ B4BIL6   ON
+    B1PGENDER          0.076      0.028      2.720      0.007
+    B1PAGE_M2          0.177      0.028      6.367      0.000
+
+ B4BFGN   ON
+    B1PGENDER          0.180      0.027      6.611      0.000
+    B1PAGE_M2          0.116      0.029      4.023      0.000
+
+ B4BSICAM ON
+    B1PGENDER          0.005      0.029      0.182      0.855
+    B1PAGE_M2          0.113      0.031      3.677      0.000
+
+ B4BSESEL ON
+    B1PGENDER         -0.088      0.029     -2.996      0.003
+    B1PAGE_M2         -0.101      0.028     -3.604      0.000
+
+ RB4P1GS  ON
+    B1PGENDER         -0.061      0.027     -2.317      0.020
+    B1PAGE_M2          0.276      0.027     10.089      0.000
+
+ PULPRESS ON
+    B1PGENDER          0.091      0.025      3.680      0.000
+    B1PAGE_M2          0.437      0.024     18.511      0.000
+
+ RB4BGLUC ON
+    B1PGENDER         -0.132      0.029     -4.595      0.000
+    B1PAGE_M2          0.049      0.028      1.766      0.077
+
+ P4HOMAIR ON
+    B1PGENDER         -0.099      0.029     -3.406      0.001
+    B1PAGE_M2         -0.032      0.028     -1.155      0.248
+
+ B4BHA1C  ON
+    B1PGENDER          0.011      0.030      0.369      0.712
+    B1PAGE_M2          0.169      0.030      5.680      0.000
+
+ RB4PWHR  ON
+    B1PGENDER         -0.633      0.016    -39.341      0.000
+    B1PAGE_M2          0.108      0.021      5.049      0.000
+
+ RB4BTRIG ON
+    B1PGENDER         -0.203      0.028     -7.245      0.000
+    B1PAGE_M2         -0.005      0.029     -0.171      0.864
+
+ B4BHDL   ON
+    B1PGENDER          0.369      0.025     15.044      0.000
+    B1PAGE_M2          0.055      0.028      1.991      0.046
+
+ B4BLDL   ON
+    B1PGENDER          0.019      0.029      0.658      0.511
+    B1PAGE_M2         -0.101      0.029     -3.504      0.000
+
+ AL       WITH
+    SYM                0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+
+ HPA      WITH
+    SYM                0.336      0.087      3.857      0.000
+
+ CARD     WITH
+    SYM                0.103      0.038      2.673      0.008
+    HPA                0.230      0.078      2.952      0.003
+
+ GLUC     WITH
+    SYM                0.056      0.040      1.392      0.164
+    HPA                0.153      0.084      1.826      0.068
+    CARD               0.059      0.034      1.722      0.085
+
+ LIPID    WITH
+    SYM               -0.049      0.058     -0.854      0.393
+    HPA               -0.092      0.098     -0.942      0.346
+    CARD               0.131      0.041      3.198      0.001
+    GLUC               0.108      0.057      1.885      0.059
+
+ INFL     WITH
+    SYM                0.155      0.065      2.395      0.017
+    HPA                0.198      0.124      1.596      0.110
+    CARD               0.114      0.051      2.264      0.024
+    GLUC              -0.138      0.065     -2.126      0.034
+    LIPID             -0.048      0.102     -0.473      0.636
+
+ PARA     WITH
+    SYM                0.079      0.039      2.017      0.044
+    HPA                0.066      0.071      0.927      0.354
+    CARD              -0.076      0.036     -2.130      0.033
+    GLUC               0.013      0.040      0.332      0.740
+    LIPID              0.133      0.045      2.949      0.003
+    INFL               0.086      0.048      1.812      0.070
+
+ AVGB_RM  WITH
+    AVGB_HF            0.875      0.013     69.745      0.000
+
+ Intercepts
+    RADJ_EPI          -0.810      0.139     -5.837      0.000
+    RADJ_NOR          -1.420      0.131    -10.863      0.000
+    AVGB_SD            1.441      0.141     10.235      0.000
+    AVGB_RM            0.874      0.146      6.003      0.000
+    AVGB_LF            1.935      0.127     15.285      0.000
+    AVGB_HF            1.140      0.141      8.079      0.000
+    RADJ_CRT          -0.512      0.143     -3.588      0.000
+    B4BDHEAS           2.425      0.106     22.845      0.000
+    RB4BCRP           -0.231      0.147     -1.575      0.115
+    B4BIL6            -0.912      0.140     -6.503      0.000
+    B4BFGN            -0.743      0.138     -5.373      0.000
+    B4BSICAM          -0.531      0.155     -3.437      0.001
+    B4BSESEL           0.574      0.143      4.013      0.000
+    PULPRESS          -2.139      0.109    -19.685      0.000
+    RB4P1GS           -1.213      0.130     -9.359      0.000
+    RB4P1D            -0.089      0.146     -0.610      0.542
+    B4BHA1C           -0.800      0.157     -5.083      0.000
+    RB4BGLUC          -0.078      0.141     -0.554      0.580
+    P4HOMAIR           0.265      0.143      1.857      0.063
+    B4BLDL             0.450      0.146      3.086      0.002
+    B4BHDL            -0.681      0.139     -4.889      0.000
+    RB4BTRIG           0.259      0.146      1.778      0.075
+    RB4PWHR            0.220      0.108      2.041      0.041
+
+ Variances
+    SYM                1.000      0.000    999.000    999.000
+    HPA                1.000      0.000    999.000    999.000
+    CARD               1.000      0.000    999.000    999.000
+    GLUC               1.000      0.000    999.000    999.000
+    LIPID              1.000      0.000    999.000    999.000
+    INFL               1.000      0.000    999.000    999.000
+    PARA               1.000      0.000    999.000    999.000
+    AL                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    RADJ_EPI           0.408      0.030     13.722      0.000
+    RADJ_NOR           0.386      0.027     14.369      0.000
+    AVGB_SD            0.000    999.000    999.000    999.000
+    AVGB_RM            0.288      0.015     18.645      0.000
+    AVGB_LF            0.208      0.013     16.201      0.000
+    AVGB_HF            0.333      0.017     19.164      0.000
+    RADJ_CRT           0.791      0.033     24.164      0.000
+    B4BDHEAS           0.610      0.033     18.764      0.000
+    RB4BCRP            0.366      0.042      8.763      0.000
+    B4BIL6             0.535      0.031     17.196      0.000
+    B4BFGN             0.503      0.048     10.481      0.000
+    B4BSICAM           0.922      0.017     53.555      0.000
+    B4BSESEL           0.844      0.027     30.968      0.000
+    PULPRESS           0.107      0.015      7.239      0.000
+    RB4P1GS            0.220      0.015     14.371      0.000
+    RB4P1D             0.756      0.027     28.168      0.000
+    B4BHA1C            0.466      0.040     11.762      0.000
+    RB4BGLUC           0.000    999.000    999.000    999.000
+    P4HOMAIR           0.403      0.026     15.651      0.000
+    B4BLDL             0.919      0.020     46.959      0.000
+    B4BHDL             0.560      0.039     14.326      0.000
+    RB4BTRIG           0.285      0.099      2.882      0.004
+    RB4PWHR            0.374      0.020     18.933      0.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    RADJ_EPI           0.592      0.030     19.944      0.000
+    RADJ_NOR           0.614      0.027     22.899      0.000
+    AVGB_SD            1.000    999.000    999.000    999.000
+    AVGB_RM            0.712      0.015     46.020      0.000
+    AVGB_LF            0.792      0.013     61.742      0.000
+    AVGB_HF            0.667      0.017     38.428      0.000
+    RADJ_CRT           0.209      0.033      6.401      0.000
+    B4BDHEAS           0.390      0.033     11.999      0.000
+    RB4BCRP            0.634      0.042     15.186      0.000
+    B4BIL6             0.465      0.031     14.940      0.000
+    B4BFGN             0.497      0.048     10.346      0.000
+    B4BSICAM           0.078      0.017      4.537      0.000
+    B4BSESEL           0.156      0.027      5.741      0.000
+    PULPRESS           0.893      0.015     60.698      0.000
+    RB4P1GS            0.780      0.015     51.096      0.000
+    RB4P1D             0.244      0.027      9.074      0.000
+    B4BHA1C            0.534      0.040     13.485      0.000
+    RB4BGLUC           1.000    999.000    999.000    999.000
+    P4HOMAIR           0.597      0.026     23.179      0.000
+    B4BLDL             0.081      0.020      4.134      0.000
+    B4BHDL             0.440      0.039     11.258      0.000
+    RB4BTRIG           0.715      0.099      7.220      0.000
+    RB4PWHR            0.626      0.020     31.670      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.135E-07
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ SYM      BY
+    RADJ_NOR         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RADJ_EPI         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ HPA      BY
+    RADJ_CRT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BDHEAS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CARD     BY
+    RB4P1GS          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PULPRESS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ GLUC     BY
+    RB4BGLUC         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    P4HOMAIR         0.204       0.228       0.241       0.305       0.369       0.382       0.406
+    B4BHA1C          0.567       0.590       0.602       0.665       0.728       0.740       0.764
+
+ LIPID    BY
+    RB4PWHR          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RB4BTRIG        -0.728       0.732       1.479       5.379       9.278      10.025      11.485
+    B4BHDL          -5.833      -5.226      -4.915      -3.293      -1.671      -1.361      -0.754
+    B4BLDL          -0.075       0.407       0.654       1.942       3.229       3.476       3.958
+    P4HOMAIR         0.813       1.086       1.225       1.954       2.683       2.823       3.096
+
+ INFL     BY
+    RB4BCRP          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BIL6           0.446       0.508       0.540       0.705       0.870       0.901       0.963
+    B4BFGN           0.619       0.716       0.765       1.023       1.282       1.331       1.428
+    B4BSICAM        -0.078      -0.019       0.012       0.170       0.329       0.359       0.418
+    B4BSESEL        -0.247      -0.191      -0.162      -0.012       0.139       0.168       0.224
+
+ PARA     BY
+    AVGB_SD         -1.000      -1.000      -1.000      -1.000      -1.000      -1.000      -1.000
+    AVGB_RM         -0.920      -0.908      -0.903      -0.872      -0.841      -0.835      -0.823
+    AVGB_HF         -0.866      -0.854      -0.848      -0.817      -0.786      -0.780      -0.768
+    AVGB_LF         -0.857      -0.847      -0.841      -0.814      -0.787      -0.782      -0.772
+    RB4P1D           0.259       0.277       0.287       0.337       0.387       0.397       0.415
+
+ AL       BY
+    RADJ_EPI        -0.381      -0.353      -0.339      -0.266      -0.192      -0.178      -0.150
+    RADJ_NOR         0.023       0.051       0.065       0.138       0.211       0.225       0.252
+    AVGB_SD         -0.311      -0.284      -0.271      -0.199      -0.128      -0.114      -0.087
+    AVGB_RM         -0.219      -0.193      -0.179      -0.108      -0.037      -0.023       0.004
+    AVGB_LF         -0.331      -0.307      -0.295      -0.231      -0.167      -0.154      -0.130
+    AVGB_HF         -0.218      -0.192      -0.180      -0.112      -0.045      -0.032      -0.007
+    RADJ_CRT        -0.415      -0.390      -0.377      -0.311      -0.244      -0.232      -0.207
+    B4BDHEAS        -0.153      -0.131      -0.119      -0.059       0.001       0.012       0.035
+    RB4BCRP          0.456       0.480       0.492       0.556       0.619       0.631       0.655
+    B4BIL6           0.425       0.450       0.462       0.528       0.594       0.606       0.631
+    B4BFGN           0.260       0.287       0.300       0.371       0.442       0.455       0.482
+    B4BSICAM         0.131       0.156       0.169       0.238       0.306       0.319       0.345
+    B4BSESEL         0.276       0.299       0.311       0.373       0.435       0.447       0.470
+    PULPRESS        -0.005       0.018       0.029       0.088       0.147       0.159       0.181
+    RB4P1GS          0.020       0.044       0.056       0.120       0.184       0.196       0.220
+    RB4P1D           0.259       0.283       0.295       0.359       0.423       0.435       0.459
+    B4BHA1C          0.265       0.293       0.307       0.381       0.455       0.469       0.497
+    RB4BGLUC         0.281       0.311       0.327       0.406       0.486       0.502       0.532
+    P4HOMAIR         0.534       0.562       0.577       0.652       0.727       0.742       0.770
+    B4BLDL          -0.106      -0.077      -0.062       0.015       0.093       0.107       0.136
+    B4BHDL          -0.454      -0.422      -0.406      -0.319      -0.233      -0.217      -0.184
+    RB4BTRIG         0.214       0.251       0.270       0.371       0.472       0.491       0.528
+    RB4PWHR          0.351       0.371       0.381       0.434       0.487       0.497       0.517
+
+ RADJ_EPI ON
+    B1PGENDER       -0.092      -0.056      -0.038       0.058       0.155       0.173       0.209
+    B1PAGE_M2        0.008       0.009       0.010       0.014       0.018       0.019       0.021
+
+ RADJ_NOR ON
+    B1PGENDER        0.317       0.351       0.369       0.461       0.553       0.570       0.605
+    B1PAGE_M2        0.015       0.017       0.017       0.021       0.025       0.026       0.027
+
+ AVGB_SD  ON
+    B1PGENDER       -0.288      -0.253      -0.235      -0.141      -0.047      -0.029       0.006
+    B1PAGE_M2       -0.032      -0.031      -0.030      -0.025      -0.021      -0.020      -0.018
+
+ AVGB_RM  ON
+    B1PGENDER       -0.121      -0.085      -0.066       0.030       0.126       0.144       0.180
+    B1PAGE_M2       -0.023      -0.022      -0.021      -0.017      -0.012      -0.011      -0.010
+
+ AVGB_HF  ON
+    B1PGENDER       -0.030       0.005       0.023       0.118       0.213       0.231       0.267
+    B1PAGE_M2       -0.029      -0.028      -0.027      -0.022      -0.018      -0.017      -0.016
+
+ AVGB_LF  ON
+    B1PGENDER       -0.404      -0.370      -0.352      -0.262      -0.172      -0.155      -0.121
+    B1PAGE_M2       -0.040      -0.038      -0.037      -0.033      -0.029      -0.028      -0.027
+
+ RB4P1D   ON
+    B1PGENDER        0.095       0.131       0.150       0.246       0.343       0.361       0.397
+    B1PAGE_M2       -0.007      -0.006      -0.005      -0.001       0.003       0.004       0.005
+
+ RADJ_CRT ON
+    B1PGENDER        0.052       0.088       0.107       0.203       0.299       0.317       0.353
+    B1PAGE_M2        0.001       0.002       0.003       0.007       0.011       0.012       0.014
+
+ B4BDHEAS ON
+    B1PGENDER       -0.825      -0.795      -0.779      -0.699      -0.618      -0.602      -0.572
+    B1PAGE_M2       -0.043      -0.042      -0.041      -0.037      -0.034      -0.033      -0.032
+
+ RB4BCRP  ON
+    B1PGENDER        0.190       0.225       0.243       0.336       0.430       0.447       0.482
+    B1PAGE_M2       -0.006      -0.004      -0.003       0.001       0.005       0.006       0.007
+
+ B4BIL6   ON
+    B1PGENDER        0.008       0.043       0.060       0.154       0.247       0.265       0.300
+    B1PAGE_M2        0.009       0.010       0.011       0.015       0.019       0.020       0.021
+
+ B4BFGN   ON
+    B1PGENDER        0.217       0.252       0.270       0.364       0.457       0.475       0.510
+    B1PAGE_M2        0.003       0.005       0.006       0.010       0.014       0.015       0.016
+
+ B4BSICAM ON
+    B1PGENDER       -0.139      -0.104      -0.085       0.011       0.106       0.125       0.161
+    B1PAGE_M2        0.003       0.005       0.005       0.010       0.014       0.015       0.016
+
+ B4BSESEL ON
+    B1PGENDER       -0.332      -0.295      -0.276      -0.178      -0.080      -0.061      -0.024
+    B1PAGE_M2       -0.015      -0.013      -0.013      -0.009      -0.005      -0.004      -0.002
+
+ RB4P1GS  ON
+    B1PGENDER       -0.262      -0.229      -0.213      -0.124      -0.036      -0.019       0.014
+    B1PAGE_M2        0.017       0.019       0.020       0.024       0.028       0.028       0.030
+
+ PULPRESS ON
+    B1PGENDER        0.054       0.085       0.101       0.184       0.267       0.283       0.314
+    B1PAGE_M2        0.031       0.033       0.034       0.037       0.041       0.042       0.043
+
+ RB4BGLUC ON
+    B1PGENDER       -0.419      -0.383      -0.364      -0.265      -0.167      -0.148      -0.111
+    B1PAGE_M2       -0.002       0.000       0.000       0.004       0.008       0.009       0.010
+
+ P4HOMAIR ON
+    B1PGENDER       -0.353      -0.317      -0.298      -0.200      -0.103      -0.084      -0.048
+    B1PAGE_M2       -0.009      -0.007      -0.007      -0.003       0.001       0.002       0.003
+
+ B4BHA1C  ON
+    B1PGENDER       -0.132      -0.095      -0.077       0.022       0.121       0.140       0.177
+    B1PAGE_M2        0.008       0.010       0.011       0.014       0.018       0.019       0.020
+
+ RB4PWHR  ON
+    B1PGENDER       -1.391      -1.364      -1.350      -1.277      -1.205      -1.191      -1.164
+    B1PAGE_M2        0.005       0.006       0.006       0.009       0.012       0.013       0.014
+
+ RB4BTRIG ON
+    B1PGENDER       -0.562      -0.526      -0.507      -0.411      -0.314      -0.296      -0.260
+    B1PAGE_M2       -0.007      -0.005      -0.004       0.000       0.004       0.004       0.006
+
+ B4BHDL   ON
+    B1PGENDER        0.604       0.638       0.655       0.744       0.833       0.850       0.884
+    B1PAGE_M2       -0.001       0.000       0.001       0.005       0.009       0.009       0.011
+
+ B4BLDL   ON
+    B1PGENDER       -0.113      -0.077      -0.058       0.039       0.135       0.154       0.190
+    B1PAGE_M2       -0.015      -0.014      -0.013      -0.009      -0.005      -0.004      -0.002
+
+ AL       WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ HPA      WITH
+    SYM              0.025       0.036       0.042       0.072       0.101       0.107       0.118
+
+ CARD     WITH
+    SYM              0.002       0.015       0.023       0.060       0.097       0.104       0.118
+    HPA              0.011       0.023       0.028       0.058       0.088       0.094       0.105
+
+ GLUC     WITH
+    SYM             -0.030      -0.015      -0.007       0.035       0.077       0.085       0.101
+    HPA             -0.013       0.000       0.007       0.042       0.077       0.084       0.097
+    CARD            -0.022      -0.006       0.002       0.044       0.087       0.095       0.111
+
+ LIPID    WITH
+    SYM             -0.022      -0.018      -0.015      -0.005       0.006       0.008       0.012
+    HPA             -0.014      -0.012      -0.011      -0.004       0.003       0.004       0.007
+    CARD            -0.006      -0.001       0.002       0.015       0.028       0.031       0.036
+    GLUC            -0.013      -0.007      -0.003       0.013       0.030       0.033       0.039
+
+ INFL     WITH
+    SYM             -0.002       0.013       0.021       0.060       0.099       0.106       0.121
+    HPA             -0.015      -0.004       0.002       0.033       0.064       0.070       0.081
+    CARD            -0.014       0.002       0.010       0.052       0.094       0.102       0.118
+    GLUC            -0.149      -0.130      -0.120      -0.068      -0.017      -0.007       0.012
+    LIPID           -0.021      -0.017      -0.015      -0.004       0.007       0.009       0.014
+
+ PARA     WITH
+    SYM             -0.014       0.002       0.010       0.052       0.094       0.102       0.118
+    HPA             -0.032      -0.020      -0.014       0.019       0.051       0.058       0.070
+    CARD            -0.131      -0.113      -0.105      -0.059      -0.013      -0.005       0.012
+    GLUC            -0.075      -0.055      -0.044       0.011       0.066       0.077       0.097
+    LIPID           -0.009      -0.003       0.000       0.017       0.034       0.037       0.043
+    INFL            -0.022      -0.006       0.002       0.044       0.086       0.094       0.110
+
+ AVGB_RM  WITH
+    AVGB_HF          0.237       0.245       0.250       0.272       0.294       0.298       0.307
+
+ Intercepts
+    RADJ_EPI        -1.173      -1.086      -1.041      -0.807      -0.574      -0.529      -0.441
+    RADJ_NOR        -1.777      -1.692      -1.649      -1.423      -1.198      -1.155      -1.070
+    AVGB_SD          1.060       1.152       1.199       1.444       1.690       1.737       1.829
+    AVGB_RM          0.496       0.587       0.633       0.875       1.117       1.163       1.253
+    AVGB_LF          1.578       1.665       1.709       1.939       2.170       2.214       2.301
+    AVGB_HF          0.769       0.858       0.904       1.142       1.381       1.426       1.515
+    RADJ_CRT        -0.875      -0.788      -0.743      -0.508      -0.273      -0.228      -0.140
+    B4BDHEAS         2.131       2.204       2.242       2.439       2.636       2.674       2.748
+    RB4BCRP         -0.611      -0.521      -0.474      -0.232       0.011       0.057       0.148
+    B4BIL6          -1.279      -1.191      -1.146      -0.912      -0.677      -0.632      -0.545
+    B4BFGN          -1.109      -1.021      -0.977      -0.743      -0.510      -0.465      -0.378
+    B4BSICAM        -0.921      -0.828      -0.780      -0.531      -0.282      -0.234      -0.141
+    B4BSESEL         0.203       0.292       0.337       0.574       0.812       0.857       0.946
+    PULPRESS        -2.459      -2.382      -2.342      -2.136      -1.930      -1.890      -1.813
+    RB4P1GS         -1.560      -1.478      -1.436      -1.216      -0.996      -0.954      -0.872
+    RB4P1D          -0.466      -0.376      -0.330      -0.089       0.151       0.197       0.287
+    B4BHA1C         -1.157      -1.071      -1.027      -0.799      -0.570      -0.526      -0.441
+    RB4BGLUC        -0.437      -0.351      -0.307      -0.078       0.151       0.195       0.281
+    P4HOMAIR        -0.105      -0.016       0.029       0.266       0.502       0.548       0.636
+    B4BLDL           0.070       0.161       0.207       0.449       0.691       0.738       0.828
+    B4BHDL          -1.033      -0.949      -0.906      -0.681      -0.456      -0.413      -0.329
+    RB4BTRIG        -0.118      -0.028       0.018       0.259       0.500       0.546       0.636
+    RB4PWHR         -0.058       0.008       0.042       0.220       0.397       0.431       0.498
+
+ Variances
+    SYM              0.411       0.430       0.439       0.489       0.539       0.549       0.567
+    HPA              0.018       0.036       0.045       0.093       0.140       0.149       0.167
+    CARD             0.599       0.620       0.631       0.688       0.745       0.756       0.777
+    GLUC             0.569       0.627       0.657       0.812       0.967       0.996       1.054
+    LIPID           -0.019      -0.010      -0.005       0.019       0.043       0.047       0.056
+    INFL             0.152       0.188       0.206       0.302       0.397       0.415       0.451
+    PARA             0.764       0.790       0.803       0.873       0.944       0.957       0.983
+    AL               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI         0.320       0.340       0.350       0.404       0.459       0.469       0.489
+    RADJ_NOR         0.310       0.328       0.338       0.387       0.437       0.447       0.465
+    AVGB_SD          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    AVGB_RM          0.255       0.263       0.267       0.289       0.311       0.315       0.323
+    AVGB_LF          0.181       0.188       0.191       0.209       0.226       0.230       0.236
+    AVGB_HF          0.295       0.304       0.309       0.334       0.359       0.364       0.373
+    RADJ_CRT         0.669       0.695       0.708       0.776       0.845       0.858       0.884
+    B4BDHEAS         0.521       0.544       0.556       0.617       0.679       0.690       0.713
+    RB4BCRP          0.261       0.287       0.300       0.368       0.437       0.450       0.475
+    B4BIL6           0.442       0.464       0.475       0.535       0.594       0.606       0.628
+    B4BFGN           0.379       0.409       0.424       0.504       0.584       0.599       0.629
+    B4BSICAM         0.763       0.800       0.820       0.921       1.022       1.042       1.080
+    B4BSESEL         0.737       0.763       0.776       0.844       0.912       0.925       0.950
+    PULPRESS         0.068       0.078       0.082       0.106       0.130       0.135       0.144
+    RB4P1GS          0.176       0.186       0.192       0.220       0.249       0.255       0.265
+    RB4P1D           0.667       0.688       0.699       0.756       0.812       0.823       0.844
+    B4BHA1C          0.348       0.376       0.390       0.465       0.539       0.554       0.582
+    RB4BGLUC         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    P4HOMAIR         0.338       0.353       0.362       0.404       0.446       0.454       0.470
+    B4BLDL           0.811       0.837       0.850       0.919       0.987       1.000       1.026
+    B4BHDL           0.450       0.477       0.490       0.560       0.630       0.643       0.669
+    RB4BTRIG         0.033       0.093       0.124       0.285       0.447       0.478       0.538
+    RB4PWHR          0.322       0.335       0.341       0.374       0.407       0.413       0.425
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ SYM      BY
+    RADJ_NOR         0.653       0.664       0.669       0.698       0.726       0.732       0.742
+    RADJ_EPI         0.655       0.666       0.672       0.702       0.733       0.738       0.750
+
+ HPA      BY
+    RADJ_CRT         0.187       0.215       0.230       0.307       0.384       0.399       0.428
+    B4BDHEAS         0.184       0.212       0.227       0.303       0.378       0.393       0.421
+
+ CARD     BY
+    RB4P1GS          0.798       0.805       0.809       0.828       0.846       0.850       0.857
+    PULPRESS         0.793       0.802       0.806       0.831       0.855       0.860       0.869
+
+ GLUC     BY
+    RB4BGLUC         0.849       0.862       0.868       0.902       0.936       0.942       0.955
+    P4HOMAIR         0.174       0.198       0.210       0.275       0.339       0.351       0.375
+    B4BHA1C          0.496       0.521       0.534       0.600       0.666       0.679       0.704
+
+ LIPID    BY
+    RB4PWHR         -0.002       0.031       0.048       0.136       0.225       0.241       0.274
+    RB4BTRIG         0.566       0.605       0.626       0.732       0.838       0.859       0.898
+    B4BHDL          -0.621      -0.579      -0.558      -0.448      -0.338      -0.317      -0.276
+    B4BLDL           0.171       0.193       0.204       0.264       0.324       0.336       0.358
+    P4HOMAIR         0.099       0.139       0.160       0.266       0.372       0.392       0.432
+
+ INFL     BY
+    RB4BCRP          0.416       0.447       0.463       0.547       0.632       0.648       0.679
+    B4BIL6           0.267       0.296       0.310       0.387       0.464       0.478       0.507
+    B4BFGN           0.430       0.461       0.478       0.562       0.646       0.662       0.693
+    B4BSICAM        -0.043      -0.010       0.006       0.094       0.181       0.198       0.230
+    B4BSESEL        -0.136      -0.105      -0.089      -0.006       0.076       0.092       0.123
+
+ PARA     BY
+    AVGB_SD         -0.965      -0.957      -0.953      -0.933      -0.912      -0.908      -0.900
+    AVGB_RM         -0.847      -0.839      -0.835      -0.814      -0.792      -0.788      -0.780
+    AVGB_HF         -0.801      -0.792      -0.787      -0.762      -0.737      -0.732      -0.723
+    AVGB_LF         -0.801      -0.791      -0.786      -0.759      -0.732      -0.727      -0.717
+    RB4P1D           0.243       0.260       0.269       0.315       0.361       0.370       0.387
+
+ AL       BY
+    RADJ_EPI        -0.380      -0.353      -0.339      -0.267      -0.194      -0.180      -0.153
+    RADJ_NOR         0.024       0.051       0.065       0.137       0.210       0.223       0.250
+    AVGB_SD         -0.309      -0.283      -0.269      -0.199      -0.128      -0.115      -0.088
+    AVGB_RM         -0.219      -0.192      -0.178      -0.108      -0.037      -0.023       0.003
+    AVGB_LF         -0.329      -0.306      -0.294      -0.230      -0.167      -0.155      -0.131
+    AVGB_HF         -0.217      -0.192      -0.179      -0.112      -0.045      -0.033      -0.008
+    RADJ_CRT        -0.417      -0.392      -0.379      -0.314      -0.248      -0.235      -0.211
+    B4BDHEAS        -0.152      -0.130      -0.118      -0.059       0.001       0.012       0.035
+    RB4BCRP          0.462       0.484       0.495       0.554       0.613       0.624       0.646
+    B4BIL6           0.431       0.454       0.466       0.528       0.590       0.602       0.625
+    B4BFGN           0.265       0.291       0.303       0.371       0.438       0.451       0.476
+    B4BSICAM         0.135       0.159       0.172       0.238       0.304       0.316       0.341
+    B4BSESEL         0.282       0.304       0.315       0.373       0.431       0.442       0.464
+    PULPRESS        -0.004       0.018       0.029       0.088       0.147       0.159       0.181
+    RB4P1GS          0.020       0.044       0.056       0.120       0.183       0.195       0.219
+    RB4P1D           0.265       0.288       0.299       0.359       0.420       0.431       0.454
+    B4BHA1C          0.280       0.305       0.317       0.382       0.446       0.459       0.483
+    RB4BGLUC         0.291       0.319       0.333       0.407       0.481       0.496       0.523
+    P4HOMAIR         0.542       0.568       0.582       0.652       0.722       0.735       0.761
+    B4BLDL          -0.106      -0.077      -0.062       0.015       0.093       0.107       0.136
+    B4BHDL          -0.454      -0.422      -0.405      -0.319      -0.233      -0.217      -0.185
+    RB4BTRIG         0.218       0.254       0.273       0.371       0.469       0.487       0.524
+    RB4PWHR          0.354       0.373       0.383       0.434       0.485       0.495       0.514
+
+ RADJ_EPI ON
+    B1PGENDER       -0.046      -0.028      -0.019       0.029       0.077       0.086       0.104
+    B1PAGE_M2        0.092       0.110       0.119       0.167       0.215       0.224       0.242
+
+ RADJ_NOR ON
+    B1PGENDER        0.159       0.175       0.184       0.228       0.271       0.280       0.296
+    B1PAGE_M2        0.180       0.196       0.205       0.249       0.294       0.302       0.319
+
+ AVGB_SD  ON
+    B1PGENDER       -0.142      -0.125      -0.116      -0.070      -0.023      -0.015       0.003
+    B1PAGE_M2       -0.373      -0.355      -0.345      -0.296      -0.247      -0.237      -0.219
+
+ AVGB_RM  ON
+    B1PGENDER       -0.060      -0.042      -0.033       0.015       0.062       0.071       0.089
+    B1PAGE_M2       -0.274      -0.255      -0.245      -0.194      -0.142      -0.132      -0.113
+
+ AVGB_HF  ON
+    B1PGENDER       -0.015       0.003       0.012       0.059       0.105       0.114       0.132
+    B1PAGE_M2       -0.339      -0.321      -0.311      -0.262      -0.214      -0.204      -0.186
+
+ AVGB_LF  ON
+    B1PGENDER       -0.198      -0.182      -0.174      -0.130      -0.086      -0.077      -0.061
+    B1PAGE_M2       -0.457      -0.441      -0.432      -0.388      -0.344      -0.335      -0.319
+
+ RB4P1D   ON
+    B1PGENDER        0.048       0.065       0.075       0.122       0.169       0.179       0.196
+    B1PAGE_M2       -0.085      -0.067      -0.058      -0.011       0.037       0.046       0.063
+
+ RADJ_CRT ON
+    B1PGENDER        0.026       0.044       0.054       0.101       0.149       0.158       0.176
+    B1PAGE_M2        0.010       0.028       0.037       0.085       0.133       0.142       0.160
+
+ B4BDHEAS ON
+    B1PGENDER       -0.401      -0.387      -0.380      -0.344      -0.308      -0.301      -0.288
+    B1PAGE_M2       -0.497      -0.482      -0.475      -0.436      -0.398      -0.390      -0.376
+
+ RB4BCRP  ON
+    B1PGENDER        0.095       0.112       0.121       0.166       0.212       0.220       0.237
+    B1PAGE_M2       -0.066      -0.047      -0.038       0.010       0.059       0.068       0.087
+
+ B4BIL6   ON
+    B1PGENDER        0.004       0.021       0.030       0.076       0.122       0.131       0.148
+    B1PAGE_M2        0.106       0.123       0.132       0.177       0.223       0.232       0.249
+
+ B4BFGN   ON
+    B1PGENDER        0.110       0.127       0.135       0.180       0.225       0.233       0.250
+    B1PAGE_M2        0.042       0.060       0.069       0.116       0.164       0.173       0.191
+
+ B4BSICAM ON
+    B1PGENDER       -0.069      -0.051      -0.042       0.005       0.053       0.062       0.080
+    B1PAGE_M2        0.034       0.053       0.062       0.113       0.164       0.173       0.192
+
+ B4BSESEL ON
+    B1PGENDER       -0.164      -0.146      -0.137      -0.088      -0.040      -0.031      -0.012
+    B1PAGE_M2       -0.174      -0.157      -0.148      -0.101      -0.055      -0.046      -0.029
+
+ RB4P1GS  ON
+    B1PGENDER       -0.130      -0.114      -0.105      -0.061      -0.018      -0.009       0.007
+    B1PAGE_M2        0.205       0.222       0.231       0.276       0.321       0.329       0.346
+
+ PULPRESS ON
+    B1PGENDER        0.027       0.043       0.050       0.091       0.132       0.140       0.155
+    B1PAGE_M2        0.376       0.391       0.398       0.437       0.476       0.483       0.498
+
+ RB4BGLUC ON
+    B1PGENDER       -0.205      -0.188      -0.179      -0.132      -0.084      -0.075      -0.058
+    B1PAGE_M2       -0.023      -0.005       0.003       0.049       0.095       0.104       0.121
+
+ P4HOMAIR ON
+    B1PGENDER       -0.174      -0.156      -0.147      -0.099      -0.051      -0.042      -0.024
+    B1PAGE_M2       -0.104      -0.087      -0.078      -0.032       0.014       0.022       0.040
+
+ B4BHA1C  ON
+    B1PGENDER       -0.066      -0.047      -0.038       0.011       0.060       0.069       0.088
+    B1PAGE_M2        0.092       0.111       0.120       0.169       0.218       0.227       0.246
+
+ RB4PWHR  ON
+    B1PGENDER       -0.674      -0.665      -0.660      -0.633      -0.607      -0.602      -0.592
+    B1PAGE_M2        0.053       0.066       0.073       0.108       0.144       0.151       0.164
+
+ RB4BTRIG ON
+    B1PGENDER       -0.276      -0.259      -0.250      -0.203      -0.157      -0.148      -0.131
+    B1PAGE_M2       -0.079      -0.062      -0.053      -0.005       0.043       0.052       0.070
+
+ B4BHDL   ON
+    B1PGENDER        0.305       0.321       0.328       0.369       0.409       0.417       0.432
+    B1PAGE_M2       -0.016       0.001       0.010       0.055       0.101       0.109       0.126
+
+ B4BLDL   ON
+    B1PGENDER       -0.056      -0.038      -0.029       0.019       0.067       0.076       0.094
+    B1PAGE_M2       -0.176      -0.158      -0.149      -0.101      -0.054      -0.045      -0.027
+
+ AL       WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ HPA      WITH
+    SYM              0.112       0.165       0.193       0.336       0.479       0.507       0.560
+
+ CARD     WITH
+    SYM              0.004       0.027       0.040       0.103       0.166       0.178       0.202
+    HPA              0.029       0.077       0.102       0.230       0.359       0.383       0.431
+
+ GLUC     WITH
+    SYM             -0.048      -0.023      -0.010       0.056       0.122       0.135       0.159
+    HPA             -0.063      -0.011       0.015       0.153       0.290       0.317       0.368
+    CARD            -0.029      -0.008       0.003       0.059       0.116       0.127       0.148
+
+ LIPID    WITH
+    SYM             -0.198      -0.163      -0.145      -0.049       0.046       0.064       0.100
+    HPA             -0.345      -0.285      -0.254      -0.092       0.069       0.100       0.160
+    CARD             0.025       0.051       0.064       0.131       0.198       0.211       0.237
+    GLUC            -0.040      -0.004       0.014       0.108       0.202       0.220       0.256
+
+ INFL     WITH
+    SYM             -0.012       0.028       0.049       0.155       0.262       0.283       0.322
+    HPA             -0.121      -0.045      -0.006       0.198       0.401       0.440       0.516
+    CARD            -0.016       0.015       0.031       0.114       0.198       0.213       0.245
+    GLUC            -0.306      -0.266      -0.245      -0.138      -0.031      -0.011       0.029
+    LIPID           -0.312      -0.249      -0.217      -0.048       0.120       0.152       0.215
+
+ PARA     WITH
+    SYM             -0.022       0.002       0.015       0.079       0.144       0.156       0.180
+    HPA             -0.117      -0.073      -0.051       0.066       0.183       0.205       0.249
+    CARD            -0.168      -0.146      -0.135      -0.076      -0.017      -0.006       0.016
+    GLUC            -0.089      -0.064      -0.052       0.013       0.078       0.091       0.115
+    LIPID            0.017       0.044       0.059       0.133       0.207       0.221       0.249
+    INFL            -0.036      -0.007       0.008       0.086       0.164       0.179       0.208
+
+ AVGB_RM  WITH
+    AVGB_HF          0.843       0.850       0.854       0.875       0.896       0.900       0.907
+
+ Intercepts
+    RADJ_EPI        -1.168      -1.082      -1.039      -0.810      -0.582      -0.538      -0.453
+    RADJ_NOR        -1.757      -1.676      -1.635      -1.420      -1.205      -1.164      -1.083
+    AVGB_SD          1.079       1.165       1.210       1.441       1.673       1.717       1.804
+    AVGB_RM          0.499       0.588       0.634       0.874       1.113       1.159       1.248
+    AVGB_LF          1.609       1.686       1.726       1.935       2.143       2.183       2.261
+    AVGB_HF          0.777       0.864       0.908       1.140       1.373       1.417       1.504
+    RADJ_CRT        -0.880      -0.792      -0.747      -0.512      -0.277      -0.232      -0.144
+    B4BDHEAS         2.152       2.217       2.251       2.425       2.600       2.633       2.699
+    RB4BCRP         -0.609      -0.519      -0.472      -0.231       0.010       0.056       0.147
+    B4BIL6          -1.273      -1.187      -1.142      -0.912      -0.681      -0.637      -0.551
+    B4BFGN          -1.099      -1.014      -0.970      -0.743      -0.515      -0.472      -0.387
+    B4BSICAM        -0.930      -0.834      -0.786      -0.531      -0.277      -0.228      -0.133
+    B4BSESEL         0.206       0.294       0.339       0.574       0.810       0.855       0.943
+    PULPRESS        -2.419      -2.352      -2.318      -2.139      -1.961      -1.926      -1.859
+    RB4P1GS         -1.547      -1.467      -1.427      -1.213      -1.000      -0.959      -0.879
+    RB4P1D          -0.467      -0.376      -0.330      -0.089       0.152       0.198       0.288
+    B4BHA1C         -1.205      -1.108      -1.059      -0.800      -0.541      -0.491      -0.394
+    RB4BGLUC        -0.441      -0.354      -0.310      -0.078       0.154       0.198       0.285
+    P4HOMAIR        -0.103      -0.015       0.030       0.265       0.501       0.546       0.634
+    B4BLDL           0.074       0.164       0.210       0.450       0.689       0.735       0.825
+    B4BHDL          -1.040      -0.954      -0.910      -0.681      -0.452      -0.408      -0.322
+    RB4BTRIG        -0.116      -0.027       0.019       0.259       0.499       0.545       0.635
+    RB4PWHR         -0.058       0.009       0.043       0.220       0.397       0.431       0.497
+
+ Variances
+    SYM              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HPA              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    CARD             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GLUC             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    LIPID            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    INFL             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PARA             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    AL               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI         0.331       0.349       0.359       0.408       0.456       0.466       0.484
+    RADJ_NOR         0.316       0.333       0.341       0.386       0.430       0.438       0.455
+    AVGB_SD        999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    AVGB_RM          0.248       0.258       0.263       0.288       0.314       0.319       0.328
+    AVGB_LF          0.175       0.183       0.187       0.208       0.229       0.233       0.241
+    AVGB_HF          0.288       0.299       0.304       0.333       0.361       0.367       0.377
+    RADJ_CRT         0.706       0.726       0.737       0.791       0.844       0.855       0.875
+    B4BDHEAS         0.526       0.546       0.556       0.610       0.663       0.674       0.694
+    RB4BCRP          0.258       0.284       0.297       0.366       0.435       0.448       0.473
+    B4BIL6           0.455       0.474       0.484       0.535       0.586       0.596       0.615
+    B4BFGN           0.380       0.409       0.424       0.503       0.582       0.597       0.627
+    B4BSICAM         0.878       0.888       0.894       0.922       0.950       0.956       0.966
+    B4BSESEL         0.773       0.790       0.799       0.844       0.888       0.897       0.914
+    PULPRESS         0.069       0.078       0.082       0.107       0.131       0.135       0.144
+    RB4P1GS          0.180       0.190       0.194       0.220       0.245       0.249       0.259
+    RB4P1D           0.687       0.704       0.712       0.756       0.801       0.809       0.826
+    B4BHA1C          0.364       0.388       0.401       0.466       0.531       0.544       0.568
+    RB4BGLUC       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    P4HOMAIR         0.337       0.353       0.361       0.403       0.445       0.454       0.469
+    B4BLDL           0.869       0.881       0.887       0.919       0.951       0.957       0.969
+    B4BHDL           0.459       0.483       0.496       0.560       0.624       0.637       0.661
+    RB4BTRIG         0.030       0.091       0.122       0.285       0.448       0.479       0.540
+    RB4PWHR          0.323       0.335       0.342       0.374       0.407       0.413       0.425
+
+
+TECHNICAL 4 OUTPUT
+
+
+     ESTIMATES DERIVED FROM THE MODEL
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.001         0.002
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+      1        -0.017        -0.012        -0.021        -0.015         0.000
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+      1        -0.001         0.008         0.002         0.005         0.001
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+      1         0.001         0.000         0.000         0.000         0.000
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+      1         0.000         0.002         0.000        -0.002         0.003
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+      1         0.000         0.568        54.526
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.030         0.030
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+      1         0.031         0.030         0.030         0.031         0.030
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+      1         0.030         0.030         0.029         0.030         0.030
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+      1         0.030         0.030         0.029         0.030         0.030
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+      1         0.030         0.030         0.030         0.030         0.030
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+      1         0.030         0.015         0.368
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.034         0.062
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+      1        -0.561        -0.381        -0.703        -0.492         0.013
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+      1        -0.029         0.277         0.066         0.164         0.032
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+      1         0.027         0.000         0.000        -0.006        -0.005
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+      1         0.002         0.076         0.013        -0.069         0.098
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+      1        -0.013        37.924       148.191
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+      1         1.000         1.000         1.000         1.000         1.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+      1         1.000         1.000         1.000         0.973         0.950
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+      1         0.575         0.703         0.482         0.622         0.990
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+      1         0.977         0.782         0.947         0.870         0.975
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+      1         0.979         1.000         1.000         0.995         0.996
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+      1         0.998         0.940         0.990         0.945         0.922
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+      1         0.990         0.000         0.000
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM            0.489
+ HPA            0.072         0.093
+ CARD           0.060         0.058         0.688
+ GLUC           0.035         0.042         0.044         0.812
+ LIPID         -0.005        -0.004         0.015         0.013         0.019
+ INFL           0.060         0.033         0.052        -0.068        -0.004
+ PARA           0.052         0.019        -0.059         0.011         0.017
+ AL             0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI       0.489         0.072         0.060         0.035        -0.005
+ RADJ_NOR       0.489         0.072         0.060         0.035        -0.005
+ AVGB_SD       -0.052        -0.019         0.059        -0.011        -0.017
+ AVGB_RM       -0.045        -0.016         0.051        -0.010        -0.015
+ AVGB_LF       -0.042        -0.015         0.048        -0.009        -0.014
+ AVGB_HF       -0.042        -0.015         0.048        -0.009        -0.014
+ RADJ_CRT       0.072         0.093         0.058         0.042        -0.004
+ B4BDHEAS       0.072         0.093         0.058         0.042        -0.004
+ RB4BCRP        0.060         0.033         0.052        -0.068        -0.004
+ B4BIL6         0.042         0.023         0.037        -0.048        -0.003
+ B4BFGN         0.061         0.034         0.053        -0.070        -0.004
+ B4BSICAM       0.010         0.006         0.009        -0.012        -0.001
+ B4BSESEL      -0.001         0.000        -0.001         0.001         0.000
+ PULPRESS       0.060         0.058         0.688         0.044         0.015
+ RB4P1GS        0.060         0.058         0.688         0.044         0.015
+ RB4P1D         0.017         0.006        -0.020         0.004         0.006
+ B4BHA1C        0.023         0.028         0.029         0.540         0.009
+ RB4BGLUC       0.035         0.042         0.044         0.812         0.013
+ P4HOMAIR       0.002         0.005         0.042         0.274         0.040
+ B4BLDL        -0.009        -0.007         0.029         0.026         0.036
+ B4BHDL         0.015         0.013        -0.049        -0.044        -0.061
+ RB4BTRIG      -0.025        -0.021         0.080         0.071         0.100
+ RB4PWHR       -0.005        -0.004         0.015         0.013         0.019
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL           0.302
+ PARA           0.044         0.873
+ AL             0.000         0.000         1.000
+ RADJ_EPI       0.060         0.052        -0.266         0.992
+ RADJ_NOR       0.060         0.052         0.138         0.499         1.005
+ AVGB_SD       -0.044        -0.873        -0.199        -0.049        -0.165
+ AVGB_RM       -0.039        -0.761        -0.108        -0.048        -0.103
+ AVGB_LF       -0.036        -0.711        -0.231        -0.048        -0.195
+ AVGB_HF       -0.036        -0.714        -0.112        -0.055        -0.108
+ RADJ_CRT       0.033         0.019        -0.311         0.170         0.071
+ B4BDHEAS       0.033         0.019        -0.059         0.007        -0.117
+ RB4BCRP        0.302         0.044         0.556        -0.083         0.175
+ B4BIL6         0.212         0.031         0.528        -0.067         0.174
+ B4BFGN         0.309         0.045         0.371        -0.014         0.179
+ B4BSICAM       0.051         0.008         0.238        -0.034         0.071
+ B4BSESEL      -0.003        -0.001         0.373        -0.118         0.007
+ PULPRESS       0.052        -0.059         0.088         0.110         0.196
+ RB4P1GS        0.052        -0.059         0.120         0.072         0.129
+ RB4P1D         0.015         0.294         0.359        -0.077         0.091
+ B4BHA1C       -0.046         0.007         0.381        -0.050         0.119
+ RB4BGLUC      -0.068         0.011         0.406        -0.067         0.074
+ P4HOMAIR      -0.028         0.036         0.652        -0.179         0.062
+ B4BLDL        -0.007         0.033         0.015        -0.029        -0.027
+ B4BHDL         0.012        -0.056        -0.319         0.117         0.065
+ RB4BTRIG      -0.019         0.091         0.371        -0.129        -0.020
+ RB4PWHR       -0.004         0.017         0.434        -0.116        -0.056
+ B1PGENDE       0.000         0.000         0.000         0.011         0.107
+ B1PAGE_M       0.000         0.000         0.000         1.933         2.804
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD        1.004
+ AVGB_RM        0.839         1.002
+ AVGB_LF        0.879         0.718         1.005
+ AVGB_HF        0.810         0.959         0.701         1.003
+ RADJ_CRT       0.013         0.003         0.013         0.004         0.982
+ B4BDHEAS       0.141         0.067         0.205         0.083         0.043
+ RB4BCRP       -0.167        -0.097        -0.187        -0.090        -0.123
+ B4BIL6        -0.193        -0.117        -0.224        -0.127        -0.119
+ B4BFGN        -0.163        -0.098        -0.187        -0.097        -0.055
+ B4BSICAM      -0.088        -0.054        -0.105        -0.063        -0.059
+ B4BSESEL      -0.039        -0.022        -0.037        -0.021        -0.133
+ PULPRESS      -0.092        -0.041        -0.150        -0.071         0.074
+ RB4P1GS       -0.042        -0.017        -0.078        -0.043         0.037
+ RB4P1D        -0.370        -0.290        -0.332        -0.269        -0.094
+ B4BHA1C       -0.133        -0.080        -0.160        -0.093        -0.076
+ RB4BGLUC      -0.099        -0.066        -0.107        -0.077        -0.093
+ P4HOMAIR      -0.151        -0.098        -0.157        -0.102        -0.210
+ B4BLDL        -0.007        -0.010         0.006         0.000        -0.018
+ B4BHDL         0.082         0.081         0.057         0.093         0.152
+ RB4BTRIG      -0.152        -0.123        -0.135        -0.129        -0.156
+ RB4PWHR       -0.100        -0.097        -0.085        -0.136        -0.191
+ B1PGENDE      -0.028         0.012        -0.056         0.035         0.048
+ B1PAGE_M      -3.436        -2.279        -4.486        -3.110         0.934
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS       1.012
+ RB4BCRP       -0.059         1.006
+ B4BIL6        -0.108         0.519         0.999
+ B4BFGN        -0.096         0.545         0.446         1.002
+ B4BSICAM      -0.058         0.185         0.182         0.154         0.999
+ B4BSESEL       0.049         0.189         0.171         0.108         0.077
+ PULPRESS      -0.161         0.117         0.165         0.149         0.079
+ RB4P1GS       -0.046         0.109         0.144         0.117         0.068
+ RB4P1D        -0.050         0.235         0.207         0.169         0.087
+ B4BHA1C       -0.070         0.169         0.199         0.115         0.102
+ RB4BGLUC       0.040         0.136         0.166         0.063         0.091
+ P4HOMAIR       0.013         0.318         0.312         0.193         0.147
+ B4BLDL         0.028         0.004        -0.013        -0.009        -0.009
+ B4BHDL        -0.112        -0.104        -0.126        -0.036        -0.068
+ RB4BTRIG       0.026         0.153         0.167         0.082         0.084
+ RB4PWHR        0.131         0.133         0.202         0.058         0.115
+ B1PGENDE      -0.162         0.082         0.034         0.087         0.000
+ B1PAGE_M      -4.953         0.034         2.036         1.266         1.320
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL       1.000
+ PULPRESS      -0.018         0.997
+ RB4P1GS        0.022         0.813         1.004
+ RB4P1D         0.125         0.016         0.011         0.999
+ B4BHA1C        0.125         0.137         0.121         0.138         0.997
+ RB4BGLUC       0.159         0.092         0.116         0.133         0.703
+ P4HOMAIR       0.255         0.079         0.119         0.235         0.425
+ B4BLDL         0.014        -0.012         0.001         0.021         0.006
+ B4BHDL        -0.155        -0.027        -0.099        -0.089        -0.140
+ RB4BTRIG       0.156         0.096         0.138         0.139         0.187
+ RB4PWHR        0.204         0.055         0.144         0.082         0.190
+ B1PGENDE      -0.041         0.035        -0.037         0.061         0.002
+ B1PAGE_M      -1.141         5.059         3.268        -0.192         1.970
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC       0.997
+ P4HOMAIR       0.550         1.002
+ B4BLDL         0.024         0.089         0.999
+ B4BHDL        -0.220        -0.378        -0.120         1.000
+ RB4BTRIG       0.249         0.479         0.195        -0.521         1.001
+ RB4PWHR        0.280         0.382         0.016        -0.427         0.390
+ B1PGENDE      -0.066        -0.048         0.012         0.181        -0.101
+ B1PAGE_M       0.645        -0.323        -1.194         0.448         0.051
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        0.999
+ B1PGENDE      -0.316         0.245
+ B1PAGE_M       1.607        -0.265       137.082
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM            0.030
+ HPA            0.018         0.029
+ CARD           0.023         0.018         0.035
+ GLUC           0.025         0.021         0.026         0.094
+ LIPID          0.007         0.004         0.008         0.010         0.015
+ INFL           0.024         0.019         0.025         0.031         0.007
+ PARA           0.026         0.020         0.028         0.034         0.010
+ AL             0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI       0.030         0.018         0.023         0.025         0.007
+ RADJ_NOR       0.030         0.018         0.023         0.025         0.007
+ AVGB_SD        0.026         0.020         0.028         0.034         0.010
+ AVGB_RM        0.022         0.017         0.024         0.029         0.009
+ AVGB_LF        0.021         0.016         0.023         0.027         0.008
+ AVGB_HF        0.021         0.016         0.023         0.027         0.008
+ RADJ_CRT       0.018         0.029         0.018         0.021         0.004
+ B4BDHEAS       0.018         0.029         0.018         0.021         0.004
+ RB4BCRP        0.024         0.019         0.025         0.031         0.007
+ B4BIL6         0.018         0.013         0.016         0.023         0.005
+ B4BFGN         0.028         0.020         0.023         0.030         0.007
+ B4BSICAM       0.008         0.005         0.006         0.009         0.001
+ B4BSESEL       0.005         0.003         0.005         0.006         0.000
+ PULPRESS       0.023         0.018         0.035         0.026         0.008
+ RB4P1GS        0.023         0.018         0.035         0.026         0.008
+ RB4P1D         0.009         0.007         0.010         0.011         0.003
+ B4BHA1C        0.017         0.014         0.017         0.081         0.007
+ RB4BGLUC       0.025         0.021         0.026         0.094         0.010
+ P4HOMAIR       0.017         0.011         0.017         0.049         0.025
+ B4BLDL         0.011         0.008         0.010         0.014         0.016
+ B4BHDL         0.019         0.013         0.017         0.024         0.032
+ RB4BTRIG       0.029         0.023         0.027         0.041         0.036
+ RB4PWHR        0.007         0.004         0.008         0.010         0.015
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL           0.058
+ PARA           0.026         0.043
+ AL             0.000         0.000         0.000
+ RADJ_EPI       0.024         0.026         0.045         0.040
+ RADJ_NOR       0.024         0.026         0.044         0.033         0.042
+ AVGB_SD        0.026         0.043         0.044         0.029         0.029
+ AVGB_RM        0.022         0.039         0.043         0.025         0.025
+ AVGB_LF        0.021         0.039         0.039         0.026         0.026
+ AVGB_HF        0.021         0.038         0.041         0.024         0.025
+ RADJ_CRT       0.019         0.020         0.040         0.024         0.025
+ B4BDHEAS       0.019         0.020         0.036         0.025         0.027
+ RB4BCRP        0.058         0.026         0.039         0.027         0.028
+ B4BIL6         0.036         0.018         0.040         0.026         0.025
+ B4BFGN         0.035         0.026         0.043         0.028         0.028
+ B4BSICAM       0.031         0.007         0.042         0.016         0.015
+ B4BSESEL       0.028         0.004         0.038         0.019         0.020
+ PULPRESS       0.025         0.028         0.036         0.028         0.028
+ RB4P1GS        0.025         0.028         0.039         0.027         0.027
+ RB4P1D         0.009         0.031         0.039         0.018         0.021
+ B4BHA1C        0.021         0.022         0.045         0.022         0.020
+ RB4BGLUC       0.031         0.034         0.049         0.028         0.026
+ P4HOMAIR       0.016         0.021         0.046         0.028         0.026
+ B4BLDL         0.014         0.013         0.047         0.016         0.016
+ B4BHDL         0.024         0.023         0.052         0.022         0.024
+ RB4BTRIG       0.040         0.031         0.061         0.028         0.030
+ RB4PWHR        0.007         0.010         0.032         0.028         0.025
+ B1PGENDE       0.000         0.000         0.000         0.015         0.014
+ B1PAGE_M       0.000         0.000         0.000         0.353         0.346
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD        0.045
+ AVGB_RM        0.040         0.041
+ AVGB_LF        0.044         0.036         0.046
+ AVGB_HF        0.039         0.040         0.037         0.041
+ RADJ_CRT       0.025         0.021         0.024         0.021         0.040
+ B4BDHEAS       0.027         0.024         0.026         0.024         0.034
+ RB4BCRP        0.029         0.027         0.028         0.026         0.026
+ B4BIL6         0.026         0.024         0.026         0.024         0.027
+ B4BFGN         0.028         0.025         0.027         0.024         0.024
+ B4BSICAM       0.015         0.012         0.017         0.013         0.016
+ B4BSESEL       0.020         0.018         0.021         0.018         0.020
+ PULPRESS       0.031         0.028         0.028         0.027         0.023
+ RB4P1GS        0.030         0.026         0.027         0.025         0.022
+ RB4P1D         0.033         0.029         0.030         0.028         0.020
+ B4BHA1C        0.024         0.022         0.023         0.021         0.022
+ RB4BGLUC       0.032         0.029         0.029         0.028         0.023
+ P4HOMAIR       0.028         0.026         0.028         0.026         0.027
+ B4BLDL         0.016         0.013         0.018         0.013         0.017
+ B4BHDL         0.025         0.022         0.025         0.023         0.023
+ RB4BTRIG       0.031         0.027         0.028         0.027         0.027
+ RB4PWHR        0.027         0.026         0.027         0.026         0.025
+ B1PGENDE       0.015         0.015         0.015         0.015         0.014
+ B1PAGE_M       0.387         0.377         0.380         0.375         0.342
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS       0.046
+ RB4BCRP        0.025         0.037
+ B4BIL6         0.023         0.033         0.044
+ B4BFGN         0.024         0.034         0.036         0.047
+ B4BSICAM       0.018         0.032         0.027         0.030         0.067
+ B4BSESEL       0.022         0.027         0.025         0.025         0.019
+ PULPRESS       0.026         0.028         0.024         0.026         0.016
+ RB4P1GS        0.025         0.028         0.023         0.025         0.013
+ RB4P1D         0.021         0.028         0.027         0.023         0.019
+ B4BHA1C        0.022         0.028         0.027         0.027         0.019
+ RB4BGLUC       0.025         0.031         0.025         0.029         0.021
+ P4HOMAIR       0.026         0.030         0.027         0.030         0.030
+ B4BLDL         0.018         0.024         0.023         0.019         0.011
+ B4BHDL         0.023         0.026         0.026         0.025         0.022
+ RB4BTRIG       0.027         0.029         0.026         0.035         0.021
+ RB4PWHR        0.026         0.027         0.027         0.027         0.027
+ B1PGENDE       0.014         0.014         0.014         0.014         0.014
+ B1PAGE_M       0.363         0.353         0.339         0.353         0.358
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL       0.044
+ PULPRESS       0.019         0.043
+ RB4P1GS        0.018         0.039         0.043
+ RB4P1D         0.021         0.020         0.018         0.042
+ B4BHA1C        0.028         0.023         0.022         0.024         0.097
+ RB4BGLUC       0.029         0.030         0.028         0.025         0.090
+ P4HOMAIR       0.028         0.026         0.025         0.026         0.039
+ B4BLDL         0.018         0.016         0.013         0.017         0.019
+ B4BHDL         0.023         0.023         0.021         0.023         0.024
+ RB4BTRIG       0.025         0.028         0.028         0.025         0.029
+ RB4PWHR        0.027         0.026         0.026         0.027         0.028
+ B1PGENDE       0.015         0.014         0.014         0.014         0.015
+ B1PAGE_M       0.336         0.363         0.352         0.339         0.324
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC       0.103
+ P4HOMAIR       0.045         0.039
+ B4BLDL         0.021         0.028         0.044
+ B4BHDL         0.027         0.030         0.026         0.046
+ RB4BTRIG       0.037         0.031         0.033         0.031         0.040
+ RB4PWHR        0.031         0.029         0.026         0.028         0.030
+ B1PGENDE       0.015         0.014         0.014         0.013         0.014
+ B1PAGE_M       0.324         0.327         0.342         0.346         0.346
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        0.035
+ B1PGENDE       0.011         0.002
+ B1PAGE_M       0.341         0.173         5.014
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM           16.128
+ HPA            3.950         3.195
+ CARD           2.647         3.201        19.851
+ GLUC           1.382         1.958         1.710         8.621
+ LIPID         -0.719        -0.937         1.838         1.310         1.271
+ INFL           2.506         1.771         2.045        -2.178        -0.542
+ PARA           2.023         0.943        -2.128         0.330         1.670
+ AL             0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI      16.128         3.950         2.647         1.382        -0.719
+ RADJ_NOR      16.128         3.950         2.647         1.382        -0.719
+ AVGB_SD       -2.023        -0.943         2.128        -0.330        -1.670
+ AVGB_RM       -2.019        -0.941         2.119        -0.330        -1.665
+ AVGB_LF       -2.019        -0.943         2.130        -0.330        -1.669
+ AVGB_HF       -2.015        -0.941         2.121        -0.330        -1.665
+ RADJ_CRT       3.950         3.195         3.201         1.958        -0.937
+ B4BDHEAS       3.950         3.195         3.201         1.958        -0.937
+ RB4BCRP        2.506         1.771         2.045        -2.178        -0.542
+ B4BIL6         2.300         1.847         2.291        -2.101        -0.519
+ B4BFGN         2.211         1.702         2.339        -2.355        -0.511
+ B4BSICAM       1.221         1.176         1.368        -1.295        -0.568
+ B4BSESEL      -0.127        -0.124        -0.125         0.124         0.126
+ PULPRESS       2.647         3.201        19.851         1.710         1.838
+ RB4P1GS        2.647         3.201        19.851         1.710         1.838
+ RB4P1D         1.941         0.941        -2.092         0.329         1.639
+ B4BHA1C        1.385         1.924         1.701         6.696         1.317
+ RB4BGLUC       1.382         1.958         1.710         8.621         1.310
+ P4HOMAIR       0.094         0.465         2.559         5.554         1.634
+ B4BLDL        -0.854        -0.949         2.908         1.837         2.309
+ B4BHDL         0.798         0.957        -2.884        -1.822        -1.934
+ RB4BTRIG      -0.873        -0.892         2.994         1.743         2.751
+ RB4PWHR       -0.719        -0.937         1.838         1.310         1.271
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL           5.209
+ PARA           1.731        20.502
+ AL             0.000         0.000   ***********
+ RADJ_EPI       2.506         2.023        -5.922        24.922
+ RADJ_NOR       2.506         2.023         3.101        15.256        24.213
+ AVGB_SD       -1.731       -20.502        -4.578        -1.727        -5.614
+ AVGB_RM       -1.744       -19.476        -2.493        -1.917        -4.064
+ AVGB_LF       -1.721       -18.456        -5.912        -1.864        -7.373
+ AVGB_HF       -1.740       -18.776        -2.753        -2.250        -4.386
+ RADJ_CRT       1.771         0.943        -7.689         7.000         2.847
+ B4BDHEAS       1.771         0.943        -1.621         0.294        -4.396
+ RB4BCRP        5.209         1.731        14.388        -3.048         6.345
+ B4BIL6         5.906         1.684        13.220        -2.637         6.941
+ B4BFGN         8.721         1.759         8.634        -0.507         6.425
+ B4BSICAM       1.674         1.135         5.711        -2.137         4.622
+ B4BSESEL      -0.126        -0.128         9.883        -6.129         0.368
+ PULPRESS       2.045        -2.128         2.447         3.949         6.973
+ RB4P1GS        2.045        -2.128         3.079         2.717         4.847
+ RB4P1D         1.656         9.631         9.254        -4.289         4.282
+ B4BHA1C       -2.214         0.329         8.475        -2.264         5.874
+ RB4BGLUC      -2.178         0.330         8.375        -2.404         2.862
+ P4HOMAIR      -1.777         1.744        14.250        -6.348         2.383
+ B4BLDL        -0.496         2.522         0.323        -1.826        -1.686
+ B4BHDL         0.506        -2.382        -6.089         5.333         2.659
+ RB4BTRIG      -0.485         2.921         6.071        -4.649        -0.652
+ RB4PWHR       -0.542         1.670        13.515        -4.171        -2.223
+ B1PGENDE       0.000         0.000         0.000         0.726         7.540
+ B1PAGE_M       0.000         0.000         0.000         5.476         8.107
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD       22.090
+ AVGB_RM       21.221        24.209
+ AVGB_LF       20.126        19.714        21.853
+ AVGB_HF       20.562        23.741        19.021        24.208
+ RADJ_CRT       0.511         0.146         0.529         0.207        24.299
+ B4BDHEAS       5.297         2.816         7.891         3.523         1.244
+ RB4BCRP       -5.850        -3.566        -6.727        -3.394        -4.731
+ B4BIL6        -7.449        -4.783        -8.580        -5.332        -4.499
+ B4BFGN        -5.883        -3.958        -6.962        -3.965        -2.308
+ B4BSICAM      -5.796        -4.326        -6.129        -4.733        -3.673
+ B4BSESEL      -1.967        -1.228        -1.785        -1.163        -6.671
+ PULPRESS      -2.955        -1.460        -5.363        -2.632         3.204
+ RB4P1GS       -1.425        -0.635        -2.932        -1.689         1.709
+ RB4P1D       -11.155       -10.010       -11.023        -9.656        -4.615
+ B4BHA1C       -5.558        -3.659        -6.987        -4.416        -3.506
+ RB4BGLUC      -3.080        -2.267        -3.738        -2.795        -3.975
+ P4HOMAIR      -5.453        -3.715        -5.698        -3.869        -7.768
+ B4BLDL        -0.437        -0.798         0.361        -0.021        -1.052
+ B4BHDL         3.271         3.609         2.307         4.093         6.563
+ RB4BTRIG      -4.962        -4.527        -4.873        -4.866        -5.710
+ RB4PWHR       -3.748        -3.729        -3.188        -5.183        -7.581
+ B1PGENDE      -1.895         0.796        -3.795         2.379         3.339
+ B1PAGE_M      -8.870        -6.043       -11.815        -8.290         2.733
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS      21.933
+ RB4BCRP       -2.319        27.321
+ B4BIL6        -4.597        15.891        22.683
+ B4BFGN        -3.955        16.070        12.421        21.415
+ B4BSICAM      -3.162         5.769         6.820         5.115        14.904
+ B4BSESEL       2.222         6.922         6.881         4.264         4.076
+ PULPRESS      -6.110         4.123         6.918         5.774         4.956
+ RB4P1GS       -1.863         3.924         6.262         4.737         5.334
+ RB4P1D        -2.386         8.349         7.762         7.207         4.579
+ B4BHA1C       -3.134         5.985         7.347         4.296         5.236
+ RB4BGLUC       1.577         4.400         6.613         2.178         4.223
+ P4HOMAIR       0.480        10.714        11.648         6.399         4.930
+ B4BLDL         1.527         0.176        -0.577        -0.481        -0.794
+ B4BHDL        -4.925        -3.988        -4.786        -1.445        -3.109
+ RB4BTRIG       0.949         5.189         6.460         2.300         3.925
+ RB4PWHR        5.067         4.852         7.563         2.192         4.323
+ B1PGENDE     -11.745         5.903         2.382         6.144         0.004
+ B1PAGE_M     -13.636         0.097         5.999         3.589         3.686
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL      22.738
+ PULPRESS      -0.933        23.398
+ RB4P1GS        1.239        20.667        23.465
+ RB4P1D         5.853         0.801         0.600        24.040
+ B4BHA1C        4.485         5.903         5.643         5.703        10.239
+ RB4BGLUC       5.534         3.066         4.135         5.345         7.844
+ P4HOMAIR       9.137         3.092         4.752         8.938        10.955
+ B4BLDL         0.760        -0.752         0.070         1.205         0.320
+ B4BHDL        -6.616        -1.183        -4.635        -3.953        -5.821
+ RB4BTRIG       6.143         3.399         4.943         5.454         6.423
+ RB4PWHR        7.521         2.134         5.434         3.073         6.723
+ B1PGENDE      -2.810         2.521        -2.666         4.221         0.109
+ B1PAGE_M      -3.399        13.917         9.288        -0.567         6.085
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC       9.667
+ P4HOMAIR      12.274        25.836
+ B4BLDL         1.132         3.194        22.958
+ B4BHDL        -8.190       -12.769        -4.559        21.549
+ RB4BTRIG       6.732        15.548         5.845       -16.759        25.231
+ RB4PWHR        8.993        13.092         0.630       -15.234        13.094
+ B1PGENDE      -4.510        -3.345         0.814        13.486        -6.983
+ B1PAGE_M       1.991        -0.988        -3.497         1.293         0.146
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR       28.404
+ B1PGENDE     -28.150       120.910
+ B1PAGE_M       4.710        -1.528        27.339
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM            0.000
+ HPA            0.000         0.001
+ CARD           0.008         0.001         0.000
+ GLUC           0.167         0.050         0.087         0.000
+ LIPID          0.472         0.349         0.066         0.190         0.204
+ INFL           0.012         0.076         0.041         0.029         0.588
+ PARA           0.043         0.346         0.033         0.741         0.095
+ AL             1.000         1.000         1.000         1.000         1.000
+ RADJ_EPI       0.000         0.000         0.008         0.167         0.472
+ RADJ_NOR       0.000         0.000         0.008         0.167         0.472
+ AVGB_SD        0.043         0.346         0.033         0.741         0.095
+ AVGB_RM        0.043         0.346         0.034         0.741         0.096
+ AVGB_LF        0.043         0.345         0.033         0.741         0.095
+ AVGB_HF        0.044         0.347         0.034         0.741         0.096
+ RADJ_CRT       0.000         0.001         0.001         0.050         0.349
+ B4BDHEAS       0.000         0.001         0.001         0.050         0.349
+ RB4BCRP        0.012         0.076         0.041         0.029         0.588
+ B4BIL6         0.021         0.065         0.022         0.036         0.604
+ B4BFGN         0.027         0.089         0.019         0.019         0.609
+ B4BSICAM       0.222         0.240         0.171         0.195         0.570
+ B4BSESEL       0.899         0.901         0.901         0.902         0.900
+ PULPRESS       0.008         0.001         0.000         0.087         0.066
+ RB4P1GS        0.008         0.001         0.000         0.087         0.066
+ RB4P1D         0.052         0.347         0.036         0.742         0.101
+ B4BHA1C        0.166         0.054         0.089         0.000         0.188
+ RB4BGLUC       0.167         0.050         0.087         0.000         0.190
+ P4HOMAIR       0.925         0.642         0.010         0.000         0.102
+ B4BLDL         0.393         0.343         0.004         0.066         0.021
+ B4BHDL         0.425         0.339         0.004         0.069         0.053
+ RB4BTRIG       0.383         0.372         0.003         0.081         0.006
+ RB4PWHR        0.472         0.349         0.066         0.190         0.204
+ B1PGENDE       1.000         1.000         1.000         1.000         1.000
+ B1PAGE_M       1.000         1.000         1.000         1.000         1.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL           0.000
+ PARA           0.083         0.000
+ AL             1.000         1.000         0.000
+ RADJ_EPI       0.012         0.043         0.000         0.000
+ RADJ_NOR       0.012         0.043         0.002         0.000         0.000
+ AVGB_SD        0.083         0.000         0.000         0.084         0.000
+ AVGB_RM        0.081         0.000         0.013         0.055         0.000
+ AVGB_LF        0.085         0.000         0.000         0.062         0.000
+ AVGB_HF        0.082         0.000         0.006         0.024         0.000
+ RADJ_CRT       0.076         0.346         0.000         0.000         0.004
+ B4BDHEAS       0.076         0.346         0.105         0.769         0.000
+ RB4BCRP        0.000         0.083         0.000         0.002         0.000
+ B4BIL6         0.000         0.092         0.000         0.008         0.000
+ B4BFGN         0.000         0.079         0.000         0.612         0.000
+ B4BSICAM       0.094         0.256         0.000         0.033         0.000
+ B4BSESEL       0.900         0.898         0.000         0.000         0.713
+ PULPRESS       0.041         0.033         0.014         0.000         0.000
+ RB4P1GS        0.041         0.033         0.002         0.007         0.000
+ RB4P1D         0.098         0.000         0.000         0.000         0.000
+ B4BHA1C        0.027         0.742         0.000         0.024         0.000
+ RB4BGLUC       0.029         0.741         0.000         0.016         0.004
+ P4HOMAIR       0.076         0.081         0.000         0.000         0.017
+ B4BLDL         0.620         0.012         0.747         0.068         0.092
+ B4BHDL         0.613         0.017         0.000         0.000         0.008
+ RB4BTRIG       0.628         0.003         0.000         0.000         0.514
+ RB4PWHR        0.588         0.095         0.000         0.000         0.026
+ B1PGENDE       1.000         1.000         1.000         0.468         0.000
+ B1PAGE_M       1.000         1.000         1.000         0.000         0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD        0.000
+ AVGB_RM        0.000         0.000
+ AVGB_LF        0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000
+ RADJ_CRT       0.610         0.884         0.597         0.836         0.000
+ B4BDHEAS       0.000         0.005         0.000         0.000         0.214
+ RB4BCRP        0.000         0.000         0.000         0.001         0.000
+ B4BIL6         0.000         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.021
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       0.049         0.219         0.074         0.245         0.000
+ PULPRESS       0.003         0.144         0.000         0.008         0.001
+ RB4P1GS        0.154         0.525         0.003         0.091         0.087
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.002         0.023         0.000         0.005         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.662         0.425         0.718         0.983         0.293
+ B4BHDL         0.001         0.000         0.021         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.001         0.000         0.000
+ B1PGENDE       0.058         0.426         0.000         0.017         0.001
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.006
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS       0.000
+ RB4BCRP        0.020         0.000
+ B4BIL6         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000
+ B4BSICAM       0.002         0.000         0.000         0.000         0.000
+ B4BSESEL       0.026         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.063         0.000         0.000         0.000         0.000
+ RB4P1D         0.017         0.000         0.000         0.000         0.000
+ B4BHA1C        0.002         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.115         0.000         0.000         0.029         0.000
+ P4HOMAIR       0.631         0.000         0.000         0.000         0.000
+ B4BLDL         0.127         0.861         0.564         0.631         0.427
+ B4BHDL         0.000         0.000         0.000         0.148         0.002
+ RB4BTRIG       0.343         0.000         0.000         0.021         0.000
+ RB4PWHR        0.000         0.000         0.000         0.028         0.000
+ B1PGENDE       0.000         0.000         0.017         0.000         0.997
+ B1PAGE_M       0.000         0.923         0.000         0.000         0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL       0.000
+ PULPRESS       0.351         0.000
+ RB4P1GS        0.215         0.000         0.000
+ RB4P1D         0.000         0.423         0.549         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.002         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.002         0.000         0.000         0.000
+ B4BLDL         0.447         0.452         0.944         0.228         0.749
+ B4BHDL         0.000         0.237         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.001         0.000         0.000         0.000
+ RB4PWHR        0.000         0.033         0.000         0.002         0.000
+ B1PGENDE       0.005         0.012         0.008         0.000         0.913
+ B1PAGE_M       0.001         0.000         0.000         0.570         0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC       0.000
+ P4HOMAIR       0.000         0.000
+ B4BLDL         0.258         0.001         0.000
+ B4BHDL         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.529         0.000         0.000
+ B1PGENDE       0.000         0.001         0.415         0.000         0.000
+ B1PAGE_M       0.047         0.323         0.000         0.196         0.884
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        0.000
+ B1PGENDE       0.000         0.000
+ B1PAGE_M       0.000         0.127         0.000
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM            1.000
+ HPA            0.336         1.000
+ CARD           0.103         0.230         1.000
+ GLUC           0.056         0.153         0.059         1.000
+ LIPID         -0.049        -0.092         0.131         0.108         1.000
+ INFL           0.155         0.198         0.114        -0.138        -0.048
+ PARA           0.079         0.066        -0.076         0.013         0.133
+ AL             0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI       0.702         0.236         0.072         0.039        -0.035
+ RADJ_NOR       0.698         0.234         0.072         0.039        -0.034
+ AVGB_SD       -0.074        -0.062         0.071        -0.012        -0.124
+ AVGB_RM       -0.064        -0.054         0.062        -0.011        -0.108
+ AVGB_LF       -0.060        -0.050         0.058        -0.010        -0.101
+ AVGB_HF       -0.060        -0.050         0.058        -0.010        -0.101
+ RADJ_CRT       0.103         0.307         0.071         0.047        -0.028
+ B4BDHEAS       0.102         0.303         0.070         0.046        -0.028
+ RB4BCRP        0.085         0.108         0.063        -0.076        -0.026
+ B4BIL6         0.060         0.076         0.044        -0.054        -0.019
+ B4BFGN         0.087         0.111         0.064        -0.078        -0.027
+ B4BSICAM       0.015         0.018         0.011        -0.013        -0.005
+ B4BSESEL      -0.001        -0.001        -0.001         0.001         0.000
+ PULPRESS       0.085         0.191         0.831         0.049         0.109
+ RB4P1GS        0.085         0.191         0.828         0.049         0.108
+ RB4P1D         0.025         0.021        -0.024         0.004         0.042
+ B4BHA1C        0.034         0.092         0.036         0.600         0.065
+ RB4BGLUC       0.050         0.138         0.053         0.902         0.097
+ P4HOMAIR       0.002         0.017         0.051         0.303         0.295
+ B4BLDL        -0.013        -0.024         0.035         0.029         0.264
+ B4BHDL         0.022         0.041        -0.059        -0.048        -0.448
+ RB4BTRIG      -0.036        -0.068         0.096         0.079         0.732
+ RB4PWHR       -0.007        -0.013         0.018         0.015         0.136
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL           1.000
+ PARA           0.086         1.000
+ AL             0.000         0.000         1.000
+ RADJ_EPI       0.109         0.056        -0.267         1.000
+ RADJ_NOR       0.108         0.055         0.137         0.500         1.000
+ AVGB_SD       -0.080        -0.933        -0.199        -0.049        -0.165
+ AVGB_RM       -0.070        -0.814        -0.108        -0.048        -0.103
+ AVGB_LF       -0.065        -0.759        -0.230        -0.048        -0.194
+ AVGB_HF       -0.066        -0.762        -0.112        -0.055        -0.108
+ RADJ_CRT       0.061         0.020        -0.314         0.172         0.071
+ B4BDHEAS       0.060         0.020        -0.059         0.007        -0.116
+ RB4BCRP        0.547         0.047         0.554        -0.083         0.174
+ B4BIL6         0.387         0.033         0.528        -0.068         0.173
+ B4BFGN         0.562         0.048         0.371        -0.014         0.178
+ B4BSICAM       0.094         0.008         0.238        -0.034         0.071
+ B4BSESEL      -0.006        -0.001         0.373        -0.119         0.007
+ PULPRESS       0.095        -0.063         0.088         0.111         0.196
+ RB4P1GS        0.095        -0.063         0.120         0.072         0.128
+ RB4P1D         0.027         0.315         0.359        -0.077         0.091
+ B4BHA1C       -0.083         0.008         0.382        -0.050         0.119
+ RB4BGLUC      -0.125         0.012         0.407        -0.068         0.074
+ P4HOMAIR      -0.051         0.039         0.652        -0.180         0.062
+ B4BLDL        -0.013         0.035         0.015        -0.030        -0.027
+ B4BHDL         0.022        -0.059        -0.319         0.118         0.064
+ RB4BTRIG      -0.035         0.097         0.371        -0.129        -0.019
+ RB4PWHR       -0.007         0.018         0.434        -0.116        -0.056
+ B1PGENDE       0.000         0.000         0.000         0.021         0.216
+ B1PAGE_M       0.000         0.000         0.000         0.166         0.239
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD        1.000
+ AVGB_RM        0.836         1.000
+ AVGB_LF        0.875         0.715         1.000
+ AVGB_HF        0.807         0.956         0.698         1.000
+ RADJ_CRT       0.013         0.003         0.013         0.004         1.000
+ B4BDHEAS       0.140         0.067         0.204         0.083         0.043
+ RB4BCRP       -0.166        -0.096        -0.186        -0.089        -0.123
+ B4BIL6        -0.192        -0.117        -0.223        -0.126        -0.120
+ B4BFGN        -0.163        -0.098        -0.187        -0.097        -0.055
+ B4BSICAM      -0.088        -0.054        -0.105        -0.062        -0.059
+ B4BSESEL      -0.039        -0.022        -0.037        -0.021        -0.134
+ PULPRESS      -0.092        -0.041        -0.149        -0.071         0.075
+ RB4P1GS       -0.042        -0.017        -0.078        -0.043         0.037
+ RB4P1D        -0.369        -0.290        -0.331        -0.269        -0.095
+ B4BHA1C       -0.133        -0.080        -0.160        -0.093        -0.077
+ RB4BGLUC      -0.099        -0.066        -0.107        -0.077        -0.094
+ P4HOMAIR      -0.151        -0.098        -0.156        -0.101        -0.211
+ B4BLDL        -0.007        -0.010         0.006         0.000        -0.019
+ B4BHDL         0.082         0.081         0.056         0.093         0.153
+ RB4BTRIG      -0.151        -0.123        -0.134        -0.129        -0.157
+ RB4PWHR       -0.099        -0.097        -0.084        -0.136        -0.193
+ B1PGENDE      -0.056         0.024        -0.112         0.070         0.098
+ B1PAGE_M      -0.293        -0.194        -0.382        -0.265         0.080
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS       1.000
+ RB4BCRP       -0.058         1.000
+ B4BIL6        -0.107         0.518         1.000
+ B4BFGN        -0.095         0.543         0.446         1.000
+ B4BSICAM      -0.058         0.184         0.182         0.154         1.000
+ B4BSESEL       0.049         0.188         0.171         0.108         0.077
+ PULPRESS      -0.161         0.117         0.166         0.149         0.079
+ RB4P1GS       -0.045         0.109         0.144         0.117         0.068
+ RB4P1D        -0.050         0.234         0.207         0.169         0.087
+ B4BHA1C       -0.069         0.168         0.200         0.115         0.102
+ RB4BGLUC       0.040         0.136         0.166         0.063         0.091
+ P4HOMAIR       0.013         0.317         0.312         0.192         0.147
+ B4BLDL         0.028         0.004        -0.013        -0.009        -0.009
+ B4BHDL        -0.111        -0.104        -0.126        -0.036        -0.068
+ RB4BTRIG       0.026         0.152         0.167         0.082         0.084
+ RB4PWHR        0.130         0.132         0.203         0.058         0.115
+ B1PGENDE      -0.324         0.166         0.068         0.175         0.000
+ B1PAGE_M      -0.421         0.003         0.174         0.108         0.113
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL       1.000
+ PULPRESS      -0.018         1.000
+ RB4P1GS        0.022         0.813         1.000
+ RB4P1D         0.125         0.016         0.011         1.000
+ B4BHA1C        0.125         0.137         0.121         0.138         1.000
+ RB4BGLUC       0.159         0.092         0.116         0.133         0.705
+ P4HOMAIR       0.255         0.079         0.119         0.235         0.425
+ B4BLDL         0.014        -0.012         0.001         0.021         0.006
+ B4BHDL        -0.155        -0.027        -0.099        -0.089        -0.140
+ RB4BTRIG       0.156         0.096         0.137         0.139         0.187
+ RB4PWHR        0.204         0.055         0.144         0.082         0.191
+ B1PGENDE      -0.084         0.071        -0.074         0.123         0.003
+ B1PAGE_M      -0.097         0.433         0.278        -0.016         0.168
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC       1.000
+ P4HOMAIR       0.550         1.000
+ B4BLDL         0.024         0.089         1.000
+ B4BHDL        -0.220        -0.378        -0.120         1.000
+ RB4BTRIG       0.249         0.478         0.195        -0.521         1.000
+ RB4PWHR        0.281         0.382         0.017        -0.427         0.390
+ B1PGENDE      -0.134        -0.098         0.024         0.366        -0.203
+ B1PAGE_M       0.055        -0.028        -0.102         0.038         0.004
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        1.000
+ B1PGENDE      -0.638         1.000
+ B1PAGE_M       0.137        -0.046         1.000
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM            0.000
+ HPA            0.087         0.000
+ CARD           0.038         0.078         0.000
+ GLUC           0.040         0.084         0.034         0.000
+ LIPID          0.058         0.098         0.041         0.057         0.000
+ INFL           0.065         0.124         0.051         0.065         0.102
+ PARA           0.039         0.071         0.036         0.040         0.045
+ AL             0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI       0.018         0.061         0.027         0.028         0.041
+ RADJ_NOR       0.017         0.061         0.027         0.028         0.040
+ AVGB_SD        0.037         0.066         0.033         0.037         0.042
+ AVGB_RM        0.032         0.058         0.029         0.032         0.037
+ AVGB_LF        0.030         0.054         0.027         0.030         0.035
+ AVGB_HF        0.030         0.054         0.027         0.030         0.035
+ RADJ_CRT       0.026         0.047         0.022         0.024         0.030
+ B4BDHEAS       0.025         0.046         0.022         0.024         0.030
+ RB4BCRP        0.034         0.067         0.030         0.036         0.054
+ B4BIL6         0.026         0.045         0.019         0.026         0.040
+ B4BFGN         0.039         0.070         0.027         0.034         0.059
+ B4BSICAM       0.012         0.016         0.008         0.010         0.009
+ B4BSESEL       0.008         0.010         0.006         0.007         0.002
+ PULPRESS       0.032         0.065         0.015         0.029         0.034
+ RB4P1GS        0.032         0.064         0.011         0.029         0.034
+ RB4P1D         0.013         0.022         0.011         0.013         0.015
+ B4BHA1C        0.024         0.050         0.021         0.040         0.035
+ RB4BGLUC       0.036         0.075         0.031         0.021         0.052
+ P4HOMAIR       0.024         0.038         0.020         0.044         0.071
+ B4BLDL         0.015         0.026         0.012         0.015         0.036
+ B4BHDL         0.028         0.043         0.020         0.026         0.067
+ RB4BTRIG       0.041         0.075         0.032         0.045         0.065
+ RB4PWHR        0.009         0.013         0.010         0.011         0.054
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL           0.000
+ PARA           0.048         0.000
+ AL             0.000         0.000         0.000
+ RADJ_EPI       0.045         0.028         0.044         0.000
+ RADJ_NOR       0.045         0.027         0.044         0.023         0.000
+ AVGB_SD        0.045         0.013         0.043         0.029         0.028
+ AVGB_RM        0.039         0.013         0.043         0.025         0.025
+ AVGB_LF        0.036         0.016         0.038         0.026         0.025
+ AVGB_HF        0.036         0.015         0.041         0.024         0.024
+ RADJ_CRT       0.035         0.022         0.040         0.024         0.025
+ B4BDHEAS       0.034         0.021         0.036         0.025         0.026
+ RB4BCRP        0.051         0.027         0.036         0.027         0.026
+ B4BIL6         0.047         0.020         0.038         0.026         0.024
+ B4BFGN         0.051         0.027         0.041         0.029         0.026
+ B4BSICAM       0.053         0.007         0.040         0.016         0.015
+ B4BSESEL       0.050         0.004         0.035         0.019         0.020
+ PULPRESS       0.042         0.030         0.036         0.027         0.026
+ RB4P1GS        0.042         0.030         0.039         0.026         0.026
+ RB4P1D         0.016         0.028         0.037         0.018         0.020
+ B4BHA1C        0.037         0.024         0.039         0.022         0.020
+ RB4BGLUC       0.057         0.036         0.045         0.028         0.025
+ P4HOMAIR       0.031         0.022         0.043         0.027         0.026
+ B4BLDL         0.027         0.014         0.047         0.016         0.016
+ B4BHDL         0.044         0.025         0.052         0.022         0.024
+ RB4BTRIG       0.075         0.033         0.059         0.027         0.030
+ RB4PWHR        0.013         0.011         0.031         0.027         0.025
+ B1PGENDE       0.000         0.000         0.000         0.030         0.028
+ B1PAGE_M       0.000         0.000         0.000         0.029         0.028
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD        0.000
+ AVGB_RM        0.009         0.000
+ AVGB_LF        0.008         0.014         0.000
+ AVGB_HF        0.011         0.004         0.014         0.000
+ RADJ_CRT       0.025         0.021         0.024         0.021         0.000
+ B4BDHEAS       0.025         0.024         0.024         0.023         0.034
+ RB4BCRP        0.027         0.027         0.026         0.026         0.026
+ B4BIL6         0.024         0.024         0.023         0.023         0.026
+ B4BFGN         0.026         0.024         0.024         0.024         0.024
+ B4BSICAM       0.014         0.012         0.016         0.013         0.016
+ B4BSESEL       0.020         0.018         0.021         0.018         0.020
+ PULPRESS       0.031         0.028         0.027         0.027         0.023
+ RB4P1GS        0.030         0.026         0.026         0.025         0.022
+ RB4P1D         0.027         0.025         0.025         0.024         0.020
+ B4BHA1C        0.023         0.021         0.022         0.020         0.021
+ RB4BGLUC       0.031         0.029         0.028         0.027         0.023
+ P4HOMAIR       0.027         0.026         0.027         0.026         0.026
+ B4BLDL         0.016         0.013         0.018         0.013         0.018
+ B4BHDL         0.025         0.022         0.024         0.022         0.023
+ RB4BTRIG       0.030         0.026         0.027         0.026         0.027
+ RB4PWHR        0.026         0.026         0.026         0.026         0.024
+ B1PGENDE       0.029         0.030         0.029         0.030         0.029
+ B1PAGE_M       0.030         0.031         0.027         0.030         0.029
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS       0.000
+ RB4BCRP        0.025         0.000
+ B4BIL6         0.023         0.024         0.000
+ B4BFGN         0.024         0.022         0.027         0.000
+ B4BSICAM       0.018         0.029         0.024         0.028         0.000
+ B4BSESEL       0.022         0.026         0.023         0.025         0.018
+ PULPRESS       0.025         0.028         0.023         0.024         0.016
+ RB4P1GS        0.024         0.027         0.022         0.024         0.013
+ RB4P1D         0.021         0.026         0.025         0.022         0.018
+ B4BHA1C        0.023         0.026         0.025         0.025         0.019
+ RB4BGLUC       0.025         0.029         0.024         0.028         0.021
+ P4HOMAIR       0.026         0.027         0.024         0.029         0.029
+ B4BLDL         0.018         0.024         0.023         0.019         0.011
+ B4BHDL         0.022         0.026         0.026         0.025         0.022
+ RB4BTRIG       0.027         0.029         0.025         0.036         0.021
+ RB4PWHR        0.025         0.026         0.025         0.026         0.026
+ B1PGENDE       0.025         0.028         0.028         0.028         0.029
+ B1PAGE_M       0.025         0.030         0.028         0.029         0.031
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL       0.000
+ PULPRESS       0.019         0.000
+ RB4P1GS        0.018         0.010         0.000
+ RB4P1D         0.020         0.020         0.018         0.000
+ B4BHA1C        0.026         0.023         0.021         0.022         0.000
+ RB4BGLUC       0.026         0.030         0.028         0.023         0.031
+ P4HOMAIR       0.025         0.025         0.025         0.024         0.024
+ B4BLDL         0.018         0.016         0.013         0.017         0.019
+ B4BHDL         0.023         0.023         0.021         0.022         0.022
+ RB4BTRIG       0.024         0.028         0.028         0.024         0.026
+ RB4PWHR        0.025         0.026         0.026         0.026         0.025
+ B1PGENDE       0.030         0.028         0.028         0.029         0.030
+ B1PAGE_M       0.028         0.024         0.027         0.029         0.030
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC       0.000
+ P4HOMAIR       0.023         0.000
+ B4BLDL         0.021         0.027         0.000
+ B4BHDL         0.026         0.024         0.025         0.000
+ RB4BTRIG       0.035         0.023         0.032         0.020         0.000
+ RB4PWHR        0.027         0.025         0.026         0.022         0.025
+ B1PGENDE       0.029         0.029         0.029         0.025         0.028
+ B1PAGE_M       0.028         0.028         0.029         0.030         0.030
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        0.000
+ B1PGENDE       0.016         0.000
+ B1PAGE_M       0.028         0.030         0.000
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM          999.000
+ HPA            3.857       999.000
+ CARD           2.673         2.952       999.000
+ GLUC           1.392         1.826         1.722       999.000
+ LIPID         -0.854        -0.942         3.198         1.885       999.000
+ INFL           2.395         1.596         2.264        -2.126        -0.473
+ PARA           2.017         0.927        -2.130         0.332         2.949
+ AL             0.000         0.000         0.000         0.000         0.000
+ RADJ_EPI      38.041         3.840         2.677         1.396        -0.851
+ RADJ_NOR      40.417         3.848         2.665         1.395        -0.852
+ AVGB_SD       -2.019        -0.930         2.140        -0.332        -2.914
+ AVGB_RM       -2.017        -0.929         2.133        -0.332        -2.914
+ AVGB_LF       -2.015        -0.930         2.141        -0.332        -2.904
+ AVGB_HF       -2.015        -0.928         2.135        -0.332        -2.907
+ RADJ_CRT       4.006         6.561         3.198         1.954        -0.932
+ B4BDHEAS       4.039         6.570         3.225         1.949        -0.933
+ RB4BCRP        2.494         1.625         2.064        -2.108        -0.487
+ B4BIL6         2.305         1.691         2.316        -2.035        -0.467
+ B4BFGN         2.214         1.576         2.364        -2.277        -0.462
+ B4BSICAM       1.227         1.127         1.383        -1.281        -0.510
+ B4BSESEL      -0.127        -0.124        -0.125         0.124         0.127
+ PULPRESS       2.677         2.956        56.338         1.712         3.178
+ RB4P1GS        2.668         2.960        72.505         1.714         3.168
+ RB4P1D         1.941         0.929        -2.103         0.331         2.761
+ B4BHA1C        1.383         1.832         1.716        14.919         1.870
+ RB4BGLUC       1.389         1.845         1.716        43.907         1.859
+ P4HOMAIR       0.094         0.459         2.579         6.926         4.144
+ B4BLDL        -0.856        -0.957         2.929         1.854         7.253
+ B4BHDL         0.801         0.965        -2.898        -1.832        -6.702
+ RB4BTRIG      -0.875        -0.902         3.008         1.761        11.327
+ RB4PWHR       -0.721        -0.940         1.841         1.316         2.538
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL         999.000
+ PARA           1.812       999.000
+ AL             0.000         0.000       999.000
+ RADJ_EPI       2.416         2.022        -6.054       999.000
+ RADJ_NOR       2.408         2.024         3.125        22.174       999.000
+ AVGB_SD       -1.799       -73.814        -4.629        -1.730        -5.813
+ AVGB_RM       -1.807       -62.452        -2.500        -1.921        -4.118
+ AVGB_LF       -1.792       -46.687        -5.990        -1.871        -7.808
+ AVGB_HF       -1.804       -50.229        -2.762        -2.263        -4.475
+ RADJ_CRT       1.736         0.940        -7.836         7.313         2.863
+ B4BDHEAS       1.737         0.939        -1.619         0.294        -4.476
+ RB4BCRP       10.690         1.749        15.444        -3.079         6.623
+ B4BIL6         8.307         1.707        13.990        -2.648         7.345
+ B4BFGN        10.996         1.781         9.067        -0.506         6.878
+ B4BSICAM       1.763         1.146         5.934        -2.144         4.850
+ B4BSESEL      -0.126        -0.128        10.561        -6.335         0.369
+ PULPRESS       2.254        -2.126         2.454         4.067         7.423
+ RB4P1GS        2.252        -2.135         3.087         2.752         4.969
+ RB4P1D         1.715        11.308         9.797        -4.375         4.424
+ B4BHA1C       -2.248         0.330         9.708        -2.311         5.958
+ RB4BGLUC      -2.185         0.332         9.013        -2.409         2.919
+ P4HOMAIR      -1.625         1.755        15.314        -6.622         2.397
+ B4BLDL        -0.482         2.562         0.323        -1.840        -1.684
+ B4BHDL         0.490        -2.422        -6.106         5.447         2.687
+ RB4BTRIG      -0.471         2.968         6.236        -4.753        -0.652
+ RB4PWHR       -0.524         1.676        14.011        -4.260        -2.229
+ B1PGENDE       0.000         0.000         0.000         0.727         7.824
+ B1PAGE_M       0.000         0.000         0.000         5.708         8.641
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD      999.000
+ AVGB_RM       91.543       999.000
+ AVGB_LF      104.157        52.744       999.000
+ AVGB_HF       75.827       233.595        50.523       999.000
+ RADJ_CRT       0.511         0.146         0.530         0.207       999.000
+ B4BDHEAS       5.510         2.835         8.531         3.573         1.255
+ RB4BCRP       -6.126        -3.608        -7.153        -3.432        -4.828
+ B4BIL6        -8.104        -4.909        -9.598        -5.523        -4.604
+ B4BFGN        -6.302        -4.046        -7.680        -4.071        -2.317
+ B4BSICAM      -6.127        -4.441        -6.465        -4.890        -3.735
+ B4BSESEL      -1.978        -1.231        -1.793        -1.165        -6.860
+ PULPRESS      -2.988        -1.461        -5.569        -2.648         3.231
+ RB4P1GS       -1.426        -0.634        -2.949        -1.689         1.713
+ RB4P1D       -13.796       -11.780       -13.488       -11.244        -4.724
+ B4BHA1C       -5.796        -3.749        -7.305        -4.552        -3.576
+ RB4BGLUC      -3.174        -2.319        -3.861        -2.880        -4.027
+ P4HOMAIR      -5.578        -3.775        -5.810        -3.942        -8.217
+ B4BLDL        -0.437        -0.801         0.361        -0.021        -1.056
+ B4BHDL         3.318         3.692         2.322         4.209         6.703
+ RB4BTRIG      -5.072        -4.640        -4.947        -5.013        -5.905
+ RB4PWHR       -3.779        -3.773        -3.209        -5.320        -7.919
+ B1PGENDE      -1.905         0.796        -3.838         2.388         3.350
+ B1PAGE_M      -9.743        -6.198       -14.119        -8.883         2.753
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS     999.000
+ RB4BCRP       -2.327       999.000
+ B4BIL6        -4.656        21.927       999.000
+ B4BFGN        -4.019        24.617        16.315       999.000
+ B4BSICAM      -3.155         6.287         7.715         5.536       999.000
+ B4BSESEL       2.247         7.234         7.280         4.415         4.242
+ PULPRESS      -6.415         4.226         7.310         6.113         5.060
+ RB4P1GS       -1.869         3.995         6.435         4.889         5.451
+ RB4P1D        -2.390         9.149         8.296         7.824         4.810
+ B4BHA1C       -3.018         6.479         7.896         4.513         5.440
+ RB4BGLUC       1.600         4.613         7.027         2.229         4.345
+ P4HOMAIR       0.481        11.846        12.784         6.699         5.101
+ B4BLDL         1.534         0.176        -0.576        -0.480        -0.792
+ B4BHDL        -5.105        -4.041        -4.903        -1.442        -3.145
+ RB4BTRIG       0.951         5.318         6.677         2.294         4.032
+ RB4PWHR        5.253         5.016         8.031         2.209         4.406
+ B1PGENDE     -12.958         5.987         2.390         6.349         0.004
+ B1PAGE_M     -16.995         0.097         6.232         3.674         3.676
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL     999.000
+ PULPRESS      -0.934       999.000
+ RB4P1GS        1.240        80.138       999.000
+ RB4P1D         6.176         0.801         0.600       999.000
+ B4BHA1C        4.902         5.861         5.770         6.277       999.000
+ RB4BGLUC       6.105         3.040         4.158         5.735        22.586
+ P4HOMAIR      10.148         3.107         4.813         9.675        17.921
+ B4BLDL         0.762        -0.753         0.070         1.214         0.320
+ B4BHDL        -6.818        -1.183        -4.647        -4.024        -6.270
+ RB4BTRIG       6.510         3.412         4.996         5.716         7.093
+ RB4PWHR        8.093         2.141         5.545         3.123         7.595
+ B1PGENDE      -2.821         2.539        -2.663         4.256         0.109
+ B1PAGE_M      -3.445        18.229        10.146        -0.568         5.679
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC     999.000
+ P4HOMAIR      24.142       999.000
+ B4BLDL         1.138         3.262       999.000
+ B4BHDL        -8.580       -15.444        -4.723       999.000
+ RB4BTRIG       7.115        20.901         6.165       -25.769       999.000
+ RB4PWHR       10.223        15.411         0.631       -19.227        15.546
+ B1PGENDE      -4.674        -3.365         0.816        14.930        -7.234
+ B1PAGE_M       1.964        -0.990        -3.551         1.289         0.146
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR      999.000
+ B1PGENDE     -39.800       999.000
+ B1PAGE_M       4.830        -1.531       999.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              SYM           HPA           CARD          GLUC          LIPID
+              ________      ________      ________      ________      ________
+ SYM            0.000
+ HPA            0.000         0.000
+ CARD           0.008         0.003         0.000
+ GLUC           0.164         0.068         0.085         0.000
+ LIPID          0.393         0.346         0.001         0.059         0.000
+ INFL           0.017         0.110         0.024         0.034         0.636
+ PARA           0.044         0.354         0.033         0.740         0.003
+ AL             1.000         1.000         1.000         1.000         1.000
+ RADJ_EPI       0.000         0.000         0.007         0.163         0.395
+ RADJ_NOR       0.000         0.000         0.008         0.163         0.394
+ AVGB_SD        0.044         0.353         0.032         0.740         0.004
+ AVGB_RM        0.044         0.353         0.033         0.740         0.004
+ AVGB_LF        0.044         0.352         0.032         0.740         0.004
+ AVGB_HF        0.044         0.353         0.033         0.740         0.004
+ RADJ_CRT       0.000         0.000         0.001         0.051         0.351
+ B4BDHEAS       0.000         0.000         0.001         0.051         0.351
+ RB4BCRP        0.013         0.104         0.039         0.035         0.626
+ B4BIL6         0.021         0.091         0.021         0.042         0.640
+ B4BFGN         0.027         0.115         0.018         0.023         0.644
+ B4BSICAM       0.220         0.260         0.167         0.200         0.610
+ B4BSESEL       0.899         0.901         0.901         0.901         0.899
+ PULPRESS       0.007         0.003         0.000         0.087         0.001
+ RB4P1GS        0.008         0.003         0.000         0.086         0.002
+ RB4P1D         0.052         0.353         0.035         0.741         0.006
+ B4BHA1C        0.167         0.067         0.086         0.000         0.062
+ RB4BGLUC       0.165         0.065         0.086         0.000         0.063
+ P4HOMAIR       0.925         0.646         0.010         0.000         0.000
+ B4BLDL         0.392         0.338         0.003         0.064         0.000
+ B4BHDL         0.423         0.335         0.004         0.067         0.000
+ RB4BTRIG       0.382         0.367         0.003         0.078         0.000
+ RB4PWHR        0.471         0.347         0.066         0.188         0.011
+ B1PGENDE       1.000         1.000         1.000         1.000         1.000
+ B1PAGE_M       1.000         1.000         1.000         1.000         1.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              INFL          PARA          AL            RADJ_EPI      RADJ_NOR
+              ________      ________      ________      ________      ________
+ INFL           0.000
+ PARA           0.070         0.000
+ AL             1.000         1.000         0.000
+ RADJ_EPI       0.016         0.043         0.000         0.000
+ RADJ_NOR       0.016         0.043         0.002         0.000         0.000
+ AVGB_SD        0.072         0.000         0.000         0.084         0.000
+ AVGB_RM        0.071         0.000         0.012         0.055         0.000
+ AVGB_LF        0.073         0.000         0.000         0.061         0.000
+ AVGB_HF        0.071         0.000         0.006         0.024         0.000
+ RADJ_CRT       0.083         0.347         0.000         0.000         0.004
+ B4BDHEAS       0.082         0.348         0.105         0.769         0.000
+ RB4BCRP        0.000         0.080         0.000         0.002         0.000
+ B4BIL6         0.000         0.088         0.000         0.008         0.000
+ B4BFGN         0.000         0.075         0.000         0.613         0.000
+ B4BSICAM       0.078         0.252         0.000         0.032         0.000
+ B4BSESEL       0.900         0.898         0.000         0.000         0.712
+ PULPRESS       0.024         0.034         0.014         0.000         0.000
+ RB4P1GS        0.024         0.033         0.002         0.006         0.000
+ RB4P1D         0.086         0.000         0.000         0.000         0.000
+ B4BHA1C        0.025         0.741         0.000         0.021         0.000
+ RB4BGLUC       0.029         0.740         0.000         0.016         0.004
+ P4HOMAIR       0.104         0.079         0.000         0.000         0.017
+ B4BLDL         0.630         0.010         0.747         0.066         0.092
+ B4BHDL         0.624         0.015         0.000         0.000         0.007
+ RB4BTRIG       0.638         0.003         0.000         0.000         0.514
+ RB4PWHR        0.600         0.094         0.000         0.000         0.026
+ B1PGENDE       1.000         1.000         1.000         0.467         0.000
+ B1PAGE_M       1.000         1.000         1.000         0.000         0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              AVGB_SD       AVGB_RM       AVGB_LF       AVGB_HF       RADJ_CRT
+              ________      ________      ________      ________      ________
+ AVGB_SD        0.000
+ AVGB_RM        0.000         0.000
+ AVGB_LF        0.000         0.000         0.000
+ AVGB_HF        0.000         0.000         0.000         0.000
+ RADJ_CRT       0.609         0.884         0.596         0.836         0.000
+ B4BDHEAS       0.000         0.005         0.000         0.000         0.210
+ RB4BCRP        0.000         0.000         0.000         0.001         0.000
+ B4BIL6         0.000         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.020
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       0.048         0.218         0.073         0.244         0.000
+ PULPRESS       0.003         0.144         0.000         0.008         0.001
+ RB4P1GS        0.154         0.526         0.003         0.091         0.087
+ RB4P1D         0.000         0.000         0.000         0.000         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.002         0.020         0.000         0.004         0.000
+ P4HOMAIR       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.662         0.423         0.718         0.983         0.291
+ B4BHDL         0.001         0.000         0.020         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.001         0.000         0.000
+ B1PGENDE       0.057         0.426         0.000         0.017         0.001
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.006
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS       0.000
+ RB4BCRP        0.020         0.000
+ B4BIL6         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000
+ B4BSICAM       0.002         0.000         0.000         0.000         0.000
+ B4BSESEL       0.025         0.000         0.000         0.000         0.000
+ PULPRESS       0.000         0.000         0.000         0.000         0.000
+ RB4P1GS        0.062         0.000         0.000         0.000         0.000
+ RB4P1D         0.017         0.000         0.000         0.000         0.000
+ B4BHA1C        0.003         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.110         0.000         0.000         0.026         0.000
+ P4HOMAIR       0.631         0.000         0.000         0.000         0.000
+ B4BLDL         0.125         0.861         0.565         0.631         0.429
+ B4BHDL         0.000         0.000         0.000         0.149         0.002
+ RB4BTRIG       0.341         0.000         0.000         0.022         0.000
+ RB4PWHR        0.000         0.000         0.000         0.027         0.000
+ B1PGENDE       0.000         0.000         0.017         0.000         0.997
+ B1PAGE_M       0.000         0.923         0.000         0.000         0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              B4BSESEL      PULPRESS      RB4P1GS       RB4P1D        B4BHA1C
+              ________      ________      ________      ________      ________
+ B4BSESEL       0.000
+ PULPRESS       0.350         0.000
+ RB4P1GS        0.215         0.000         0.000
+ RB4P1D         0.000         0.423         0.548         0.000
+ B4BHA1C        0.000         0.000         0.000         0.000         0.000
+ RB4BGLUC       0.000         0.002         0.000         0.000         0.000
+ P4HOMAIR       0.000         0.002         0.000         0.000         0.000
+ B4BLDL         0.446         0.451         0.944         0.225         0.749
+ B4BHDL         0.000         0.237         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.001         0.000         0.000         0.000
+ RB4PWHR        0.000         0.032         0.000         0.002         0.000
+ B1PGENDE       0.005         0.011         0.008         0.000         0.913
+ B1PAGE_M       0.001         0.000         0.000         0.570         0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4BGLUC      P4HOMAIR      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ RB4BGLUC       0.000
+ P4HOMAIR       0.000         0.000
+ B4BLDL         0.255         0.001         0.000
+ B4BHDL         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.528         0.000         0.000
+ B1PGENDE       0.000         0.001         0.415         0.000         0.000
+ B1PAGE_M       0.049         0.322         0.000         0.197         0.884
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        0.000
+ B1PGENDE       0.000         0.000
+ B1PAGE_M       0.000         0.126         0.000
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\joshua\documents\research\midus\jw-midus-al\factor_allcov_clustering_bifac_corrtech.dgm
+
+     Beginning Time:  05:31:04
+        Ending Time:  05:31:06
+       Elapsed Time:  00:00:02
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

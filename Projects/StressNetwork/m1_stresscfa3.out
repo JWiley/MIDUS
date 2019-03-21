@@ -1,0 +1,382 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/12/2016   3:47 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m1_stresscfa3.dat";
+
+  VARIABLE:
+  NAMES = A1SSPCRI A1SKINNE A1SFDSNE A1SLFEDI A1SDAYDI A1SPIWOR A1SPIFAM A1SPIHOM;
+   MISSING=.;
+
+      CATEGORICAL ARE
+        A1SLFEDI A1SDAYDI
+        A1SPIWOR A1SPIHOM A1SPIFAM
+        A1SKINNE A1SFDSNE A1SSPCRI;
+
+  ANALYSIS:
+
+     ESTIMATOR = MLR;
+     PROCESSORS = 2;
+  MODEL:
+
+     Disc BY A1SLFEDI A1SDAYDI
+       A1SPIWOR A1SPIHOM A1SPIFAM;
+     Perc BY A1SKINNE A1SFDSNE A1SSPCRI;
+
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  728
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        6257
+
+Number of dependent variables                                    8
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   A1SSPCRI    A1SKINNE    A1SFDSNE    A1SLFEDI    A1SDAYDI    A1SPIWOR
+   A1SPIFAM    A1SPIHOM
+
+Continuous latent variables
+   DISC        PERC
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                        ON
+
+Input data file(s)
+  m1_stresscfa3.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            68
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              A1SSPCRI      A1SKINNE      A1SFDSNE      A1SLFEDI      A1SDAYDI
+              ________      ________      ________      ________      ________
+ A1SSPCRI       0.741
+ A1SKINNE       0.738         0.993
+ A1SFDSNE       0.738         0.991         0.993
+ A1SLFEDI       0.714         0.957         0.957         0.961
+ A1SDAYDI       0.729         0.976         0.976         0.959         0.981
+ A1SPIWOR       0.543         0.722         0.723         0.706         0.717
+ A1SPIFAM       0.651         0.805         0.805         0.776         0.793
+ A1SPIHOM       0.739         0.992         0.992         0.958         0.977
+
+
+           Covariance Coverage
+              A1SPIWOR      A1SPIFAM      A1SPIHOM
+              ________      ________      ________
+ A1SPIWOR       0.727
+ A1SPIFAM       0.572         0.808
+ A1SPIHOM       0.724         0.806         0.995
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    A1SSPCRI
+      Category 1    0.222     1030.000
+      Category 2    0.233     1082.000
+      Category 3    0.190      880.000
+      Category 4    0.156      724.000
+      Category 5    0.198      919.000
+    A1SKINNE
+      Category 1    0.208     1291.000
+      Category 2    0.346     2150.000
+      Category 3    0.147      913.000
+      Category 4    0.108      674.000
+      Category 5    0.191     1186.000
+    A1SFDSNE
+      Category 1    0.249     1545.000
+      Category 2    0.455     2826.000
+      Category 3    0.133      828.000
+      Category 4    0.163     1015.000
+    A1SLFEDI
+      Category 1    0.816     4910.000
+      Category 2    0.184     1104.000
+    A1SDAYDI
+      Category 1    0.635     3896.000
+      Category 2    0.168     1031.000
+      Category 3    0.197     1209.000
+    A1SPIWOR
+      Category 1    0.242     1101.000
+      Category 2    0.228     1038.000
+      Category 3    0.203      923.000
+      Category 4    0.146      665.000
+      Category 5    0.180      820.000
+    A1SPIFAM
+      Category 1    0.281     1419.000
+      Category 2    0.231     1170.000
+      Category 3    0.116      587.000
+      Category 4    0.190      962.000
+      Category 5    0.182      918.000
+    A1SPIHOM
+      Category 1    0.406     2530.000
+      Category 2    0.242     1509.000
+      Category 3    0.162     1006.000
+      Category 4    0.189     1179.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       34
+
+Loglikelihood
+
+          H0 Value                      -54199.229
+          H0 Scaling Correction Factor      1.0312
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                  108466.458
+          Bayesian (BIC)                108695.667
+          Sample-Size Adjusted BIC      108587.624
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes**
+
+          Pearson Chi-Square
+
+          Value                          60428.802
+          Degrees of Freedom                 59595
+          P-Value                           0.0081
+
+          Likelihood Ratio Chi-Square
+
+          Value                          12657.388
+          Degrees of Freedom                 59595
+          P-Value                           1.0000
+
+** Of the 276911 cells in the frequency table, 370
+   were deleted in the calculation of chi-square due to extreme values.
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                          16410.428
+          Degrees of Freedom                216844
+          P-Value                           1.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                           9926.500
+          Degrees of Freedom                216844
+          P-Value                           1.0000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    A1SLFEDI           1.000      0.000    999.000    999.000
+    A1SDAYDI           1.368      0.076     17.991      0.000
+    A1SPIWOR           1.062      0.110      9.616      0.000
+    A1SPIHOM           1.076      0.119      9.061      0.000
+    A1SPIFAM           0.916      0.099      9.211      0.000
+
+ PERC     BY
+    A1SKINNE           1.000      0.000    999.000    999.000
+    A1SFDSNE           0.923      0.056     16.582      0.000
+    A1SSPCRI           0.528      0.035     15.078      0.000
+
+ PERC     WITH
+    DISC               1.269      0.116     10.956      0.000
+
+ Thresholds
+    A1SSPCRI$1        -1.521      0.043    -35.077      0.000
+    A1SSPCRI$2        -0.248      0.034     -7.189      0.000
+    A1SSPCRI$3         0.675      0.036     18.555      0.000
+    A1SSPCRI$4         1.596      0.045     35.662      0.000
+    A1SKINNE$1        -2.047      0.062    -33.271      0.000
+    A1SKINNE$2         0.365      0.041      8.952      0.000
+    A1SKINNE$3         1.342      0.051     26.318      0.000
+    A1SKINNE$4         2.215      0.065     34.231      0.000
+    A1SFDSNE$1        -1.639      0.052    -31.313      0.000
+    A1SFDSNE$2         1.273      0.047     27.165      0.000
+    A1SFDSNE$3         2.361      0.063     37.645      0.000
+    A1SLFEDI$1         1.784      0.053     33.964      0.000
+    A1SDAYDI$1         0.751      0.041     18.100      0.000
+    A1SDAYDI$2         1.887      0.061     30.806      0.000
+    A1SPIWOR$1        -1.387      0.045    -30.630      0.000
+    A1SPIWOR$2        -0.140      0.036     -3.865      0.000
+    A1SPIWOR$3         0.907      0.040     22.744      0.000
+    A1SPIWOR$4         1.864      0.052     36.133      0.000
+    A1SPIFAM$1        -1.149      0.039    -29.322      0.000
+    A1SPIFAM$2         0.017      0.033      0.529      0.597
+    A1SPIFAM$3         0.581      0.034     16.898      0.000
+    A1SPIFAM$4         1.719      0.045     38.172      0.000
+    A1SPIHOM$1        -0.483      0.033    -14.641      0.000
+    A1SPIHOM$2         0.755      0.035     21.861      0.000
+    A1SPIHOM$3         1.781      0.046     38.697      0.000
+
+ Variances
+    DISC               1.075      0.157      6.864      0.000
+    PERC               3.424      0.277     12.382      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    A1SLFEDI           0.496      0.027     18.212      0.000
+    A1SDAYDI           0.616      0.023     26.946      0.000
+    A1SPIWOR           0.519      0.019     27.032      0.000
+    A1SPIHOM           0.524      0.020     26.035      0.000
+    A1SPIFAM           0.464      0.020     23.217      0.000
+
+ PERC     BY
+    A1SKINNE           0.714      0.014     50.537      0.000
+    A1SFDSNE           0.685      0.014     47.651      0.000
+    A1SSPCRI           0.474      0.018     27.051      0.000
+
+ PERC     WITH
+    DISC               0.662      0.018     36.185      0.000
+
+ Thresholds
+    A1SSPCRI$1        -0.738      0.019    -38.106      0.000
+    A1SSPCRI$2        -0.120      0.017     -7.214      0.000
+    A1SSPCRI$3         0.328      0.017     18.990      0.000
+    A1SSPCRI$4         0.774      0.020     38.405      0.000
+    A1SKINNE$1        -0.790      0.018    -44.573      0.000
+    A1SKINNE$2         0.141      0.015      9.196      0.000
+    A1SKINNE$3         0.518      0.016     32.128      0.000
+    A1SKINNE$4         0.855      0.018     47.730      0.000
+    A1SFDSNE$1        -0.658      0.017    -38.861      0.000
+    A1SFDSNE$2         0.511      0.016     31.696      0.000
+    A1SFDSNE$3         0.948      0.019     50.909      0.000
+    A1SLFEDI$1         0.854      0.019     46.140      0.000
+    A1SDAYDI$1         0.326      0.016     20.756      0.000
+    A1SDAYDI$2         0.819      0.018     45.628      0.000
+    A1SPIWOR$1        -0.653      0.019    -33.956      0.000
+    A1SPIWOR$2        -0.066      0.017     -3.874      0.000
+    A1SPIWOR$3         0.427      0.018     24.051      0.000
+    A1SPIWOR$4         0.879      0.021     41.850      0.000
+    A1SPIFAM$1        -0.561      0.018    -31.945      0.000
+    A1SPIFAM$2         0.009      0.016      0.528      0.597
+    A1SPIFAM$3         0.284      0.017     17.144      0.000
+    A1SPIFAM$4         0.840      0.020     42.176      0.000
+    A1SPIHOM$1        -0.227      0.015    -15.063      0.000
+    A1SPIHOM$2         0.355      0.015     23.142      0.000
+    A1SPIHOM$3         0.836      0.018     46.844      0.000
+
+ Variances
+    DISC               1.000      0.000    999.000    999.000
+    PERC               1.000      0.000    999.000    999.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    A1SSPCRI           0.225      0.017     13.525      0.000
+    A1SKINNE           0.510      0.020     25.269      0.000
+    A1SFDSNE           0.470      0.020     23.825      0.000
+    A1SLFEDI           0.246      0.027      9.106      0.000
+    A1SDAYDI           0.379      0.028     13.473      0.000
+    A1SPIWOR           0.269      0.020     13.516      0.000
+    A1SPIFAM           0.215      0.019     11.609      0.000
+    A1SPIHOM           0.274      0.021     13.017      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.826E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  15:47:10
+        Ending Time:  15:47:51
+       Elapsed Time:  00:00:41
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,27 @@
+Scale,Notes/Comments,Time,MIDUS1,MIDUS2,Milwaukee,M2P4,Abbr
+"Perceived Inequality in Work (6 items; alpha=.78 at M1; e.g., “I feel cheated about the chances I have had to work at good jobs.”)",Use M1 + Change,M1&M2,A1SPIWOR,B1SPIWOR,BASPIWOR,,PIW
+"Perceived Neighborhood Quality (4 items; alpha=.68 at M1; e.g., “I feel safe being out alone in my neighborhood during the daytime.”)",Use M1 + Change,M1&M2,A1SHOMET,B1SHOMET,BACHOMET,,PNQ
+"Perceived Inequality in Home (6 items; alpha=.80 at M1; e.g., “I don?t like to invite people to my home because I do not live in a very nice place.” and “Im proud of my home.”)",Use M1 + Change,M1&M2,A1SPIHOM,B1SPIHOM,BACPIHOM,,PIH
+"Family Strain (4 items; alpha=.80 at M1; e.g., “Not including your spouse or partner, how often do members of your family make
+too many demands on you?”)",Use M1 + Change,M1&M2,A1SKINNE,B1SKINNE,BACKINNE,,FamS
+"Friend Strain (4 items; alpha=.79 at M1; e.g., “How often do your friends make too many demands on you?”)",Use M1 + Change,M1&M2,A1SFDSNE,B1SFDSNE,BACFDSNE,,FriS
+"Spouse/Partner Strain (6 items; alpha=.81 at M1 ; e.g., “How often does your spouse or partner make too many demands on you?”)",Use M1 + Change,M1&M2,A1SSPCRI,B1SSPCRI,BACSPCRI,,SpoS
+"Perceived Inequality in Family (6 items; alpha=.69 at M1; e.g., “Problems with my children have caused me shame and embarrassment at times.” and “I feel good about the opportunities I have been able to provide for my children.”)",Use M1 + Change,M1&M2,A1SPIFAM,B1SPIFAM,BACPIFAM,,PIF
+"Lifetime Discrimination (11 items; common stem: (How many times in your life have you been discriminated against in each of the following
+ways because of such things as your race, ethnicity, gender, age, religion, physical
+appearance, sexual orientation, or other characteristics?) and e.g., “You were not hired for a job.” and “You were discouraged by a teacher or advisor from seeking higher education.”)",Use M1 + Change,M1&M2,created,B1SLFEDI,BACLFEDI,,LfeDi
+"Daily Discrimination (9 items; alpha=.97 at M1; e.g., “You are treated with less courtesy than other people.” and “People act as if they think you are not smart.”)",Use M1 + Change,M1&M2,created,B1SDAYDI,BACDAYDI,,DayDi
+"There were 15 additional items asked in M1 (but not M2, I think and therefore not to the Milwaukee sample) I am not sure how to use. During your childhood, how often did your [mother / father / brothers / sisters / anybody else] do any of the things on list A, B, and C to you
+List A: / Insulted you or swore at you / Sulked or refused to talk to you / Stomped out of the room / Did or said something to spite you / Threatened to hit you / Smashed or kicked something in anger
+List B: / Pushed, grabbed, or shoved you / Slapped you / Threw something at you
+List C: / Kicked, bit, or hit you with a fist / Hit or tried to hit you with something / Beat you up / Chocked you / Burned or scalded you","TBD: could try to create aggregate of the three items for each person (mother, father, etc) and use individually or create total score",M1,,,,,
+"Stressful Life Events (27 item checklist; 7 items are during childhood or adolescence, e.g., ""One or both parents used drugs so often it regularly caused problems""; other items are 'anytime' e.g., ""a parent died"" or ""fired from a job"" or ""Detention in jail or comparable institution"").  In addition to checking whether or not the event occured, rated impact of each event from -2 to +2 initially and in the long run and wrote in ages events occured.  I have just used a simple count score.","TBD: only at M2 but is a life course report. Could use all, only adolesent/childhood items, or not at all. Also TBD whether to include ""impact"" ratings.",M2,,created,created,,SLEs
+"Chronic Job Discrimination (6 items; alpha=.76 at M2; e.g., “How often are you watched more closely than other workers?” and “How often does your supervisor or boss use ethnic, racial, or sexual slurs or jokes?”)",TBD: Exclude or only use for mortality (after M2),M2,,B1SJOBDI,BASJOBDI,,JobDi
+"Perceived Stress Scale (10 items; alpha=.86 at M2P4; e.g., “felt nervous and “stressed”?”)",TBD: Exclude or only use for mortality (after M2),M2P4,,,,B4QPS_PS,PSS
+Childhood Trauma Questionnaire,,,,,,,
+"  Minimization/Denial (3 items; alpha=70. at M2P4; e.g., “I had the perfect childhood.”)","TBD: only at M2 but is a retrospective childhood report.  Could use, exclude, or only use for mortality (after M2)",M2P4,,,,B4QCT_MD,CTQMD
+"  Sexual Abuse (5 items; alpha=.94 at M2P4; e.g., “Someone tried to make me do sexual things or watch sexual things.”)",,M2P4,,,,B4QCT_SA,CTQSA
+"  Physical Neglect (5 items; alpha=.70 at M2P4; e.g., “My parents were too drunk or high to take care of me.”)",,M2P4,,,,B4QCT_PN,CTQPN
+"  Physical Abuse (5 items; alpha=.79 at M2P4; e.g., “People in my family hit me so hard that it left me with bruises or marks.”)",,M2P4,,,,B4QCT_PA,CTQPA
+"  Emotional Abuse (5 items; alpha=.88 at M2P4; e.g., “I thought that my parents wished I had never been born.”)",,M2P4,,,,B4QCT_EA,CTQEA
+"  Emotional Neglect (5 items; alpha=.89 at M2P4; e.g., “My family was a source of strength and support.” (R))",,M2P4,,,,B4QCT_EN,CTQEN

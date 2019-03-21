@@ -1,0 +1,57 @@
+TITLE:
+PSR AL Model
+DATA:
+FILE = "psr_al_final.dat";
+ 
+VARIABLE:
+NAMES = F PR SR NegAff PosAff m2famnum m2aadv LifeStress Smoke PhysAct
+     p4majorconditions; 
+ MISSING=.;
+ 
+  USEVARIABLES = F m2aadv
+    LifeStress Smoke PhysAct p4majorconditions
+    PR SR NegAff PosAff
+    SESxPR SESxSR StressxPR StressxSR;
+
+  IDVARIABLE = m2famnum;
+  !COUNT = LifeStress p4majorconditions;
+  !CATEGORICAL = Smoke PhysAct;
+  DEFINE:
+   SESxPR = m2aadv * PR;
+   SESxSR = m2aadv * SR;
+   StressxPR = LifeStress * PR;
+   StressxSR = LifeStress * SR;
+
+
+ANALYSIS:
+
+  Estimator = MLR;
+
+MODEL:
+
+  p4majorconditions ON
+    ! biobehavioral
+    F Smoke PhysAct
+    ! SES
+    m2aadv
+    PR SR;
+    !SESxPR SESxSR;
+
+  F ON Smoke PhysAct;
+
+  F Smoke PhysAct ON
+    PosAff NegAff
+    m2aadv
+    PR SR;
+    !SESxPR SESxSR;
+
+  PosAff NegAff ON
+  LifeStress
+  PR SR
+  StressxPR StressxSR;
+  PosAff WITH NegAff*;
+
+  LifeStress ON
+    m2aadv PR SR
+    SESxPR SESxSR;
+

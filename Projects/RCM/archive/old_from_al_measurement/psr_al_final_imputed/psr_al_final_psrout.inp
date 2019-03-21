@@ -1,0 +1,50 @@
+TITLE:
+PSR AL Model
+DATA:
+FILE = "psr_al_final_psrout.dat";
+TYPE = IMPUTATION;
+ 
+VARIABLE:
+NAMES = M2ID m2famnum b1page_m2 b1pgender m1chadv m2aadv LifeStress
+     p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+     PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+     FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+     B4QMA_LI B4QMA_AA B4QMA_PA Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM
+     PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bi_sym bi_hpa bi_card bi_gluc
+     bi_lipid bi_infl bi_para F NegAff PosAff PSR CAHeavy CAFrequent CAInfrequent
+     CANone dSES Milwaukee; 
+ MISSING=.;
+ 
+   USEVARIABLES =
+      PSR
+      F
+      ;
+
+  IDVARIABLE = M2ID;
+    CLUSTER = m2famnum;
+
+ANALYSIS:
+
+  TYPE = COMPLEX;
+  Estimator = MLR;
+  PROCESSORS = 8;
+  !MCONVERGENCE  = .000005;
+  !H1CONVERGENCE = .000005;
+  !LOGCRITERION  = .000005;
+  !RLOGCRITERION = .000005;
+  !ITERATIONS = 15000;
+  !MITERATIONS = 7500;
+  !H1ITERATIONS = 15000;
+  INTEGRATION = MONTECARLO (500);
+
+MODEL:
+
+      ! Step 5
+      F ON
+        PSR;
+      ;
+
+
+OUTPUT:
+
+   CINTERVAL;

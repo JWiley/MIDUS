@@ -1,0 +1,301 @@
+TITLE:
+PSR AL Model
+DATA:
+
+FILE = implist.dat;
+TYPE = IMPUTATION;
+
+VARIABLE:
+NAMES = M2ID m2famnum b1page_m2 sex m1chadv m2aadv LifeStress LifeStress2
+     p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+     PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+     FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+     B4QMA_LI B4QMA_AA B4QMA_PA Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM
+     PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bi_sym bi_hpa bi_card bi_gluc
+     bi_lipid bi_infl bi_para F NegAff PosAff PSR CAHeavy CAFrequent CAInfrequent
+     CANone dSES Milwaukee;
+
+
+   USEVARIABLES =
+      m1chadv dSES PSR LifeStress
+      sex b1page_m2
+      NegAff
+      F
+      PSQI3 CurrentSmoke RiskyBehaviors
+      CANone CAFrequent CAHeavy PhysAct
+      OverallDiet
+      p4majorconditions
+      PSRxStress
+      PSRxSES PSRxdSES
+      !PSRxSex
+      ;
+
+
+MISSING=.;
+  IDVARIABLE = M2ID;
+    CLUSTER = m2famnum;
+    COUNT = LifeStress p4majorconditions;
+    CATEGORICAL = CANone CAFrequent CAHeavy
+       CurrentSmoke PhysAct RiskyBehaviors;
+    DEFINE:
+    PSRxStress = LifeStress * PSR;
+    PSRxSES = m1chadv * PSR;
+    PSRxdSES = dSES * PSR;
+    PSRxSex = Sex * PSR;
+
+
+ANALYSIS:
+
+  TYPE = COMPLEX;
+  Estimator = MLR;
+  PROCESSORS = 4;
+  MCONVERGENCE  = .000005;
+  H1CONVERGENCE = .000005;
+  LOGCRITERION  = .000005;
+  RLOGCRITERION = .000005;
+  ITERATIONS = 15000;
+  MITERATIONS = 7500;
+  H1ITERATIONS = 15000;
+  INTEGRATION = MONTECARLO (750);
+
+MODEL:
+
+  ![PSRxStress PSRxSES PSRxdSES PSRxSex];
+  !PSRxStress WITH PSRxSES* PSRxdSES* PSRxSex*;
+  !PSRxSES WITH PSRxdSES* PSRxSex*;
+  !PSRxdSES WITH PSRxSex*;
+
+  [PSRxStress PSRxSES PSRxdSES];
+  PSRxStress WITH PSRxSES* PSRxdSES*;
+  PSRxSES WITH PSRxdSES*;
+
+  PSR WITH PSRxStress* PSRxSES PSRxdSES;
+  !PSR WITH PSRxStress;
+  !LifeStress WITH PSRxStress*;
+  !CANone WITH CAFrequent CAHeavy;
+  !CAFrequent WITH CAHeavy;
+
+
+
+  ! Step 1
+    LifeStress ON
+      sex b1page_m2
+      m1chadv
+      dSES
+      ;
+
+    PSR ON
+      sex b1page_m2
+      m1chadv
+      dSES
+      ;
+
+    ! Step 2
+    NegAff ON
+      sex b1page_m2
+      m1chadv
+      dSES
+      PSR
+      LifeStress 
+      !PSRxStress
+      PSRxSES
+      PSRxdSES
+      !PSRxSex
+      ;
+
+    ! Step 3
+      PSQI3 ON
+      sex b1page_m2
+      m1chadv (c1a)
+      dSES (c1b)
+      PSR (c1c)
+      LifeStress
+      NegAff (c1d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+      CurrentSmoke ON
+      sex b1page_m2
+      m1chadv (c2a)
+      dSES (c2b)
+      PSR (c2c)
+      LifeStress
+      NegAff (c2d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+      RiskyBehaviors ON
+      sex b1page_m2
+      m1chadv (c3a)
+      dSES (c3b)
+      PSR (c3c)
+      LifeStress
+      NegAff (c3d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+      CANone ON
+      sex b1page_m2
+      m1chadv (c4a)
+      dSES (c4b)
+      PSR (c4c)
+      LifeStress
+      NegAff (c4d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+      CAFrequent ON
+      sex b1page_m2
+      m1chadv (c5a)
+      dSES (c5b)
+      PSR (c5c)
+      LifeStress
+      NegAff (c5d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+      CAHeavy ON
+      sex b1page_m2
+      m1chadv (c6a)
+      dSES (c6b)
+      PSR (c6c)
+      LifeStress
+      NegAff (c6d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+
+      PhysAct ON
+      sex b1page_m2
+      m1chadv (c7a)
+      dSES (c7b)
+      PSR (c7c)
+      LifeStress
+      NegAff (c7d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+      OverallDiet ON
+      sex b1page_m2
+      m1chadv (c8a)
+      dSES (c8b)
+      PSR (c8c)
+      LifeStress
+      NegAff (c8d)
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+
+    ! Step 4
+      F ON
+      sex b1page_m2
+      m1chadv (c9a)
+      dSES (c9b)
+      PSR (c9c)
+      LifeStress
+      NegAff (c9d)
+      PSQI3
+      CurrentSmoke
+      RiskyBehaviors
+      CANone
+      CAFrequent
+      CAHeavy
+      PhysAct
+      OverallDiet
+      !PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+     ;
+
+      ! Step 5
+      p4majorconditions ON
+      sex b1page_m2
+      m1chadv
+      dSES
+      PSR
+      LifeStress
+      NegAff
+      PSQI3
+      CurrentSmoke
+      RiskyBehaviors
+      CANone
+      CAFrequent
+      CAHeavy
+      PhysAct
+      OverallDiet
+      F
+      PSRxStress
+      !PSRxSES
+      !PSRxdSES
+      !PSRxSex
+      ;
+
+MODEL TEST:
+  !c1a = 0;
+  !c1b = 0;
+  !c1c = 0;
+  c1d = 0;
+
+  !c2a = 0;
+  !c2b = 0;
+  !c2c = 0;
+  c2d = 0;
+
+  !c3a = 0;
+  !c3b = 0;
+  !c3c = 0;
+  c3d = 0;
+
+  !c4a = 0;
+  !c4b = 0;
+  !c4c = 0;
+  c4d = 0;
+
+  !c5a = 0;
+  !c5b = 0;
+  !c5c = 0;
+  c5d = 0;
+
+  !c6a = 0;
+  !c6b = 0;
+  !c6c = 0;
+  c6d = 0;
+
+  !c7a = 0;
+  !c7b = 0;
+  !c7c = 0;
+  c7d = 0;
+
+  !c8a = 0;
+  !c8b = 0;
+  !c8c = 0;
+  c8d = 0;
+
+  !c9a = 0;
+  !c9b = 0;
+  !c9c = 0;
+  c9d = 0;
+  

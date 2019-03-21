@@ -1,0 +1,58 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+12/14/2016  10:19 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m5_v1.dat";
+
+  VARIABLE:
+  NAMES = B1Sleep C1Sleep LastAge Sex B1SCHRON B1SBMI m2ed_all B1Age C1Age White
+       SmokeCurr SmokePast AlcHigh AlcMod B1SOL C1SOL DECEASED M2ID M2FAMNUM;
+   MISSING=.;
+
+    IDVARIABLE = M2ID;
+    CLUSTER = M2FAMNUM;
+    TSCORES = B1Age C1Age;
+    SURVIVAL = LastAge;
+    TIMECENSORED = DECEASED (0=RIGHT, 1=NOT);
+  ANALYSIS:
+
+    TYPE = COMPLEX RANDOM;
+    ESTIMATOR = MLR;
+    INTEGRATION = MONTECARLO (1000);
+    PROCESSORS = 10;
+  MODEL:
+
+    i s | B1Sleep C1Sleep at B1Age C1Age;
+    B1Sleep C1Sleep (e1);
+    i WITH s*;
+    i* s*;
+    i2 | i XWITH i;
+
+    li ls | B1SOL C1SOL at B1Age C1Age;
+    B1SOL C1SOL (e2);
+    li WITH ls* i s;
+    i WITH ls* s*;
+    li* ls*;
+
+    LastAge ON i i2 s li ls;
+    LastAge i s li ls ON Sex B1SBMI B1SCHRON White
+      SmokeCurr SmokePast AlcHigh AlcMod m2ed_all;
+
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  453
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+

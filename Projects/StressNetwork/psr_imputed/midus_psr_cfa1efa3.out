@@ -1,0 +1,70 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+01/22/2016   1:16 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "MIDUS_PSR_cfa1efa3.dat";
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM M1 M2 M3 M4 LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8 SE1 SE2 SE3 SE4
+       SE5 SE6 SE7 Opt1 Opt2 Opt3 Pess1 Pess2 Pess3 PLife1 PLife2 PLife3 PLife4 PLife5
+       PLife6 PLife7 Ctrl1 Ctrl2 Ctrl3 Con1 Con2 Con3 Con4 Con5 FamS1 FamS2 FamS3
+       FamS4 FriS1 FriS2 FriS3 FriS4 SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6 SI1 SI2 SI3
+       Died AGE;
+   MISSING=.;
+
+  USEVARIABLES ARE
+   M1 M2 M3 M4
+   LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8
+   SE1 SE2 SE3 SE4 SE5 SE6 SE7
+   Opt1 Opt2 Opt3 Pess1 Pess2 Pess3
+   PLife1 PLife2 PLife3 PLife4 PLife5 PLife6 PLife7
+   Ctrl1 Ctrl2 Ctrl3
+   Con1 Con2 Con3 Con4 Con5
+   FamS1 FamS2 FamS3 FamS4
+   FriS1 FriS2 FriS3 FriS4
+   SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6
+   SI1 SI2 SI3;
+
+  CATEGORICAL ARE
+   M1 M2 M3 M4
+   LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8
+   SE1 SE2 SE3 SE4 SE5 SE6 SE7
+   Opt1 Opt2 Opt3 Pess1 Pess2 Pess3
+   PLife1 PLife2 PLife3 PLife4 PLife5 PLife6 PLife7
+   Ctrl1 Ctrl2 Ctrl3
+   Con1 Con2 Con3 Con4 Con5
+   FamS1 FamS2 FamS3 FamS4
+   FriS1 FriS2 FriS3 FriS4
+   SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6
+   SI1 SI2 SI3;
+
+  IDVARIABLE = M2ID;
+  CLUSTER = M2FAMNUM;
+
+  ANALYSIS:
+
+    TYPE = COMPLEX EFA 9 15;
+    ROTATION = BI-GEOMIN (oblique);
+    ESTIMATOR = WLSMV;
+    PROCESSORS = 4;
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING in OUTPUT command
+  STANDARDIZED (STD, STDY, STDYX) options are not available for TYPE=EFA.
+  Request for STANDARDIZED options will be ignored.  Note that STANDARDIZED options
+  are available with the use of EFA factors (ESEM) declared in the MODEL command.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  922
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+

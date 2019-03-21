@@ -1,0 +1,169 @@
+TITLE:
+PSR AL Model
+DATA:
+FILE = implist.dat;
+TYPE = IMPUTATION;
+LISTWISE = ON;
+
+VARIABLE: 
+NAMES = M2ID Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM PESSIMISM FAMILYSUPT
+  FRIENDSUPT SPOUSESUPT PR SR bi_sym bi_hpa bi_card bi_gluc bi_lipid bi_infl
+  bi_para F NegAff PosAff m2famnum b1page_m2 sex m1chadv m2aadv LifeStress
+  Smoke PhysAct p4majorconditions p4minorconditions p4sumburden B4QCESD B4QMA_D
+  B4QMA_A B4QMA_LI B4QMA_AA B4QMA_PA;
+
+MISSING=.;
+
+  USEVARIABLES = 
+    m1chadv m2aadv PR SR LifeStress 
+    sex b1page_m2
+    NegAff PosAff
+    F Smoke PhysAct 
+    p4majorconditions
+    !SESxPR SESxSR 
+    dSESxPR 
+    !dSESxSR
+    !StressxPR StressxSR;
+    !SexxPR SexxSR
+    ;
+
+  IDVARIABLE = M2ID;
+  CLUSTER = m2famnum;
+  COUNT = LifeStress p4majorconditions;
+  CATEGORICAL = Smoke PhysAct;
+  DEFINE:
+  !SESxPR = m1chadv * PR;
+  !SESxSR = m1chadv * SR;
+  dSESxPR = m2aadv * PR;
+  !dSESxSR = m2aadv * SR;
+
+  !StressxPR = LifeStress * PR;
+  !StressxSR = LifeStress * SR;
+  !SexxPR = Sex * PR;
+  !SexxSR = Sex * SR;
+
+ANALYSIS:
+  TYPE = COMPLEX;
+  Estimator = MLR;
+  PROCESSORS = 10;
+  CHOLESKY = ON;
+
+MODEL:
+  ! Step 1
+  LifeStress ON
+    sex b1page_m2 m1chadv m2aadv
+    ;
+
+  PR SR ON
+    sex b1page_m2 
+    m1chadv m2aadv
+    LifeStress;
+  PR WITH SR*;
+
+  ! Step 2
+  PosAff ON
+    sex b1page_m2 m1chadv m2aadv
+    PR SR 
+    LifeStress
+    !SESxPR SESxSR 
+    !dSESxPR dSESxSR
+    !StressxPR (int0a)
+    !StressxSR (int0b)
+    !SexxPR SexxSR
+    ;
+  NegAff ON
+    sex b1page_m2 m1chadv 
+    m2aadv (nases)
+    PR (napr)
+    SR 
+    LifeStress
+    !SESxPR SESxSR 
+    dSESxPR (nasxpr)
+    !dSESxSR
+    !StressxPR (int1a) 
+    !StressxSR (int1b)
+    !SexxPR SexxSR
+    ;
+   PosAff WITH NegAff*;
+
+  ! Step 3
+    F ON 
+    sex b1page_m2 m1chadv m2aadv
+    PR SR 
+    LifeStress
+    PosAff NegAff
+    !SESxPR SESxSR 
+    !dSESxPR dSESxSR
+    !StressxPR (int2a)
+    !StressxSR (int2b)
+    !SexxPR SexxSR
+    Smoke 
+    PhysAct (fphys);
+
+    Smoke ON 
+    sex b1page_m2 m1chadv m2aadv
+    PR SR 
+    LifeStress
+    PosAff NegAff
+    !SESxPR SESxSR 
+    !dSESxPR dSESxSR
+    !StressxPR (int3a)
+    !StressxSR (int3b)
+    !SexxPR SexxSR
+    ;
+
+    PhysAct ON 
+    sex b1page_m2 m1chadv m2aadv
+    PR (physpr)
+    SR 
+    LifeStress
+    PosAff NegAff
+    !SESxPR SESxSR 
+    !dSESxPR dSESxSR
+    !StressxPR (int4a)
+    !StressxSR (int4b)
+    !SexxPR SexxSR
+    ;
+
+    !PhysAct WITH Smoke*;
+
+    ! Step 4
+ 
+    p4majorconditions ON 
+    sex b1page_m2 m1chadv m2aadv
+    PR SR 
+    LifeStress
+    PosAff 
+    NegAff (cna)
+    !SESxPR SESxSR 
+    !dSESxPR dSESxSR
+    !StressxPR (int5a)
+    !StressxSR (int5b)
+    !SexxPR SexxSR
+    F Smoke PhysAct;
+
+MODEL CONSTRAINT:
+  new(indf1 indc1l indc1m indc1h slow shi);
+  indf1 = physpr * fphys;
+  indc1l = (napr - 1.277168 * nasxpr) * cna;
+  indc1m = (napr + 0 * nasxpr) * cna;
+  indc1h = (napr + 1.277168 * nasxpr) * cna;
+  slow = nases - nasxpr;
+  shi = nases + nasxpr;
+  
+
+!MODEL TEST:
+  !int1a = 0;
+  !int1b = 0;
+  !int2a = 0;
+  !int2b = 0;
+  !int3a = 0;
+  !int3b = 0;
+  !int4a = 0;
+  !int4b = 0;
+  !int5a = 0;
+  !int5b = 0;
+
+OUTPUT:
+  STDYX;
+  CINTERVAL;

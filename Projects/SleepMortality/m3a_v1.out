@@ -1,0 +1,249 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+06/07/2017   3:19 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m3a_v1_6dba33e47d7c2a9dbe80f47bb4e74023.dat";
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM B1Age C1Age LastAge DECEASED B1Sleep C1Sleep;
+   MISSING=.;
+
+    IDVARIABLE = M2ID;
+    CLUSTER = M2FAMNUM;
+    TSCORES = B1Age C1Age;
+    SURVIVAL = LastAge;
+    TIMECENSORED = DECEASED (0=RIGHT, 1=NOT);
+  ANALYSIS:
+
+    TYPE = COMPLEX RANDOM;
+    ESTIMATOR = MLR;
+    PROCESSORS = 2;
+  MODEL:
+
+    i s | B1Sleep C1Sleep at B1Age C1Age;
+    B1Sleep C1Sleep (e);
+    i WITH s*;
+    i* s*;
+    i2 | i XWITH i;
+
+    LastAge ON i i2 s;
+
+  OUTPUT:
+  CINTERVAL; STDYX;
+
+
+
+*** WARNING in OUTPUT command
+  STANDARDIZED (STD, STDY, STDYX) options are not available for TYPE=RANDOM.
+  Request for STANDARDIZED (STD, STDY, STDYX) is ignored.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4759
+
+Number of dependent variables                                    3
+Number of independent variables                                  0
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Continuous
+   B1SLEEP     C1SLEEP
+
+  Time-to-event (survival)
+
+    Semi-parametric (time intervals)
+     LASTAGE (10)
+
+Continuous latent variables
+   I2          I           S
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+  Time-censoring variables
+   DECEASED
+
+  Time scores
+   B1AGE       C1AGE
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Base Hazard                                                     ON
+Cholesky                                                       OFF
+
+Input data file(s)
+  m3a_v1_6dba33e47d7c2a9dbe80f47bb4e74023.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             3
+     Number of clusters        3695
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              B1SLEEP       C1SLEEP
+              ________      ________
+ B1SLEEP        0.965
+ C1SLEEP        0.532         0.568
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        9
+
+Loglikelihood
+
+          H0 Value                      -13974.656
+          H0 Scaling Correction Factor      1.0141
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   27967.311
+          Bayesian (BIC)                 28025.522
+          Sample-Size Adjusted BIC       27996.923
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ LASTAGE    ON
+    I                  0.263      0.076      3.455      0.001
+    I2                 0.340      0.064      5.295      0.000
+    S                  0.709      0.578      1.226      0.220
+
+ I        WITH
+    S                 -0.039      0.036     -1.072      0.284
+
+ Means
+    I                 -0.341      0.040     -8.593      0.000
+    S                  0.017      0.013      1.302      0.193
+
+ Intercepts
+    B1SLEEP            0.000      0.000    999.000    999.000
+    C1SLEEP            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  0.860      0.122      7.051      0.000
+    S                  0.025      0.010      2.445      0.014
+
+ Residual Variances
+    B1SLEEP            0.580      0.025     22.810      0.000
+    C1SLEEP            0.580      0.025     22.810      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.138E-08
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ LASTAGE  ON
+    I                0.067       0.114       0.138       0.263       0.389       0.413       0.460
+    I2               0.175       0.214       0.234       0.340       0.446       0.466       0.505
+    S               -0.781      -0.425      -0.242       0.709       1.660       1.842       2.198
+
+ I        WITH
+    S               -0.131      -0.109      -0.098      -0.039       0.021       0.032       0.054
+
+ Means
+    I               -0.443      -0.419      -0.406      -0.341      -0.276      -0.263      -0.239
+    S               -0.016      -0.008      -0.004       0.017       0.038       0.042       0.050
+
+ Intercepts
+    B1SLEEP          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    C1SLEEP          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                0.546       0.621       0.659       0.860       1.060       1.099       1.174
+    S               -0.001       0.005       0.008       0.025       0.041       0.045       0.051
+
+ Residual Variances
+    B1SLEEP          0.515       0.530       0.538       0.580       0.622       0.630       0.646
+    C1SLEEP          0.515       0.530       0.538       0.580       0.622       0.630       0.646
+
+
+     Beginning Time:  15:19:40
+        Ending Time:  15:21:25
+       Elapsed Time:  00:01:45
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

@@ -1,0 +1,2715 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+04/28/2015   1:53 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   CFA for BiFactor of biomarkers, race config, metric, scalar;
+  DATA:
+  FILE = "factor_allcov_clustering_MGRBiFac.dat";
+
+  VARIABLE:
+  NAMES = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf avgb_hf Rb4p1d Radj_crt b4bdheas
+       Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs b4bha1c Rb4bgluc
+       p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr m2famnum m2id b1pgender b1page_m2
+       Agecat MedGroup white p4majorconditions p4minorconditions p4sumburden b3tem
+       exec_fxn compression bending impact reg_izallo GNNregAL RXNNregAL;
+   MISSING=.;
+
+    usevariables = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf
+      avgb_hf Radj_crt b4bdheas Rb4bcrp
+      b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs Rb4p1d
+      b4bha1c Rb4bgluc
+      p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr
+      b1pgender b1page_m2;
+      CLUSTER = m2famnum;
+      idvariable = m2id;
+
+
+    GROUPING = white (0 = nonwhite 1 = white);
+  ANALYSIS:
+
+      TYPE = COMPLEX;
+      ESTIMATOR = MLR;
+      PROCESSORS = 2;
+  MODEL:
+
+      Radj_epi Radj_nor ON b1pgender b1page_m2;
+      avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      Rb4p1d ON b1pgender b1page_m2;
+      Radj_crt b4bdheas ON b1pgender b1page_m2;
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      Rb4p1gs pulpress ON b1pgender b1page_m2;
+      Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      sym BY Radj_nor@1 Radj_epi@1;
+      hpa BY Radj_crt@1 b4bdheas@1;
+      card BY Rb4p1gs@1 pulpress@1;
+      gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1 p4homair*1;
+      infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      avgb_sd@0;
+      avgb_rm WITH avgb_hf*;
+
+      AL BY Radj_epi*1 Radj_nor*1 avgb_sd*-1 avgb_rm*-1 avgb_lf*-1
+      avgb_hf*-1 Radj_crt*1 b4bdheas*1 Rb4bcrp*1
+      b4bil6*1 b4bfgn*1 b4bsicam*1 b4bsesel*1 pulpress*1 Rb4p1gs*1 Rb4p1d*1
+      b4bha1c*1 Rb4bgluc*1
+      p4homair*1 b4bldl*-1 b4bhdl*1 Rb4btrig*1 Rb4pwhr*1;
+      AL@1;
+      AL WITH sym@0 para@0 hpa@0 infl@0
+      card@0 gluc@0 lipid@0;
+      Rb4bgluc@0;
+  OUTPUT:
+
+      STDYX;
+      CINTERVAL;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  Data set contains unknown or missing values for GROUPING,
+  PATTERN, COHORT, CLUSTER and/or STRATIFICATION variables.
+  Number of cases with unknown or missing values:  2
+*** WARNING
+  Data set contains cases with missing on all variables except
+  x-variables.  These cases were not included in the analysis.
+  Number of cases with missing on all variables except x-variables:  1
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+CFA for BiFactor of biomarkers, race config, metric, scalar;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 2
+Number of observations
+   Group NONWHITE                                              286
+   Group WHITE                                                 966
+   Total sample size                                          1252
+
+Number of dependent variables                                   23
+Number of independent variables                                  2
+Number of continuous latent variables                            8
+
+Observed dependent variables
+
+  Continuous
+   RADJ_EPI    RADJ_NOR    AVGB_SD     AVGB_RM     AVGB_LF     AVGB_HF
+   RADJ_CRT    B4BDHEAS    RB4BCRP     B4BIL6      B4BFGN      B4BSICAM
+   B4BSESEL    PULPRESS    RB4P1GS     RB4P1D      B4BHA1C     RB4BGLUC
+   P4HOMAIR    B4BLDL      B4BHDL      RB4BTRIG    RB4PWHR
+
+Observed independent variables
+   B1PGENDE    B1PAGE_M
+
+Continuous latent variables
+   SYM         HPA         CARD        GLUC        LIPID       INFL
+   PARA        AL
+
+Variables with special functions
+
+  Grouping variable     WHITE
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  factor_allcov_clustering_MGRBiFac.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+   Group NONWHITE
+     Number of missing data patterns            16
+     Number of clusters         281
+
+
+   Group WHITE
+     Number of missing data patterns            21
+     Number of clusters         821
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR NONWHITE
+
+
+           Covariance Coverage
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.972
+ RADJ_NOR       0.972         0.986
+ AVGB_SD        0.892         0.906         0.916
+ AVGB_RM        0.892         0.906         0.916         0.916
+ AVGB_LF        0.892         0.906         0.916         0.916         0.916
+ AVGB_HF        0.892         0.906         0.916         0.916         0.916
+ RADJ_CRT       0.972         0.986         0.909         0.909         0.909
+ B4BDHEAS       0.962         0.976         0.909         0.909         0.909
+ RB4BCRP        0.941         0.955         0.892         0.892         0.892
+ B4BIL6         0.962         0.976         0.909         0.909         0.909
+ B4BFGN         0.944         0.958         0.895         0.895         0.895
+ B4BSICAM       0.958         0.972         0.906         0.906         0.906
+ B4BSESEL       0.958         0.972         0.906         0.906         0.906
+ PULPRESS       0.972         0.986         0.916         0.916         0.916
+ RB4P1GS        0.972         0.986         0.916         0.916         0.916
+ RB4P1D         0.972         0.986         0.916         0.916         0.916
+ B4BHA1C        0.944         0.958         0.895         0.895         0.895
+ RB4BGLUC       0.955         0.969         0.902         0.902         0.902
+ P4HOMAIR       0.951         0.965         0.899         0.899         0.899
+ B4BLDL         0.962         0.976         0.909         0.909         0.909
+ B4BHDL         0.962         0.976         0.909         0.909         0.909
+ RB4BTRIG       0.962         0.976         0.909         0.909         0.909
+ RB4PWHR        0.972         0.986         0.916         0.916         0.916
+ B1PGENDE       0.972         0.986         0.916         0.916         0.916
+ B1PAGE_M       0.972         0.986         0.916         0.916         0.916
+
+
+           Covariance Coverage
+              AVGB_HF       RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.916
+ RADJ_CRT       0.909         0.990
+ B4BDHEAS       0.909         0.979         0.986
+ RB4BCRP        0.892         0.958         0.965         0.965
+ B4BIL6         0.909         0.979         0.986         0.965         0.986
+ B4BFGN         0.895         0.962         0.969         0.965         0.969
+ B4BSICAM       0.906         0.976         0.983         0.962         0.983
+ B4BSESEL       0.906         0.976         0.983         0.962         0.983
+ PULPRESS       0.916         0.990         0.986         0.965         0.986
+ RB4P1GS        0.916         0.990         0.986         0.965         0.986
+ RB4P1D         0.916         0.990         0.986         0.965         0.986
+ B4BHA1C        0.895         0.962         0.969         0.958         0.969
+ RB4BGLUC       0.902         0.972         0.979         0.962         0.979
+ P4HOMAIR       0.899         0.969         0.976         0.958         0.976
+ B4BLDL         0.909         0.979         0.986         0.965         0.986
+ B4BHDL         0.909         0.979         0.986         0.965         0.986
+ RB4BTRIG       0.909         0.979         0.986         0.965         0.986
+ RB4PWHR        0.916         0.990         0.986         0.965         0.986
+ B1PGENDE       0.916         0.990         0.986         0.965         0.986
+ B1PAGE_M       0.916         0.990         0.986         0.965         0.986
+
+
+           Covariance Coverage
+              B4BFGN        B4BSICAM      B4BSESEL      PULPRESS      RB4P1GS
+              ________      ________      ________      ________      ________
+ B4BFGN         0.969
+ B4BSICAM       0.965         0.983
+ B4BSESEL       0.965         0.983         0.983
+ PULPRESS       0.969         0.983         0.983         1.000
+ RB4P1GS        0.969         0.983         0.983         1.000         1.000
+ RB4P1D         0.969         0.983         0.983         1.000         1.000
+ B4BHA1C        0.962         0.969         0.969         0.969         0.969
+ RB4BGLUC       0.965         0.979         0.979         0.979         0.979
+ P4HOMAIR       0.962         0.976         0.976         0.976         0.976
+ B4BLDL         0.969         0.983         0.983         0.986         0.986
+ B4BHDL         0.969         0.983         0.983         0.986         0.986
+ RB4BTRIG       0.969         0.983         0.983         0.986         0.986
+ RB4PWHR        0.969         0.983         0.983         1.000         1.000
+ B1PGENDE       0.969         0.983         0.983         1.000         1.000
+ B1PAGE_M       0.969         0.983         0.983         1.000         1.000
+
+
+           Covariance Coverage
+              RB4P1D        B4BHA1C       RB4BGLUC      P4HOMAIR      B4BLDL
+              ________      ________      ________      ________      ________
+ RB4P1D         1.000
+ B4BHA1C        0.969         0.969
+ RB4BGLUC       0.979         0.965         0.979
+ P4HOMAIR       0.976         0.962         0.976         0.976
+ B4BLDL         0.986         0.969         0.979         0.976         0.986
+ B4BHDL         0.986         0.969         0.979         0.976         0.986
+ RB4BTRIG       0.986         0.969         0.979         0.976         0.986
+ RB4PWHR        1.000         0.969         0.979         0.976         0.986
+ B1PGENDE       1.000         0.969         0.979         0.976         0.986
+ B1PAGE_M       1.000         0.969         0.979         0.976         0.986
+
+
+           Covariance Coverage
+              B4BHDL        RB4BTRIG      RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________      ________
+ B4BHDL         0.986
+ RB4BTRIG       0.986         0.986
+ RB4PWHR        0.986         0.986         1.000
+ B1PGENDE       0.986         0.986         1.000         1.000
+ B1PAGE_M       0.986         0.986         1.000         1.000         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR WHITE
+
+
+           Covariance Coverage
+              RADJ_EPI      RADJ_NOR      AVGB_SD       AVGB_RM       AVGB_LF
+              ________      ________      ________      ________      ________
+ RADJ_EPI       0.981
+ RADJ_NOR       0.981         0.988
+ AVGB_SD        0.903         0.909         0.920
+ AVGB_RM        0.903         0.909         0.920         0.920
+ AVGB_LF        0.903         0.909         0.920         0.920         0.920
+ AVGB_HF        0.903         0.909         0.920         0.920         0.920
+ RADJ_CRT       0.981         0.988         0.917         0.917         0.917
+ B4BDHEAS       0.971         0.977         0.911         0.911         0.911
+ RB4BCRP        0.971         0.977         0.911         0.911         0.911
+ B4BIL6         0.975         0.981         0.914         0.914         0.914
+ B4BFGN         0.972         0.978         0.911         0.911         0.911
+ B4BSICAM       0.975         0.981         0.914         0.914         0.914
+ B4BSESEL       0.975         0.981         0.914         0.914         0.914
+ PULPRESS       0.981         0.988         0.920         0.920         0.920
+ RB4P1GS        0.981         0.988         0.920         0.920         0.920
+ RB4P1D         0.980         0.987         0.919         0.919         0.919
+ B4BHA1C        0.972         0.978         0.911         0.911         0.911
+ RB4BGLUC       0.969         0.975         0.909         0.909         0.909
+ P4HOMAIR       0.968         0.974         0.908         0.908         0.908
+ B4BLDL         0.974         0.980         0.913         0.913         0.913
+ B4BHDL         0.974         0.980         0.913         0.913         0.913
+ RB4BTRIG       0.974         0.980         0.913         0.913         0.913
+ RB4PWHR        0.980         0.987         0.919         0.919         0.919
+ B1PGENDE       0.981         0.988         0.920         0.920         0.920
+ B1PAGE_M       0.981         0.988         0.920         0.920         0.920
+
+
+           Covariance Coverage
+              AVGB_HF       RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6
+              ________      ________      ________      ________      ________
+ AVGB_HF        0.920
+ RADJ_CRT       0.917         0.996
+ B4BDHEAS       0.911         0.986         0.989
+ RB4BCRP        0.911         0.986         0.983         0.989
+ B4BIL6         0.914         0.990         0.989         0.988         0.993
+ B4BFGN         0.911         0.987         0.984         0.989         0.989
+ B4BSICAM       0.914         0.990         0.989         0.988         0.993
+ B4BSESEL       0.914         0.990         0.989         0.988         0.993
+ PULPRESS       0.920         0.996         0.989         0.989         0.993
+ RB4P1GS        0.920         0.996         0.989         0.989         0.993
+ RB4P1D         0.919         0.995         0.988         0.989         0.992
+ B4BHA1C        0.911         0.987         0.984         0.986         0.989
+ RB4BGLUC       0.909         0.983         0.984         0.981         0.987
+ P4HOMAIR       0.908         0.982         0.983         0.980         0.986
+ B4BLDL         0.913         0.989         0.987         0.987         0.991
+ B4BHDL         0.913         0.989         0.987         0.987         0.991
+ RB4BTRIG       0.913         0.989         0.987         0.987         0.991
+ RB4PWHR        0.919         0.995         0.988         0.988         0.992
+ B1PGENDE       0.920         0.996         0.989         0.989         0.993
+ B1PAGE_M       0.920         0.996         0.989         0.989         0.993
+
+
+           Covariance Coverage
+              B4BFGN        B4BSICAM      B4BSESEL      PULPRESS      RB4P1GS
+              ________      ________      ________      ________      ________
+ B4BFGN         0.990
+ B4BSICAM       0.989         0.993
+ B4BSESEL       0.989         0.993         0.993
+ PULPRESS       0.990         0.993         0.993         1.000
+ RB4P1GS        0.990         0.993         0.993         1.000         1.000
+ RB4P1D         0.990         0.992         0.992         0.999         0.999
+ B4BHA1C        0.987         0.989         0.989         0.990         0.990
+ RB4BGLUC       0.982         0.987         0.987         0.987         0.987
+ P4HOMAIR       0.981         0.986         0.986         0.986         0.986
+ B4BLDL         0.988         0.991         0.991         0.992         0.992
+ B4BHDL         0.988         0.991         0.991         0.992         0.992
+ RB4BTRIG       0.988         0.991         0.991         0.992         0.992
+ RB4PWHR        0.989         0.992         0.992         0.999         0.999
+ B1PGENDE       0.990         0.993         0.993         1.000         1.000
+ B1PAGE_M       0.990         0.993         0.993         1.000         1.000
+
+
+           Covariance Coverage
+              RB4P1D        B4BHA1C       RB4BGLUC      P4HOMAIR      B4BLDL
+              ________      ________      ________      ________      ________
+ RB4P1D         0.999
+ B4BHA1C        0.989         0.990
+ RB4BGLUC       0.986         0.982         0.987
+ P4HOMAIR       0.984         0.981         0.986         0.986
+ B4BLDL         0.991         0.988         0.984         0.983         0.992
+ B4BHDL         0.991         0.988         0.984         0.983         0.992
+ RB4BTRIG       0.991         0.988         0.984         0.983         0.992
+ RB4PWHR        0.998         0.989         0.986         0.984         0.991
+ B1PGENDE       0.999         0.990         0.987         0.986         0.992
+ B1PAGE_M       0.999         0.990         0.987         0.986         0.992
+
+
+           Covariance Coverage
+              B4BHDL        RB4BTRIG      RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________      ________      ________
+ B4BHDL         0.992
+ RB4BTRIG       0.992         0.992
+ RB4PWHR        0.991         0.991         0.999
+ B1PGENDE       0.992         0.992         0.999         1.000
+ B1PAGE_M       0.992         0.992         0.999         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      260
+
+Loglikelihood
+
+          H0 Value                      -32245.762
+          H0 Scaling Correction Factor      1.2602
+            for MLR
+          H1 Value                      -31759.811
+          H1 Scaling Correction Factor      1.1289
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   65011.523
+          Bayesian (BIC)                 66345.973
+          Sample-Size Adjusted BIC       65520.094
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            926.040*
+          Degrees of Freedom                   430
+          P-Value                           0.0000
+          Scaling Correction Factor         1.0495
+            for MLR
+
+Chi-Square Contribution From Each Group
+
+          NONWHITE                         405.892
+          WHITE                            520.148
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.043
+          90 Percent C.I.                    0.039  0.047
+          Probability RMSEA <= .05           0.999
+
+CFI/TLI
+
+          CFI                                0.963
+          TLI                                0.949
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          14078.975
+          Degrees of Freedom                   598
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.036
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group NONWHITE
+
+ SYM      BY
+    RADJ_NOR           1.000      0.000    999.000    999.000
+    RADJ_EPI           1.000      0.000    999.000    999.000
+
+ HPA      BY
+    RADJ_CRT           1.000      0.000    999.000    999.000
+    B4BDHEAS           1.000      0.000    999.000    999.000
+
+ CARD     BY
+    RB4P1GS            1.000      0.000    999.000    999.000
+    PULPRESS           1.000      0.000    999.000    999.000
+
+ GLUC     BY
+    RB4BGLUC           1.000      0.000    999.000    999.000
+    P4HOMAIR           0.325      0.039      8.252      0.000
+    B4BHA1C            0.618      0.037     16.691      0.000
+
+ LIPID    BY
+    RB4PWHR            1.000      0.000    999.000    999.000
+    RB4BTRIG           7.190      4.870      1.477      0.140
+    B4BHDL            -3.673      1.541     -2.384      0.017
+    B4BLDL             2.481      1.361      1.823      0.068
+    P4HOMAIR           2.132      0.666      3.202      0.001
+
+ INFL     BY
+    RB4BCRP            1.000      0.000    999.000    999.000
+    B4BIL6             0.706      0.080      8.813      0.000
+    B4BFGN             1.080      0.143      7.560      0.000
+    B4BSICAM           0.213      0.083      2.562      0.010
+    B4BSESEL           0.045      0.087      0.523      0.601
+
+ PARA     BY
+    AVGB_SD           -1.000      0.000    999.000    999.000
+    AVGB_RM           -0.859      0.019    -46.248      0.000
+    AVGB_HF           -0.806      0.019    -42.486      0.000
+    AVGB_LF           -0.819      0.017    -48.516      0.000
+    RB4P1D             0.336      0.031     10.691      0.000
+
+ AL       BY
+    RADJ_EPI          -0.237      0.046     -5.153      0.000
+    RADJ_NOR           0.155      0.048      3.211      0.001
+    AVGB_SD           -0.220      0.043     -5.116      0.000
+    AVGB_RM           -0.164      0.042     -3.893      0.000
+    AVGB_LF           -0.231      0.038     -6.016      0.000
+    AVGB_HF           -0.166      0.040     -4.170      0.000
+    RADJ_CRT          -0.274      0.039     -7.054      0.000
+    B4BDHEAS          -0.042      0.036     -1.175      0.240
+    RB4BCRP            0.521      0.040     12.992      0.000
+    B4BIL6             0.469      0.044     10.578      0.000
+    B4BFGN             0.286      0.041      6.904      0.000
+    B4BSICAM           0.247      0.039      6.368      0.000
+    B4BSESEL           0.335      0.037      9.159      0.000
+    PULPRESS           0.097      0.036      2.712      0.007
+    RB4P1GS            0.107      0.039      2.759      0.006
+    RB4P1D             0.352      0.043      8.284      0.000
+    B4BHA1C            0.288      0.038      7.634      0.000
+    RB4BGLUC           0.341      0.046      7.476      0.000
+    P4HOMAIR           0.641      0.052     12.350      0.000
+    B4BLDL             0.038      0.048      0.789      0.430
+    B4BHDL            -0.380      0.049     -7.834      0.000
+    RB4BTRIG           0.440      0.057      7.698      0.000
+    RB4PWHR            0.423      0.032     13.074      0.000
+
+ RADJ_EPI ON
+    B1PGENDER         -0.065      0.134     -0.487      0.626
+    B1PAGE_M2          0.011      0.006      1.963      0.050
+
+ RADJ_NOR ON
+    B1PGENDER          0.257      0.122      2.104      0.035
+    B1PAGE_M2          0.016      0.005      3.085      0.002
+
+ AVGB_SD  ON
+    B1PGENDER          0.029      0.132      0.222      0.825
+    B1PAGE_M2         -0.022      0.006     -3.900      0.000
+
+ AVGB_RM  ON
+    B1PGENDER          0.234      0.130      1.798      0.072
+    B1PAGE_M2         -0.010      0.005     -1.886      0.059
+
+ AVGB_HF  ON
+    B1PGENDER          0.275      0.128      2.151      0.032
+    B1PAGE_M2         -0.015      0.005     -2.961      0.003
+
+ AVGB_LF  ON
+    B1PGENDER         -0.235      0.126     -1.857      0.063
+    B1PAGE_M2         -0.030      0.005     -5.889      0.000
+
+ RB4P1D   ON
+    B1PGENDER          0.226      0.124      1.827      0.068
+    B1PAGE_M2         -0.005      0.005     -1.080      0.280
+
+ RADJ_CRT ON
+    B1PGENDER          0.240      0.114      2.104      0.035
+    B1PAGE_M2          0.002      0.004      0.501      0.617
+
+ B4BDHEAS ON
+    B1PGENDER         -0.823      0.109     -7.554      0.000
+    B1PAGE_M2         -0.038      0.004     -8.762      0.000
+
+ RB4BCRP  ON
+    B1PGENDER          0.413      0.124      3.339      0.001
+    B1PAGE_M2         -0.008      0.006     -1.453      0.146
+
+ B4BIL6   ON
+    B1PGENDER          0.397      0.131      3.040      0.002
+    B1PAGE_M2          0.009      0.005      1.925      0.054
+
+ B4BFGN   ON
+    B1PGENDER          0.475      0.127      3.728      0.000
+    B1PAGE_M2          0.008      0.005      1.554      0.120
+
+ B4BSICAM ON
+    B1PGENDER          0.113      0.162      0.696      0.487
+    B1PAGE_M2          0.002      0.004      0.482      0.630
+
+ B4BSESEL ON
+    B1PGENDER         -0.110      0.132     -0.835      0.404
+    B1PAGE_M2         -0.010      0.004     -2.169      0.030
+
+ RB4P1GS  ON
+    B1PGENDER          0.131      0.123      1.072      0.284
+    B1PAGE_M2          0.026      0.005      4.819      0.000
+
+ PULPRESS ON
+    B1PGENDER          0.241      0.111      2.180      0.029
+    B1PAGE_M2          0.039      0.005      7.429      0.000
+
+ RB4BGLUC ON
+    B1PGENDER         -0.284      0.175     -1.619      0.105
+    B1PAGE_M2          0.000      0.007     -0.016      0.987
+
+ P4HOMAIR ON
+    B1PGENDER          0.066      0.143      0.462      0.644
+    B1PAGE_M2         -0.008      0.006     -1.533      0.125
+
+ B4BHA1C  ON
+    B1PGENDER         -0.077      0.182     -0.424      0.671
+    B1PAGE_M2          0.018      0.005      3.565      0.000
+
+ RB4PWHR  ON
+    B1PGENDER         -0.962      0.101     -9.521      0.000
+    B1PAGE_M2          0.003      0.004      0.865      0.387
+
+ RB4BTRIG ON
+    B1PGENDER         -0.361      0.131     -2.760      0.006
+    B1PAGE_M2          0.005      0.007      0.749      0.454
+
+ B4BHDL   ON
+    B1PGENDER          0.434      0.127      3.424      0.001
+    B1PAGE_M2          0.010      0.006      1.789      0.074
+
+ B4BLDL   ON
+    B1PGENDER         -0.059      0.127     -0.462      0.644
+    B1PAGE_M2         -0.003      0.005     -0.695      0.487
+
+ AL       WITH
+    SYM                0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+
+ HPA      WITH
+    SYM               -0.014      0.040     -0.350      0.726
+
+ CARD     WITH
+    SYM                0.038      0.056      0.676      0.499
+    HPA                0.056      0.044      1.268      0.205
+
+ GLUC     WITH
+    SYM                0.030      0.063      0.474      0.636
+    HPA                0.091      0.057      1.603      0.109
+    CARD               0.050      0.081      0.623      0.533
+
+ LIPID    WITH
+    SYM                0.000      0.008      0.047      0.962
+    HPA               -0.007      0.008     -0.914      0.361
+    CARD               0.005      0.008      0.642      0.521
+    GLUC               0.033      0.024      1.379      0.168
+
+ INFL     WITH
+    SYM                0.096      0.046      2.063      0.039
+    HPA               -0.026      0.034     -0.772      0.440
+    CARD               0.102      0.045      2.276      0.023
+    GLUC              -0.012      0.072     -0.173      0.863
+    LIPID             -0.012      0.008     -1.521      0.128
+
+ PARA     WITH
+    SYM                0.123      0.059      2.087      0.037
+    HPA               -0.097      0.050     -1.951      0.051
+    CARD              -0.004      0.070     -0.052      0.959
+    GLUC               0.161      0.102      1.580      0.114
+    LIPID              0.024      0.019      1.266      0.205
+    INFL               0.047      0.054      0.862      0.389
+
+ AVGB_RM  WITH
+    AVGB_HF            0.260      0.024     10.949      0.000
+
+ Means
+    SYM                0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    AL                 0.000      0.000    999.000    999.000
+
+ Intercepts
+    RADJ_EPI          -0.788      0.296     -2.667      0.008
+    RADJ_NOR          -1.062      0.285     -3.730      0.000
+    AVGB_SD            1.208      0.289      4.175      0.000
+    AVGB_RM            0.634      0.263      2.413      0.016
+    AVGB_LF            1.712      0.253      6.756      0.000
+    AVGB_HF            0.891      0.252      3.531      0.000
+    RADJ_CRT          -0.634      0.232     -2.736      0.006
+    B4BDHEAS           2.470      0.209     11.827      0.000
+    RB4BCRP            0.439      0.310      1.419      0.156
+    B4BIL6            -0.404      0.273     -1.480      0.139
+    B4BFGN            -0.352      0.283     -1.242      0.214
+    B4BSICAM          -0.220      0.200     -1.098      0.272
+    B4BSESEL           0.839      0.219      3.829      0.000
+    PULPRESS          -2.222      0.279     -7.964      0.000
+    RB4P1GS           -1.345      0.285     -4.715      0.000
+    RB4P1D             0.232      0.239      0.969      0.332
+    B4BHA1C           -0.471      0.274     -1.717      0.086
+    RB4BGLUC           0.478      0.379      1.262      0.207
+    P4HOMAIR           0.690      0.302      2.285      0.022
+    B4BLDL             0.185      0.262      0.704      0.482
+    B4BHDL            -0.654      0.312     -2.096      0.036
+    RB4BTRIG          -0.186      0.362     -0.514      0.607
+    RB4PWHR            0.482      0.193      2.495      0.013
+
+ Variances
+    SYM                0.555      0.070      7.899      0.000
+    HPA                0.083      0.067      1.249      0.212
+    CARD               0.831      0.089      9.387      0.000
+    GLUC               1.589      0.276      5.756      0.000
+    LIPID              0.012      0.015      0.831      0.406
+    INFL               0.354      0.076      4.651      0.000
+    PARA               0.992      0.095     10.406      0.000
+    AL                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    RADJ_EPI           0.478      0.074      6.491      0.000
+    RADJ_NOR           0.406      0.069      5.848      0.000
+    AVGB_SD            0.000      0.000    999.000    999.000
+    AVGB_RM            0.274      0.022     12.238      0.000
+    AVGB_LF            0.212      0.026      8.200      0.000
+    AVGB_HF            0.312      0.026     12.211      0.000
+    RADJ_CRT           0.741      0.075      9.851      0.000
+    B4BDHEAS           0.783      0.089      8.785      0.000
+    RB4BCRP            0.353      0.060      5.881      0.000
+    B4BIL6             0.614      0.071      8.620      0.000
+    B4BFGN             0.501      0.076      6.607      0.000
+    B4BSICAM           1.652      0.178      9.261      0.000
+    B4BSESEL           0.944      0.080     11.733      0.000
+    PULPRESS           0.073      0.037      1.999      0.046
+    RB4P1GS            0.287      0.044      6.536      0.000
+    RB4P1D             0.799      0.072     11.161      0.000
+    B4BHA1C            0.778      0.111      7.013      0.000
+    RB4BGLUC           0.000      0.000    999.000    999.000
+    P4HOMAIR           0.547      0.068      8.068      0.000
+    B4BLDL             1.042      0.097     10.744      0.000
+    B4BHDL             0.756      0.091      8.343      0.000
+    RB4BTRIG           0.214      0.173      1.242      0.214
+    RB4PWHR            0.481      0.046     10.422      0.000
+
+Group WHITE
+
+ SYM      BY
+    RADJ_NOR           1.000      0.000    999.000    999.000
+    RADJ_EPI           1.000      0.000    999.000    999.000
+
+ HPA      BY
+    RADJ_CRT           1.000      0.000    999.000    999.000
+    B4BDHEAS           1.000      0.000    999.000    999.000
+
+ CARD     BY
+    RB4P1GS            1.000      0.000    999.000    999.000
+    PULPRESS           1.000      0.000    999.000    999.000
+
+ GLUC     BY
+    RB4BGLUC           1.000      0.000    999.000    999.000
+    P4HOMAIR           0.325      0.039      8.252      0.000
+    B4BHA1C            0.618      0.037     16.691      0.000
+
+ LIPID    BY
+    RB4PWHR            1.000      0.000    999.000    999.000
+    RB4BTRIG           7.190      4.870      1.477      0.140
+    B4BHDL            -3.673      1.541     -2.384      0.017
+    B4BLDL             2.481      1.361      1.823      0.068
+    P4HOMAIR           2.132      0.666      3.202      0.001
+
+ INFL     BY
+    RB4BCRP            1.000      0.000    999.000    999.000
+    B4BIL6             0.706      0.080      8.813      0.000
+    B4BFGN             1.080      0.143      7.560      0.000
+    B4BSICAM           0.213      0.083      2.562      0.010
+    B4BSESEL           0.045      0.087      0.523      0.601
+
+ PARA     BY
+    AVGB_SD           -1.000      0.000    999.000    999.000
+    AVGB_RM           -0.859      0.019    -46.248      0.000
+    AVGB_HF           -0.806      0.019    -42.486      0.000
+    AVGB_LF           -0.819      0.017    -48.516      0.000
+    RB4P1D             0.336      0.031     10.691      0.000
+
+ AL       BY
+    RADJ_EPI          -0.237      0.046     -5.153      0.000
+    RADJ_NOR           0.155      0.048      3.211      0.001
+    AVGB_SD           -0.220      0.043     -5.116      0.000
+    AVGB_RM           -0.164      0.042     -3.893      0.000
+    AVGB_LF           -0.231      0.038     -6.016      0.000
+    AVGB_HF           -0.166      0.040     -4.170      0.000
+    RADJ_CRT          -0.274      0.039     -7.054      0.000
+    B4BDHEAS          -0.042      0.036     -1.175      0.240
+    RB4BCRP            0.521      0.040     12.992      0.000
+    B4BIL6             0.469      0.044     10.578      0.000
+    B4BFGN             0.286      0.041      6.904      0.000
+    B4BSICAM           0.247      0.039      6.368      0.000
+    B4BSESEL           0.335      0.037      9.159      0.000
+    PULPRESS           0.097      0.036      2.712      0.007
+    RB4P1GS            0.107      0.039      2.759      0.006
+    RB4P1D             0.352      0.043      8.284      0.000
+    B4BHA1C            0.288      0.038      7.634      0.000
+    RB4BGLUC           0.341      0.046      7.476      0.000
+    P4HOMAIR           0.641      0.052     12.350      0.000
+    B4BLDL             0.038      0.048      0.789      0.430
+    B4BHDL            -0.380      0.049     -7.834      0.000
+    RB4BTRIG           0.440      0.057      7.698      0.000
+    RB4PWHR            0.423      0.032     13.074      0.000
+
+ RADJ_EPI ON
+    B1PGENDER          0.128      0.065      1.982      0.047
+    B1PAGE_M2          0.013      0.003      4.756      0.000
+
+ RADJ_NOR ON
+    B1PGENDER          0.527      0.063      8.416      0.000
+    B1PAGE_M2          0.022      0.003      8.723      0.000
+
+ AVGB_SD  ON
+    B1PGENDER         -0.193      0.064     -3.022      0.003
+    B1PAGE_M2         -0.026      0.003     -8.452      0.000
+
+ AVGB_RM  ON
+    B1PGENDER         -0.058      0.065     -0.887      0.375
+    B1PAGE_M2         -0.016      0.003     -5.507      0.000
+
+ AVGB_HF  ON
+    B1PGENDER          0.043      0.064      0.674      0.500
+    B1PAGE_M2         -0.022      0.003     -7.822      0.000
+
+ AVGB_LF  ON
+    B1PGENDER         -0.267      0.061     -4.374      0.000
+    B1PAGE_M2         -0.034      0.003    -12.489      0.000
+
+ RB4P1D   ON
+    B1PGENDER          0.238      0.066      3.595      0.000
+    B1PAGE_M2          0.001      0.003      0.452      0.652
+
+ RADJ_CRT ON
+    B1PGENDER          0.240      0.066      3.665      0.000
+    B1PAGE_M2          0.005      0.003      1.872      0.061
+
+ B4BDHEAS ON
+    B1PGENDER         -0.659      0.055    -11.971      0.000
+    B1PAGE_M2         -0.038      0.002    -16.745      0.000
+
+ RB4BCRP  ON
+    B1PGENDER          0.287      0.063      4.558      0.000
+    B1PAGE_M2          0.005      0.003      1.894      0.058
+
+ B4BIL6   ON
+    B1PGENDER          0.043      0.062      0.692      0.489
+    B1PAGE_M2          0.020      0.002      8.042      0.000
+
+ B4BFGN   ON
+    B1PGENDER          0.285      0.062      4.585      0.000
+    B1PAGE_M2          0.014      0.003      5.050      0.000
+
+ B4BSICAM ON
+    B1PGENDER         -0.011      0.059     -0.180      0.857
+    B1PAGE_M2          0.011      0.002      4.528      0.000
+
+ B4BSESEL ON
+    B1PGENDER         -0.225      0.066     -3.404      0.001
+    B1PAGE_M2         -0.006      0.003     -2.349      0.019
+
+ RB4P1GS  ON
+    B1PGENDER         -0.214      0.059     -3.653      0.000
+    B1PAGE_M2          0.024      0.003      9.499      0.000
+
+ PULPRESS ON
+    B1PGENDER          0.166      0.056      2.947      0.003
+    B1PAGE_M2          0.037      0.003     14.813      0.000
+
+ RB4BGLUC ON
+    B1PGENDER         -0.303      0.059     -5.133      0.000
+    B1PAGE_M2          0.008      0.002      3.616      0.000
+
+ P4HOMAIR ON
+    B1PGENDER         -0.316      0.065     -4.895      0.000
+    B1PAGE_M2          0.000      0.002      0.190      0.849
+
+ B4BHA1C  ON
+    B1PGENDER         -0.016      0.056     -0.294      0.769
+    B1PAGE_M2          0.018      0.002      8.354      0.000
+
+ RB4PWHR  ON
+    B1PGENDER         -1.383      0.048    -28.621      0.000
+    B1PAGE_M2          0.012      0.002      6.198      0.000
+
+ RB4BTRIG ON
+    B1PGENDER         -0.418      0.066     -6.336      0.000
+    B1PAGE_M2         -0.003      0.003     -1.036      0.300
+
+ B4BHDL   ON
+    B1PGENDER          0.820      0.060     13.737      0.000
+    B1PAGE_M2          0.005      0.002      1.983      0.047
+
+ B4BLDL   ON
+    B1PGENDER          0.067      0.066      1.018      0.309
+    B1PAGE_M2         -0.010      0.003     -4.078      0.000
+
+ AL       WITH
+    SYM                0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+
+ HPA      WITH
+    SYM                0.090      0.019      4.697      0.000
+
+ CARD     WITH
+    SYM                0.066      0.023      2.832      0.005
+    HPA                0.059      0.019      3.111      0.002
+
+ GLUC     WITH
+    SYM                0.041      0.024      1.669      0.095
+    HPA                0.030      0.019      1.584      0.113
+    CARD               0.035      0.022      1.552      0.121
+
+ LIPID    WITH
+    SYM               -0.006      0.007     -0.840      0.401
+    HPA               -0.004      0.003     -1.168      0.243
+    CARD               0.013      0.009      1.339      0.180
+    GLUC               0.007      0.008      0.820      0.412
+
+ INFL     WITH
+    SYM                0.057      0.024      2.335      0.020
+    HPA                0.050      0.019      2.618      0.009
+    CARD               0.035      0.024      1.414      0.157
+    GLUC              -0.063      0.026     -2.390      0.017
+    LIPID              0.000      0.004     -0.038      0.970
+
+ PARA     WITH
+    SYM                0.022      0.028      0.769      0.442
+    HPA                0.042      0.020      2.037      0.042
+    CARD              -0.072      0.028     -2.549      0.011
+    GLUC              -0.025      0.031     -0.805      0.421
+    LIPID              0.005      0.007      0.702      0.483
+    INFL               0.052      0.025      2.086      0.037
+
+ AVGB_RM  WITH
+    AVGB_HF            0.262      0.015     17.526      0.000
+
+ Means
+    SYM               -0.236      0.296     -0.798      0.425
+    HPA               -0.035      0.231     -0.152      0.880
+    CARD               0.225      0.310      0.726      0.468
+    GLUC              -0.400      0.437     -0.917      0.359
+    LIPID              0.168      0.160      1.052      0.293
+    INFL              -0.258      0.352     -0.734      0.463
+    PARA               0.015      0.361      0.040      0.968
+    AL                -1.341      0.655     -2.049      0.040
+
+ Intercepts
+    RADJ_EPI          -0.788      0.296     -2.667      0.008
+    RADJ_NOR          -1.062      0.285     -3.730      0.000
+    AVGB_SD            1.208      0.289      4.175      0.000
+    AVGB_RM            0.634      0.263      2.413      0.016
+    AVGB_LF            1.712      0.253      6.756      0.000
+    AVGB_HF            0.891      0.252      3.531      0.000
+    RADJ_CRT          -0.634      0.232     -2.736      0.006
+    B4BDHEAS           2.470      0.209     11.827      0.000
+    RB4BCRP            0.439      0.310      1.419      0.156
+    B4BIL6            -0.404      0.273     -1.480      0.139
+    B4BFGN            -0.352      0.283     -1.242      0.214
+    B4BSICAM          -0.220      0.200     -1.098      0.272
+    B4BSESEL           0.839      0.219      3.829      0.000
+    PULPRESS          -2.222      0.279     -7.964      0.000
+    RB4P1GS           -1.345      0.285     -4.715      0.000
+    RB4P1D             0.232      0.239      0.969      0.332
+    B4BHA1C           -0.471      0.274     -1.717      0.086
+    RB4BGLUC           0.478      0.379      1.262      0.207
+    P4HOMAIR           0.690      0.302      2.285      0.022
+    B4BLDL             0.185      0.262      0.704      0.482
+    B4BHDL            -0.654      0.312     -2.096      0.036
+    RB4BTRIG          -0.186      0.362     -0.514      0.607
+    RB4PWHR            0.482      0.193      2.495      0.013
+
+ Variances
+    SYM                0.461      0.033     14.032      0.000
+    HPA                0.090      0.030      2.969      0.003
+    CARD               0.637      0.036     17.836      0.000
+    GLUC               0.593      0.093      6.364      0.000
+    LIPID              0.010      0.011      0.857      0.391
+    INFL               0.293      0.056      5.232      0.000
+    PARA               0.825      0.047     17.557      0.000
+    AL                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    RADJ_EPI           0.387      0.035     11.162      0.000
+    RADJ_NOR           0.373      0.032     11.715      0.000
+    AVGB_SD            0.000      0.000    999.000    999.000
+    AVGB_RM            0.282      0.015     18.874      0.000
+    AVGB_LF            0.208      0.012     17.853      0.000
+    AVGB_HF            0.326      0.017     19.215      0.000
+    RADJ_CRT           0.762      0.046     16.462      0.000
+    B4BDHEAS           0.575      0.040     14.341      0.000
+    RB4BCRP            0.379      0.039      9.776      0.000
+    B4BIL6             0.517      0.040     12.811      0.000
+    B4BFGN             0.458      0.050      9.209      0.000
+    B4BSICAM           0.696      0.058     12.037      0.000
+    B4BSESEL           0.822      0.046     17.824      0.000
+    PULPRESS           0.119      0.015      7.874      0.000
+    RB4P1GS            0.187      0.017     10.959      0.000
+    RB4P1D             0.746      0.039     19.146      0.000
+    B4BHA1C            0.362      0.050      7.172      0.000
+    RB4BGLUC           0.000      0.000    999.000    999.000
+    P4HOMAIR           0.357      0.025     14.534      0.000
+    B4BLDL             0.887      0.046     19.219      0.000
+    B4BHDL             0.514      0.042     12.251      0.000
+    RB4BTRIG           0.224      0.147      1.519      0.129
+    RB4PWHR            0.341      0.022     15.524      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group NONWHITE
+
+ SYM      BY
+    RADJ_NOR           0.734      0.036     20.562      0.000
+    RADJ_EPI           0.709      0.035     20.265      0.000
+
+ HPA      BY
+    RADJ_CRT           0.302      0.117      2.582      0.010
+    B4BDHEAS           0.264      0.103      2.548      0.011
+
+ CARD     BY
+    RB4P1GS            0.829      0.021     38.700      0.000
+    PULPRESS           0.871      0.028     30.960      0.000
+
+ GLUC     BY
+    RB4BGLUC           0.960      0.012     79.987      0.000
+    P4HOMAIR           0.368      0.042      8.794      0.000
+    B4BHA1C            0.635      0.053     11.998      0.000
+
+ LIPID    BY
+    RB4PWHR            0.119      0.072      1.657      0.097
+    RB4BTRIG           0.771      0.095      8.151      0.000
+    B4BHDL            -0.387      0.096     -4.031      0.000
+    B4BLDL             0.262      0.049      5.317      0.000
+    P4HOMAIR           0.214      0.081      2.655      0.008
+
+ INFL     BY
+    RB4BCRP            0.588      0.057     10.279      0.000
+    B4BIL6             0.409      0.056      7.336      0.000
+    B4BFGN             0.625      0.057     10.943      0.000
+    B4BSICAM           0.096      0.037      2.585      0.010
+    B4BSESEL           0.026      0.050      0.521      0.603
+
+ PARA     BY
+    AVGB_SD           -0.952      0.016    -60.781      0.000
+    AVGB_RM           -0.833      0.020    -42.131      0.000
+    AVGB_HF           -0.794      0.023    -34.886      0.000
+    AVGB_LF           -0.798      0.024    -33.360      0.000
+    RB4P1D             0.327      0.032     10.360      0.000
+
+ AL       BY
+    RADJ_EPI          -0.225      0.045     -5.019      0.000
+    RADJ_NOR           0.152      0.047      3.215      0.001
+    AVGB_SD           -0.211      0.041     -5.104      0.000
+    AVGB_RM           -0.160      0.041     -3.908      0.000
+    AVGB_LF           -0.226      0.038     -5.967      0.000
+    AVGB_HF           -0.164      0.039     -4.186      0.000
+    RADJ_CRT          -0.287      0.041     -6.931      0.000
+    B4BDHEAS          -0.039      0.033     -1.171      0.242
+    RB4BCRP            0.515      0.042     12.375      0.000
+    B4BIL6             0.456      0.045     10.187      0.000
+    B4BFGN             0.278      0.042      6.682      0.000
+    B4BSICAM           0.187      0.030      6.244      0.000
+    B4BSESEL           0.324      0.036      9.122      0.000
+    PULPRESS           0.093      0.034      2.725      0.006
+    RB4P1GS            0.097      0.035      2.750      0.006
+    RB4P1D             0.344      0.043      7.918      0.000
+    B4BHA1C            0.235      0.033      7.044      0.000
+    RB4BGLUC           0.260      0.038      6.829      0.000
+    P4HOMAIR           0.576      0.053     10.849      0.000
+    B4BLDL             0.036      0.046      0.790      0.430
+    B4BHDL            -0.358      0.046     -7.718      0.000
+    RB4BTRIG           0.423      0.056      7.552      0.000
+    RB4PWHR            0.450      0.036     12.457      0.000
+
+ RADJ_EPI ON
+    B1PGENDER         -0.030      0.061     -0.487      0.626
+    B1PAGE_M2          0.110      0.056      1.977      0.048
+
+ RADJ_NOR ON
+    B1PGENDER          0.120      0.057      2.111      0.035
+    B1PAGE_M2          0.164      0.054      3.060      0.002
+
+ AVGB_SD  ON
+    B1PGENDER          0.013      0.060      0.222      0.825
+    B1PAGE_M2         -0.221      0.055     -3.977      0.000
+
+ AVGB_RM  ON
+    B1PGENDER          0.109      0.060      1.813      0.070
+    B1PAGE_M2         -0.101      0.053     -1.894      0.058
+
+ AVGB_HF  ON
+    B1PGENDER          0.129      0.060      2.172      0.030
+    B1PAGE_M2         -0.153      0.051     -2.988      0.003
+
+ AVGB_LF  ON
+    B1PGENDER         -0.109      0.058     -1.869      0.062
+    B1PAGE_M2         -0.304      0.050     -6.044      0.000
+
+ RB4P1D   ON
+    B1PGENDER          0.105      0.057      1.855      0.064
+    B1PAGE_M2         -0.050      0.047     -1.077      0.282
+
+ RADJ_CRT ON
+    B1PGENDER          0.119      0.056      2.119      0.034
+    B1PAGE_M2          0.024      0.048      0.503      0.615
+
+ B4BDHEAS ON
+    B1PGENDER         -0.358      0.042     -8.498      0.000
+    B1PAGE_M2         -0.364      0.043     -8.503      0.000
+
+ RB4BCRP  ON
+    B1PGENDER          0.194      0.057      3.433      0.001
+    B1PAGE_M2         -0.087      0.059     -1.457      0.145
+
+ B4BIL6   ON
+    B1PGENDER          0.184      0.059      3.142      0.002
+    B1PAGE_M2          0.096      0.050      1.926      0.054
+
+ B4BFGN   ON
+    B1PGENDER          0.220      0.056      3.944      0.000
+    B1PAGE_M2          0.085      0.054      1.567      0.117
+
+ B4BSICAM ON
+    B1PGENDER          0.041      0.058      0.701      0.483
+    B1PAGE_M2          0.015      0.032      0.480      0.631
+
+ B4BSESEL ON
+    B1PGENDER         -0.051      0.061     -0.834      0.404
+    B1PAGE_M2         -0.096      0.044     -2.165      0.030
+
+ RB4P1GS  ON
+    B1PGENDER          0.057      0.053      1.079      0.281
+    B1PAGE_M2          0.247      0.051      4.840      0.000
+
+ PULPRESS ON
+    B1PGENDER          0.110      0.050      2.198      0.028
+    B1PAGE_M2          0.385      0.050      7.746      0.000
+
+ RB4BGLUC ON
+    B1PGENDER         -0.103      0.062     -1.652      0.098
+    B1PAGE_M2         -0.001      0.054     -0.016      0.987
+
+ P4HOMAIR ON
+    B1PGENDER          0.028      0.061      0.463      0.644
+    B1PAGE_M2         -0.080      0.051     -1.551      0.121
+
+ B4BHA1C  ON
+    B1PGENDER         -0.030      0.070     -0.427      0.670
+    B1PAGE_M2          0.156      0.045      3.468      0.001
+
+ RB4PWHR  ON
+    B1PGENDER         -0.488      0.043    -11.463      0.000
+    B1PAGE_M2          0.036      0.042      0.869      0.385
+
+ RB4BTRIG ON
+    B1PGENDER         -0.165      0.058     -2.820      0.005
+    B1PAGE_M2          0.051      0.068      0.750      0.453
+
+ B4BHDL   ON
+    B1PGENDER          0.195      0.054      3.600      0.000
+    B1PAGE_M2          0.098      0.055      1.791      0.073
+
+ B4BLDL   ON
+    B1PGENDER         -0.026      0.057     -0.460      0.645
+    B1PAGE_M2         -0.034      0.049     -0.696      0.486
+
+ AL       WITH
+    SYM                0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+
+ HPA      WITH
+    SYM               -0.065      0.189     -0.346      0.729
+
+ CARD     WITH
+    SYM                0.056      0.082      0.678      0.497
+    HPA                0.212      0.189      1.123      0.262
+
+ GLUC     WITH
+    SYM                0.032      0.068      0.470      0.638
+    HPA                0.250      0.159      1.579      0.114
+    CARD               0.044      0.069      0.631      0.528
+
+ LIPID    WITH
+    SYM                0.005      0.098      0.047      0.963
+    HPA               -0.218      0.184     -1.185      0.236
+    CARD               0.052      0.074      0.702      0.483
+    GLUC               0.231      0.083      2.782      0.005
+
+ INFL     WITH
+    SYM                0.215      0.102      2.110      0.035
+    HPA               -0.154      0.195     -0.793      0.428
+    CARD               0.189      0.079      2.395      0.017
+    GLUC              -0.017      0.096     -0.172      0.863
+    LIPID             -0.182      0.117     -1.555      0.120
+
+ PARA     WITH
+    SYM                0.166      0.079      2.108      0.035
+    HPA               -0.339      0.176     -1.924      0.054
+    CARD              -0.004      0.077     -0.052      0.959
+    GLUC               0.128      0.075      1.700      0.089
+    LIPID              0.213      0.083      2.580      0.010
+    INFL               0.079      0.092      0.861      0.389
+
+ AVGB_RM  WITH
+    AVGB_HF            0.889      0.030     29.773      0.000
+
+ Means
+    SYM                0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    AL                 0.000      0.000    999.000    999.000
+
+ Intercepts
+    RADJ_EPI          -0.751      0.279     -2.692      0.007
+    RADJ_NOR          -1.046      0.281     -3.726      0.000
+    AVGB_SD            1.155      0.269      4.298      0.000
+    AVGB_RM            0.617      0.255      2.416      0.016
+    AVGB_LF            1.675      0.236      7.109      0.000
+    AVGB_HF            0.881      0.248      3.548      0.000
+    RADJ_CRT          -0.664      0.236     -2.818      0.005
+    B4BDHEAS           2.255      0.191     11.838      0.000
+    RB4BCRP            0.434      0.307      1.417      0.156
+    B4BIL6            -0.392      0.263     -1.490      0.136
+    B4BFGN            -0.342      0.272     -1.257      0.209
+    B4BSICAM          -0.167      0.154     -1.085      0.278
+    B4BSESEL           0.811      0.212      3.818      0.000
+    PULPRESS          -2.123      0.254     -8.371      0.000
+    RB4P1GS           -1.223      0.256     -4.773      0.000
+    RB4P1D             0.226      0.234      0.965      0.334
+    B4BHA1C           -0.384      0.232     -1.657      0.098
+    RB4BGLUC           0.364      0.276      1.322      0.186
+    P4HOMAIR           0.620      0.267      2.327      0.020
+    B4BLDL             0.174      0.247      0.705      0.481
+    B4BHDL            -0.616      0.293     -2.103      0.036
+    RB4BTRIG          -0.178      0.348     -0.513      0.608
+    RB4PWHR            0.514      0.206      2.500      0.012
+
+ Variances
+    SYM                1.000      0.000    999.000    999.000
+    HPA                1.000      0.000    999.000    999.000
+    CARD               1.000      0.000    999.000    999.000
+    GLUC               1.000      0.000    999.000    999.000
+    LIPID              1.000      0.000    999.000    999.000
+    INFL               1.000      0.000    999.000    999.000
+    PARA               1.000      0.000    999.000    999.000
+    AL                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    RADJ_EPI           0.433      0.051      8.418      0.000
+    RADJ_NOR           0.394      0.057      6.945      0.000
+    AVGB_SD            0.000    999.000    999.000    999.000
+    AVGB_RM            0.260      0.026     10.090      0.000
+    AVGB_LF            0.203      0.025      8.089      0.000
+    AVGB_HF            0.305      0.028     10.739      0.000
+    RADJ_CRT           0.811      0.071     11.357      0.000
+    B4BDHEAS           0.653      0.055     11.770      0.000
+    RB4BCRP            0.346      0.053      6.468      0.000
+    B4BIL6             0.580      0.042     13.678      0.000
+    B4BFGN             0.474      0.069      6.917      0.000
+    B4BSICAM           0.954      0.011     84.268      0.000
+    B4BSESEL           0.882      0.026     33.693      0.000
+    PULPRESS           0.067      0.034      1.990      0.047
+    RB4P1GS            0.237      0.029      8.179      0.000
+    RB4P1D             0.762      0.033     22.778      0.000
+    B4BHA1C            0.517      0.062      8.358      0.000
+    RB4BGLUC           0.000    999.000    999.000    999.000
+    P4HOMAIR           0.443      0.035     12.697      0.000
+    B4BLDL             0.928      0.023     40.557      0.000
+    B4BHDL             0.672      0.047     14.272      0.000
+    RB4BTRIG           0.198      0.158      1.248      0.212
+    RB4PWHR            0.546      0.040     13.706      0.000
+
+Group WHITE
+
+ SYM      BY
+    RADJ_NOR           0.682      0.020     34.178      0.000
+    RADJ_EPI           0.704      0.021     33.071      0.000
+
+ HPA      BY
+    RADJ_CRT           0.309      0.051      6.111      0.000
+    B4BDHEAS           0.306      0.050      6.134      0.000
+
+ CARD     BY
+    RB4P1GS            0.825      0.014     59.538      0.000
+    PULPRESS           0.813      0.017     49.157      0.000
+
+ GLUC     BY
+    RB4BGLUC           0.893      0.026     34.538      0.000
+    P4HOMAIR           0.262      0.044      5.928      0.000
+    B4BHA1C            0.562      0.044     12.721      0.000
+
+ LIPID    BY
+    RB4PWHR            0.097      0.057      1.713      0.087
+    RB4BTRIG           0.723      0.098      7.402      0.000
+    B4BHDL            -0.371      0.081     -4.593      0.000
+    B4BLDL             0.249      0.042      6.006      0.000
+    P4HOMAIR           0.221      0.080      2.774      0.006
+
+ INFL     BY
+    RB4BCRP            0.550      0.051     10.896      0.000
+    B4BIL6             0.395      0.049      8.111      0.000
+    B4BFGN             0.608      0.043     14.253      0.000
+    B4BSICAM           0.129      0.050      2.594      0.009
+    B4BSESEL           0.025      0.048      0.522      0.602
+
+ PARA     BY
+    AVGB_SD           -0.920      0.015    -61.786      0.000
+    AVGB_RM           -0.798      0.015    -51.874      0.000
+    AVGB_HF           -0.747      0.018    -42.607      0.000
+    AVGB_LF           -0.747      0.018    -42.214      0.000
+    RB4P1D             0.308      0.029     10.467      0.000
+
+ AL       BY
+    RADJ_EPI          -0.245      0.046     -5.293      0.000
+    RADJ_NOR           0.155      0.048      3.244      0.001
+    AVGB_SD           -0.223      0.043     -5.163      0.000
+    AVGB_RM           -0.168      0.043     -3.911      0.000
+    AVGB_LF           -0.232      0.038     -6.057      0.000
+    AVGB_HF           -0.170      0.040     -4.199      0.000
+    RADJ_CRT          -0.282      0.040     -7.131      0.000
+    B4BDHEAS          -0.043      0.037     -1.172      0.241
+    RB4BCRP            0.530      0.039     13.672      0.000
+    B4BIL6             0.484      0.044     10.889      0.000
+    B4BFGN             0.298      0.041      7.184      0.000
+    B4BSICAM           0.278      0.042      6.581      0.000
+    B4BSESEL           0.344      0.036      9.513      0.000
+    PULPRESS           0.099      0.037      2.715      0.007
+    RB4P1GS            0.111      0.040      2.761      0.006
+    RB4P1D             0.356      0.040      8.873      0.000
+    B4BHA1C            0.340      0.038      8.853      0.000
+    RB4BGLUC           0.396      0.056      7.105      0.000
+    P4HOMAIR           0.672      0.051     13.275      0.000
+    B4BLDL             0.039      0.049      0.791      0.429
+    B4BHDL            -0.388      0.049     -7.973      0.000
+    RB4BTRIG           0.448      0.056      7.985      0.000
+    RB4PWHR            0.416      0.031     13.338      0.000
+
+ RADJ_EPI ON
+    B1PGENDER          0.066      0.033      1.988      0.047
+    B1PAGE_M2          0.160      0.033      4.852      0.000
+
+ RADJ_NOR ON
+    B1PGENDER          0.264      0.030      8.904      0.000
+    B1PAGE_M2          0.268      0.030      9.014      0.000
+
+ AVGB_SD  ON
+    B1PGENDER         -0.097      0.032     -3.062      0.002
+    B1PAGE_M2         -0.311      0.035     -8.836      0.000
+
+ AVGB_RM  ON
+    B1PGENDER         -0.029      0.033     -0.888      0.374
+    B1PAGE_M2         -0.199      0.036     -5.517      0.000
+
+ AVGB_HF  ON
+    B1PGENDER          0.022      0.032      0.674      0.500
+    B1PAGE_M2         -0.270      0.034     -8.011      0.000
+
+ AVGB_LF  ON
+    B1PGENDER         -0.133      0.030     -4.452      0.000
+    B1PAGE_M2         -0.409      0.030    -13.848      0.000
+
+ RB4P1D   ON
+    B1PGENDER          0.120      0.033      3.620      0.000
+    B1PAGE_M2          0.014      0.032      0.451      0.652
+
+ RADJ_CRT ON
+    B1PGENDER          0.123      0.033      3.687      0.000
+    B1PAGE_M2          0.062      0.033      1.867      0.062
+
+ B4BDHEAS ON
+    B1PGENDER         -0.334      0.026    -12.968      0.000
+    B1PAGE_M2         -0.463      0.025    -18.548      0.000
+
+ RB4BCRP  ON
+    B1PGENDER          0.146      0.032      4.607      0.000
+    B1PAGE_M2          0.062      0.033      1.899      0.058
+
+ B4BIL6   ON
+    B1PGENDER          0.022      0.032      0.692      0.489
+    B1PAGE_M2          0.241      0.029      8.368      0.000
+
+ B4BFGN   ON
+    B1PGENDER          0.148      0.032      4.690      0.000
+    B1PAGE_M2          0.167      0.032      5.222      0.000
+
+ B4BSICAM ON
+    B1PGENDER         -0.006      0.033     -0.180      0.857
+    B1PAGE_M2          0.150      0.033      4.600      0.000
+
+ B4BSESEL ON
+    B1PGENDER         -0.115      0.033     -3.436      0.001
+    B1PAGE_M2         -0.074      0.031     -2.359      0.018
+
+ RB4P1GS  ON
+    B1PGENDER         -0.110      0.030     -3.658      0.000
+    B1PAGE_M2          0.300      0.030     10.002      0.000
+
+ PULPRESS ON
+    B1PGENDER          0.084      0.028      2.980      0.003
+    B1PAGE_M2          0.450      0.026     17.383      0.000
+
+ RB4BGLUC ON
+    B1PGENDER         -0.175      0.032     -5.518      0.000
+    B1PAGE_M2          0.113      0.031      3.654      0.000
+
+ P4HOMAIR ON
+    B1PGENDER         -0.165      0.033     -4.992      0.000
+    B1PAGE_M2          0.006      0.031      0.190      0.849
+
+ B4BHA1C  ON
+    B1PGENDER         -0.010      0.033     -0.294      0.769
+    B1PAGE_M2          0.250      0.034      7.366      0.000
+
+ RB4PWHR  ON
+    B1PGENDER         -0.678      0.016    -42.578      0.000
+    B1PAGE_M2          0.138      0.022      6.206      0.000
+
+ RB4BTRIG ON
+    B1PGENDER         -0.212      0.032     -6.582      0.000
+    B1PAGE_M2         -0.034      0.033     -1.036      0.300
+
+ B4BHDL   ON
+    B1PGENDER          0.417      0.027     15.464      0.000
+    B1PAGE_M2          0.060      0.030      1.971      0.049
+
+ B4BLDL   ON
+    B1PGENDER          0.034      0.033      1.020      0.308
+    B1PAGE_M2         -0.126      0.031     -4.108      0.000
+
+ AL       WITH
+    SYM                0.000      0.000    999.000    999.000
+    PARA               0.000      0.000    999.000    999.000
+    HPA                0.000      0.000    999.000    999.000
+    INFL               0.000      0.000    999.000    999.000
+    CARD               0.000      0.000    999.000    999.000
+    GLUC               0.000      0.000    999.000    999.000
+    LIPID              0.000      0.000    999.000    999.000
+
+ HPA      WITH
+    SYM                0.440      0.099      4.428      0.000
+
+ CARD     WITH
+    SYM                0.122      0.042      2.874      0.004
+    HPA                0.245      0.083      2.966      0.003
+
+ GLUC     WITH
+    SYM                0.078      0.045      1.736      0.083
+    HPA                0.131      0.090      1.452      0.146
+    CARD               0.057      0.036      1.551      0.121
+
+ LIPID    WITH
+    SYM               -0.086      0.068     -1.268      0.205
+    HPA               -0.127      0.118     -1.075      0.282
+    CARD               0.161      0.048      3.331      0.001
+    GLUC               0.087      0.069      1.258      0.208
+
+ INFL     WITH
+    SYM                0.156      0.069      2.252      0.024
+    HPA                0.309      0.141      2.183      0.029
+    CARD               0.080      0.054      1.484      0.138
+    GLUC              -0.150      0.068     -2.225      0.026
+    LIPID             -0.003      0.082     -0.037      0.970
+
+ PARA     WITH
+    SYM                0.035      0.046      0.767      0.443
+    HPA                0.153      0.077      1.994      0.046
+    CARD              -0.100      0.039     -2.571      0.010
+    GLUC              -0.036      0.046     -0.794      0.427
+    LIPID              0.056      0.058      0.968      0.333
+    INFL               0.107      0.048      2.212      0.027
+
+ AVGB_RM  WITH
+    AVGB_HF            0.865      0.014     60.954      0.000
+
+ Means
+    SYM               -0.348      0.436     -0.798      0.425
+    HPA               -0.116      0.771     -0.151      0.880
+    CARD               0.282      0.389      0.725      0.469
+    GLUC              -0.520      0.570     -0.911      0.362
+    LIPID              1.700      0.829      2.050      0.040
+    INFL              -0.477      0.638     -0.747      0.455
+    PARA               0.016      0.397      0.040      0.968
+    AL                -1.341      0.655     -2.049      0.040
+
+ Intercepts
+    RADJ_EPI          -0.817      0.307     -2.660      0.008
+    RADJ_NOR          -1.067      0.287     -3.713      0.000
+    AVGB_SD            1.224      0.295      4.152      0.000
+    AVGB_RM            0.649      0.269      2.411      0.016
+    AVGB_LF            1.719      0.257      6.677      0.000
+    AVGB_HF            0.910      0.258      3.526      0.000
+    RADJ_CRT          -0.652      0.238     -2.736      0.006
+    B4BDHEAS           2.513      0.216     11.619      0.000
+    RB4BCRP            0.447      0.315      1.418      0.156
+    B4BIL6            -0.417      0.281     -1.483      0.138
+    B4BFGN            -0.366      0.295     -1.242      0.214
+    B4BSICAM          -0.247      0.226     -1.095      0.273
+    B4BSESEL           0.860      0.224      3.847      0.000
+    PULPRESS          -2.264      0.289     -7.824      0.000
+    RB4P1GS           -1.391      0.297     -4.687      0.000
+    RB4P1D             0.234      0.241      0.973      0.331
+    B4BHA1C           -0.556      0.333     -1.669      0.095
+    RB4BGLUC           0.555      0.441      1.258      0.208
+    P4HOMAIR           0.723      0.317      2.280      0.023
+    B4BLDL             0.188      0.267      0.705      0.481
+    B4BHDL            -0.668      0.321     -2.083      0.037
+    RB4BTRIG          -0.189      0.368     -0.514      0.608
+    RB4PWHR            0.474      0.190      2.498      0.012
+
+ Variances
+    SYM                1.000      0.000    999.000    999.000
+    HPA                1.000      0.000    999.000    999.000
+    CARD               1.000      0.000    999.000    999.000
+    GLUC               1.000      0.000    999.000    999.000
+    LIPID              1.000      0.000    999.000    999.000
+    INFL               1.000      0.000    999.000    999.000
+    PARA               1.000      0.000    999.000    999.000
+    AL                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    RADJ_EPI           0.416      0.033     12.503      0.000
+    RADJ_NOR           0.376      0.029     12.823      0.000
+    AVGB_SD            0.000    999.000    999.000    999.000
+    AVGB_RM            0.295      0.017     17.397      0.000
+    AVGB_LF            0.209      0.014     14.808      0.000
+    AVGB_HF            0.339      0.019     18.087      0.000
+    RADJ_CRT           0.807      0.035     23.334      0.000
+    B4BDHEAS           0.595      0.038     15.674      0.000
+    RB4BCRP            0.392      0.040      9.925      0.000
+    B4BIL6             0.552      0.034     16.226      0.000
+    B4BFGN             0.495      0.050      9.889      0.000
+    B4BSICAM           0.883      0.022     39.483      0.000
+    B4BSESEL           0.863      0.024     35.427      0.000
+    PULPRESS           0.124      0.016      7.940      0.000
+    RB4P1GS            0.200      0.017     11.814      0.000
+    RB4P1D             0.763      0.028     26.950      0.000
+    B4BHA1C            0.505      0.044     11.449      0.000
+    RB4BGLUC           0.000    999.000    999.000    999.000
+    P4HOMAIR           0.393      0.027     14.498      0.000
+    B4BLDL             0.919      0.021     43.287      0.000
+    B4BHDL             0.537      0.039     13.694      0.000
+    RB4BTRIG           0.232      0.154      1.508      0.131
+    RB4PWHR            0.329      0.021     15.629      0.000
+
+
+R-SQUARE
+
+Group NONWHITE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    RADJ_EPI           0.567      0.051     11.006      0.000
+    RADJ_NOR           0.606      0.057     10.673      0.000
+    AVGB_SD            1.000    999.000    999.000    999.000
+    AVGB_RM            0.740      0.026     28.707      0.000
+    AVGB_LF            0.797      0.025     31.764      0.000
+    AVGB_HF            0.695      0.028     24.434      0.000
+    RADJ_CRT           0.189      0.071      2.641      0.008
+    B4BDHEAS           0.347      0.055      6.256      0.000
+    RB4BCRP            0.654      0.053     12.248      0.000
+    B4BIL6             0.420      0.042      9.894      0.000
+    B4BFGN             0.526      0.069      7.671      0.000
+    B4BSICAM           0.046      0.011      4.092      0.000
+    B4BSESEL           0.118      0.026      4.516      0.000
+    PULPRESS           0.933      0.034     27.829      0.000
+    RB4P1GS            0.763      0.029     26.345      0.000
+    RB4P1D             0.238      0.033      7.111      0.000
+    B4BHA1C            0.483      0.062      7.810      0.000
+    RB4BGLUC           1.000    999.000    999.000    999.000
+    P4HOMAIR           0.557      0.035     15.976      0.000
+    B4BLDL             0.072      0.023      3.135      0.002
+    B4BHDL             0.328      0.047      6.966      0.000
+    RB4BTRIG           0.802      0.158      5.066      0.000
+    RB4PWHR            0.454      0.040     11.397      0.000
+
+Group WHITE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    RADJ_EPI           0.584      0.033     17.568      0.000
+    RADJ_NOR           0.624      0.029     21.236      0.000
+    AVGB_SD            1.000    999.000    999.000    999.000
+    AVGB_RM            0.705      0.017     41.534      0.000
+    AVGB_LF            0.791      0.014     55.932      0.000
+    AVGB_HF            0.661      0.019     35.241      0.000
+    RADJ_CRT           0.193      0.035      5.594      0.000
+    B4BDHEAS           0.405      0.038     10.684      0.000
+    RB4BCRP            0.608      0.040     15.382      0.000
+    B4BIL6             0.448      0.034     13.171      0.000
+    B4BFGN             0.505      0.050     10.093      0.000
+    B4BSICAM           0.117      0.022      5.214      0.000
+    B4BSESEL           0.137      0.024      5.605      0.000
+    PULPRESS           0.876      0.016     56.139      0.000
+    RB4P1GS            0.800      0.017     47.143      0.000
+    RB4P1D             0.237      0.028      8.351      0.000
+    B4BHA1C            0.495      0.044     11.217      0.000
+    RB4BGLUC           1.000    999.000    999.000    999.000
+    P4HOMAIR           0.607      0.027     22.387      0.000
+    B4BLDL             0.081      0.021      3.821      0.000
+    B4BHDL             0.463      0.039     11.824      0.000
+    RB4BTRIG           0.768      0.154      4.995      0.000
+    RB4PWHR            0.671      0.021     31.827      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.899E-08
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Group NONWHITE
+
+ SYM      BY
+    RADJ_NOR         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RADJ_EPI         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ HPA      BY
+    RADJ_CRT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BDHEAS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CARD     BY
+    RB4P1GS          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PULPRESS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ GLUC     BY
+    RB4BGLUC         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    P4HOMAIR         0.223       0.248       0.260       0.325       0.390       0.402       0.426
+    B4BHA1C          0.522       0.545       0.557       0.618       0.679       0.690       0.713
+
+ LIPID    BY
+    RB4PWHR          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RB4BTRIG        -5.353      -2.354      -0.820       7.190      15.201      16.735      19.734
+    B4BHDL          -7.643      -6.694      -6.208      -3.673      -1.139      -0.653       0.296
+    B4BLDL          -1.024      -0.186       0.242       2.481       4.720       5.148       5.986
+    P4HOMAIR         0.417       0.827       1.037       2.132       3.227       3.437       3.847
+
+ INFL     BY
+    RB4BCRP          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BIL6           0.500       0.549       0.574       0.706       0.838       0.863       0.913
+    B4BFGN           0.712       0.800       0.845       1.080       1.315       1.360       1.448
+    B4BSICAM        -0.001       0.050       0.076       0.213       0.349       0.375       0.426
+    B4BSESEL        -0.178      -0.125      -0.098       0.045       0.188       0.216       0.269
+
+ PARA     BY
+    AVGB_SD         -1.000      -1.000      -1.000      -1.000      -1.000      -1.000      -1.000
+    AVGB_RM         -0.906      -0.895      -0.889      -0.859      -0.828      -0.822      -0.811
+    AVGB_HF         -0.855      -0.843      -0.837      -0.806      -0.775      -0.769      -0.757
+    AVGB_LF         -0.863      -0.852      -0.847      -0.819      -0.792      -0.786      -0.776
+    RB4P1D           0.255       0.274       0.284       0.336       0.387       0.397       0.417
+
+ AL       BY
+    RADJ_EPI        -0.355      -0.327      -0.312      -0.237      -0.161      -0.147      -0.118
+    RADJ_NOR         0.031       0.060       0.075       0.155       0.234       0.249       0.279
+    AVGB_SD         -0.331      -0.305      -0.291      -0.220      -0.149      -0.136      -0.109
+    AVGB_RM         -0.272      -0.246      -0.233      -0.164      -0.095      -0.081      -0.055
+    AVGB_LF         -0.331      -0.307      -0.295      -0.231      -0.168      -0.156      -0.132
+    AVGB_HF         -0.269      -0.244      -0.232      -0.166      -0.101      -0.088      -0.064
+    RADJ_CRT        -0.374      -0.350      -0.338      -0.274      -0.210      -0.198      -0.174
+    B4BDHEAS        -0.135      -0.113      -0.101      -0.042       0.017       0.028       0.050
+    RB4BCRP          0.418       0.442       0.455       0.521       0.587       0.599       0.624
+    B4BIL6           0.354       0.382       0.396       0.469       0.541       0.555       0.583
+    B4BFGN           0.180       0.205       0.218       0.286       0.355       0.368       0.393
+    B4BSICAM         0.147       0.171       0.183       0.247       0.310       0.322       0.346
+    B4BSESEL         0.241       0.264       0.275       0.335       0.396       0.407       0.430
+    PULPRESS         0.005       0.027       0.038       0.097       0.157       0.168       0.190
+    RB4P1GS          0.007       0.031       0.043       0.107       0.171       0.183       0.207
+    RB4P1D           0.243       0.269       0.282       0.352       0.422       0.436       0.462
+    B4BHA1C          0.191       0.214       0.226       0.288       0.350       0.362       0.385
+    RB4BGLUC         0.224       0.252       0.266       0.341       0.416       0.431       0.459
+    P4HOMAIR         0.507       0.539       0.555       0.641       0.726       0.742       0.774
+    B4BLDL          -0.087      -0.057      -0.041       0.038       0.118       0.133       0.163
+    B4BHDL          -0.505      -0.475      -0.460      -0.380      -0.300      -0.285      -0.255
+    RB4BTRIG         0.293       0.328       0.346       0.440       0.534       0.552       0.587
+    RB4PWHR          0.339       0.359       0.369       0.423       0.476       0.486       0.506
+
+ RADJ_EPI ON
+    B1PGENDER       -0.410      -0.327      -0.285      -0.065       0.155       0.197       0.279
+    B1PAGE_M2       -0.003       0.000       0.002       0.011       0.020       0.022       0.026
+
+ RADJ_NOR ON
+    B1PGENDER       -0.058       0.018       0.056       0.257       0.458       0.496       0.571
+    B1PAGE_M2        0.003       0.006       0.007       0.016       0.024       0.026       0.029
+
+ AVGB_SD  ON
+    B1PGENDER       -0.310      -0.229      -0.187       0.029       0.246       0.287       0.368
+    B1PAGE_M2       -0.037      -0.033      -0.031      -0.022      -0.013      -0.011      -0.007
+
+ AVGB_RM  ON
+    B1PGENDER       -0.101      -0.021       0.020       0.234       0.448       0.489       0.570
+    B1PAGE_M2       -0.023      -0.020      -0.018      -0.010      -0.001       0.000       0.004
+
+ AVGB_HF  ON
+    B1PGENDER       -0.054       0.024       0.065       0.275       0.485       0.525       0.604
+    B1PAGE_M2       -0.028      -0.025      -0.023      -0.015      -0.007      -0.005      -0.002
+
+ AVGB_LF  ON
+    B1PGENDER       -0.560      -0.482      -0.442      -0.235      -0.027       0.013       0.091
+    B1PAGE_M2       -0.043      -0.040      -0.038      -0.030      -0.021      -0.020      -0.017
+
+ RB4P1D   ON
+    B1PGENDER       -0.093      -0.016       0.023       0.226       0.430       0.469       0.545
+    B1PAGE_M2       -0.017      -0.014      -0.012      -0.005       0.003       0.004       0.007
+
+ RADJ_CRT ON
+    B1PGENDER       -0.054       0.016       0.052       0.240       0.427       0.463       0.533
+    B1PAGE_M2       -0.009      -0.006      -0.005       0.002       0.009       0.011       0.013
+
+ B4BDHEAS ON
+    B1PGENDER       -1.104      -1.037      -1.002      -0.823      -0.644      -0.610      -0.543
+    B1PAGE_M2       -0.049      -0.047      -0.045      -0.038      -0.031      -0.030      -0.027
+
+ RB4BCRP  ON
+    B1PGENDER        0.094       0.170       0.209       0.413       0.616       0.655       0.731
+    B1PAGE_M2       -0.023      -0.020      -0.018      -0.008       0.001       0.003       0.006
+
+ B4BIL6   ON
+    B1PGENDER        0.061       0.141       0.182       0.397       0.612       0.653       0.734
+    B1PAGE_M2       -0.003       0.000       0.001       0.009       0.018       0.019       0.022
+
+ B4BFGN   ON
+    B1PGENDER        0.147       0.225       0.265       0.475       0.684       0.724       0.803
+    B1PAGE_M2       -0.006      -0.002       0.000       0.008       0.017       0.019       0.022
+
+ B4BSICAM ON
+    B1PGENDER       -0.305      -0.205      -0.154       0.113       0.380       0.431       0.531
+    B1PAGE_M2       -0.008      -0.006      -0.005       0.002       0.009       0.010       0.012
+
+ B4BSESEL ON
+    B1PGENDER       -0.451      -0.369      -0.328      -0.110       0.107       0.149       0.230
+    B1PAGE_M2       -0.021      -0.018      -0.017      -0.010      -0.002      -0.001       0.002
+
+ RB4P1GS  ON
+    B1PGENDER       -0.184      -0.109      -0.070       0.131       0.333       0.371       0.447
+    B1PAGE_M2        0.012       0.015       0.017       0.026       0.035       0.037       0.040
+
+ PULPRESS ON
+    B1PGENDER       -0.044       0.024       0.059       0.241       0.423       0.458       0.526
+    B1PAGE_M2        0.025       0.028       0.030       0.039       0.047       0.049       0.052
+
+ RB4BGLUC ON
+    B1PGENDER       -0.736      -0.628      -0.573      -0.284       0.005       0.060       0.168
+    B1PAGE_M2       -0.018      -0.013      -0.011       0.000       0.011       0.013       0.017
+
+ P4HOMAIR ON
+    B1PGENDER       -0.302      -0.214      -0.169       0.066       0.302       0.347       0.435
+    B1PAGE_M2       -0.023      -0.019      -0.018      -0.008       0.001       0.002       0.006
+
+ B4BHA1C  ON
+    B1PGENDER       -0.546      -0.434      -0.377      -0.077       0.222       0.279       0.392
+    B1PAGE_M2        0.005       0.008       0.010       0.018       0.027       0.028       0.032
+
+ RB4PWHR  ON
+    B1PGENDER       -1.222      -1.160      -1.128      -0.962      -0.796      -0.764      -0.702
+    B1PAGE_M2       -0.006      -0.004      -0.003       0.003       0.009       0.011       0.013
+
+ RB4BTRIG ON
+    B1PGENDER       -0.698      -0.617      -0.576      -0.361      -0.146      -0.105      -0.024
+    B1PAGE_M2       -0.012      -0.008      -0.006       0.005       0.016       0.018       0.023
+
+ B4BHDL   ON
+    B1PGENDER        0.107       0.185       0.225       0.434       0.642       0.682       0.760
+    B1PAGE_M2       -0.004      -0.001       0.001       0.010       0.019       0.021       0.024
+
+ B4BLDL   ON
+    B1PGENDER       -0.386      -0.308      -0.268      -0.059       0.150       0.190       0.268
+    B1PAGE_M2       -0.016      -0.013      -0.012      -0.003       0.005       0.006       0.009
+
+ AL       WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ HPA      WITH
+    SYM             -0.117      -0.093      -0.080      -0.014       0.052       0.065       0.089
+
+ CARD     WITH
+    SYM             -0.106      -0.072      -0.054       0.038       0.130       0.147       0.182
+    HPA             -0.058      -0.030      -0.017       0.056       0.128       0.142       0.169
+
+ GLUC     WITH
+    SYM             -0.133      -0.094      -0.074       0.030       0.134       0.154       0.193
+    HPA             -0.055      -0.020      -0.002       0.091       0.185       0.202       0.237
+    CARD            -0.157      -0.108      -0.082       0.050       0.183       0.208       0.258
+
+ LIPID    WITH
+    SYM             -0.020      -0.015      -0.013       0.000       0.014       0.016       0.021
+    HPA             -0.027      -0.022      -0.020      -0.007       0.006       0.008       0.013
+    CARD            -0.016      -0.011      -0.008       0.005       0.019       0.022       0.027
+    GLUC            -0.028      -0.014      -0.006       0.033       0.071       0.079       0.093
+
+ INFL     WITH
+    SYM             -0.024       0.005       0.019       0.096       0.172       0.186       0.215
+    HPA             -0.115      -0.094      -0.083      -0.026       0.030       0.041       0.062
+    CARD            -0.014       0.014       0.028       0.102       0.176       0.191       0.218
+    GLUC            -0.198      -0.154      -0.131      -0.012       0.106       0.129       0.173
+    LIPID           -0.033      -0.028      -0.025      -0.012       0.001       0.003       0.008
+
+ PARA     WITH
+    SYM             -0.029       0.007       0.026       0.123       0.220       0.239       0.275
+    HPA             -0.226      -0.195      -0.179      -0.097      -0.015       0.000       0.031
+    CARD            -0.184      -0.141      -0.119      -0.004       0.111       0.133       0.177
+    GLUC            -0.101      -0.039      -0.007       0.161       0.328       0.360       0.423
+    LIPID           -0.025      -0.013      -0.007       0.024       0.055       0.060       0.072
+    INFL            -0.093      -0.060      -0.042       0.047       0.136       0.153       0.187
+
+ AVGB_RM  WITH
+    AVGB_HF          0.199       0.214       0.221       0.260       0.299       0.307       0.321
+
+ Means
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    AL               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Intercepts
+    RADJ_EPI        -1.550      -1.368      -1.275      -0.788      -0.302      -0.209      -0.027
+    RADJ_NOR        -1.795      -1.619      -1.530      -1.062      -0.593      -0.504      -0.329
+    AVGB_SD          0.463       0.641       0.732       1.208       1.684       1.775       1.953
+    AVGB_RM         -0.043       0.119       0.202       0.634       1.065       1.148       1.310
+    AVGB_LF          1.060       1.216       1.295       1.712       2.129       2.209       2.365
+    AVGB_HF          0.241       0.397       0.476       0.891       1.306       1.386       1.541
+    RADJ_CRT        -1.231      -1.088      -1.015      -0.634      -0.253      -0.180      -0.037
+    B4BDHEAS         1.932       2.060       2.126       2.470       2.813       2.879       3.008
+    RB4BCRP         -0.358      -0.167      -0.070       0.439       0.949       1.046       1.237
+    B4BIL6          -1.106      -0.938      -0.852      -0.404       0.045       0.131       0.299
+    B4BFGN          -1.082      -0.908      -0.818      -0.352       0.114       0.204       0.378
+    B4BSICAM        -0.734      -0.611      -0.548      -0.220       0.109       0.172       0.295
+    B4BSESEL         0.275       0.410       0.479       0.839       1.199       1.268       1.403
+    PULPRESS        -2.941      -2.769      -2.681      -2.222      -1.763      -1.675      -1.503
+    RB4P1GS         -2.079      -1.904      -1.814      -1.345      -0.876      -0.786      -0.610
+    RB4P1D          -0.384      -0.237      -0.161       0.232       0.625       0.700       0.847
+    B4BHA1C         -1.177      -1.008      -0.922      -0.471      -0.020       0.067       0.235
+    RB4BGLUC        -0.498      -0.265      -0.145       0.478       1.102       1.221       1.455
+    P4HOMAIR        -0.088       0.098       0.193       0.690       1.186       1.281       1.467
+    B4BLDL          -0.491      -0.330      -0.247       0.185       0.616       0.699       0.860
+    B4BHDL          -1.457      -1.265      -1.166      -0.654      -0.141      -0.042       0.149
+    RB4BTRIG        -1.117      -0.895      -0.781      -0.186       0.409       0.523       0.746
+    RB4PWHR         -0.016       0.103       0.164       0.482       0.801       0.861       0.981
+
+ Variances
+    SYM              0.374       0.417       0.440       0.555       0.671       0.693       0.736
+    HPA             -0.089      -0.047      -0.026       0.083       0.193       0.214       0.255
+    CARD             0.603       0.658       0.686       0.831       0.977       1.005       1.059
+    GLUC             0.878       1.048       1.135       1.589       2.044       2.131       2.301
+    LIPID           -0.026      -0.017      -0.012       0.012       0.037       0.042       0.051
+    INFL             0.158       0.205       0.229       0.354       0.479       0.503       0.550
+    PARA             0.747       0.805       0.835       0.992       1.149       1.179       1.238
+    AL               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI         0.288       0.334       0.357       0.478       0.599       0.623       0.668
+    RADJ_NOR         0.227       0.270       0.292       0.406       0.521       0.542       0.585
+    AVGB_SD          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    AVGB_RM          0.216       0.230       0.237       0.274       0.311       0.318       0.332
+    AVGB_LF          0.145       0.161       0.170       0.212       0.255       0.263       0.279
+    AVGB_HF          0.246       0.262       0.270       0.312       0.354       0.362       0.378
+    RADJ_CRT         0.547       0.593       0.617       0.741       0.864       0.888       0.934
+    B4BDHEAS         0.553       0.608       0.636       0.783       0.930       0.958       1.013
+    RB4BCRP          0.199       0.236       0.255       0.353       0.452       0.471       0.508
+    B4BIL6           0.430       0.474       0.497       0.614       0.731       0.753       0.797
+    B4BFGN           0.306       0.353       0.377       0.501       0.626       0.650       0.697
+    B4BSICAM         1.192       1.302       1.358       1.652       1.945       2.001       2.111
+    B4BSESEL         0.737       0.786       0.811       0.944       1.076       1.101       1.151
+    PULPRESS        -0.021       0.001       0.013       0.073       0.133       0.145       0.167
+    RB4P1GS          0.174       0.201       0.214       0.287       0.359       0.372       0.399
+    RB4P1D           0.615       0.659       0.681       0.799       0.917       0.939       0.983
+    B4BHA1C          0.492       0.560       0.595       0.778       0.960       0.995       1.063
+    RB4BGLUC         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    P4HOMAIR         0.372       0.414       0.436       0.547       0.659       0.680       0.722
+    B4BLDL           0.792       0.852       0.882       1.042       1.201       1.232       1.291
+    B4BHDL           0.522       0.578       0.607       0.756       0.905       0.933       0.989
+    RB4BTRIG        -0.230      -0.124      -0.069       0.214       0.498       0.553       0.659
+    RB4PWHR          0.362       0.391       0.405       0.481       0.557       0.571       0.600
+
+Group WHITE
+
+ SYM      BY
+    RADJ_NOR         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RADJ_EPI         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ HPA      BY
+    RADJ_CRT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BDHEAS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ CARD     BY
+    RB4P1GS          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PULPRESS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ GLUC     BY
+    RB4BGLUC         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    P4HOMAIR         0.223       0.248       0.260       0.325       0.390       0.402       0.426
+    B4BHA1C          0.522       0.545       0.557       0.618       0.679       0.690       0.713
+
+ LIPID    BY
+    RB4PWHR          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RB4BTRIG        -5.353      -2.354      -0.820       7.190      15.201      16.735      19.734
+    B4BHDL          -7.643      -6.694      -6.208      -3.673      -1.139      -0.653       0.296
+    B4BLDL          -1.024      -0.186       0.242       2.481       4.720       5.148       5.986
+    P4HOMAIR         0.417       0.827       1.037       2.132       3.227       3.437       3.847
+
+ INFL     BY
+    RB4BCRP          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BIL6           0.500       0.549       0.574       0.706       0.838       0.863       0.913
+    B4BFGN           0.712       0.800       0.845       1.080       1.315       1.360       1.448
+    B4BSICAM        -0.001       0.050       0.076       0.213       0.349       0.375       0.426
+    B4BSESEL        -0.178      -0.125      -0.098       0.045       0.188       0.216       0.269
+
+ PARA     BY
+    AVGB_SD         -1.000      -1.000      -1.000      -1.000      -1.000      -1.000      -1.000
+    AVGB_RM         -0.906      -0.895      -0.889      -0.859      -0.828      -0.822      -0.811
+    AVGB_HF         -0.855      -0.843      -0.837      -0.806      -0.775      -0.769      -0.757
+    AVGB_LF         -0.863      -0.852      -0.847      -0.819      -0.792      -0.786      -0.776
+    RB4P1D           0.255       0.274       0.284       0.336       0.387       0.397       0.417
+
+ AL       BY
+    RADJ_EPI        -0.355      -0.327      -0.312      -0.237      -0.161      -0.147      -0.118
+    RADJ_NOR         0.031       0.060       0.075       0.155       0.234       0.249       0.279
+    AVGB_SD         -0.331      -0.305      -0.291      -0.220      -0.149      -0.136      -0.109
+    AVGB_RM         -0.272      -0.246      -0.233      -0.164      -0.095      -0.081      -0.055
+    AVGB_LF         -0.331      -0.307      -0.295      -0.231      -0.168      -0.156      -0.132
+    AVGB_HF         -0.269      -0.244      -0.232      -0.166      -0.101      -0.088      -0.064
+    RADJ_CRT        -0.374      -0.350      -0.338      -0.274      -0.210      -0.198      -0.174
+    B4BDHEAS        -0.135      -0.113      -0.101      -0.042       0.017       0.028       0.050
+    RB4BCRP          0.418       0.442       0.455       0.521       0.587       0.599       0.624
+    B4BIL6           0.354       0.382       0.396       0.469       0.541       0.555       0.583
+    B4BFGN           0.180       0.205       0.218       0.286       0.355       0.368       0.393
+    B4BSICAM         0.147       0.171       0.183       0.247       0.310       0.322       0.346
+    B4BSESEL         0.241       0.264       0.275       0.335       0.396       0.407       0.430
+    PULPRESS         0.005       0.027       0.038       0.097       0.157       0.168       0.190
+    RB4P1GS          0.007       0.031       0.043       0.107       0.171       0.183       0.207
+    RB4P1D           0.243       0.269       0.282       0.352       0.422       0.436       0.462
+    B4BHA1C          0.191       0.214       0.226       0.288       0.350       0.362       0.385
+    RB4BGLUC         0.224       0.252       0.266       0.341       0.416       0.431       0.459
+    P4HOMAIR         0.507       0.539       0.555       0.641       0.726       0.742       0.774
+    B4BLDL          -0.087      -0.057      -0.041       0.038       0.118       0.133       0.163
+    B4BHDL          -0.505      -0.475      -0.460      -0.380      -0.300      -0.285      -0.255
+    RB4BTRIG         0.293       0.328       0.346       0.440       0.534       0.552       0.587
+    RB4PWHR          0.339       0.359       0.369       0.423       0.476       0.486       0.506
+
+ RADJ_EPI ON
+    B1PGENDER       -0.038       0.001       0.022       0.128       0.235       0.255       0.295
+    B1PAGE_M2        0.006       0.008       0.008       0.013       0.017       0.018       0.020
+
+ RADJ_NOR ON
+    B1PGENDER        0.366       0.404       0.424       0.527       0.630       0.649       0.688
+    B1PAGE_M2        0.016       0.017       0.018       0.022       0.027       0.027       0.029
+
+ AVGB_SD  ON
+    B1PGENDER       -0.357      -0.318      -0.298      -0.193      -0.088      -0.068      -0.028
+    B1PAGE_M2       -0.034      -0.032      -0.031      -0.026      -0.021      -0.020      -0.018
+
+ AVGB_RM  ON
+    B1PGENDER       -0.224      -0.185      -0.164      -0.058       0.049       0.070       0.109
+    B1PAGE_M2       -0.024      -0.022      -0.021      -0.016      -0.011      -0.011      -0.009
+
+ AVGB_HF  ON
+    B1PGENDER       -0.121      -0.082      -0.062       0.043       0.148       0.168       0.207
+    B1PAGE_M2       -0.030      -0.028      -0.027      -0.022      -0.018      -0.017      -0.015
+
+ AVGB_LF  ON
+    B1PGENDER       -0.424      -0.387      -0.367      -0.267      -0.167      -0.147      -0.110
+    B1PAGE_M2       -0.041      -0.040      -0.039      -0.034      -0.030      -0.029      -0.027
+
+ RB4P1D   ON
+    B1PGENDER        0.067       0.108       0.129       0.238       0.347       0.367       0.408
+    B1PAGE_M2       -0.006      -0.004      -0.003       0.001       0.006       0.006       0.008
+
+ RADJ_CRT ON
+    B1PGENDER        0.071       0.112       0.132       0.240       0.348       0.369       0.409
+    B1PAGE_M2       -0.002       0.000       0.001       0.005       0.009       0.010       0.012
+
+ B4BDHEAS ON
+    B1PGENDER       -0.801      -0.767      -0.750      -0.659      -0.568      -0.551      -0.517
+    B1PAGE_M2       -0.044      -0.043      -0.042      -0.038      -0.035      -0.034      -0.032
+
+ RB4BCRP  ON
+    B1PGENDER        0.125       0.164       0.183       0.287       0.391       0.410       0.449
+    B1PAGE_M2       -0.002       0.000       0.001       0.005       0.010       0.010       0.012
+
+ B4BIL6   ON
+    B1PGENDER       -0.116      -0.078      -0.059       0.043       0.144       0.164       0.202
+    B1PAGE_M2        0.013       0.015       0.016       0.020       0.024       0.024       0.026
+
+ B4BFGN   ON
+    B1PGENDER        0.125       0.163       0.183       0.285       0.387       0.407       0.445
+    B1PAGE_M2        0.007       0.008       0.009       0.014       0.018       0.019       0.020
+
+ B4BSICAM ON
+    B1PGENDER       -0.164      -0.127      -0.108      -0.011       0.087       0.106       0.142
+    B1PAGE_M2        0.005       0.006       0.007       0.011       0.015       0.016       0.018
+
+ B4BSESEL ON
+    B1PGENDER       -0.396      -0.355      -0.334      -0.225      -0.116      -0.096      -0.055
+    B1PAGE_M2       -0.013      -0.011      -0.010      -0.006      -0.002      -0.001       0.001
+
+ RB4P1GS  ON
+    B1PGENDER       -0.365      -0.329      -0.311      -0.214      -0.118      -0.099      -0.063
+    B1PAGE_M2        0.018       0.019       0.020       0.024       0.029       0.029       0.031
+
+ PULPRESS ON
+    B1PGENDER        0.021       0.056       0.073       0.166       0.258       0.276       0.310
+    B1PAGE_M2        0.031       0.032       0.033       0.037       0.041       0.042       0.044
+
+ RB4BGLUC ON
+    B1PGENDER       -0.455      -0.419      -0.400      -0.303      -0.206      -0.187      -0.151
+    B1PAGE_M2        0.002       0.004       0.004       0.008       0.012       0.013       0.014
+
+ P4HOMAIR ON
+    B1PGENDER       -0.482      -0.442      -0.422      -0.316      -0.210      -0.189      -0.150
+    B1PAGE_M2       -0.006      -0.004      -0.004       0.000       0.005       0.005       0.007
+
+ B4BHA1C  ON
+    B1PGENDER       -0.160      -0.125      -0.108      -0.016       0.075       0.093       0.127
+    B1PAGE_M2        0.012       0.014       0.014       0.018       0.021       0.022       0.023
+
+ RB4PWHR  ON
+    B1PGENDER       -1.508      -1.478      -1.463      -1.383      -1.304      -1.288      -1.259
+    B1PAGE_M2        0.007       0.008       0.009       0.012       0.015       0.016       0.017
+
+ RB4BTRIG ON
+    B1PGENDER       -0.587      -0.547      -0.526      -0.418      -0.309      -0.288      -0.248
+    B1PAGE_M2       -0.010      -0.008      -0.007      -0.003       0.002       0.002       0.004
+
+ B4BHDL   ON
+    B1PGENDER        0.666       0.703       0.722       0.820       0.918       0.937       0.973
+    B1PAGE_M2       -0.001       0.000       0.001       0.005       0.009       0.010       0.011
+
+ B4BLDL   ON
+    B1PGENDER       -0.103      -0.062      -0.041       0.067       0.176       0.197       0.237
+    B1PAGE_M2       -0.017      -0.015      -0.015      -0.010      -0.006      -0.005      -0.004
+
+ AL       WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ HPA      WITH
+    SYM              0.041       0.052       0.058       0.090       0.121       0.127       0.139
+
+ CARD     WITH
+    SYM              0.006       0.020       0.028       0.066       0.104       0.112       0.126
+    HPA              0.010       0.022       0.028       0.059       0.090       0.096       0.108
+
+ GLUC     WITH
+    SYM             -0.022      -0.007       0.001       0.041       0.081       0.089       0.104
+    HPA             -0.019      -0.007      -0.001       0.030       0.062       0.068       0.080
+    CARD            -0.023      -0.009      -0.002       0.035       0.072       0.079       0.092
+
+ LIPID    WITH
+    SYM             -0.023      -0.019      -0.017      -0.006       0.006       0.008       0.012
+    HPA             -0.012      -0.010      -0.009      -0.004       0.002       0.003       0.005
+    CARD            -0.012      -0.006      -0.003       0.013       0.028       0.031       0.037
+    GLUC            -0.014      -0.009      -0.007       0.007       0.020       0.022       0.027
+
+ INFL     WITH
+    SYM             -0.006       0.009       0.017       0.057       0.097       0.105       0.120
+    HPA              0.001       0.013       0.019       0.050       0.082       0.088       0.100
+    CARD            -0.028      -0.013      -0.006       0.035       0.075       0.082       0.097
+    GLUC            -0.130      -0.114      -0.106      -0.063      -0.020      -0.011       0.005
+    LIPID           -0.011      -0.009      -0.007       0.000       0.007       0.008       0.011
+
+ PARA     WITH
+    SYM             -0.051      -0.034      -0.025       0.022       0.068       0.077       0.094
+    HPA             -0.011       0.002       0.008       0.042       0.075       0.082       0.094
+    CARD            -0.145      -0.128      -0.119      -0.072      -0.026      -0.017       0.001
+    GLUC            -0.106      -0.087      -0.077      -0.025       0.026       0.036       0.056
+    LIPID           -0.013      -0.009      -0.007       0.005       0.017       0.019       0.023
+    INFL            -0.012       0.003       0.011       0.052       0.094       0.102       0.117
+
+ AVGB_RM  WITH
+    AVGB_HF          0.224       0.233       0.237       0.262       0.287       0.291       0.301
+
+ Means
+    SYM             -0.997      -0.815      -0.722      -0.236       0.250       0.343       0.526
+    HPA             -0.630      -0.488      -0.415      -0.035       0.345       0.418       0.560
+    CARD            -0.574      -0.383      -0.285       0.225       0.735       0.833       1.023
+    GLUC            -1.525      -1.256      -1.118      -0.400       0.318       0.455       0.724
+    LIPID           -0.243      -0.145      -0.095       0.168       0.430       0.481       0.579
+    INFL            -1.163      -0.947      -0.836      -0.258       0.320       0.431       0.648
+    PARA            -0.914      -0.692      -0.579       0.015       0.608       0.721       0.943
+    AL              -3.028      -2.625      -2.418      -1.341      -0.264      -0.058       0.345
+
+ Intercepts
+    RADJ_EPI        -1.550      -1.368      -1.275      -0.788      -0.302      -0.209      -0.027
+    RADJ_NOR        -1.795      -1.619      -1.530      -1.062      -0.593      -0.504      -0.329
+    AVGB_SD          0.463       0.641       0.732       1.208       1.684       1.775       1.953
+    AVGB_RM         -0.043       0.119       0.202       0.634       1.065       1.148       1.310
+    AVGB_LF          1.060       1.216       1.295       1.712       2.129       2.209       2.365
+    AVGB_HF          0.241       0.397       0.476       0.891       1.306       1.386       1.541
+    RADJ_CRT        -1.231      -1.088      -1.015      -0.634      -0.253      -0.180      -0.037
+    B4BDHEAS         1.932       2.060       2.126       2.470       2.813       2.879       3.008
+    RB4BCRP         -0.358      -0.167      -0.070       0.439       0.949       1.046       1.237
+    B4BIL6          -1.106      -0.938      -0.852      -0.404       0.045       0.131       0.299
+    B4BFGN          -1.082      -0.908      -0.818      -0.352       0.114       0.204       0.378
+    B4BSICAM        -0.734      -0.611      -0.548      -0.220       0.109       0.172       0.295
+    B4BSESEL         0.275       0.410       0.479       0.839       1.199       1.268       1.403
+    PULPRESS        -2.941      -2.769      -2.681      -2.222      -1.763      -1.675      -1.503
+    RB4P1GS         -2.079      -1.904      -1.814      -1.345      -0.876      -0.786      -0.610
+    RB4P1D          -0.384      -0.237      -0.161       0.232       0.625       0.700       0.847
+    B4BHA1C         -1.177      -1.008      -0.922      -0.471      -0.020       0.067       0.235
+    RB4BGLUC        -0.498      -0.265      -0.145       0.478       1.102       1.221       1.455
+    P4HOMAIR        -0.088       0.098       0.193       0.690       1.186       1.281       1.467
+    B4BLDL          -0.491      -0.330      -0.247       0.185       0.616       0.699       0.860
+    B4BHDL          -1.457      -1.265      -1.166      -0.654      -0.141      -0.042       0.149
+    RB4BTRIG        -1.117      -0.895      -0.781      -0.186       0.409       0.523       0.746
+    RB4PWHR         -0.016       0.103       0.164       0.482       0.801       0.861       0.981
+
+ Variances
+    SYM              0.376       0.397       0.407       0.461       0.515       0.525       0.546
+    HPA              0.012       0.031       0.040       0.090       0.141       0.150       0.169
+    CARD             0.545       0.567       0.578       0.637       0.695       0.707       0.729
+    GLUC             0.353       0.411       0.440       0.593       0.747       0.776       0.834
+    LIPID           -0.020      -0.013      -0.009       0.010       0.028       0.032       0.039
+    INFL             0.149       0.183       0.201       0.293       0.385       0.402       0.437
+    PARA             0.704       0.733       0.747       0.825       0.902       0.917       0.946
+    AL               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI         0.298       0.319       0.330       0.387       0.444       0.455       0.476
+    RADJ_NOR         0.291       0.310       0.320       0.373       0.425       0.435       0.455
+    AVGB_SD          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    AVGB_RM          0.243       0.252       0.257       0.282       0.306       0.311       0.320
+    AVGB_LF          0.178       0.185       0.189       0.208       0.227       0.231       0.238
+    AVGB_HF          0.282       0.292       0.298       0.326       0.353       0.359       0.369
+    RADJ_CRT         0.643       0.671       0.686       0.762       0.838       0.853       0.881
+    B4BDHEAS         0.471       0.496       0.509       0.575       0.640       0.653       0.678
+    RB4BCRP          0.279       0.303       0.315       0.379       0.442       0.455       0.479
+    B4BIL6           0.413       0.438       0.451       0.517       0.584       0.596       0.621
+    B4BFGN           0.330       0.360       0.376       0.458       0.539       0.555       0.585
+    B4BSICAM         0.547       0.583       0.601       0.696       0.791       0.810       0.845
+    B4BSESEL         0.703       0.731       0.746       0.822       0.897       0.912       0.940
+    PULPRESS         0.080       0.090       0.094       0.119       0.144       0.149       0.158
+    RB4P1GS          0.143       0.154       0.159       0.187       0.215       0.221       0.231
+    RB4P1D           0.645       0.669       0.681       0.746       0.810       0.822       0.846
+    B4BHA1C          0.232       0.263       0.279       0.362       0.445       0.460       0.492
+    RB4BGLUC         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    P4HOMAIR         0.294       0.309       0.317       0.357       0.398       0.405       0.420
+    B4BLDL           0.768       0.797       0.811       0.887       0.963       0.978       1.006
+    B4BHDL           0.406       0.432       0.445       0.514       0.583       0.596       0.622
+    RB4BTRIG        -0.156      -0.065      -0.019       0.224       0.467       0.513       0.604
+    RB4PWHR          0.284       0.298       0.304       0.341       0.377       0.384       0.397
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Group NONWHITE
+
+ SYM      BY
+    RADJ_NOR         0.642       0.664       0.675       0.734       0.793       0.804       0.826
+    RADJ_EPI         0.619       0.641       0.652       0.709       0.767       0.778       0.800
+
+ HPA      BY
+    RADJ_CRT         0.001       0.073       0.110       0.302       0.494       0.531       0.603
+    B4BDHEAS        -0.003       0.061       0.093       0.264       0.434       0.466       0.530
+
+ CARD     BY
+    RB4P1GS          0.774       0.787       0.794       0.829       0.864       0.871       0.884
+    PULPRESS         0.799       0.816       0.825       0.871       0.917       0.926       0.944
+
+ GLUC     BY
+    RB4BGLUC         0.929       0.937       0.940       0.960       0.980       0.984       0.991
+    P4HOMAIR         0.260       0.286       0.299       0.368       0.437       0.450       0.476
+    B4BHA1C          0.499       0.531       0.548       0.635       0.722       0.739       0.771
+
+ LIPID    BY
+    RB4PWHR         -0.066      -0.022       0.001       0.119       0.237       0.260       0.304
+    RB4BTRIG         0.528       0.586       0.616       0.771       0.927       0.957       1.015
+    B4BHDL          -0.634      -0.575      -0.545      -0.387      -0.229      -0.199      -0.140
+    B4BLDL           0.135       0.165       0.181       0.262       0.343       0.358       0.389
+    P4HOMAIR         0.006       0.056       0.082       0.214       0.347       0.373       0.422
+
+ INFL     BY
+    RB4BCRP          0.441       0.476       0.494       0.588       0.682       0.700       0.736
+    B4BIL6           0.265       0.299       0.317       0.409       0.500       0.518       0.552
+    B4BFGN           0.478       0.513       0.531       0.625       0.719       0.737       0.772
+    B4BSICAM         0.000       0.023       0.035       0.096       0.157       0.169       0.192
+    B4BSESEL        -0.103      -0.072      -0.056       0.026       0.109       0.124       0.155
+
+ PARA     BY
+    AVGB_SD         -0.993      -0.983      -0.978      -0.952      -0.927      -0.922      -0.912
+    AVGB_RM         -0.884      -0.872      -0.866      -0.833      -0.801      -0.794      -0.782
+    AVGB_HF         -0.852      -0.838      -0.831      -0.794      -0.756      -0.749      -0.735
+    AVGB_LF         -0.860      -0.845      -0.838      -0.798      -0.759      -0.751      -0.737
+    RB4P1D           0.245       0.265       0.275       0.327       0.378       0.388       0.408
+
+ AL       BY
+    RADJ_EPI        -0.341      -0.314      -0.299      -0.225      -0.152      -0.137      -0.110
+    RADJ_NOR         0.030       0.059       0.074       0.152       0.230       0.245       0.274
+    AVGB_SD         -0.317      -0.292      -0.279      -0.211      -0.143      -0.130      -0.104
+    AVGB_RM         -0.265      -0.240      -0.227      -0.160      -0.092      -0.080      -0.054
+    AVGB_LF         -0.324      -0.301      -0.289      -0.226      -0.164      -0.152      -0.129
+    AVGB_HF         -0.265      -0.241      -0.229      -0.164      -0.100      -0.087      -0.063
+    RADJ_CRT        -0.393      -0.368      -0.355      -0.287      -0.219      -0.206      -0.180
+    B4BDHEAS        -0.123      -0.103      -0.093      -0.039       0.016       0.026       0.046
+    RB4BCRP          0.408       0.433       0.447       0.515       0.583       0.597       0.622
+    B4BIL6           0.340       0.368       0.382       0.456       0.529       0.543       0.571
+    B4BFGN           0.171       0.197       0.210       0.278       0.347       0.360       0.386
+    B4BSICAM         0.110       0.129       0.138       0.187       0.237       0.246       0.265
+    B4BSESEL         0.233       0.255       0.266       0.324       0.383       0.394       0.416
+    PULPRESS         0.005       0.026       0.037       0.093       0.149       0.160       0.181
+    RB4P1GS          0.006       0.028       0.039       0.097       0.156       0.167       0.189
+    RB4P1D           0.232       0.259       0.273       0.344       0.415       0.429       0.456
+    B4BHA1C          0.149       0.170       0.180       0.235       0.290       0.300       0.321
+    RB4BGLUC         0.162       0.185       0.197       0.260       0.323       0.335       0.358
+    P4HOMAIR         0.440       0.472       0.489       0.576       0.664       0.681       0.713
+    B4BLDL          -0.082      -0.053      -0.039       0.036       0.111       0.126       0.154
+    B4BHDL          -0.478      -0.449      -0.435      -0.358      -0.282      -0.267      -0.239
+    RB4BTRIG         0.278       0.313       0.331       0.423       0.515       0.532       0.567
+    RB4PWHR          0.357       0.379       0.391       0.450       0.510       0.521       0.543
+
+ RADJ_EPI ON
+    B1PGENDER       -0.186      -0.148      -0.129      -0.030       0.070       0.089       0.127
+    B1PAGE_M2       -0.033       0.001       0.018       0.110       0.202       0.219       0.253
+
+ RADJ_NOR ON
+    B1PGENDER       -0.026       0.009       0.027       0.120       0.214       0.232       0.267
+    B1PAGE_M2        0.026       0.059       0.076       0.164       0.253       0.270       0.303
+
+ AVGB_SD  ON
+    B1PGENDER       -0.141      -0.104      -0.085       0.013       0.112       0.131       0.167
+    B1PAGE_M2       -0.363      -0.329      -0.312      -0.221      -0.129      -0.112      -0.078
+
+ AVGB_RM  ON
+    B1PGENDER       -0.046      -0.009       0.010       0.109       0.207       0.226       0.263
+    B1PAGE_M2       -0.237      -0.205      -0.188      -0.101      -0.013       0.004       0.036
+
+ AVGB_HF  ON
+    B1PGENDER       -0.024       0.013       0.031       0.129       0.227       0.246       0.282
+    B1PAGE_M2       -0.286      -0.254      -0.238      -0.153      -0.069      -0.053      -0.021
+
+ AVGB_LF  ON
+    B1PGENDER       -0.260      -0.224      -0.205      -0.109      -0.013       0.005       0.041
+    B1PAGE_M2       -0.434      -0.403      -0.387      -0.304      -0.221      -0.206      -0.175
+
+ RB4P1D   ON
+    B1PGENDER       -0.041      -0.006       0.012       0.105       0.198       0.216       0.251
+    B1PAGE_M2       -0.171      -0.142      -0.127      -0.050       0.027       0.041       0.070
+
+ RADJ_CRT ON
+    B1PGENDER       -0.026       0.009       0.027       0.119       0.212       0.230       0.265
+    B1PAGE_M2       -0.099      -0.069      -0.054       0.024       0.102       0.117       0.146
+
+ B4BDHEAS ON
+    B1PGENDER       -0.466      -0.440      -0.427      -0.358      -0.288      -0.275      -0.249
+    B1PAGE_M2       -0.474      -0.448      -0.434      -0.364      -0.294      -0.280      -0.254
+
+ RB4BCRP  ON
+    B1PGENDER        0.048       0.083       0.101       0.194       0.287       0.305       0.340
+    B1PAGE_M2       -0.239      -0.203      -0.184      -0.087       0.011       0.030       0.066
+
+ B4BIL6   ON
+    B1PGENDER        0.033       0.069       0.088       0.184       0.280       0.298       0.334
+    B1PAGE_M2       -0.033      -0.002       0.014       0.096       0.179       0.195       0.225
+
+ B4BFGN   ON
+    B1PGENDER        0.076       0.110       0.128       0.220       0.311       0.329       0.363
+    B1PAGE_M2       -0.055      -0.021      -0.004       0.085       0.174       0.192       0.225
+
+ B4BSICAM ON
+    B1PGENDER       -0.109      -0.073      -0.055       0.041       0.137       0.155       0.191
+    B1PAGE_M2       -0.067      -0.047      -0.037       0.015       0.068       0.078       0.098
+
+ B4BSESEL ON
+    B1PGENDER       -0.207      -0.170      -0.151      -0.051       0.049       0.068       0.106
+    B1PAGE_M2       -0.211      -0.183      -0.169      -0.096      -0.023      -0.009       0.018
+
+ RB4P1GS  ON
+    B1PGENDER       -0.079      -0.046      -0.030       0.057       0.143       0.160       0.192
+    B1PAGE_M2        0.116       0.147       0.163       0.247       0.332       0.348       0.379
+
+ PULPRESS ON
+    B1PGENDER       -0.019       0.012       0.028       0.110       0.192       0.207       0.238
+    B1PAGE_M2        0.257       0.288       0.303       0.385       0.467       0.483       0.513
+
+ RB4BGLUC ON
+    B1PGENDER       -0.263      -0.225      -0.205      -0.103       0.000       0.019       0.058
+    B1PAGE_M2       -0.141      -0.107      -0.090      -0.001       0.089       0.106       0.139
+
+ P4HOMAIR ON
+    B1PGENDER       -0.129      -0.092      -0.072       0.028       0.129       0.148       0.186
+    B1PAGE_M2       -0.212      -0.180      -0.164      -0.080       0.005       0.021       0.053
+
+ B4BHA1C  ON
+    B1PGENDER       -0.211      -0.168      -0.145      -0.030       0.086       0.108       0.151
+    B1PAGE_M2        0.040       0.068       0.082       0.156       0.231       0.245       0.273
+
+ RB4PWHR  ON
+    B1PGENDER       -0.597      -0.571      -0.558      -0.488      -0.418      -0.404      -0.378
+    B1PAGE_M2       -0.071      -0.045      -0.032       0.036       0.105       0.118       0.143
+
+ RB4BTRIG ON
+    B1PGENDER       -0.315      -0.279      -0.261      -0.165      -0.069      -0.050      -0.014
+    B1PAGE_M2       -0.124      -0.082      -0.061       0.051       0.163       0.185       0.226
+
+ B4BHDL   ON
+    B1PGENDER        0.055       0.089       0.106       0.195       0.283       0.300       0.334
+    B1PAGE_M2       -0.043      -0.009       0.008       0.098       0.188       0.205       0.238
+
+ B4BLDL   ON
+    B1PGENDER       -0.174      -0.139      -0.121      -0.026       0.068       0.086       0.121
+    B1PAGE_M2       -0.159      -0.129      -0.114      -0.034       0.046       0.062       0.092
+
+ AL       WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ HPA      WITH
+    SYM             -0.552      -0.435      -0.376      -0.065       0.245       0.305       0.421
+
+ CARD     WITH
+    SYM             -0.156      -0.105      -0.079       0.056       0.190       0.216       0.267
+    HPA             -0.274      -0.158      -0.099       0.212       0.522       0.582       0.698
+
+ GLUC     WITH
+    SYM             -0.143      -0.101      -0.080       0.032       0.144       0.165       0.207
+    HPA             -0.158      -0.060      -0.010       0.250       0.511       0.561       0.659
+    CARD            -0.135      -0.092      -0.070       0.044       0.157       0.179       0.222
+
+ LIPID    WITH
+    SYM             -0.247      -0.187      -0.156       0.005       0.165       0.196       0.257
+    HPA             -0.693      -0.579      -0.521      -0.218       0.085       0.143       0.256
+    CARD            -0.139      -0.094      -0.070       0.052       0.175       0.198       0.244
+    GLUC             0.017       0.068       0.094       0.231       0.367       0.393       0.444
+
+ INFL     WITH
+    SYM             -0.048       0.015       0.048       0.215       0.383       0.416       0.478
+    HPA             -0.656      -0.536      -0.475      -0.154       0.166       0.227       0.347
+    CARD            -0.014       0.034       0.059       0.189       0.318       0.343       0.392
+    GLUC            -0.265      -0.205      -0.175      -0.017       0.142       0.172       0.231
+    LIPID           -0.484      -0.411      -0.375      -0.182       0.011       0.047       0.120
+
+ PARA     WITH
+    SYM             -0.037       0.012       0.036       0.166       0.295       0.320       0.369
+    HPA             -0.792      -0.684      -0.628      -0.339      -0.049       0.006       0.115
+    CARD            -0.203      -0.155      -0.131      -0.004       0.123       0.147       0.195
+    GLUC            -0.066      -0.020       0.004       0.128       0.252       0.276       0.322
+    LIPID            0.000       0.051       0.077       0.213       0.349       0.375       0.426
+    INFL            -0.157      -0.101      -0.072       0.079       0.230       0.259       0.315
+
+ AVGB_RM  WITH
+    AVGB_HF          0.812       0.830       0.840       0.889       0.938       0.947       0.966
+
+ Means
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    AL               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Intercepts
+    RADJ_EPI        -1.469      -1.297      -1.209      -0.751      -0.292      -0.204      -0.032
+    RADJ_NOR        -1.768      -1.596      -1.507      -1.046      -0.584      -0.496      -0.323
+    AVGB_SD          0.463       0.628       0.713       1.155       1.597       1.682       1.847
+    AVGB_RM         -0.041       0.116       0.197       0.617       1.037       1.118       1.275
+    AVGB_LF          1.068       1.213       1.287       1.675       2.063       2.137       2.282
+    AVGB_HF          0.241       0.394       0.473       0.881       1.290       1.368       1.521
+    RADJ_CRT        -1.270      -1.125      -1.051      -0.664      -0.276      -0.202      -0.057
+    B4BDHEAS         1.765       1.882       1.942       2.255       2.569       2.629       2.746
+    RB4BCRP         -0.355      -0.166      -0.070       0.434       0.939       1.035       1.224
+    B4BIL6          -1.071      -0.909      -0.826      -0.392       0.041       0.124       0.286
+    B4BFGN          -1.044      -0.876      -0.790      -0.342       0.106       0.191       0.359
+    B4BSICAM        -0.563      -0.468      -0.420      -0.167       0.086       0.135       0.229
+    B4BSESEL         0.264       0.395       0.462       0.811       1.160       1.227       1.358
+    PULPRESS        -2.777      -2.620      -2.541      -2.123      -1.706      -1.626      -1.470
+    RB4P1GS         -1.883      -1.725      -1.644      -1.223      -0.801      -0.721      -0.563
+    RB4P1D          -0.378      -0.233      -0.159       0.226       0.612       0.686       0.830
+    B4BHA1C         -0.981      -0.838      -0.765      -0.384      -0.003       0.070       0.213
+    RB4BGLUC        -0.346      -0.176      -0.089       0.364       0.818       0.904       1.074
+    P4HOMAIR        -0.066       0.098       0.182       0.620       1.059       1.143       1.307
+    B4BLDL          -0.462      -0.310      -0.232       0.174       0.581       0.658       0.811
+    B4BHDL          -1.371      -1.191      -1.098      -0.616      -0.134      -0.042       0.139
+    RB4BTRIG        -1.074      -0.860      -0.750      -0.178       0.393       0.503       0.717
+    RB4PWHR         -0.016       0.111       0.176       0.514       0.852       0.917       1.044
+
+ Variances
+    SYM              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HPA              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    CARD             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GLUC             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    LIPID            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    INFL             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PARA             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    AL               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI         0.301       0.332       0.349       0.433       0.518       0.534       0.566
+    RADJ_NOR         0.248       0.283       0.301       0.394       0.488       0.505       0.540
+    AVGB_SD        999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    AVGB_RM          0.194       0.210       0.218       0.260       0.302       0.311       0.326
+    AVGB_LF          0.138       0.154       0.162       0.203       0.244       0.252       0.268
+    AVGB_HF          0.232       0.250       0.259       0.305       0.352       0.361       0.379
+    RADJ_CRT         0.627       0.671       0.694       0.811       0.929       0.951       0.995
+    B4BDHEAS         0.510       0.544       0.562       0.653       0.744       0.762       0.796
+    RB4BCRP          0.208       0.241       0.258       0.346       0.433       0.450       0.483
+    B4BIL6           0.471       0.497       0.510       0.580       0.650       0.663       0.690
+    B4BFGN           0.298       0.340       0.361       0.474       0.587       0.608       0.651
+    B4BSICAM         0.925       0.932       0.935       0.954       0.972       0.976       0.983
+    B4BSESEL         0.814       0.831       0.839       0.882       0.925       0.933       0.949
+    PULPRESS        -0.020       0.001       0.012       0.067       0.122       0.132       0.153
+    RB4P1GS          0.162       0.180       0.189       0.237       0.285       0.294       0.312
+    RB4P1D           0.676       0.697       0.707       0.762       0.817       0.828       0.848
+    B4BHA1C          0.358       0.396       0.415       0.517       0.619       0.638       0.676
+    RB4BGLUC       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    P4HOMAIR         0.353       0.374       0.385       0.443       0.500       0.511       0.533
+    B4BLDL           0.869       0.883       0.891       0.928       0.966       0.973       0.987
+    B4BHDL           0.551       0.580       0.595       0.672       0.749       0.764       0.793
+    RB4BTRIG        -0.210      -0.113      -0.063       0.198       0.458       0.508       0.606
+    RB4PWHR          0.443       0.468       0.480       0.546       0.612       0.624       0.649
+
+Group WHITE
+
+ SYM      BY
+    RADJ_NOR         0.631       0.643       0.650       0.682       0.715       0.722       0.734
+    RADJ_EPI         0.649       0.662       0.669       0.704       0.739       0.745       0.758
+
+ HPA      BY
+    RADJ_CRT         0.179       0.210       0.226       0.309       0.393       0.409       0.440
+    B4BDHEAS         0.177       0.208       0.224       0.306       0.388       0.404       0.434
+
+ CARD     BY
+    RB4P1GS          0.790       0.798       0.803       0.825       0.848       0.853       0.861
+    PULPRESS         0.770       0.780       0.786       0.813       0.840       0.845       0.855
+
+ GLUC     BY
+    RB4BGLUC         0.827       0.842       0.851       0.893       0.936       0.944       0.960
+    P4HOMAIR         0.148       0.176       0.190       0.262       0.335       0.349       0.377
+    B4BHA1C          0.448       0.476       0.490       0.562       0.635       0.649       0.676
+
+ LIPID    BY
+    RB4PWHR         -0.049      -0.014       0.004       0.097       0.190       0.208       0.243
+    RB4BTRIG         0.471       0.531       0.562       0.723       0.883       0.914       0.974
+    B4BHDL          -0.579      -0.529      -0.504      -0.371      -0.238      -0.213      -0.163
+    B4BLDL           0.142       0.168       0.181       0.249       0.318       0.331       0.356
+    P4HOMAIR         0.016       0.065       0.090       0.221       0.352       0.377       0.426
+
+ INFL     BY
+    RB4BCRP          0.420       0.451       0.467       0.550       0.633       0.649       0.680
+    B4BIL6           0.269       0.299       0.315       0.395       0.475       0.490       0.520
+    B4BFGN           0.498       0.524       0.538       0.608       0.678       0.691       0.718
+    B4BSICAM         0.001       0.032       0.047       0.129       0.212       0.227       0.258
+    B4BSESEL        -0.099      -0.069      -0.054       0.025       0.105       0.120       0.150
+
+ PARA     BY
+    AVGB_SD         -0.959      -0.950      -0.945      -0.920      -0.896      -0.891      -0.882
+    AVGB_RM         -0.838      -0.828      -0.823      -0.798      -0.773      -0.768      -0.758
+    AVGB_HF         -0.792      -0.781      -0.776      -0.747      -0.718      -0.713      -0.702
+    AVGB_LF         -0.792      -0.781      -0.776      -0.747      -0.718      -0.712      -0.701
+    RB4P1D           0.233       0.251       0.260       0.308       0.357       0.366       0.384
+
+ AL       BY
+    RADJ_EPI        -0.365      -0.336      -0.322      -0.245      -0.169      -0.155      -0.126
+    RADJ_NOR         0.032       0.061       0.077       0.155       0.234       0.249       0.279
+    AVGB_SD         -0.335      -0.308      -0.294      -0.223      -0.152      -0.139      -0.112
+    AVGB_RM         -0.278      -0.252      -0.238      -0.168      -0.097      -0.084      -0.057
+    AVGB_LF         -0.331      -0.307      -0.295      -0.232      -0.169      -0.157      -0.133
+    AVGB_HF         -0.274      -0.249      -0.236      -0.170      -0.103      -0.090      -0.066
+    RADJ_CRT        -0.384      -0.359      -0.347      -0.282      -0.217      -0.204      -0.180
+    B4BDHEAS        -0.137      -0.115      -0.103      -0.043       0.017       0.029       0.051
+    RB4BCRP          0.430       0.454       0.466       0.530       0.594       0.606       0.630
+    B4BIL6           0.370       0.397       0.411       0.484       0.557       0.571       0.599
+    B4BFGN           0.191       0.217       0.230       0.298       0.366       0.379       0.405
+    B4BSICAM         0.169       0.195       0.208       0.278       0.347       0.360       0.386
+    B4BSESEL         0.251       0.273       0.284       0.344       0.403       0.415       0.437
+    PULPRESS         0.005       0.028       0.039       0.099       0.159       0.171       0.193
+    RB4P1GS          0.007       0.032       0.045       0.111       0.177       0.189       0.214
+    RB4P1D           0.253       0.278       0.290       0.356       0.422       0.435       0.460
+    B4BHA1C          0.241       0.265       0.277       0.340       0.404       0.416       0.439
+    RB4BGLUC         0.252       0.287       0.304       0.396       0.487       0.505       0.539
+    P4HOMAIR         0.542       0.573       0.589       0.672       0.755       0.771       0.803
+    B4BLDL          -0.088      -0.057      -0.042       0.039       0.120       0.135       0.166
+    B4BHDL          -0.514      -0.484      -0.468      -0.388      -0.308      -0.293      -0.263
+    RB4BTRIG         0.303       0.338       0.356       0.448       0.540       0.558       0.592
+    RB4PWHR          0.335       0.355       0.364       0.416       0.467       0.477       0.496
+
+ RADJ_EPI ON
+    B1PGENDER       -0.020       0.001       0.011       0.066       0.121       0.132       0.152
+    B1PAGE_M2        0.075       0.095       0.106       0.160       0.214       0.224       0.245
+
+ RADJ_NOR ON
+    B1PGENDER        0.187       0.206       0.215       0.264       0.313       0.322       0.340
+    B1PAGE_M2        0.191       0.209       0.219       0.268       0.316       0.326       0.344
+
+ AVGB_SD  ON
+    B1PGENDER       -0.179      -0.160      -0.150      -0.097      -0.045      -0.035      -0.015
+    B1PAGE_M2       -0.402      -0.380      -0.369      -0.311      -0.253      -0.242      -0.220
+
+ AVGB_RM  ON
+    B1PGENDER       -0.114      -0.094      -0.084      -0.029       0.025       0.035       0.056
+    B1PAGE_M2       -0.292      -0.269      -0.258      -0.199      -0.139      -0.128      -0.106
+
+ AVGB_HF  ON
+    B1PGENDER       -0.062      -0.042      -0.032       0.022       0.075       0.085       0.105
+    B1PAGE_M2       -0.357      -0.336      -0.326      -0.270      -0.215      -0.204      -0.183
+
+ AVGB_LF  ON
+    B1PGENDER       -0.211      -0.192      -0.183      -0.133      -0.084      -0.075      -0.056
+    B1PAGE_M2       -0.485      -0.467      -0.457      -0.409      -0.360      -0.351      -0.333
+
+ RB4P1D   ON
+    B1PGENDER        0.035       0.055       0.065       0.120       0.174       0.185       0.205
+    B1PAGE_M2       -0.067      -0.048      -0.038       0.014       0.066       0.076       0.096
+
+ RADJ_CRT ON
+    B1PGENDER        0.037       0.058       0.068       0.123       0.178       0.189       0.209
+    B1PAGE_M2       -0.023      -0.003       0.007       0.062       0.116       0.126       0.146
+
+ B4BDHEAS ON
+    B1PGENDER       -0.400      -0.385      -0.376      -0.334      -0.292      -0.284      -0.268
+    B1PAGE_M2       -0.528      -0.512      -0.504      -0.463      -0.422      -0.414      -0.399
+
+ RB4BCRP  ON
+    B1PGENDER        0.064       0.084       0.094       0.146       0.198       0.207       0.227
+    B1PAGE_M2       -0.022      -0.002       0.008       0.062       0.116       0.127       0.147
+
+ B4BIL6   ON
+    B1PGENDER       -0.060      -0.040      -0.030       0.022       0.074       0.084       0.104
+    B1PAGE_M2        0.167       0.185       0.194       0.241       0.288       0.297       0.315
+
+ B4BFGN   ON
+    B1PGENDER        0.067       0.086       0.096       0.148       0.200       0.210       0.229
+    B1PAGE_M2        0.085       0.104       0.114       0.167       0.220       0.230       0.249
+
+ B4BSICAM ON
+    B1PGENDER       -0.092      -0.071      -0.061      -0.006       0.049       0.059       0.080
+    B1PAGE_M2        0.066       0.086       0.097       0.150       0.204       0.215       0.235
+
+ B4BSESEL ON
+    B1PGENDER       -0.201      -0.181      -0.170      -0.115      -0.060      -0.049      -0.029
+    B1PAGE_M2       -0.154      -0.135      -0.125      -0.074      -0.022      -0.012       0.007
+
+ RB4P1GS  ON
+    B1PGENDER       -0.188      -0.170      -0.160      -0.110      -0.061      -0.051      -0.033
+    B1PAGE_M2        0.223       0.242       0.251       0.300       0.350       0.359       0.378
+
+ PULPRESS ON
+    B1PGENDER        0.011       0.029       0.038       0.084       0.131       0.139       0.157
+    B1PAGE_M2        0.383       0.399       0.407       0.450       0.493       0.501       0.517
+
+ RB4BGLUC ON
+    B1PGENDER       -0.257      -0.237      -0.227      -0.175      -0.123      -0.113      -0.093
+    B1PAGE_M2        0.033       0.053       0.062       0.113       0.164       0.174       0.193
+
+ P4HOMAIR ON
+    B1PGENDER       -0.250      -0.230      -0.220      -0.165      -0.111      -0.100      -0.080
+    B1PAGE_M2       -0.074      -0.055      -0.045       0.006       0.057       0.067       0.086
+
+ B4BHA1C  ON
+    B1PGENDER       -0.094      -0.074      -0.064      -0.010       0.044       0.055       0.075
+    B1PAGE_M2        0.162       0.183       0.194       0.250       0.306       0.316       0.337
+
+ RB4PWHR  ON
+    B1PGENDER       -0.719      -0.709      -0.704      -0.678      -0.652      -0.647      -0.637
+    B1PAGE_M2        0.081       0.095       0.102       0.138       0.175       0.182       0.196
+
+ RB4BTRIG ON
+    B1PGENDER       -0.295      -0.275      -0.265      -0.212      -0.159      -0.149      -0.129
+    B1PAGE_M2       -0.118      -0.098      -0.088      -0.034       0.020       0.030       0.050
+
+ B4BHDL   ON
+    B1PGENDER        0.348       0.364       0.373       0.417       0.462       0.470       0.487
+    B1PAGE_M2       -0.018       0.000       0.010       0.060       0.110       0.119       0.138
+
+ B4BLDL   ON
+    B1PGENDER       -0.052      -0.031      -0.021       0.034       0.089       0.100       0.120
+    B1PAGE_M2       -0.204      -0.186      -0.176      -0.126      -0.075      -0.066      -0.047
+
+ AL       WITH
+    SYM              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    PARA             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CARD             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    GLUC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ HPA      WITH
+    SYM              0.184       0.245       0.276       0.440       0.603       0.634       0.695
+
+ CARD     WITH
+    SYM              0.013       0.039       0.052       0.122       0.192       0.205       0.231
+    HPA              0.032       0.083       0.109       0.245       0.381       0.408       0.458
+
+ GLUC     WITH
+    SYM             -0.038      -0.010       0.004       0.078       0.152       0.166       0.194
+    HPA             -0.101      -0.046      -0.017       0.131       0.280       0.308       0.364
+    CARD            -0.037      -0.015      -0.003       0.057       0.116       0.128       0.150
+
+ LIPID    WITH
+    SYM             -0.261      -0.219      -0.198      -0.086       0.026       0.047       0.089
+    HPA             -0.430      -0.357      -0.320      -0.127       0.067       0.104       0.177
+    CARD             0.036       0.066       0.081       0.161       0.240       0.255       0.285
+    GLUC            -0.091      -0.048      -0.027       0.087       0.200       0.221       0.264
+
+ INFL     WITH
+    SYM             -0.022       0.020       0.042       0.156       0.269       0.291       0.333
+    HPA             -0.055       0.032       0.076       0.309       0.541       0.586       0.673
+    CARD            -0.059      -0.026      -0.009       0.080       0.169       0.186       0.219
+    GLUC            -0.324      -0.283      -0.261      -0.150      -0.039      -0.018       0.024
+    LIPID           -0.214      -0.164      -0.138      -0.003       0.132       0.157       0.208
+
+ PARA     WITH
+    SYM             -0.083      -0.055      -0.040       0.035       0.110       0.125       0.153
+    HPA             -0.045       0.003       0.027       0.153       0.279       0.303       0.350
+    CARD            -0.200      -0.176      -0.164      -0.100      -0.036      -0.024       0.000
+    GLUC            -0.154      -0.126      -0.111      -0.036       0.039       0.053       0.081
+    LIPID           -0.093      -0.057      -0.039       0.056       0.151       0.169       0.204
+    INFL            -0.018       0.012       0.027       0.107       0.186       0.201       0.231
+
+ AVGB_RM  WITH
+    AVGB_HF          0.829       0.838       0.842       0.865       0.889       0.893       0.902
+
+ Means
+    SYM             -1.470      -1.201      -1.064      -0.348       0.369       0.506       0.775
+    HPA             -2.101      -1.627      -1.384      -0.116       1.151       1.394       1.869
+    CARD            -0.720      -0.480      -0.358       0.282       0.922       1.044       1.284
+    GLUC            -1.989      -1.638      -1.458      -0.520       0.419       0.598       0.950
+    LIPID           -0.436       0.075       0.336       1.700       3.064       3.326       3.836
+    INFL            -2.121      -1.728      -1.527      -0.477       0.573       0.774       1.167
+    PARA            -1.007      -0.762      -0.637       0.016       0.669       0.794       1.039
+    AL              -3.028      -2.625      -2.418      -1.341      -0.264      -0.058       0.345
+
+ Intercepts
+    RADJ_EPI        -1.609      -1.419      -1.323      -0.817      -0.312      -0.215      -0.026
+    RADJ_NOR        -1.807      -1.630      -1.540      -1.067      -0.594      -0.504      -0.327
+    AVGB_SD          0.465       0.646       0.739       1.224       1.709       1.802       1.984
+    AVGB_RM         -0.044       0.121       0.206       0.649       1.091       1.176       1.341
+    AVGB_LF          1.056       1.214       1.295       1.719       2.142       2.223       2.382
+    AVGB_HF          0.245       0.404       0.485       0.910       1.334       1.415       1.574
+    RADJ_CRT        -1.266      -1.120      -1.045      -0.652      -0.260      -0.185      -0.038
+    B4BDHEAS         1.956       2.089       2.157       2.513       2.868       2.937       3.070
+    RB4BCRP         -0.365      -0.171      -0.072       0.447       0.966       1.065       1.259
+    B4BIL6          -1.141      -0.968      -0.880      -0.417       0.046       0.134       0.307
+    B4BFGN          -1.125      -0.944      -0.851      -0.366       0.119       0.212       0.393
+    B4BSICAM        -0.829      -0.690      -0.619      -0.247       0.124       0.195       0.334
+    B4BSESEL         0.284       0.422       0.492       0.860       1.228       1.298       1.436
+    PULPRESS        -3.009      -2.831      -2.740      -2.264      -1.788      -1.697      -1.519
+    RB4P1GS         -2.156      -1.973      -1.880      -1.391      -0.903      -0.809      -0.627
+    RB4P1D          -0.386      -0.238      -0.162       0.234       0.631       0.707       0.855
+    B4BHA1C         -1.415      -1.210      -1.105      -0.556      -0.008       0.097       0.302
+    RB4BGLUC        -0.581      -0.310      -0.171       0.555       1.280       1.419       1.690
+    P4HOMAIR        -0.094       0.101       0.201       0.723       1.245       1.345       1.541
+    B4BLDL          -0.499      -0.335      -0.251       0.188       0.626       0.710       0.874
+    B4BHDL          -1.493      -1.296      -1.195      -0.668      -0.140      -0.039       0.158
+    RB4BTRIG        -1.138      -0.911      -0.795      -0.189       0.417       0.533       0.759
+    RB4PWHR         -0.015       0.102       0.162       0.474       0.787       0.847       0.964
+
+ Variances
+    SYM              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HPA              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    CARD             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GLUC             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    LIPID            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    INFL             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PARA             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    AL               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_EPI         0.330       0.351       0.361       0.416       0.470       0.481       0.501
+    RADJ_NOR         0.301       0.319       0.328       0.376       0.425       0.434       0.452
+    AVGB_SD        999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    AVGB_RM          0.251       0.262       0.267       0.295       0.323       0.328       0.339
+    AVGB_LF          0.173       0.182       0.186       0.209       0.233       0.237       0.246
+    AVGB_HF          0.291       0.302       0.308       0.339       0.370       0.376       0.387
+    RADJ_CRT         0.718       0.739       0.750       0.807       0.863       0.874       0.896
+    B4BDHEAS         0.497       0.520       0.532       0.595       0.657       0.669       0.692
+    RB4BCRP          0.290       0.315       0.327       0.392       0.457       0.470       0.494
+    B4BIL6           0.464       0.485       0.496       0.552       0.608       0.619       0.640
+    B4BFGN           0.366       0.397       0.413       0.495       0.577       0.593       0.624
+    B4BSICAM         0.826       0.839       0.847       0.883       0.920       0.927       0.941
+    B4BSESEL         0.801       0.816       0.823       0.863       0.903       0.911       0.926
+    PULPRESS         0.084       0.093       0.098       0.124       0.150       0.154       0.164
+    RB4P1GS          0.157       0.167       0.172       0.200       0.228       0.234       0.244
+    RB4P1D           0.690       0.708       0.717       0.763       0.810       0.819       0.836
+    B4BHA1C          0.391       0.419       0.433       0.505       0.578       0.592       0.619
+    RB4BGLUC       999.000     999.000     999.000       0.000     999.000     999.000     999.000
+    P4HOMAIR         0.323       0.340       0.348       0.393       0.438       0.446       0.463
+    B4BLDL           0.864       0.877       0.884       0.919       0.954       0.960       0.974
+    B4BHDL           0.436       0.460       0.472       0.537       0.601       0.613       0.638
+    RB4BTRIG        -0.164      -0.069      -0.021       0.232       0.485       0.533       0.628
+    RB4PWHR          0.275       0.288       0.295       0.329       0.364       0.371       0.384
+
+
+     Beginning Time:  13:53:01
+        Ending Time:  13:53:07
+       Elapsed Time:  00:00:06
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

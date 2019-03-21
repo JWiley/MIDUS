@@ -1,0 +1,355 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/12/2016   3:56 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m1_stresscfa4b.dat";
+
+  VARIABLE:
+  NAMES = A1SSPCRI A1SKINNE A1SFDSNE A1SLFEDI A1SDAYDI A1SPIWOR A1SPIFAM A1SPIHOM;
+   MISSING=.;
+
+      CATEGORICAL ARE
+        A1SLFEDI A1SDAYDI
+        A1SPIWOR A1SPIHOM A1SPIFAM
+        A1SKINNE A1SFDSNE A1SSPCRI;
+
+  ANALYSIS:
+
+     ESTIMATOR = WLSMV;
+     PROCESSORS = 2;
+  MODEL:
+
+     Disc BY A1SLFEDI A1SDAYDI;
+     Ineq BY A1SPIWOR A1SPIHOM A1SPIFAM;
+     Perc BY A1SKINNE A1SFDSNE A1SSPCRI;
+
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  728
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        6257
+
+Number of dependent variables                                    8
+Number of independent variables                                  0
+Number of continuous latent variables                            3
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   A1SSPCRI    A1SKINNE    A1SFDSNE    A1SLFEDI    A1SDAYDI    A1SPIWOR
+   A1SPIFAM    A1SPIHOM
+
+Continuous latent variables
+   DISC        INEQ        PERC
+
+
+Estimator                                                    WLSMV
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Parameterization                                             DELTA
+
+Input data file(s)
+  m1_stresscfa4b.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            68
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              A1SSPCRI      A1SKINNE      A1SFDSNE      A1SLFEDI      A1SDAYDI
+              ________      ________      ________      ________      ________
+ A1SSPCRI       0.741
+ A1SKINNE       0.738         0.993
+ A1SFDSNE       0.738         0.991         0.993
+ A1SLFEDI       0.714         0.957         0.957         0.961
+ A1SDAYDI       0.729         0.976         0.976         0.959         0.981
+ A1SPIWOR       0.543         0.722         0.723         0.706         0.717
+ A1SPIFAM       0.651         0.805         0.805         0.776         0.793
+ A1SPIHOM       0.739         0.992         0.992         0.958         0.977
+
+
+           Covariance Coverage
+              A1SPIWOR      A1SPIFAM      A1SPIHOM
+              ________      ________      ________
+ A1SPIWOR       0.727
+ A1SPIFAM       0.572         0.808
+ A1SPIHOM       0.724         0.806         0.995
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    A1SSPCRI
+      Category 1    0.222     1030.000
+      Category 2    0.233     1082.000
+      Category 3    0.190      880.000
+      Category 4    0.156      724.000
+      Category 5    0.198      919.000
+    A1SKINNE
+      Category 1    0.208     1291.000
+      Category 2    0.346     2150.000
+      Category 3    0.147      913.000
+      Category 4    0.108      674.000
+      Category 5    0.191     1186.000
+    A1SFDSNE
+      Category 1    0.249     1545.000
+      Category 2    0.455     2826.000
+      Category 3    0.133      828.000
+      Category 4    0.163     1015.000
+    A1SLFEDI
+      Category 1    0.816     4910.000
+      Category 2    0.184     1104.000
+    A1SDAYDI
+      Category 1    0.635     3896.000
+      Category 2    0.168     1031.000
+      Category 3    0.197     1209.000
+    A1SPIWOR
+      Category 1    0.242     1101.000
+      Category 2    0.228     1038.000
+      Category 3    0.203      923.000
+      Category 4    0.146      665.000
+      Category 5    0.180      820.000
+    A1SPIFAM
+      Category 1    0.281     1419.000
+      Category 2    0.231     1170.000
+      Category 3    0.116      587.000
+      Category 4    0.190      962.000
+      Category 5    0.182      918.000
+    A1SPIHOM
+      Category 1    0.406     2530.000
+      Category 2    0.242     1509.000
+      Category 3    0.162     1006.000
+      Category 4    0.189     1179.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       36
+
+Chi-Square Test of Model Fit
+
+          Value                            130.174*
+          Degrees of Freedom                    17
+          P-Value                           0.0000
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.033
+          90 Percent C.I.                    0.028  0.038
+          Probability RMSEA <= .05           1.000
+
+CFI/TLI
+
+          CFI                                0.987
+          TLI                                0.978
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           8602.933
+          Degrees of Freedom                    28
+          P-Value                           0.0000
+
+WRMR (Weighted Root Mean Square Residual)
+
+          Value                              1.309
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    A1SLFEDI           1.000      0.000    999.000    999.000
+    A1SDAYDI           1.513      0.090     16.832      0.000
+
+ INEQ     BY
+    A1SPIWOR           1.000      0.000    999.000    999.000
+    A1SPIHOM           1.107      0.047     23.397      0.000
+    A1SPIFAM           0.948      0.042     22.519      0.000
+
+ PERC     BY
+    A1SKINNE           1.000      0.000    999.000    999.000
+    A1SFDSNE           0.951      0.031     30.497      0.000
+    A1SSPCRI           0.699      0.027     26.151      0.000
+
+ INEQ     WITH
+    DISC               0.166      0.013     13.072      0.000
+
+ PERC     WITH
+    DISC               0.233      0.015     15.168      0.000
+    INEQ               0.231      0.011     20.356      0.000
+
+ Thresholds
+    A1SSPCRI$1        -0.765      0.021    -37.293      0.000
+    A1SSPCRI$2        -0.111      0.018     -6.036      0.000
+    A1SSPCRI$3         0.373      0.019     19.767      0.000
+    A1SSPCRI$4         0.848      0.021     40.319      0.000
+    A1SKINNE$1        -0.814      0.018    -45.308      0.000
+    A1SKINNE$2         0.135      0.016      8.472      0.000
+    A1SKINNE$3         0.526      0.017     31.469      0.000
+    A1SKINNE$4         0.875      0.018     47.748      0.000
+    A1SFDSNE$1        -0.679      0.017    -39.226      0.000
+    A1SFDSNE$2         0.534      0.017     31.891      0.000
+    A1SFDSNE$3         0.981      0.019     51.578      0.000
+    A1SLFEDI$1         0.902      0.019     47.990      0.000
+    A1SDAYDI$1         0.345      0.016     21.098      0.000
+    A1SDAYDI$2         0.852      0.018     46.567      0.000
+    A1SPIWOR$1        -0.699      0.020    -34.393      0.000
+    A1SPIWOR$2        -0.074      0.019     -3.989      0.000
+    A1SPIWOR$3         0.449      0.019     23.301      0.000
+    A1SPIWOR$4         0.914      0.022     42.117      0.000
+    A1SPIFAM$1        -0.581      0.019    -30.980      0.000
+    A1SPIFAM$2         0.030      0.018      1.716      0.086
+    A1SPIFAM$3         0.327      0.018     18.194      0.000
+    A1SPIFAM$4         0.909      0.021     44.257      0.000
+    A1SPIHOM$1        -0.237      0.016    -14.741      0.000
+    A1SPIHOM$2         0.382      0.016     23.441      0.000
+    A1SPIHOM$3         0.880      0.018     47.990      0.000
+
+ Variances
+    DISC               0.368      0.027     13.529      0.000
+    INEQ               0.354      0.021     16.493      0.000
+    PERC               0.516      0.019     26.594      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    A1SLFEDI           0.607      0.022     27.059      0.000
+    A1SDAYDI           0.918      0.027     33.755      0.000
+
+ INEQ     BY
+    A1SPIWOR           0.595      0.018     32.987      0.000
+    A1SPIHOM           0.659      0.017     39.561      0.000
+    A1SPIFAM           0.564      0.018     31.934      0.000
+
+ PERC     BY
+    A1SKINNE           0.719      0.014     53.188      0.000
+    A1SFDSNE           0.683      0.014     49.343      0.000
+    A1SSPCRI           0.503      0.016     31.025      0.000
+
+ INEQ     WITH
+    DISC               0.459      0.023     19.803      0.000
+
+ PERC     WITH
+    DISC               0.535      0.022     24.793      0.000
+    INEQ               0.540      0.019     28.760      0.000
+
+ Thresholds
+    A1SSPCRI$1        -0.765      0.021    -37.293      0.000
+    A1SSPCRI$2        -0.111      0.018     -6.036      0.000
+    A1SSPCRI$3         0.373      0.019     19.767      0.000
+    A1SSPCRI$4         0.848      0.021     40.319      0.000
+    A1SKINNE$1        -0.814      0.018    -45.308      0.000
+    A1SKINNE$2         0.135      0.016      8.472      0.000
+    A1SKINNE$3         0.526      0.017     31.469      0.000
+    A1SKINNE$4         0.875      0.018     47.748      0.000
+    A1SFDSNE$1        -0.679      0.017    -39.226      0.000
+    A1SFDSNE$2         0.534      0.017     31.891      0.000
+    A1SFDSNE$3         0.981      0.019     51.578      0.000
+    A1SLFEDI$1         0.902      0.019     47.990      0.000
+    A1SDAYDI$1         0.345      0.016     21.098      0.000
+    A1SDAYDI$2         0.852      0.018     46.567      0.000
+    A1SPIWOR$1        -0.699      0.020    -34.393      0.000
+    A1SPIWOR$2        -0.074      0.019     -3.989      0.000
+    A1SPIWOR$3         0.449      0.019     23.301      0.000
+    A1SPIWOR$4         0.914      0.022     42.117      0.000
+    A1SPIFAM$1        -0.581      0.019    -30.980      0.000
+    A1SPIFAM$2         0.030      0.018      1.716      0.086
+    A1SPIFAM$3         0.327      0.018     18.194      0.000
+    A1SPIFAM$4         0.909      0.021     44.257      0.000
+    A1SPIHOM$1        -0.237      0.016    -14.741      0.000
+    A1SPIHOM$2         0.382      0.016     23.441      0.000
+    A1SPIHOM$3         0.880      0.018     47.990      0.000
+
+ Variances
+    DISC               1.000      0.000    999.000    999.000
+    INEQ               1.000      0.000    999.000    999.000
+    PERC               1.000      0.000    999.000    999.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed   Residual
+    Variable        Estimate       S.E.  Est./S.E.    P-Value    Variance
+
+    A1SSPCRI           0.253      0.016     15.513      0.000      0.747
+    A1SKINNE           0.516      0.019     26.594      0.000      0.484
+    A1SFDSNE           0.467      0.019     24.672      0.000      0.533
+    A1SLFEDI           0.368      0.027     13.529      0.000      0.632
+    A1SDAYDI           0.843      0.050     16.877      0.000      0.157
+    A1SPIWOR           0.354      0.021     16.493      0.000      0.646
+    A1SPIFAM           0.318      0.020     15.967      0.000      0.682
+    A1SPIHOM           0.434      0.022     19.781      0.000      0.566
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.503E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  15:56:09
+        Ending Time:  15:56:10
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

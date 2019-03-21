@@ -1,0 +1,1640 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+08/02/2016   5:14 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   BiFactor Model of biomarkers;
+  DATA:
+  FILE = "factor_allcov_clustering_BiFac.dat";
+
+  VARIABLE:
+  NAMES = Radj_epi Radj_nor avgb_sd avgb_rm avgb_lf avgb_hf Rb4p1d Radj_crt b4bdheas
+       Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel pulpress Rb4p1gs b4bha1c Rb4bgluc
+       p4homair b4bldl b4bhdl Rb4btrig Rb4pwhr m2famnum m2id b1pgender b1page_m2
+       Agecat MedGroup white p4majorconditions p4minorconditions p4sumburden b3tem
+       exec_fxn compression bending impact reg_izallo GNNregAL RXNNregAL;
+   MISSING=.;
+
+    usevariables =
+      !Radj_epi Radj_nor
+      !avgb_sd avgb_rm avgb_lf avgb_hf Rb4p1d
+      Radj_crt b4bdheas
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel
+      !pulpress Rb4p1gs
+      !b4bha1c Rb4bgluc p4homair
+      b4bldl b4bhdl Rb4btrig Rb4pwhr
+      b1pgender b1page_m2;
+
+      !CLUSTER = m2famnum;
+      idvariable = m2id;
+
+  ANALYSIS:
+
+      !TYPE = COMPLEX;
+      ESTIMATOR = BAYES;
+      PROCESSORS = 2;
+      FBITERATIONS = 3000;
+      THIN = 50;
+      CHAINS = 2;
+
+  MODEL:
+
+      !Radj_epi Radj_nor ON b1pgender b1page_m2;
+      !avgb_sd avgb_rm avgb_hf avgb_lf ON b1pgender b1page_m2;
+      !Rb4p1d ON b1pgender b1page_m2;
+      Radj_crt b4bdheas ON b1pgender b1page_m2;
+      Rb4bcrp b4bil6 b4bfgn b4bsicam b4bsesel ON b1pgender b1page_m2;
+      !Rb4p1gs pulpress ON b1pgender b1page_m2;
+      !Rb4bgluc p4homair b4bha1c ON b1pgender b1page_m2;
+      Rb4pwhr Rb4btrig b4bhdl b4bldl ON b1pgender b1page_m2;
+
+
+      !sym BY Radj_nor@1 Radj_epi@1;
+      hpa BY Radj_crt@1 b4bdheas@1;
+      !card BY Rb4p1gs@1 pulpress@1;
+      !gluc BY Rb4bgluc@1 p4homair*1 b4bha1c*1;
+      lipid BY Rb4pwhr@1 Rb4btrig*.65 b4bhdl*-1 b4bldl*1;
+      infl BY Rb4bcrp@1 b4bil6*1 b4bfgn*.9 b4bsicam*.25 b4bsesel*.5;
+      !para BY avgb_sd@-1 avgb_rm*-1 avgb_hf*-1 avgb_lf*-1 Rb4p1d*1;
+      !avgb_sd@0;
+      !avgb_rm WITH avgb_hf*;
+
+
+      AL1 BY
+       Radj_crt*0 b4bdheas
+       Rb4pwhr Rb4btrig b4bhdl b4bldl
+       Rb4bcrp b4bil6@1 b4bfgn b4bsicam b4bsesel;
+
+      !AL2 BY
+      !  Radj_nor*1 Radj_epi
+      !  Rb4p1gs pulpress
+      !  Rb4bgluc p4homair b4bha1c
+      !  avgb_sd avgb_rm avgb_hf avgb_lf Rb4p1d;
+
+
+      !AL1@1;
+      !AL2@1;
+      !AL1 WITH AL2;
+      AL1 WITH
+        !sym@0 para@0 card@0 gluc@0
+        hpa@0 infl@0 lipid@0
+        ;
+      !AL2 WITH
+        !sym@0 para@0 card@0 gluc@0
+        !hpa@0 infl@0 lipid@0
+        !;
+
+      !Rb4bgluc@0;
+  OUTPUT:
+
+      STDYX;
+      CINTERVAL;
+
+  DATA IMPUTATION:
+    NDATASETS = 50;
+    SAVE = al_alt_1_imp*.dat;
+  SAVEDATA:
+    FILE = al_alt_1_plaus.dat;
+    SAVE = FSCORES (50);
+    FACTORS = AL1;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  Data set contains cases with missing on all variables except
+  x-variables.  These cases were not included in the analysis.
+  Number of cases with missing on all variables except x-variables:  1
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+BiFactor Model of biomarkers;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1254
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                   11
+Number of independent variables                                  2
+Number of continuous latent variables                            4
+
+Observed dependent variables
+
+  Continuous
+   RADJ_CRT    B4BDHEAS    RB4BCRP     B4BIL6      B4BFGN      B4BSICAM
+   B4BSESEL    B4BLDL      B4BHDL      RB4BTRIG    RB4PWHR
+
+Observed independent variables
+   B1PGENDE    B1PAGE_M
+
+Continuous latent variables
+   HPA         LIPID       INFL        AL1
+
+Variables with special functions
+
+  ID variable           M2ID
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               2
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Treatment of categorical mediator                         LATENT
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Fixed number of iterations                                  3000
+  K-th iteration used for thinning                              50
+Specifications for Data Imputation
+  Number of imputed data sets                                   50
+  Iteration intervals for thinning                             100
+
+Input data file(s)
+  factor_allcov_clustering_BiFac.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+
+
+SUMMARY OF MISSING DATA PATTERNS
+
+     Number of missing data patterns            11
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1  2  3  4  5  6  7  8  9 10 11
+ RADJ_CRT  x  x     x     x  x  x  x  x  x
+ B4BDHEAS  x  x        x  x  x  x     x
+ RB4BCRP   x           x  x  x  x  x     x
+ B4BIL6    x  x        x  x  x  x  x  x
+ B4BFGN    x           x  x  x  x  x  x  x
+ B4BSICAM  x  x        x     x  x  x  x
+ B4BSESEL  x  x        x     x  x  x  x
+ B4BLDL    x  x        x  x  x     x  x  x
+ B4BHDL    x  x        x  x  x     x  x  x
+ RB4BTRIG  x  x        x  x  x     x  x  x
+ RB4PWHR   x  x  x  x  x  x     x  x  x  x
+ B1PGENDE  x  x  x  x  x  x  x  x  x  x  x
+ B1PAGE_M  x  x  x  x  x  x  x  x  x  x  x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1        1219           5           5           9           4
+          2           9           6           1          10           2
+          3           2           7           1          11           1
+          4           8           8           2
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN
+              ________      ________      ________      ________      ________
+ RADJ_CRT       0.994
+ B4BDHEAS       0.984         0.988
+ RB4BCRP        0.979         0.979         0.983
+ B4BIL6         0.987         0.988         0.982         0.991
+ B4BFGN         0.981         0.981         0.983         0.984         0.985
+ B4BSICAM       0.986         0.987         0.982         0.990         0.983
+ B4BSESEL       0.986         0.987         0.982         0.990         0.983
+ B4BLDL         0.986         0.986         0.982         0.990         0.983
+ B4BHDL         0.986         0.986         0.982         0.990         0.983
+ RB4BTRIG       0.986         0.986         0.982         0.990         0.983
+ RB4PWHR        0.994         0.987         0.982         0.990         0.984
+ B1PGENDE       0.994         0.988         0.983         0.991         0.985
+ B1PAGE_M       0.994         0.988         0.983         0.991         0.985
+
+
+           Covariance Coverage
+              B4BSICAM      B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ B4BSICAM       0.990
+ B4BSESEL       0.990         0.990
+ B4BLDL         0.989         0.989         0.990
+ B4BHDL         0.989         0.989         0.990         0.990
+ RB4BTRIG       0.989         0.989         0.990         0.990         0.990
+ RB4PWHR        0.990         0.990         0.990         0.990         0.990
+ B1PGENDE       0.990         0.990         0.990         0.990         0.990
+ B1PAGE_M       0.990         0.990         0.990         0.990         0.990
+
+
+           Covariance Coverage
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        0.999
+ B1PGENDE       0.999         1.000
+ B1PAGE_M       0.999         1.000         1.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              68
+
+Bayesian Posterior Predictive Checking using Chi-Square
+
+          95% Confidence Interval for the Difference Between
+          the Observed and the Replicated Chi-Square Values
+
+                                 70.073           144.600
+
+          Posterior Predictive P-Value              0.000
+
+Information Criterion
+
+          Deviance (DIC)                        35238.908
+          Estimated Number of Parameters (pD)    -144.857
+          Bayesian (BIC)                        35801.746
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+ HPA      BY
+    RADJ_CRT           1.000       0.000      0.000       1.000       1.000
+    B4BDHEAS           1.000       0.000      0.000       1.000       1.000
+
+ LIPID    BY
+    RB4PWHR            1.000       0.000      0.000       1.000       1.000
+    RB4BTRIG          12.083      11.911      0.000       4.823      42.805      *
+    B4BHDL            -6.036       5.656      0.000     -20.456      -2.830      *
+    B4BLDL             4.128       4.171      0.000       1.656      15.004      *
+
+ INFL     BY
+    RB4BCRP            1.000       0.000      0.000       1.000       1.000
+    B4BIL6             0.785       0.073      0.000       0.648       0.934      *
+    B4BFGN             1.153       0.137      0.000       0.953       1.482      *
+    B4BSICAM           0.119       0.079      0.080      -0.052       0.258
+    B4BSESEL           0.131       0.079      0.060      -0.043       0.271
+
+ AL1      BY
+    RADJ_CRT          -0.544       0.095      0.000      -0.751      -0.373      *
+    B4BDHEAS          -0.061       0.078      0.212      -0.218       0.094
+    RB4PWHR            0.900       0.135      0.000       0.668       1.203      *
+    RB4BTRIG           1.041       0.176      0.000       0.724       1.410      *
+    B4BHDL            -0.892       0.144      0.000      -1.200      -0.637      *
+    B4BLDL             0.199       0.105      0.028      -0.006       0.401
+    RB4BCRP            1.084       0.096      0.000       0.906       1.279      *
+    B4BIL6             1.000       0.000      0.000       1.000       1.000
+    B4BFGN             0.585       0.097      0.000       0.396       0.776      *
+    B4BSICAM           0.576       0.095      0.000       0.401       0.778      *
+    B4BSESEL           0.679       0.095      0.000       0.512       0.886      *
+
+ RADJ_CRT   ON
+    B1PGENDER          0.202       0.057      0.000       0.093       0.314      *
+    B1PAGE_M2          0.007       0.002      0.002       0.002       0.012      *
+
+ B4BDHEAS   ON
+    B1PGENDER         -0.697       0.049      0.000      -0.797      -0.601      *
+    B1PAGE_M2         -0.038       0.002      0.000      -0.042      -0.034      *
+
+ RB4BCRP    ON
+    B1PGENDER          0.338       0.057      0.000       0.224       0.448      *
+    B1PAGE_M2          0.001       0.002      0.363      -0.004       0.006
+
+ B4BIL6     ON
+    B1PGENDER          0.154       0.056      0.003       0.043       0.261      *
+    B1PAGE_M2          0.015       0.002      0.000       0.010       0.020      *
+
+ B4BFGN     ON
+    B1PGENDER          0.364       0.056      0.000       0.254       0.471      *
+    B1PAGE_M2          0.010       0.002      0.000       0.005       0.015      *
+
+ B4BSICAM   ON
+    B1PGENDER          0.013       0.058      0.412      -0.101       0.127
+    B1PAGE_M2          0.010       0.002      0.000       0.005       0.014      *
+
+ B4BSESEL   ON
+    B1PGENDER         -0.178       0.057      0.001      -0.291      -0.064      *
+    B1PAGE_M2         -0.009       0.002      0.000      -0.013      -0.004      *
+
+ RB4PWHR    ON
+    B1PGENDER         -1.278       0.043      0.000      -1.360      -1.189      *
+    B1PAGE_M2          0.009       0.002      0.000       0.005       0.013      *
+
+ RB4BTRIG   ON
+    B1PGENDER         -0.412       0.057      0.000      -0.523      -0.302      *
+    B1PAGE_M2          0.000       0.002      0.436      -0.005       0.004
+
+ B4BHDL     ON
+    B1PGENDER          0.747       0.054      0.000       0.639       0.846      *
+    B1PAGE_M2          0.005       0.002      0.017       0.000       0.009      *
+
+ B4BLDL     ON
+    B1PGENDER          0.037       0.058      0.253      -0.077       0.154
+    B1PAGE_M2         -0.009       0.002      0.000      -0.014      -0.004      *
+
+ AL1      WITH
+    HPA                0.000       0.000      1.000       0.000       0.000
+    INFL               0.000       0.000      1.000       0.000       0.000
+    LIPID              0.000       0.000      1.000       0.000       0.000
+
+ LIPID    WITH
+    HPA               -0.002       0.003      0.165      -0.008       0.002
+
+ INFL     WITH
+    HPA                0.006       0.019      0.367      -0.031       0.042
+    LIPID             -0.004       0.004      0.041      -0.014       0.001
+
+ Intercepts
+    RADJ_CRT          -0.504       0.139      0.000      -0.773      -0.237      *
+    B4BDHEAS           2.442       0.120      0.000       2.209       2.685      *
+    RB4BCRP           -0.230       0.140      0.050      -0.509       0.037
+    B4BIL6            -0.911       0.136      0.000      -1.177      -0.655      *
+    B4BFGN            -0.742       0.138      0.000      -1.010      -0.466      *
+    B4BSICAM          -0.536       0.138      0.000      -0.809      -0.262      *
+    B4BSESEL           0.578       0.137      0.000       0.304       0.849      *
+    B4BLDL             0.450       0.141      0.001       0.169       0.730      *
+    B4BHDL            -0.678       0.129      0.000      -0.933      -0.430      *
+    RB4BTRIG           0.259       0.139      0.035      -0.020       0.530
+    RB4PWHR            0.217       0.109      0.020       0.012       0.437      *
+
+ Variances
+    HPA                0.105       0.025      0.000       0.053       0.153      *
+    LIPID              0.003       0.005      0.000       0.000       0.020      *
+    INFL               0.317       0.060      0.000       0.192       0.432      *
+    AL1                0.228       0.048      0.000       0.150       0.333      *
+
+ Residual Variances
+    RADJ_CRT           0.817       0.042      0.000       0.738       0.904      *
+    B4BDHEAS           0.599       0.034      0.000       0.536       0.672      *
+    RB4BCRP            0.394       0.031      0.000       0.332       0.453      *
+    B4BIL6             0.533       0.028      0.000       0.481       0.592      *
+    B4BFGN             0.464       0.044      0.000       0.365       0.541      *
+    B4BSICAM           0.911       0.039      0.000       0.840       0.993      *
+    B4BSESEL           0.876       0.039      0.000       0.804       0.953      *
+    B4BLDL             0.927       0.041      0.000       0.850       1.010      *
+    B4BHDL             0.564       0.037      0.000       0.492       0.634      *
+    RB4BTRIG           0.246       0.104      0.000       0.023       0.419      *
+    RB4PWHR            0.394       0.025      0.000       0.344       0.444      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+ HPA      BY
+    RADJ_CRT           0.323       0.039      0.000       0.229       0.390      *
+    B4BDHEAS           0.323       0.040      0.000       0.230       0.389      *
+
+ LIPID    BY
+    RB4PWHR            0.056       0.033      0.000       0.015       0.140      *
+    RB4BTRIG           0.686       0.082      0.000       0.522       0.839      *
+    B4BHDL            -0.343       0.055      0.000      -0.455      -0.244      *
+    B4BLDL             0.234       0.047      0.000       0.149       0.334      *
+
+ INFL     BY
+    RB4BCRP            0.560       0.054      0.000       0.436       0.647      *
+    B4BIL6             0.443       0.051      0.000       0.334       0.528      *
+    B4BFGN             0.646       0.042      0.000       0.559       0.722      *
+    B4BSICAM           0.067       0.045      0.080      -0.026       0.148
+    B4BSESEL           0.074       0.045      0.060      -0.020       0.156
+
+ AL1      BY
+    RADJ_CRT          -0.259       0.040      0.000      -0.339      -0.180      *
+    B4BDHEAS          -0.029       0.037      0.212      -0.102       0.043
+    RB4PWHR            0.429       0.031      0.000       0.367       0.489      *
+    RB4BTRIG           0.493       0.051      0.000       0.390       0.589      *
+    B4BHDL            -0.424       0.039      0.000      -0.496      -0.345      *
+    B4BLDL             0.094       0.047      0.028      -0.003       0.179
+    RB4BCRP            0.516       0.052      0.000       0.417       0.619      *
+    B4BIL6             0.477       0.047      0.000       0.392       0.575      *
+    B4BFGN             0.277       0.056      0.000       0.177       0.398      *
+    B4BSICAM           0.275       0.037      0.000       0.199       0.345      *
+    B4BSESEL           0.323       0.037      0.000       0.248       0.395      *
+
+ RADJ_CRT   ON
+    B1PGENDER          0.100       0.028      0.000       0.046       0.153      *
+    B1PAGE_M2          0.083       0.028      0.002       0.028       0.136      *
+
+ B4BDHEAS   ON
+    B1PGENDER         -0.344       0.022      0.000      -0.388      -0.300      *
+    B1PAGE_M2         -0.438       0.020      0.000      -0.478      -0.397      *
+
+ RB4BCRP    ON
+    B1PGENDER          0.167       0.027      0.000       0.111       0.218      *
+    B1PAGE_M2          0.009       0.028      0.363      -0.044       0.065
+
+ B4BIL6     ON
+    B1PGENDER          0.076       0.027      0.003       0.021       0.129      *
+    B1PAGE_M2          0.178       0.027      0.000       0.124       0.228      *
+
+ B4BFGN     ON
+    B1PGENDER          0.180       0.027      0.000       0.124       0.231      *
+    B1PAGE_M2          0.115       0.028      0.000       0.061       0.168      *
+
+ B4BSICAM   ON
+    B1PGENDER          0.006       0.028      0.412      -0.049       0.062
+    B1PAGE_M2          0.113       0.028      0.000       0.059       0.168      *
+
+ B4BSESEL   ON
+    B1PGENDER         -0.088       0.028      0.001      -0.142      -0.032      *
+    B1PAGE_M2         -0.102       0.028      0.000      -0.156      -0.047      *
+
+ RB4PWHR    ON
+    B1PGENDER         -0.632       0.015      0.000      -0.660      -0.600      *
+    B1PAGE_M2          0.108       0.022      0.000       0.063       0.151      *
+
+ RB4BTRIG   ON
+    B1PGENDER         -0.203       0.027      0.000      -0.256      -0.149      *
+    B1PAGE_M2         -0.005       0.028      0.436      -0.059       0.051
+
+ B4BHDL     ON
+    B1PGENDER          0.368       0.024      0.000       0.319       0.411      *
+    B1PAGE_M2          0.054       0.026      0.017       0.004       0.105      *
+
+ B4BLDL     ON
+    B1PGENDER          0.018       0.029      0.253      -0.037       0.075
+    B1PAGE_M2         -0.101       0.028      0.000      -0.157      -0.047      *
+
+ AL1      WITH
+    HPA                0.000       0.000      1.000       0.000       0.000
+    INFL               0.000       0.000      1.000       0.000       0.000
+    LIPID              0.000       0.000      1.000       0.000       0.000
+
+ LIPID    WITH
+    HPA               -0.103       0.105      0.165      -0.276       0.129
+
+ INFL     WITH
+    HPA                0.036       0.110      0.367      -0.158       0.276
+    LIPID             -0.147       0.106      0.041      -0.389       0.016
+
+ Intercepts
+    RADJ_CRT          -0.503       0.137      0.000      -0.763      -0.237      *
+    B4BDHEAS           2.434       0.097      0.000       2.236       2.621      *
+    RB4BCRP           -0.229       0.139      0.050      -0.502       0.037
+    B4BIL6            -0.914       0.133      0.000      -1.167      -0.659      *
+    B4BFGN            -0.738       0.135      0.000      -0.997      -0.468      *
+    B4BSICAM          -0.534       0.137      0.000      -0.798      -0.263      *
+    B4BSESEL           0.576       0.135      0.000       0.306       0.840      *
+    B4BLDL             0.449       0.139      0.001       0.170       0.721      *
+    B4BHDL            -0.675       0.127      0.000      -0.922      -0.431      *
+    RB4BTRIG           0.259       0.138      0.035      -0.019       0.525
+    RB4PWHR            0.217       0.108      0.020       0.012       0.438      *
+
+ Variances
+    HPA                1.000       0.000      0.000       1.000       1.000
+    LIPID              1.000       0.000      0.000       1.000       1.000
+    INFL               1.000       0.000      0.000       1.000       1.000
+    AL1                1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    RADJ_CRT           0.810       0.029      0.000       0.754       0.867      *
+    B4BDHEAS           0.596       0.030      0.000       0.540       0.657      *
+    RB4BCRP            0.389       0.031      0.000       0.326       0.450      *
+    B4BIL6             0.534       0.027      0.000       0.481       0.587      *
+    B4BFGN             0.458       0.045      0.000       0.362       0.534      *
+    B4BSICAM           0.903       0.020      0.000       0.863       0.939      *
+    B4BSESEL           0.869       0.023      0.000       0.820       0.910      *
+    B4BLDL             0.922       0.022      0.000       0.868       0.955      *
+    B4BHDL             0.561       0.036      0.000       0.483       0.624      *
+    RB4BTRIG           0.244       0.103      0.000       0.022       0.417      *
+    RB4PWHR            0.393       0.026      0.000       0.342       0.443      *
+
+
+R-SQUARE
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    RADJ_CRT           0.190       0.029      0.000       0.133       0.245
+    B4BDHEAS           0.404       0.030      0.000       0.343       0.460
+    RB4BCRP            0.611       0.031      0.000       0.550       0.674
+    B4BIL6             0.466       0.027      0.000       0.413       0.519
+    B4BFGN             0.542       0.045      0.000       0.466       0.638
+    B4BSICAM           0.097       0.020      0.000       0.060       0.137
+    B4BSESEL           0.131       0.023      0.000       0.090       0.180
+    B4BLDL             0.078       0.022      0.000       0.045       0.131
+    B4BHDL             0.439       0.036      0.000       0.376       0.517
+    RB4BTRIG           0.756       0.103      0.000       0.583       0.977
+    RB4PWHR            0.607       0.026      0.000       0.557       0.658
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ HPA      BY
+    RADJ_CRT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BDHEAS         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ LIPID    BY
+    RB4PWHR          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    RB4BTRIG         3.907       4.823       5.310      12.083      36.092      42.805      74.088
+    B4BHDL         -39.912     -20.456     -16.591      -6.036      -3.062      -2.830      -2.378
+    B4BLDL           1.323       1.656       1.878       4.128      11.951      15.004      28.156
+
+ INFL     BY
+    RB4BCRP          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BIL6           0.598       0.648       0.670       0.785       0.908       0.934       0.998
+    B4BFGN           0.894       0.953       0.977       1.153       1.410       1.482       1.618
+    B4BSICAM        -0.118      -0.052      -0.020       0.119       0.237       0.258       0.305
+    B4BSESEL        -0.126      -0.043      -0.008       0.131       0.249       0.271       0.316
+
+ AL1      BY
+    RADJ_CRT        -0.811      -0.751      -0.711      -0.544      -0.397      -0.373      -0.327
+    B4BDHEAS        -0.278      -0.218      -0.187      -0.061       0.067       0.094       0.137
+    RB4PWHR          0.612       0.668       0.707       0.900       1.145       1.203       1.314
+    RB4BTRIG         0.633       0.724       0.768       1.041       1.344       1.410       1.535
+    B4BHDL          -1.304      -1.200      -1.152      -0.892      -0.676      -0.637      -0.563
+    B4BLDL          -0.069      -0.006       0.024       0.199       0.370       0.401       0.485
+    RB4BCRP          0.860       0.906       0.935       1.084       1.247       1.279       1.348
+    B4BIL6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    B4BFGN           0.326       0.396       0.428       0.585       0.744       0.776       0.832
+    B4BSICAM         0.362       0.401       0.428       0.576       0.743       0.778       0.848
+    B4BSESEL         0.469       0.512       0.538       0.679       0.850       0.886       0.967
+
+ RADJ_CRT ON
+    B1PGENDER        0.053       0.093       0.108       0.202       0.296       0.314       0.339
+    B1PAGE_M2        0.001       0.002       0.003       0.007       0.011       0.012       0.013
+
+ B4BDHEAS ON
+    B1PGENDER       -0.822      -0.797      -0.779      -0.697      -0.615      -0.601      -0.568
+    B1PAGE_M2       -0.043      -0.042      -0.041      -0.038      -0.034      -0.034      -0.032
+
+ RB4BCRP  ON
+    B1PGENDER        0.196       0.224       0.245       0.338       0.429       0.448       0.481
+    B1PAGE_M2       -0.005      -0.004      -0.003       0.001       0.005       0.006       0.007
+
+ B4BIL6   ON
+    B1PGENDER        0.007       0.043       0.062       0.154       0.245       0.261       0.293
+    B1PAGE_M2        0.009       0.010       0.011       0.015       0.019       0.020       0.021
+
+ B4BFGN   ON
+    B1PGENDER        0.220       0.254       0.271       0.364       0.455       0.471       0.509
+    B1PAGE_M2        0.004       0.005       0.006       0.010       0.014       0.015       0.016
+
+ B4BSICAM ON
+    B1PGENDER       -0.135      -0.101      -0.082       0.013       0.107       0.127       0.168
+    B1PAGE_M2        0.004       0.005       0.006       0.010       0.014       0.014       0.016
+
+ B4BSESEL ON
+    B1PGENDER       -0.324      -0.291      -0.272      -0.178      -0.084      -0.064      -0.035
+    B1PAGE_M2       -0.015      -0.013      -0.013      -0.009      -0.005      -0.004      -0.002
+
+ RB4PWHR  ON
+    B1PGENDER       -1.387      -1.360      -1.348      -1.278      -1.204      -1.189      -1.168
+    B1PAGE_M2        0.004       0.005       0.006       0.009       0.012       0.013       0.014
+
+ RB4BTRIG ON
+    B1PGENDER       -0.564      -0.523      -0.502      -0.412      -0.317      -0.302      -0.277
+    B1PAGE_M2       -0.007      -0.005      -0.004       0.000       0.004       0.004       0.006
+
+ B4BHDL   ON
+    B1PGENDER        0.605       0.639       0.654       0.747       0.830       0.846       0.877
+    B1PAGE_M2       -0.001       0.000       0.001       0.005       0.008       0.009       0.010
+
+ B4BLDL   ON
+    B1PGENDER       -0.119      -0.077      -0.058       0.037       0.133       0.154       0.188
+    B1PAGE_M2       -0.015      -0.014      -0.013      -0.009      -0.005      -0.004      -0.002
+
+ AL1      WITH
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ LIPID    WITH
+    HPA             -0.012      -0.008      -0.007      -0.002       0.001       0.002       0.005
+
+ INFL     WITH
+    HPA             -0.042      -0.031      -0.026       0.006       0.036       0.042       0.054
+    LIPID           -0.019      -0.014      -0.012      -0.004       0.000       0.001       0.004
+
+ Intercepts
+    RADJ_CRT        -0.868      -0.773      -0.735      -0.504      -0.281      -0.237      -0.148
+    B4BDHEAS         2.123       2.209       2.248       2.442       2.645       2.685       2.751
+    RB4BCRP         -0.609      -0.509      -0.462      -0.230      -0.002       0.037       0.125
+    B4BIL6          -1.264      -1.177      -1.132      -0.911      -0.693      -0.655      -0.550
+    B4BFGN          -1.096      -1.010      -0.966      -0.742      -0.518      -0.466      -0.382
+    B4BSICAM        -0.885      -0.809      -0.761      -0.536      -0.311      -0.262      -0.192
+    B4BSESEL         0.195       0.304       0.347       0.578       0.799       0.849       0.916
+    B4BLDL           0.070       0.169       0.216       0.450       0.683       0.730       0.807
+    B4BHDL          -1.007      -0.933      -0.890      -0.678      -0.471      -0.430      -0.355
+    RB4BTRIG        -0.120      -0.020       0.028       0.259       0.483       0.530       0.611
+    RB4PWHR         -0.066       0.012       0.048       0.217       0.406       0.437       0.495
+
+ Variances
+    HPA              0.035       0.053       0.063       0.105       0.145       0.153       0.167
+    LIPID            0.000       0.000       0.000       0.003       0.016       0.020       0.030
+    INFL             0.143       0.192       0.216       0.317       0.416       0.432       0.467
+    AL1              0.128       0.150       0.161       0.228       0.317       0.333       0.368
+
+ Residual Variances
+    RADJ_CRT         0.710       0.738       0.749       0.817       0.888       0.904       0.934
+    B4BDHEAS         0.516       0.536       0.546       0.599       0.659       0.672       0.696
+    RB4BCRP          0.315       0.332       0.344       0.394       0.444       0.453       0.470
+    B4BIL6           0.465       0.481       0.490       0.533       0.582       0.592       0.610
+    B4BFGN           0.313       0.365       0.385       0.464       0.529       0.541       0.563
+    B4BSICAM         0.823       0.840       0.849       0.911       0.980       0.993       1.020
+    B4BSESEL         0.781       0.804       0.815       0.876       0.941       0.953       0.980
+    B4BLDL           0.823       0.850       0.864       0.927       0.995       1.010       1.041
+    B4BHDL           0.465       0.492       0.502       0.564       0.625       0.634       0.656
+    RB4BTRIG         0.006       0.023       0.043       0.246       0.397       0.419       0.456
+    RB4PWHR          0.329       0.344       0.352       0.394       0.436       0.444       0.455
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+ HPA      BY
+    RADJ_CRT         0.189       0.229       0.251       0.323       0.379       0.390       0.403
+    B4BDHEAS         0.186       0.230       0.251       0.323       0.380       0.389       0.405
+
+ LIPID    BY
+    RB4PWHR          0.008       0.015       0.019       0.056       0.124       0.140       0.170
+    RB4BTRIG         0.477       0.522       0.549       0.686       0.820       0.839       0.861
+    B4BHDL          -0.494      -0.455      -0.436      -0.343      -0.260      -0.244      -0.216
+    B4BLDL           0.125       0.149       0.162       0.234       0.316       0.334       0.370
+
+ INFL     BY
+    RB4BCRP          0.379       0.436       0.461       0.560       0.636       0.647       0.675
+    B4BIL6           0.275       0.334       0.352       0.443       0.516       0.528       0.546
+    B4BFGN           0.517       0.559       0.576       0.646       0.711       0.722       0.753
+    B4BSICAM        -0.053      -0.026      -0.010       0.067       0.136       0.148       0.174
+    B4BSESEL        -0.057      -0.020      -0.005       0.074       0.142       0.156       0.184
+
+ AL1      BY
+    RADJ_CRT        -0.362      -0.339      -0.326      -0.259      -0.193      -0.180      -0.162
+    B4BDHEAS        -0.127      -0.102      -0.091      -0.029       0.031       0.043       0.065
+    RB4PWHR          0.348       0.367       0.377       0.429       0.479       0.489       0.507
+    RB4BTRIG         0.359       0.390       0.404       0.493       0.574       0.589       0.622
+    B4BHDL          -0.519      -0.496      -0.486      -0.424      -0.358      -0.345      -0.320
+    B4BLDL          -0.032      -0.003       0.012       0.094       0.167       0.179       0.209
+    RB4BCRP          0.385       0.417       0.431       0.516       0.599       0.619       0.661
+    B4BIL6           0.361       0.392       0.403       0.477       0.558       0.575       0.600
+    B4BFGN           0.139       0.177       0.190       0.277       0.377       0.398       0.442
+    B4BSICAM         0.179       0.199       0.211       0.275       0.335       0.345       0.364
+    B4BSESEL         0.232       0.248       0.263       0.323       0.385       0.395       0.418
+
+ RADJ_CRT ON
+    B1PGENDER        0.025       0.046       0.054       0.100       0.145       0.153       0.164
+    B1PAGE_M2        0.011       0.028       0.038       0.083       0.128       0.136       0.155
+
+ B4BDHEAS ON
+    B1PGENDER       -0.399      -0.388      -0.381      -0.344      -0.307      -0.300      -0.285
+    B1PAGE_M2       -0.489      -0.478      -0.472      -0.438      -0.404      -0.397      -0.381
+
+ RB4BCRP  ON
+    B1PGENDER        0.097       0.111       0.121       0.167       0.210       0.218       0.235
+    B1PAGE_M2       -0.061      -0.044      -0.036       0.009       0.057       0.065       0.086
+
+ B4BIL6   ON
+    B1PGENDER        0.004       0.021       0.031       0.076       0.121       0.129       0.145
+    B1PAGE_M2        0.102       0.124       0.131       0.178       0.220       0.228       0.245
+
+ B4BFGN   ON
+    B1PGENDER        0.108       0.124       0.134       0.180       0.223       0.231       0.247
+    B1PAGE_M2        0.043       0.061       0.069       0.115       0.161       0.168       0.183
+
+ B4BSICAM ON
+    B1PGENDER       -0.066      -0.049      -0.040       0.006       0.053       0.062       0.081
+    B1PAGE_M2        0.042       0.059       0.067       0.113       0.158       0.168       0.183
+
+ B4BSESEL ON
+    B1PGENDER       -0.160      -0.142      -0.134      -0.088      -0.041      -0.032      -0.017
+    B1PAGE_M2       -0.169      -0.156      -0.146      -0.102      -0.055      -0.047      -0.026
+
+ RB4PWHR  ON
+    B1PGENDER       -0.669      -0.660      -0.655      -0.632      -0.605      -0.600      -0.591
+    B1PAGE_M2        0.050       0.063       0.071       0.108       0.143       0.151       0.166
+
+ RB4BTRIG ON
+    B1PGENDER       -0.272      -0.256      -0.246      -0.203      -0.158      -0.149      -0.137
+    B1PAGE_M2       -0.076      -0.059      -0.050      -0.005       0.042       0.051       0.070
+
+ B4BHDL   ON
+    B1PGENDER        0.302       0.319       0.326       0.368       0.405       0.411       0.426
+    B1PAGE_M2       -0.011       0.004       0.012       0.054       0.096       0.105       0.120
+
+ B4BLDL   ON
+    B1PGENDER       -0.058      -0.037      -0.029       0.018       0.066       0.075       0.091
+    B1PAGE_M2       -0.169      -0.157      -0.147      -0.101      -0.055      -0.047      -0.028
+
+ AL1      WITH
+    HPA              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    INFL             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    LIPID            0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ LIPID    WITH
+    HPA             -0.334      -0.276      -0.252      -0.103       0.088       0.129       0.256
+
+ INFL     WITH
+    HPA             -0.207      -0.158      -0.133       0.036       0.233       0.276       0.363
+    LIPID           -0.569      -0.389      -0.336      -0.147      -0.006       0.016       0.063
+
+ Intercepts
+    RADJ_CRT        -0.864      -0.763      -0.726      -0.503      -0.278      -0.237      -0.150
+    B4BDHEAS         2.164       2.236       2.272       2.434       2.595       2.621       2.675
+    RB4BCRP         -0.602      -0.502      -0.459      -0.229      -0.001       0.037       0.122
+    B4BIL6          -1.227      -1.167      -1.130      -0.914      -0.695      -0.659      -0.560
+    B4BFGN          -1.082      -0.997      -0.957      -0.738      -0.514      -0.468      -0.373
+    B4BSICAM        -0.885      -0.798      -0.755      -0.534      -0.309      -0.263      -0.192
+    B4BSESEL         0.195       0.306       0.347       0.576       0.792       0.840       0.911
+    B4BLDL           0.070       0.170       0.217       0.449       0.677       0.721       0.793
+    B4BHDL          -0.998      -0.922      -0.883      -0.675      -0.472      -0.431      -0.352
+    RB4BTRIG        -0.117      -0.019       0.027       0.259       0.478       0.525       0.602
+    RB4PWHR         -0.064       0.012       0.048       0.217       0.405       0.438       0.493
+
+ Variances
+    HPA              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    LIPID            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    INFL             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    AL1              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    RADJ_CRT         0.734       0.754       0.763       0.810       0.857       0.867       0.883
+    B4BDHEAS         0.524       0.540       0.548       0.596       0.646       0.657       0.680
+    RB4BCRP          0.304       0.326       0.339       0.389       0.439       0.450       0.467
+    B4BIL6           0.463       0.481       0.490       0.534       0.579       0.587       0.605
+    B4BFGN           0.306       0.362       0.381       0.458       0.525       0.534       0.557
+    B4BSICAM         0.848       0.863       0.868       0.903       0.935       0.939       0.948
+    B4BSESEL         0.803       0.820       0.828       0.869       0.904       0.910       0.921
+    B4BLDL           0.845       0.868       0.880       0.922       0.950       0.955       0.962
+    B4BHDL           0.462       0.483       0.496       0.561       0.615       0.624       0.643
+    RB4BTRIG         0.006       0.022       0.042       0.244       0.394       0.417       0.457
+    RB4PWHR          0.324       0.342       0.350       0.393       0.435       0.443       0.455
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B4BSICAM      B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ 1                  0             0             0
+
+
+           LAMBDA
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ RADJ_CRT           0             0             0             0             0
+ B4BDHEAS           0             0             0             0             0
+ RB4BCRP            0             0             0             0             0
+ B4BIL6             0             0             0             0             0
+ B4BFGN             0             0             0             0             0
+ B4BSICAM           0             0             0             0             0
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ RADJ_CRT           0             0             0             0             0
+ B4BDHEAS           0             0             0             0             0
+ RB4BCRP            0             0             0             0             0
+ B4BIL6             0             0             0             0             0
+ B4BFGN             0             0             0             0             0
+ B4BSICAM           0             0             0             0             0
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ RADJ_CRT           0             0             0             0             0
+ B4BDHEAS           0             0             0             0             0
+ RB4BCRP            0             0             0             0             0
+ B4BIL6             0             0             0             0             0
+ B4BFGN             0             0             0             0             0
+ B4BSICAM           0             0             0             0             0
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ RADJ_CRT           0             0
+ B4BDHEAS           0             0
+ RB4BCRP            0             0
+ B4BIL6             0             0
+ B4BFGN             0             0
+ B4BSICAM           0             0
+ B4BSESEL           0             0
+ B4BLDL             0             0
+ B4BHDL             0             0
+ RB4BTRIG           0             0
+ RB4PWHR            0             0
+ B1PGENDE           0             0
+ B1PAGE_M           0             0
+
+
+           THETA
+              RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN
+              ________      ________      ________      ________      ________
+ RADJ_CRT           0
+ B4BDHEAS           0             0
+ RB4BCRP            0             0             0
+ B4BIL6             0             0             0             0
+ B4BFGN             0             0             0             0             0
+ B4BSICAM           0             0             0             0             0
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              B4BSICAM      B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ B4BSICAM           0
+ B4BSESEL           0             0
+ B4BLDL             0             0             0
+ B4BHDL             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR            0
+ B1PGENDE           0             0
+ B1PAGE_M           0             0             0
+
+
+           ALPHA
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             1
+
+
+           ALPHA
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ 1                  2             3             4             5             6
+
+
+           ALPHA
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ 1                  7             8             9            10            11
+
+
+           ALPHA
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ 1                  0             0
+
+
+           BETA
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ HPA                0             0             0             0             0
+ LIPID              0             0             0             0             0
+ INFL               0             0             0             0             0
+ AL1                0             0             0             0             0
+ RADJ_CRT           0             0             0            12             0
+ B4BDHEAS           0             0             0            15             0
+ RB4BCRP            0             0             0            18             0
+ B4BIL6             0             0            21             0             0
+ B4BFGN             0             0            24            25             0
+ B4BSICAM           0             0            28            29             0
+ B4BSESEL           0             0            32            33             0
+ B4BLDL             0            36             0            37             0
+ B4BHDL             0            40             0            41             0
+ RB4BTRIG           0            44             0            45             0
+ RB4PWHR            0             0             0            48             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ HPA                0             0             0             0             0
+ LIPID              0             0             0             0             0
+ INFL               0             0             0             0             0
+ AL1                0             0             0             0             0
+ RADJ_CRT           0             0             0             0             0
+ B4BDHEAS           0             0             0             0             0
+ RB4BCRP            0             0             0             0             0
+ B4BIL6             0             0             0             0             0
+ B4BFGN             0             0             0             0             0
+ B4BSICAM           0             0             0             0             0
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ HPA                0             0             0             0             0
+ LIPID              0             0             0             0             0
+ INFL               0             0             0             0             0
+ AL1                0             0             0             0             0
+ RADJ_CRT           0             0             0             0             0
+ B4BDHEAS           0             0             0             0             0
+ RB4BCRP            0             0             0             0             0
+ B4BIL6             0             0             0             0             0
+ B4BFGN             0             0             0             0             0
+ B4BSICAM           0             0             0             0             0
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ HPA                0             0
+ LIPID              0             0
+ INFL               0             0
+ AL1                0             0
+ RADJ_CRT          13            14
+ B4BDHEAS          16            17
+ RB4BCRP           19            20
+ B4BIL6            22            23
+ B4BFGN            26            27
+ B4BSICAM          30            31
+ B4BSESEL          34            35
+ B4BLDL            38            39
+ B4BHDL            42            43
+ RB4BTRIG          46            47
+ RB4PWHR           49            50
+ B1PGENDE           0             0
+ B1PAGE_M           0             0
+
+
+           PSI
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ HPA               51
+ LIPID             52            53
+ INFL              54            55            56
+ AL1                0             0             0            57
+ RADJ_CRT           0             0             0             0            58
+ B4BDHEAS           0             0             0             0             0
+ RB4BCRP            0             0             0             0             0
+ B4BIL6             0             0             0             0             0
+ B4BFGN             0             0             0             0             0
+ B4BSICAM           0             0             0             0             0
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS          59
+ RB4BCRP            0            60
+ B4BIL6             0             0            61
+ B4BFGN             0             0             0            62
+ B4BSICAM           0             0             0             0            63
+ B4BSESEL           0             0             0             0             0
+ B4BLDL             0             0             0             0             0
+ B4BHDL             0             0             0             0             0
+ RB4BTRIG           0             0             0             0             0
+ RB4PWHR            0             0             0             0             0
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ B4BSESEL          64
+ B4BLDL             0            65
+ B4BHDL             0             0            66
+ RB4BTRIG           0             0             0            67
+ RB4PWHR            0             0             0             0            68
+ B1PGENDE           0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ B1PGENDE           0
+ B1PAGE_M           0             0
+
+
+     STARTING VALUES
+
+
+           NU
+              RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B4BSICAM      B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ 1              0.000         0.000         0.000
+
+
+           LAMBDA
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ RADJ_CRT       0.000         0.000         0.000         0.000         1.000
+ B4BDHEAS       0.000         0.000         0.000         0.000         0.000
+ RB4BCRP        0.000         0.000         0.000         0.000         0.000
+ B4BIL6         0.000         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.000
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         0.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ RADJ_CRT       0.000         0.000         0.000         0.000         0.000
+ B4BDHEAS       1.000         0.000         0.000         0.000         0.000
+ RB4BCRP        0.000         1.000         0.000         0.000         0.000
+ B4BIL6         0.000         0.000         1.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         1.000         0.000
+ B4BSICAM       0.000         0.000         0.000         0.000         1.000
+ B4BSESEL       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         0.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ RADJ_CRT       0.000         0.000         0.000         0.000         0.000
+ B4BDHEAS       0.000         0.000         0.000         0.000         0.000
+ RB4BCRP        0.000         0.000         0.000         0.000         0.000
+ B4BIL6         0.000         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.000
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       1.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         1.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         1.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         1.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         1.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ RADJ_CRT       0.000         0.000
+ B4BDHEAS       0.000         0.000
+ RB4BCRP        0.000         0.000
+ B4BIL6         0.000         0.000
+ B4BFGN         0.000         0.000
+ B4BSICAM       0.000         0.000
+ B4BSESEL       0.000         0.000
+ B4BLDL         0.000         0.000
+ B4BHDL         0.000         0.000
+ RB4BTRIG       0.000         0.000
+ RB4PWHR        0.000         0.000
+ B1PGENDE       1.000         0.000
+ B1PAGE_M       0.000         1.000
+
+
+           THETA
+              RADJ_CRT      B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN
+              ________      ________      ________      ________      ________
+ RADJ_CRT       0.000
+ B4BDHEAS       0.000         0.000
+ RB4BCRP        0.000         0.000         0.000
+ B4BIL6         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.000
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         0.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B4BSICAM      B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG
+              ________      ________      ________      ________      ________
+ B4BSICAM       0.000
+ B4BSESEL       0.000         0.000
+ B4BLDL         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              RB4PWHR       B1PGENDE      B1PAGE_M
+              ________      ________      ________
+ RB4PWHR        0.000
+ B1PGENDE       0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000
+
+
+           ALPHA
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ 1              0.000         0.000
+
+
+           BETA
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ HPA            0.000         0.000         0.000         0.000         0.000
+ LIPID          0.000         0.000         0.000         0.000         0.000
+ INFL           0.000         0.000         0.000         0.000         0.000
+ AL1            0.000         0.000         0.000         0.000         0.000
+ RADJ_CRT       1.000         0.000         0.000         0.000         0.000
+ B4BDHEAS       1.000         0.000         0.000         1.000         0.000
+ RB4BCRP        0.000         0.000         1.000         1.000         0.000
+ B4BIL6         0.000         0.000         1.000         1.000         0.000
+ B4BFGN         0.000         0.000         0.900         1.000         0.000
+ B4BSICAM       0.000         0.000         0.250         1.000         0.000
+ B4BSESEL       0.000         0.000         0.500         1.000         0.000
+ B4BLDL         0.000         1.000         0.000         1.000         0.000
+ B4BHDL         0.000        -1.000         0.000         1.000         0.000
+ RB4BTRIG       0.000         0.650         0.000         1.000         0.000
+ RB4PWHR        0.000         1.000         0.000         1.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ HPA            0.000         0.000         0.000         0.000         0.000
+ LIPID          0.000         0.000         0.000         0.000         0.000
+ INFL           0.000         0.000         0.000         0.000         0.000
+ AL1            0.000         0.000         0.000         0.000         0.000
+ RADJ_CRT       0.000         0.000         0.000         0.000         0.000
+ B4BDHEAS       0.000         0.000         0.000         0.000         0.000
+ RB4BCRP        0.000         0.000         0.000         0.000         0.000
+ B4BIL6         0.000         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.000
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         0.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ HPA            0.000         0.000         0.000         0.000         0.000
+ LIPID          0.000         0.000         0.000         0.000         0.000
+ INFL           0.000         0.000         0.000         0.000         0.000
+ AL1            0.000         0.000         0.000         0.000         0.000
+ RADJ_CRT       0.000         0.000         0.000         0.000         0.000
+ B4BDHEAS       0.000         0.000         0.000         0.000         0.000
+ RB4BCRP        0.000         0.000         0.000         0.000         0.000
+ B4BIL6         0.000         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.000
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         0.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ HPA            0.000         0.000
+ LIPID          0.000         0.000
+ INFL           0.000         0.000
+ AL1            0.000         0.000
+ RADJ_CRT       0.000         0.000
+ B4BDHEAS       0.000         0.000
+ RB4BCRP        0.000         0.000
+ B4BIL6         0.000         0.000
+ B4BFGN         0.000         0.000
+ B4BSICAM       0.000         0.000
+ B4BSESEL       0.000         0.000
+ B4BLDL         0.000         0.000
+ B4BHDL         0.000         0.000
+ RB4BTRIG       0.000         0.000
+ RB4PWHR        0.000         0.000
+ B1PGENDE       0.000         0.000
+ B1PAGE_M       0.000         0.000
+
+
+           PSI
+              HPA           LIPID         INFL          AL1           RADJ_CRT
+              ________      ________      ________      ________      ________
+ HPA            1.000
+ LIPID          0.000         1.000
+ INFL           0.000         0.000         1.000
+ AL1            0.000         0.000         0.000         1.000
+ RADJ_CRT       0.000         0.000         0.000         0.000         0.500
+ B4BDHEAS       0.000         0.000         0.000         0.000         0.000
+ RB4BCRP        0.000         0.000         0.000         0.000         0.000
+ B4BIL6         0.000         0.000         0.000         0.000         0.000
+ B4BFGN         0.000         0.000         0.000         0.000         0.000
+ B4BSICAM       0.000         0.000         0.000         0.000         0.000
+ B4BSESEL       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         0.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B4BDHEAS      RB4BCRP       B4BIL6        B4BFGN        B4BSICAM
+              ________      ________      ________      ________      ________
+ B4BDHEAS       0.500
+ RB4BCRP        0.000         0.500
+ B4BIL6         0.000         0.000         0.500
+ B4BFGN         0.000         0.000         0.000         0.500
+ B4BSICAM       0.000         0.000         0.000         0.000         0.500
+ B4BSESEL       0.000         0.000         0.000         0.000         0.000
+ B4BLDL         0.000         0.000         0.000         0.000         0.000
+ B4BHDL         0.000         0.000         0.000         0.000         0.000
+ RB4BTRIG       0.000         0.000         0.000         0.000         0.000
+ RB4PWHR        0.000         0.000         0.000         0.000         0.000
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B4BSESEL      B4BLDL        B4BHDL        RB4BTRIG      RB4PWHR
+              ________      ________      ________      ________      ________
+ B4BSESEL       0.500
+ B4BLDL         0.000         0.500
+ B4BHDL         0.000         0.000         0.500
+ RB4BTRIG       0.000         0.000         0.000         0.500
+ RB4PWHR        0.000         0.000         0.000         0.000         0.500
+ B1PGENDE       0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B1PGENDE      B1PAGE_M
+              ________      ________
+ B1PGENDE       0.123
+ B1PAGE_M       0.000        68.541
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 3~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 4~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 14~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 15~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 16~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 17~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 18~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 19~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 20~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 21~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 22~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 23~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 24~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 25~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 26~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 27~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 28~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 29~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 30~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 31~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 32~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 33~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 34~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 35~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 36~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 37~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 38~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 39~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 40~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 41~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 42~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 43~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 44~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 45~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 46~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 47~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 48~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 49~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 50~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 51~IW(0.000,-4)             infinity            infinity            infinity
+     Parameter 52~IW(0.000,-4)             infinity            infinity            infinity
+     Parameter 53~IW(0.000,-4)             infinity            infinity            infinity
+     Parameter 54~IW(0.000,-4)             infinity            infinity            infinity
+     Parameter 55~IW(0.000,-4)             infinity            infinity            infinity
+     Parameter 56~IW(0.000,-4)             infinity            infinity            infinity
+     Parameter 57~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 58~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 59~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 60~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 61~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 62~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 63~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 64~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 65~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 66~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 67~IG(-1.000,0.000)         infinity            infinity            infinity
+     Parameter 68~IG(-1.000,0.000)         infinity            infinity            infinity
+
+
+SUMMARIES OF PLAUSIBLE VALUES (N = NUMBER OF OBSERVATIONS * NUMBER OF IMPUTATIONS)
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              HPA           LIPID         INFL          AL1
+              ________      ________      ________      ________
+ 1             -0.001         0.000        -0.004         0.001
+
+
+           Covariances
+              HPA           LIPID         INFL          AL1
+              ________      ________      ________      ________
+ HPA            0.110
+ LIPID         -0.002         0.004
+ INFL           0.007        -0.004         0.307
+ AL1           -0.002         0.000         0.003         0.225
+
+
+           Correlations
+              HPA           LIPID         INFL          AL1
+              ________      ________      ________      ________
+ HPA            1.000
+ LIPID         -0.075         1.000
+ INFL           0.036        -0.119         1.000
+ AL1           -0.010         0.007         0.011         1.000
+
+
+SUMMARY OF PLAUSIBLE STANDARD DEVIATION (N = NUMBER OF OBSERVATIONS)
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              HPA_SD        LIPID_SD      INFL_SD       AL1_SD
+              ________      ________      ________      ________
+ 1              0.288         0.051         0.359         0.288
+
+
+           Covariances
+              HPA_SD        LIPID_SD      INFL_SD       AL1_SD
+              ________      ________      ________      ________
+ HPA_SD         0.001
+ LIPID_SD       0.000         0.000
+ INFL_SD        0.000         0.000         0.002
+ AL1_SD         0.000         0.000         0.000         0.001
+
+
+           Correlations
+              HPA_SD        LIPID_SD      INFL_SD       AL1_SD
+              ________      ________      ________      ________
+ HPA_SD         1.000
+ LIPID_SD      -0.002         1.000
+ INFL_SD        0.036         0.061         1.000
+ AL1_SD        -0.001         0.065         0.293         1.000
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    al_alt_1_imp*.dat
+
+  Order of variables
+
+    RADJ_CRT
+    B4BDHEAS
+    RB4BCRP
+    B4BIL6
+    B4BFGN
+    B4BSICAM
+    B4BSESEL
+    B4BLDL
+    B4BHDL
+    RB4BTRIG
+    RB4PWHR
+    B1PGENDE
+    B1PAGE_M
+    M2ID
+    HPA
+    LIPID
+    INFL
+    AL1
+
+  Save file format           Free
+
+  Save file record length    10000
+
+
+  Save file
+    al_alt_1_plaus.dat
+
+  Order and format of variables
+
+    RADJ_CRT                         F10.3
+    B4BDHEAS                         F10.3
+    RB4BCRP                          F10.3
+    B4BIL6                           F10.3
+    B4BFGN                           F10.3
+    B4BSICAM                         F10.3
+    B4BSESEL                         F10.3
+    B4BLDL                           F10.3
+    B4BHDL                           F10.3
+    RB4BTRIG                         F10.3
+    RB4PWHR                          F10.3
+    B1PGENDE                         F10.3
+    B1PAGE_M                         F10.3
+    M2ID                             I6
+    HPA Mean                         F10.3
+    HPA Median                       F10.3
+    HPA Standard Deviation           F10.3
+    HPA 2.5% Value                   F10.3
+    HPA 97.5% Value                  F10.3
+    LIPID Mean                       F10.3
+    LIPID Median                     F10.3
+    LIPID Standard Deviation         F10.3
+    LIPID 2.5% Value                 F10.3
+    LIPID 97.5% Value                F10.3
+    INFL Mean                        F10.3
+    INFL Median                      F10.3
+    INFL Standard Deviation          F10.3
+    INFL 2.5% Value                  F10.3
+    INFL 97.5% Value                 F10.3
+   +AL1                              F10.3
+    AL1 Mean                         F10.3
+    AL1 Median                       F10.3
+    AL1 Standard Deviation           F10.3
+    AL1 2.5% Value                   F10.3
+    AL1 97.5% Value                  F10.3
+
+  + variables that have a value for each of the 50 imputations
+
+  Save file format
+    13F10.3 I6 70F10.3
+
+  Save file record length    10000
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\jwile\onedrive\projects\midus\jw-midus-al\al_rejoinder\factor_allcov_clustering_bifac_a
+
+     Beginning Time:  17:14:12
+        Ending Time:  17:26:05
+       Elapsed Time:  00:11:53
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

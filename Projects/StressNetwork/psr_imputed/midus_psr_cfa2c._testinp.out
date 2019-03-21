@@ -1,0 +1,458 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+02/14/2016   9:05 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "MIDUS_PSR_cfa2c.dat";
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM M1 M2 M3 M4 LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8 SE1 SE2 SE3 SE4
+       SE5 SE6 SE7 Opt1 Opt2 Opt3 Pess1 Pess2 Pess3 PLife1 PLife2 PLife3 PLife4 PLife5
+       PLife6 PLife7 Ctrl1 Ctrl2 Ctrl3 Con1 Con2 Con3 Con4 Con5 Ext1 Ext2 Ext3 Ext4
+       Ext5 FamS1 FamS2 FamS3 FamS4 FriS1 FriS2 FriS3 FriS4 SpoS1 SpoS2 SpoS3 SpoS4
+       SpoS5 SpoS6 SI1 SI2 SI3 AGE;
+   MISSING=.;
+
+  USEVARIABLES ARE
+   M1 M2 M3 M4
+  ! LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8
+   !SE1
+   !SE2 SE3 SE4 SE5 SE6 SE7
+   !Opt1 Opt2 Opt3 Pess1 Pess2 Pess3
+   !PLife1 PLife7
+  ! PLife2 PLife3 PLife4 PLife5 PLife6
+   !Ctrl1 Ctrl2
+   !Ctrl3
+  ! Con1 Con2 Con3 Con4 Con5
+  ! Ext1 Ext2 Ext3 Ext4 Ext5
+  ! FamS1 FamS2 FamS3 FamS4
+  ! FriS1 FriS2 FriS3 FriS4
+  ! SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6
+   SI1 SI2 SI3;
+
+  CATEGORICAL ARE
+   M1 M2 M3 M4
+  ! LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8
+   !SE1
+  ! SE2 SE3 SE4 SE5 SE6 SE7
+  ! Opt1 Opt2 Opt3 Pess1 Pess2 Pess3
+   !PLife1 PLife7
+  ! PLife2 PLife3 PLife4 PLife5 PLife6
+   !Ctrl1 Ctrl2
+   !Ctrl3
+  ! Con1 Con2 Con3 Con4 Con5
+  ! Ext1 Ext2 Ext3 Ext4 Ext5
+  ! FamS1 FamS2 FamS3 FamS4
+  ! FriS1 FriS2 FriS3 FriS4
+  ! SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6
+   SI1 SI2 SI3;
+
+  IDVARIABLE = M2ID;
+  !CLUSTER = M2FAMNUM;
+
+  ANALYSIS:
+
+    !TYPE = COMPLEX;
+    ESTIMATOR = WLSMV;
+    PROCESSORS = 4;
+  MODEL:
+   M@1;
+   M BY M1*1 M2 M3 M4;
+  ! LC BY LC1@-1 LC2*-1 LC3*-1 LC4*-1 LC5*-1 LC6*-1 LC7*-1 LC8*-1;
+  ! SE BY SE2@1 SE3*-1 SE4*1 SE5*-1 SE6*1 SE7*-1;
+  ! Opt BY Opt1 Opt2 Opt3;
+  ! Pess BY Pess1@-1 Pess2*-1 Pess3*-1;
+  ! PLife BY PLife2@1 PLife3 PLife4 PLife5 PLife6 ;
+   !Ctrl BY Ctrl1@1 Ctrl2;
+   !Ctrl@1;
+  ! Con BY Con1@1 Con2 Con3 Con4 Con5;
+  ! EXT BY Ext1@1 Ext2 Ext3 Ext4 Ext5;
+  ! FamS BY FamS1 FamS2 FamS3 FamS4;
+  ! FriS BY FriS1 FriS2 FriS3 FriS4;
+  ! SpoS BY SpoS1 SpoS2 SpoS3 SpoS4 SpoS5 SpoS6;
+   SI BY SI1*-1 SI2*1 SI3*1;
+   SI@1;
+   !PR BY M LC SE Opt Pess PLife Con EXT;
+   !SR BY FamS FriS SpoS SI;
+   !PR WITH SR*;
+
+  OUTPUT:
+  STDYX;
+  PLOT:
+  TYPE IS PLOT2;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  196
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        3425
+
+Number of dependent variables                                    7
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   M1          M2          M3          M4          SI1         SI2
+   SI3
+
+Continuous latent variables
+   M           SI
+
+Variables with special functions
+
+  ID variable           M2ID
+
+Estimator                                                    WLSMV
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Parameterization                                             DELTA
+
+Input data file(s)
+  MIDUS_PSR_cfa2c.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            19
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              M1            M2            M3            M4            SI1
+              ________      ________      ________      ________      ________
+ M1             0.992
+ M2             0.989         0.991
+ M3             0.989         0.989         0.991
+ M4             0.989         0.989         0.989         0.991
+ SI1            0.978         0.977         0.977         0.977         0.985
+ SI2            0.978         0.976         0.976         0.977         0.981
+ SI3            0.980         0.979         0.979         0.979         0.983
+
+
+           Covariance Coverage
+              SI2           SI3
+              ________      ________
+ SI2            0.985
+ SI3            0.983         0.987
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    M1
+      Category 1    0.381     1293.000
+      Category 2    0.352     1197.000
+      Category 3    0.123      419.000
+      Category 4    0.051      174.000
+      Category 5    0.037      126.000
+      Category 6    0.039      133.000
+      Category 7    0.016       56.000
+    M2
+      Category 1    0.406     1376.000
+      Category 2    0.370     1256.000
+      Category 3    0.127      430.000
+      Category 4    0.047      160.000
+      Category 5    0.020       67.000
+      Category 6    0.020       69.000
+      Category 7    0.010       35.000
+    M3
+      Category 1    0.216      732.000
+      Category 2    0.351     1191.000
+      Category 3    0.168      571.000
+      Category 4    0.104      353.000
+      Category 5    0.075      256.000
+      Category 6    0.062      210.000
+      Category 7    0.024       80.000
+    M4
+      Category 1    0.420     1424.000
+      Category 2    0.331     1125.000
+      Category 3    0.105      358.000
+      Category 4    0.062      210.000
+      Category 5    0.026       89.000
+      Category 6    0.036      121.000
+      Category 7    0.020       67.000
+    SI1
+      Category 1    0.030      100.000
+      Category 2    0.067      227.000
+      Category 3    0.096      325.000
+      Category 4    0.162      547.000
+      Category 5    0.089      302.000
+      Category 6    0.199      673.000
+      Category 7    0.356     1201.000
+    SI2
+      Category 1    0.109      369.000
+      Category 2    0.248      838.000
+      Category 3    0.230      776.000
+      Category 4    0.193      652.000
+      Category 5    0.086      290.000
+      Category 6    0.085      288.000
+      Category 7    0.047      160.000
+    SI3
+      Category 1    0.103      347.000
+      Category 2    0.245      830.000
+      Category 3    0.198      670.000
+      Category 4    0.266      898.000
+      Category 5    0.076      256.000
+      Category 6    0.066      222.000
+      Category 7    0.047      159.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       50
+
+Chi-Square Test of Model Fit
+
+          Value                            377.128*
+          Degrees of Freedom                    13
+          P-Value                           0.0000
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.090
+          90 Percent C.I.                    0.083  0.098
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.975
+          TLI                                0.960
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          14794.385
+          Degrees of Freedom                    21
+          P-Value                           0.0000
+
+WRMR (Weighted Root Mean Square Residual)
+
+          Value                              2.047
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ M        BY
+    M1                 0.753      0.010     76.230      0.000
+    M2                 0.817      0.009     87.883      0.000
+    M3                 0.690      0.010     66.698      0.000
+    M4                 0.677      0.011     60.383      0.000
+
+ SI       BY
+    SI1               -0.624      0.013    -48.649      0.000
+    SI2                0.819      0.011     74.303      0.000
+    SI3                0.746      0.011     68.420      0.000
+
+ SI       WITH
+    M                  0.290      0.019     14.907      0.000
+
+ Thresholds
+    M1$1              -0.304      0.022    -13.909      0.000
+    M1$2               0.621      0.023     26.919      0.000
+    M1$3               1.063      0.027     40.030      0.000
+    M1$4               1.324      0.030     44.184      0.000
+    M1$5               1.593      0.035     45.463      0.000
+    M1$6               2.133      0.053     40.087      0.000
+    M2$1              -0.239      0.022    -10.994      0.000
+    M2$2               0.758      0.024     31.682      0.000
+    M2$3               1.296      0.030     43.837      0.000
+    M2$4               1.641      0.036     45.350      0.000
+    M2$5               1.871      0.043     43.800      0.000
+    M2$6               2.315      0.063     36.542      0.000
+    M3$1              -0.787      0.024    -32.615      0.000
+    M3$2               0.168      0.022      7.773      0.000
+    M3$3               0.628      0.023     27.154      0.000
+    M3$4               0.991      0.026     38.354      0.000
+    M3$5               1.369      0.031     44.574      0.000
+    M3$6               1.985      0.047     42.398      0.000
+    M4$1              -0.203      0.022     -9.366      0.000
+    M4$2               0.678      0.023     28.952      0.000
+    M4$3               1.065      0.027     40.046      0.000
+    M4$4               1.394      0.031     44.779      0.000
+    M4$5               1.595      0.035     45.434      0.000
+    M4$6               2.059      0.050     41.294      0.000
+    SI1$1             -1.886      0.043    -43.522      0.000
+    SI1$2             -1.299      0.030    -43.765      0.000
+    SI1$3             -0.866      0.025    -34.944      0.000
+    SI1$4             -0.371      0.022    -16.778      0.000
+    SI1$5             -0.139      0.022     -6.419      0.000
+    SI1$6              0.370      0.022     16.709      0.000
+    SI2$1             -1.230      0.029    -42.855      0.000
+    SI2$2             -0.364      0.022    -16.475      0.000
+    SI2$3              0.222      0.022     10.203      0.000
+    SI2$4              0.776      0.024     32.187      0.000
+    SI2$5              1.113      0.027     40.899      0.000
+    SI2$6              1.670      0.037     45.125      0.000
+    SI3$1             -1.267      0.029    -43.416      0.000
+    SI3$2             -0.391      0.022    -17.630      0.000
+    SI3$3              0.116      0.022      5.364      0.000
+    SI3$4              0.884      0.025     35.489      0.000
+    SI3$5              1.213      0.028     42.659      0.000
+    SI3$6              1.675      0.037     45.169      0.000
+
+ Variances
+    M                  1.000      0.000    999.000    999.000
+    SI                 1.000      0.000    999.000    999.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ M        BY
+    M1                 0.753      0.010     76.230      0.000
+    M2                 0.817      0.009     87.883      0.000
+    M3                 0.690      0.010     66.698      0.000
+    M4                 0.677      0.011     60.383      0.000
+
+ SI       BY
+    SI1               -0.624      0.013    -48.649      0.000
+    SI2                0.819      0.011     74.303      0.000
+    SI3                0.746      0.011     68.420      0.000
+
+ SI       WITH
+    M                  0.290      0.019     14.907      0.000
+
+ Thresholds
+    M1$1              -0.304      0.022    -13.909      0.000
+    M1$2               0.621      0.023     26.919      0.000
+    M1$3               1.063      0.027     40.030      0.000
+    M1$4               1.324      0.030     44.184      0.000
+    M1$5               1.593      0.035     45.463      0.000
+    M1$6               2.133      0.053     40.087      0.000
+    M2$1              -0.239      0.022    -10.994      0.000
+    M2$2               0.758      0.024     31.682      0.000
+    M2$3               1.296      0.030     43.837      0.000
+    M2$4               1.641      0.036     45.350      0.000
+    M2$5               1.871      0.043     43.800      0.000
+    M2$6               2.315      0.063     36.542      0.000
+    M3$1              -0.787      0.024    -32.615      0.000
+    M3$2               0.168      0.022      7.773      0.000
+    M3$3               0.628      0.023     27.154      0.000
+    M3$4               0.991      0.026     38.354      0.000
+    M3$5               1.369      0.031     44.574      0.000
+    M3$6               1.985      0.047     42.398      0.000
+    M4$1              -0.203      0.022     -9.366      0.000
+    M4$2               0.678      0.023     28.952      0.000
+    M4$3               1.065      0.027     40.046      0.000
+    M4$4               1.394      0.031     44.779      0.000
+    M4$5               1.595      0.035     45.434      0.000
+    M4$6               2.059      0.050     41.294      0.000
+    SI1$1             -1.886      0.043    -43.522      0.000
+    SI1$2             -1.299      0.030    -43.765      0.000
+    SI1$3             -0.866      0.025    -34.944      0.000
+    SI1$4             -0.371      0.022    -16.778      0.000
+    SI1$5             -0.139      0.022     -6.419      0.000
+    SI1$6              0.370      0.022     16.709      0.000
+    SI2$1             -1.230      0.029    -42.855      0.000
+    SI2$2             -0.364      0.022    -16.475      0.000
+    SI2$3              0.222      0.022     10.203      0.000
+    SI2$4              0.776      0.024     32.187      0.000
+    SI2$5              1.113      0.027     40.899      0.000
+    SI2$6              1.670      0.037     45.125      0.000
+    SI3$1             -1.267      0.029    -43.416      0.000
+    SI3$2             -0.391      0.022    -17.630      0.000
+    SI3$3              0.116      0.022      5.364      0.000
+    SI3$4              0.884      0.025     35.489      0.000
+    SI3$5              1.213      0.028     42.659      0.000
+    SI3$6              1.675      0.037     45.169      0.000
+
+ Variances
+    M                  1.000      0.000    999.000    999.000
+    SI                 1.000      0.000    999.000    999.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed   Residual
+    Variable        Estimate       S.E.  Est./S.E.    P-Value    Variance
+
+    M1                 0.567      0.015     38.115      0.000      0.433
+    M2                 0.667      0.015     43.942      0.000      0.333
+    M3                 0.475      0.014     33.349      0.000      0.525
+    M4                 0.458      0.015     30.191      0.000      0.542
+    SI1                0.390      0.016     24.325      0.000      0.610
+    SI2                0.671      0.018     37.152      0.000      0.329
+    SI3                0.557      0.016     34.210      0.000      0.443
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.126E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Sample proportions and estimated probabilities
+  Item characteristic curves
+  Information curves
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\joshua\onedrive\projects\stressnetwork\psr_imputed\midus_psr_cfa2c._testinp.dgm
+
+     Beginning Time:  21:05:23
+        Ending Time:  21:05:23
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

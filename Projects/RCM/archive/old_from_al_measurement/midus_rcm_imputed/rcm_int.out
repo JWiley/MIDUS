@@ -1,0 +1,2327 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/04/2016  11:28 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  RCM
+  DATA:
+  FILE = "rcm_int.dat";
+  TYPE = IMPUTATION;
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM B1PAGE_M2 B1NegAff B1PosAff m1chadv m2aadv B1PR B1SR B1SC1
+       B1Sleep B1SSQ B1LifeStress B1PhysAct B4F B4bi_sym B4bi_hpa B4bi_card B4bi_gluc
+       B4bi_lipid B4bi_infl B4bi_para B1SCHRON C1SCHRON Female dSES B1PSR B1SmokePast
+       B1SmokeCurrent B1AlcoholHeavy B1AlcoholModerate RAA ROther;
+   MISSING=.;
+
+    USEVARIABLES =
+      !covariates
+      B1PAGE_M2 RAA ROther Female B1SC1
+      ! SES and stress and PSRs
+      m1chadv dSES B1LifeStress B1PSR
+      ! negative affect
+      B1NegAff
+      ! health behaviors
+      B1SmokePast B1SmokeCurrent
+      B1AlcoholHeavy B1AlcoholModerate
+      B1Sleep B1SSQ B1PhysAct
+      ! allostatic load
+      B4F
+      ! chronic conditions
+      C1SCHRON B1SCHRON
+      ! created variables
+      PSRxSES PSRxdSES
+      !PSRxSex PSRxAge
+      !PSRxStress
+      B1Sleep2 !B1SSQ2
+    ;
+
+    IDVARIABLE = M2ID;
+    CLUSTER = M2FAMNUM;
+    COUNT =
+      B1LifeStress (nb)
+      B1SCHRON (nb)
+      C1SCHRON (nb)
+    ;
+    CATEGORICAL =
+      B1SmokePast B1SmokeCurrent
+      B1AlcoholHeavy B1AlcoholModerate
+    ;
+
+    DEFINE:
+      !PSRxStress = B1LifeStress * B1PSR;
+      PSRxSES = m1chadv * B1PSR;
+      PSRxdSES = dSES * B1PSR;
+      !PSRxSex = Female * B1PSR;
+      !PSRxAge = B1PSR * B1PAGE_M2;
+      B1Sleep2 = B1Sleep * B1Sleep;
+      !B1SSQ2 = B1SSQ * B1SSQ;
+
+
+  ANALYSIS:
+
+    TYPE = COMPLEX;
+    Estimator = MLR;
+    PROCESSORS = 2;
+
+  MODEL:
+
+    ! Step 1
+      B1LifeStress ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a1a)
+        dSES (a1b)
+      ;
+
+      B1PSR ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a2a)
+        dSES (a2b)
+      ;
+
+      ! Step 2
+      B1NegAff ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a3a)
+        dSES (a3b)
+        B1PSR (b3)
+        B1LifeStress (c3)
+        !PSRxStress
+        PSRxSES (ab3a)
+        PSRxdSES (ab3b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      ! Step 3
+      B1Sleep ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a4a)
+        dSES (a4b)
+        B1PSR (b4)
+        B1LifeStress (c4)
+        B1NegAff (d4)
+        !PSRxStress
+        PSRxSES (ab4a)
+        !PSRxdSES (ab4b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      B1SmokePast ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a5a)
+        dSES (a5b)
+        B1PSR (b5)
+        B1LifeStress (c5)
+        B1NegAff (d5)
+        !PSRxStress
+        !PSRxSES (ab5a)
+        !PSRxdSES (ab5b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      B1SmokeCurrent ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a6a)
+        dSES (a6b)
+        B1PSR (b6)
+        B1LifeStress (c6)
+        B1NegAff (d6)
+        !PSRxStress
+        !PSRxSES (ab6a)
+        !PSRxdSES (ab6b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      B1AlcoholHeavy ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a7a)
+        dSES (a7b)
+        B1PSR (b7)
+        B1LifeStress (c7)
+        B1NegAff (d7)
+        !PSRxStress
+        !PSRxSES (ab7a)
+        !PSRxdSES (ab7b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      B1AlcoholModerate ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a8a)
+        dSES (a8b)
+        B1PSR (b8)
+        B1LifeStress (c8)
+        B1NegAff (d8)
+        !PSRxStress
+        !PSRxSES (ab8a)
+        !PSRxdSES (ab8b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      B1SSQ ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a9a)
+        dSES (a9b)
+        B1PSR (b9)
+        B1LifeStress (c9)
+        B1NegAff (d9)
+        !PSRxStress
+        !PSRxSES (ab9a)
+        PSRxdSES (ab9b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      B1PhysAct ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv (a12a)
+        dSES (a12b)
+        B1PSR (b12)
+        B1LifeStress (c12)
+        B1NegAff (d12)
+        !PSRxStress
+        !PSRxSES (ab12a)
+        !PSRxdSES (ab12b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      ! Step 4
+      B4F ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv
+        dSES
+        m1chadv
+        dSES
+        B1PSR
+        B1LifeStress
+        B1NegAff
+
+        B1SmokePast B1SmokeCurrent
+        B1AlcoholHeavy B1AlcoholModerate
+        B1Sleep B1SSQ B1PhysAct
+        B1Sleep2 !B1SSQ2
+
+        !PSRxStress
+        !PSRxSES (ab13a)
+        !PSRxdSES (ab13b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      ! Step 5
+      B1SCHRON ON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv
+        dSES
+        m1chadv
+        dSES
+        B1PSR
+        B1LifeStress
+        B1NegAff
+
+        B1SmokePast B1SmokeCurrent
+        B1AlcoholHeavy B1AlcoholModerate
+        B1Sleep B1SSQ B1PhysAct
+        B1Sleep2 !B1SSQ2
+
+        B4F
+
+        !PSRxStress
+        !PSRxSES (ab14a)
+        !PSRxdSES (ab14b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+      C1SCHRON ON
+        B1SCHRON
+        B1PAGE_M2 RAA ROther Female B1SC1
+        m1chadv
+        dSES
+        m1chadv
+        dSES
+        B1PSR
+        B1LifeStress
+        B1NegAff
+
+        B1SmokePast B1SmokeCurrent
+        B1AlcoholHeavy B1AlcoholModerate
+        B1Sleep B1SSQ B1PhysAct
+        !B1Sleep2 B1SSQ2
+
+        B4F
+
+        !PSRxStress
+        !PSRxSES (ab15a)
+        !PSRxdSES (ab15b)
+        !PSRxSex
+        !PSRxAge
+      ;
+
+
+  OUTPUT:
+
+     !STDYX;
+     !CINTERVAL;
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+RCM
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Average number of observations                                5556
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                   13
+Number of independent variables                                 10
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   B1PSR       B1NEGAFF    B1SLEEP     B1SSQ       B1PHYSACT   B4F
+
+  Binary and ordered categorical (ordinal)
+   B1SMOKEP    B1SMOKEC    B1ALCOHO    B1ALCOHO
+
+  Count
+   B1LIFESTRE  C1SCHRON    B1SCHRON
+
+Observed independent variables
+   B1PAGE_M    RAA         ROTHER      FEMALE      B1SC1       M1CHADV
+   DSES        PSRXSES     PSRXDSES    B1SLEEP2
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  Multiple data files from
+    rcm_int.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA FOR THE FIRST DATA SET
+
+     Number of missing data patterns             1
+     Number of clusters        4235
+
+
+
+SUMMARY OF MISSING DATA PATTERNS FOR THE FIRST DATA SET
+
+
+     MISSING DATA PATTERNS FOR Y (x = not missing)
+
+           1
+ B1PSR     x
+ B1NEGAFF  x
+ B1SLEEP   x
+ B1SSQ     x
+ B1PHYSAC  x
+ B4F       x
+ B1PAGE_M  x
+ RAA       x
+ ROTHER    x
+ FEMALE    x
+ B1SC1     x
+ M1CHADV   x
+ DSES      x
+ PSRXSES   x
+ PSRXDSES  x
+ B1SLEEP2  x
+
+
+     MISSING DATA PATTERN FREQUENCIES FOR Y
+
+    Pattern   Frequency
+          1        5556
+
+
+COVARIANCE COVERAGE OF DATA FOR THE FIRST DATA SET
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1PSR          1.000
+ B1NEGAFF       1.000         1.000
+ B1SLEEP        1.000         1.000         1.000
+ B1SSQ          1.000         1.000         1.000         1.000
+ B1PHYSAC       1.000         1.000         1.000         1.000         1.000
+ B4F            1.000         1.000         1.000         1.000         1.000
+ B1PAGE_M       1.000         1.000         1.000         1.000         1.000
+ RAA            1.000         1.000         1.000         1.000         1.000
+ ROTHER         1.000         1.000         1.000         1.000         1.000
+ FEMALE         1.000         1.000         1.000         1.000         1.000
+ B1SC1          1.000         1.000         1.000         1.000         1.000
+ M1CHADV        1.000         1.000         1.000         1.000         1.000
+ DSES           1.000         1.000         1.000         1.000         1.000
+ PSRXSES        1.000         1.000         1.000         1.000         1.000
+ PSRXDSES       1.000         1.000         1.000         1.000         1.000
+ B1SLEEP2       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B4F            1.000
+ B1PAGE_M       1.000         1.000
+ RAA            1.000         1.000         1.000
+ ROTHER         1.000         1.000         1.000         1.000
+ FEMALE         1.000         1.000         1.000         1.000         1.000
+ B1SC1          1.000         1.000         1.000         1.000         1.000
+ M1CHADV        1.000         1.000         1.000         1.000         1.000
+ DSES           1.000         1.000         1.000         1.000         1.000
+ PSRXSES        1.000         1.000         1.000         1.000         1.000
+ PSRXDSES       1.000         1.000         1.000         1.000         1.000
+ B1SLEEP2       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1SC1          1.000
+ M1CHADV        1.000         1.000
+ DSES           1.000         1.000         1.000
+ PSRXSES        1.000         1.000         1.000         1.000
+ PSRXDSES       1.000         1.000         1.000         1.000         1.000
+ B1SLEEP2       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              B1SLEEP2
+              ________
+ B1SLEEP2       1.000
+
+
+UNIVARIATE PROPORTIONS FOR CATEGORICAL VARIABLES
+
+NOTE:  These are average results over 50 data sets.
+
+    B1SMOKEP
+      Category 1    0.673
+      Category 2    0.327
+    B1SMOKEC
+      Category 1    0.832
+      Category 2    0.168
+    B1ALCOHO
+      Category 1    0.835
+      Category 2    0.165
+    B1ALCOHO
+      Category 1    0.582
+      Category 2    0.418
+
+
+COUNT PROPORTION OF ZERO, MINIMUM AND MAXIMUM VALUES
+
+      B1LIFEST    0.052         0        12
+      C1SCHRON    0.171         0        14
+      B1SCHRON    0.229         0        11
+
+
+SAMPLE STATISTICS
+
+NOTE:  These are average results over 50 data sets.
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           Means
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ 1              0.000         0.003         0.144         0.034         0.543
+
+
+           Means
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ 1              0.925         0.000         0.000         0.085         0.115
+
+
+           Means
+              B1SLEEP2
+              ________
+ 1              1.000
+
+
+           Covariances
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1PSR          1.000
+ B1NEGAFF      -0.426         1.000
+ B1SLEEP        0.073        -0.134         1.000
+ B1SSQ         -0.192         0.322        -0.288         1.000
+ B1PHYSAC       0.056         0.014        -0.023        -0.041         1.000
+ B4F           -0.040         0.079        -0.049         0.068        -0.056
+ B1PAGE_M       0.123        -0.194         0.102         0.022        -0.352
+ RAA           -0.004         0.017        -0.051         0.025         0.003
+ ROTHER        -0.002         0.003        -0.003         0.001         0.001
+ FEMALE         0.012         0.035        -0.003         0.070        -0.057
+ B1SC1          0.017        -0.023         0.009        -0.021        -0.002
+ M1CHADV        0.085        -0.051         0.062        -0.100         0.077
+ DSES           0.115        -0.136         0.046        -0.048        -0.006
+ PSRXSES       -0.027         0.050        -0.042         0.032         0.011
+ PSRXDSES      -0.010         0.016         0.007         0.022         0.000
+ B1SLEEP2      -0.143         0.222        -0.540         0.346        -0.112
+
+
+           Covariances
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B4F            1.000
+ B1PAGE_M       0.029         1.548
+ RAA            0.043        -0.037         0.123
+ ROTHER         0.000        -0.013        -0.005         0.033
+ FEMALE         0.008         0.000         0.012         0.000         0.248
+ B1SC1         -0.013         0.022        -0.010        -0.003        -0.002
+ M1CHADV       -0.064        -0.183        -0.040        -0.001        -0.021
+ DSES          -0.034         0.141        -0.032        -0.001        -0.032
+ PSRXSES        0.016        -0.015         0.010         0.000         0.010
+ PSRXDSES       0.016        -0.012        -0.008        -0.002         0.002
+ B1SLEEP2       0.112         0.097         0.085        -0.002         0.042
+
+
+           Covariances
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1SC1          0.069
+ M1CHADV        0.019         1.000
+ DSES           0.027        -0.609         1.000
+ PSRXSES       -0.010        -0.061         0.034         1.024
+ PSRXDSES      -0.002         0.034        -0.031        -0.646         1.021
+ B1SLEEP2      -0.019        -0.122        -0.103         0.106         0.005
+
+
+           Covariances
+              B1SLEEP2
+              ________
+ B1SLEEP2       2.756
+
+
+           Correlations
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1PSR          1.000
+ B1NEGAFF      -0.426         1.000
+ B1SLEEP        0.073        -0.134         1.000
+ B1SSQ         -0.192         0.322        -0.288         1.000
+ B1PHYSAC       0.056         0.014        -0.023        -0.041         1.000
+ B4F           -0.040         0.079        -0.049         0.068        -0.056
+ B1PAGE_M       0.099        -0.156         0.082         0.018        -0.283
+ RAA           -0.012         0.049        -0.147         0.072         0.007
+ ROTHER        -0.011         0.019        -0.015         0.003         0.006
+ FEMALE         0.024         0.071        -0.006         0.140        -0.114
+ B1SC1          0.065        -0.088         0.035        -0.080        -0.009
+ M1CHADV        0.085        -0.051         0.062        -0.100         0.077
+ DSES           0.115        -0.137         0.046        -0.048        -0.006
+ PSRXSES       -0.026         0.050        -0.042         0.032         0.011
+ PSRXDSES      -0.010         0.015         0.007         0.022         0.000
+ B1SLEEP2      -0.086         0.134        -0.326         0.209        -0.067
+
+
+           Correlations
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B4F            1.000
+ B1PAGE_M       0.023         1.000
+ RAA            0.124        -0.084         1.000
+ ROTHER        -0.003        -0.058        -0.077         1.000
+ FEMALE         0.016         0.001         0.068         0.005         1.000
+ B1SC1         -0.049         0.069        -0.108        -0.054        -0.015
+ M1CHADV       -0.064        -0.147        -0.115        -0.006        -0.043
+ DSES          -0.034         0.114        -0.090        -0.006        -0.064
+ PSRXSES        0.016        -0.012         0.029        -0.001         0.020
+ PSRXDSES       0.015        -0.009        -0.022        -0.013         0.003
+ B1SLEEP2       0.067         0.047         0.147        -0.007         0.051
+
+
+           Correlations
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1SC1          1.000
+ M1CHADV        0.073         1.000
+ DSES           0.104        -0.609         1.000
+ PSRXSES       -0.036        -0.060         0.034         1.000
+ PSRXDSES      -0.009         0.034        -0.031        -0.632         1.000
+ B1SLEEP2      -0.043        -0.074        -0.062         0.063         0.003
+
+
+           Correlations
+              B1SLEEP2
+              ________
+ B1SLEEP2       1.000
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      175
+
+Loglikelihood
+
+    H0 Value
+
+        Mean                            -91259.059
+        Std Dev                             75.152
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980       -91433.886     -91445.044
+           0.980       0.980       -91413.399     -91445.044
+           0.950       0.920       -91382.677     -91398.047
+           0.900       0.880       -91355.374     -91383.874
+           0.800       0.840       -91322.307     -91321.631
+           0.700       0.720       -91298.469     -91297.039
+           0.500       0.500       -91259.059     -91260.087
+           0.300       0.280       -91219.649     -91224.566
+           0.200       0.180       -91195.811     -91198.942
+           0.100       0.080       -91162.744     -91171.685
+           0.050       0.040       -91135.441     -91147.929
+           0.020       0.020       -91104.719     -91108.692
+           0.010       0.020       -91084.232     -91108.692
+
+Information Criteria
+
+    Akaike (AIC)
+
+        Mean                            182868.118
+        Std Dev                            150.305
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980       182518.464     182505.729
+           0.980       0.980       182559.437     182505.729
+           0.950       0.960       182620.882     182567.383
+           0.900       0.920       182675.487     182645.857
+           0.800       0.820       182741.621     182726.921
+           0.700       0.720       182789.298     182796.065
+           0.500       0.500       182868.118     182849.460
+           0.300       0.280       182946.938     182924.225
+           0.200       0.160       182994.614     182960.323
+           0.100       0.120       183060.748     183083.236
+           0.050       0.080       183115.354     183117.747
+           0.020       0.020       183176.798     183146.093
+           0.010       0.020       183217.772     183146.093
+
+    Bayesian (BIC)
+
+        Mean                            184027.079
+        Std Dev                            150.305
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980       183677.425     183664.689
+           0.980       0.980       183718.398     183664.689
+           0.950       0.960       183779.843     183726.344
+           0.900       0.920       183834.448     183804.818
+           0.800       0.820       183900.582     183885.882
+           0.700       0.720       183948.259     183955.026
+           0.500       0.500       184027.079     184008.420
+           0.300       0.280       184105.898     184083.186
+           0.200       0.160       184153.575     184119.284
+           0.100       0.120       184219.709     184242.197
+           0.050       0.080       184274.315     184276.708
+           0.020       0.020       184335.759     184305.054
+           0.010       0.020       184376.732     184305.054
+
+    Sample-Size Adjusted BIC (n* = (n + 2) / 24)
+
+        Mean                            183470.982
+        Std Dev                            150.305
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980       183121.329     183108.593
+           0.980       0.980       183162.302     183108.593
+           0.950       0.960       183223.746     183170.248
+           0.900       0.920       183278.352     183248.722
+           0.800       0.820       183344.486     183329.786
+           0.700       0.720       183392.163     183398.930
+           0.500       0.500       183470.982     183452.324
+           0.300       0.280       183549.802     183527.090
+           0.200       0.160       183597.479     183563.187
+           0.100       0.120       183663.613     183686.101
+           0.050       0.080       183718.218     183720.612
+           0.020       0.020       183779.663     183748.958
+           0.010       0.020       183820.636     183748.958
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed   Rate of
+                    Estimate       S.E.  Est./S.E.    P-Value    Missing
+
+ B1LIFESTRE ON
+    B1PAGE_M2          0.012      0.008      1.533      0.125      0.147
+    RAA                0.251      0.027      9.351      0.000      0.122
+    ROTHER             0.168      0.054      3.080      0.002      0.157
+    FEMALE            -0.133      0.020     -6.739      0.000      0.159
+    B1SC1             -0.217      0.036     -6.095      0.000      0.136
+    M1CHADV           -0.232      0.013    -17.923      0.000      0.187
+    DSES              -0.143      0.013    -10.598      0.000      0.225
+
+ B1PSR      ON
+    B1PAGE_M2          0.090      0.013      6.810      0.000      0.351
+    RAA                0.151      0.044      3.400      0.001      0.248
+    ROTHER             0.019      0.081      0.238      0.812      0.265
+    FEMALE             0.101      0.031      3.220      0.001      0.286
+    B1SC1              0.057      0.061      0.926      0.355      0.239
+    M1CHADV            0.278      0.022     12.949      0.000      0.361
+    DSES               0.279      0.022     12.819      0.000      0.389
+
+ B1NEGAFF   ON
+    B1PAGE_M2         -0.095      0.012     -8.101      0.000      0.262
+    RAA               -0.050      0.046     -1.076      0.282      0.201
+    ROTHER            -0.001      0.080     -0.008      0.994      0.290
+    FEMALE             0.152      0.028      5.444      0.000      0.257
+    B1SC1             -0.059      0.058     -1.017      0.309      0.155
+    M1CHADV           -0.075      0.021     -3.569      0.000      0.360
+    DSES              -0.120      0.020     -5.912      0.000      0.380
+    B1PSR             -0.376      0.015    -25.881      0.000      0.274
+    B1LIFESTRE         0.052      0.007      7.983      0.000      0.250
+    PSRXSES            0.056      0.019      2.901      0.004      0.350
+    PSRXDSES           0.043      0.020      2.131      0.033      0.414
+
+ B1SLEEP    ON
+    B1PAGE_M2          0.050      0.013      3.942      0.000      0.115
+    RAA               -0.329      0.048     -6.861      0.000      0.087
+    ROTHER            -0.089      0.083     -1.079      0.281      0.255
+    FEMALE             0.031      0.029      1.081      0.280      0.111
+    B1SC1             -0.045      0.060     -0.750      0.453      0.086
+    M1CHADV            0.087      0.021      4.091      0.000      0.210
+    DSES               0.071      0.020      3.516      0.000      0.226
+    B1PSR              0.003      0.018      0.152      0.879      0.296
+    B1LIFESTRE        -0.016      0.007     -2.271      0.023      0.113
+    B1NEGAFF          -0.097      0.019     -5.001      0.000      0.287
+    PSRXSES           -0.028      0.016     -1.719      0.086      0.237
+
+ B1SMOKEPAS ON
+    B1PAGE_M2          0.323      0.026     12.529      0.000      0.008
+    RAA               -0.260      0.092     -2.827      0.005      0.011
+    ROTHER            -0.239      0.171     -1.401      0.161      0.004
+    FEMALE            -0.398      0.062     -6.438      0.000      0.005
+    B1SC1              0.072      0.125      0.578      0.563      0.106
+    M1CHADV            0.050      0.043      1.144      0.252      0.025
+    DSES               0.055      0.041      1.332      0.183      0.021
+    B1PSR              0.028      0.040      0.695      0.487      0.299
+    B1LIFESTRE         0.065      0.014      4.532      0.000      0.154
+    B1NEGAFF           0.035      0.038      0.923      0.356      0.238
+
+ B1SMOKECUR ON
+    B1PAGE_M2         -0.312      0.032     -9.761      0.000      0.008
+    RAA               -0.099      0.106     -0.935      0.350      0.010
+    ROTHER            -0.107      0.207     -0.514      0.607      0.006
+    FEMALE            -0.069      0.079     -0.870      0.384      0.008
+    B1SC1             -0.484      0.129     -3.764      0.000      0.075
+    M1CHADV           -0.526      0.053     -9.929      0.000      0.015
+    DSES              -0.570      0.056    -10.252      0.000      0.017
+    B1PSR              0.075      0.047      1.584      0.113      0.213
+    B1LIFESTRE         0.117      0.016      7.102      0.000      0.134
+    B1NEGAFF           0.148      0.049      3.018      0.003      0.218
+
+ B1ALCOHOLH ON
+    B1PAGE_M2         -0.451      0.036    -12.377      0.000      0.007
+    RAA                0.064      0.110      0.576      0.565      0.011
+    ROTHER             0.136      0.193      0.704      0.481      0.010
+    FEMALE            -0.886      0.081    -10.918      0.000      0.011
+    B1SC1             -0.245      0.141     -1.735      0.083      0.132
+    M1CHADV            0.042      0.055      0.774      0.439      0.019
+    DSES               0.016      0.053      0.312      0.755      0.016
+    B1PSR              0.071      0.048      1.496      0.135      0.281
+    B1LIFESTRE         0.056      0.017      3.240      0.001      0.144
+    B1NEGAFF           0.150      0.049      3.063      0.002      0.268
+
+ B1ALCOHOLM ON
+    B1PAGE_M2         -0.063      0.025     -2.559      0.010      0.014
+    RAA               -0.227      0.088     -2.568      0.010      0.011
+    ROTHER            -0.379      0.158     -2.397      0.017      0.007
+    FEMALE             0.101      0.059      1.724      0.085      0.008
+    B1SC1              0.220      0.125      1.767      0.077      0.138
+    M1CHADV            0.506      0.042     12.005      0.000      0.030
+    DSES               0.416      0.039     10.560      0.000      0.024
+    B1PSR              0.045      0.036      1.227      0.220      0.250
+    B1LIFESTRE        -0.006      0.014     -0.457      0.648      0.134
+    B1NEGAFF          -0.017      0.037     -0.454      0.650      0.261
+
+ B1SSQ      ON
+    B1PAGE_M2          0.052      0.012      4.418      0.000      0.159
+    RAA                0.086      0.045      1.932      0.053      0.086
+    ROTHER            -0.010      0.086     -0.117      0.907      0.308
+    FEMALE             0.232      0.027      8.554      0.000      0.111
+    B1SC1             -0.129      0.057     -2.263      0.024      0.137
+    M1CHADV           -0.076      0.020     -3.822      0.000      0.218
+    DSES              -0.043      0.020     -2.155      0.031      0.280
+    B1PSR             -0.064      0.018     -3.646      0.000      0.333
+    B1LIFESTRE         0.019      0.006      3.001      0.003      0.161
+    B1NEGAFF           0.273      0.018     15.443      0.000      0.306
+    PSRXDSES           0.018      0.015      1.215      0.224      0.266
+
+ B1PHYSACT  ON
+    B1PAGE_M2         -0.231      0.012    -19.452      0.000      0.194
+    RAA               -0.025      0.046     -0.537      0.591      0.210
+    ROTHER            -0.060      0.086     -0.705      0.481      0.234
+    FEMALE            -0.214      0.030     -7.126      0.000      0.247
+    B1SC1              0.007      0.059      0.110      0.912      0.147
+    M1CHADV            0.067      0.020      3.279      0.001      0.227
+    DSES               0.051      0.019      2.632      0.008      0.232
+    B1PSR              0.089      0.017      5.261      0.000      0.277
+    B1LIFESTRE         0.023      0.007      3.284      0.001      0.272
+    B1NEGAFF           0.015      0.018      0.855      0.393      0.264
+
+ B4F        ON
+    B1PAGE_M2          0.013      0.019      0.702      0.482      0.586
+    RAA                0.266      0.101      2.643      0.008      0.834
+    ROTHER             0.009      0.100      0.088      0.930      0.466
+    FEMALE            -0.010      0.049     -0.199      0.842      0.680
+    B1SC1             -0.047      0.075     -0.636      0.525      0.520
+    M1CHADV           -0.047      0.028     -1.718      0.086      0.522
+    DSES              -0.045      0.031     -1.441      0.150      0.654
+    B1PSR              0.009      0.021      0.425      0.671      0.504
+    B1LIFESTRE         0.026      0.010      2.740      0.006      0.603
+    B1NEGAFF           0.046      0.024      1.907      0.056      0.582
+    B1SMOKEPAS         0.064      0.047      1.352      0.176      0.590
+    B1SMOKECUR         0.078      0.058      1.358      0.175      0.530
+    B1ALCOHOLH        -0.035      0.061     -0.582      0.561      0.543
+    B1ALCOHOLM        -0.026      0.041     -0.646      0.518      0.468
+    B1SLEEP           -0.004      0.021     -0.190      0.849      0.527
+    B1SSQ              0.024      0.022      1.081      0.280      0.545
+    B1PHYSACT         -0.047      0.025     -1.885      0.059      0.693
+    B1SLEEP2           0.013      0.012      1.089      0.276      0.481
+
+ B1SCHRON   ON
+    B1PAGE_M2          0.183      0.012     15.468      0.000      0.253
+    RAA                0.112      0.036      3.156      0.002      0.160
+    ROTHER             0.030      0.072      0.417      0.676      0.197
+    FEMALE             0.165      0.027      6.161      0.000      0.195
+    B1SC1              0.036      0.048      0.751      0.452      0.157
+    M1CHADV           -0.040      0.020     -1.982      0.047      0.289
+    DSES              -0.043      0.020     -2.165      0.030      0.328
+    B1PSR             -0.028      0.015     -1.822      0.068      0.316
+    B1LIFESTRE         0.047      0.005      8.738      0.000      0.210
+    B1NEGAFF           0.241      0.017     14.158      0.000      0.347
+    B1SMOKEPAS         0.053      0.028      1.918      0.055      0.122
+    B1SMOKECUR         0.057      0.036      1.581      0.114      0.156
+    B1ALCOHOLH        -0.078      0.040     -1.960      0.050      0.219
+    B1ALCOHOLM        -0.112      0.028     -4.055      0.000      0.163
+    B1SLEEP           -0.001      0.014     -0.091      0.928      0.227
+    B1SSQ              0.113      0.014      7.979      0.000      0.193
+    B1PHYSACT         -0.001      0.014     -0.078      0.938      0.232
+    B1SLEEP2           0.023      0.007      3.192      0.001      0.128
+    B4F                0.065      0.020      3.306      0.001      0.675
+
+ C1SCHRON   ON
+    B1SCHRON           0.141      0.008     17.028      0.000      0.636
+    B1PAGE_M2          0.058      0.013      4.358      0.000      0.388
+    RAA               -0.009      0.048     -0.190      0.849      0.495
+    ROTHER             0.080      0.080      1.005      0.315      0.432
+    FEMALE             0.091      0.031      2.940      0.003      0.425
+    B1SC1             -0.039      0.054     -0.726      0.468      0.389
+    M1CHADV           -0.050      0.021     -2.432      0.015      0.374
+    DSES              -0.052      0.019     -2.701      0.007      0.329
+    B1PSR             -0.035      0.017     -2.113      0.035      0.432
+    B1LIFESTRE         0.012      0.007      1.720      0.085      0.469
+    B1NEGAFF           0.049      0.021      2.365      0.018      0.566
+    B1SMOKEPAS         0.091      0.033      2.808      0.005      0.404
+    B1SMOKECUR         0.083      0.046      1.822      0.068      0.480
+    B1ALCOHOLH        -0.078      0.042     -1.830      0.067      0.329
+    B1ALCOHOLM        -0.020      0.031     -0.648      0.517      0.350
+    B1SLEEP            0.012      0.016      0.738      0.461      0.471
+    B1SSQ              0.030      0.016      1.950      0.051      0.353
+    B1PHYSACT         -0.014      0.015     -0.951      0.342      0.378
+    B4F                0.029      0.018      1.592      0.111      0.612
+
+ Intercepts
+    B1PSR             -0.130      0.062     -2.099      0.036      0.234
+    B1NEGAFF          -0.209      0.064     -3.281      0.001      0.134
+    B1SLEEP            0.131      0.068      1.939      0.052      0.085
+    B1SSQ             -0.088      0.062     -1.406      0.160      0.108
+    B1PHYSACT          0.038      0.066      0.579      0.563      0.115
+    B4F               -0.110      0.092     -1.195      0.232      0.547
+    B1LIFESTRE         1.426      0.035     40.763      0.000      0.101
+    C1SCHRON           0.652      0.070      9.358      0.000      0.432
+    B1SCHRON           0.491      0.057      8.605      0.000      0.149
+
+ Thresholds
+    B1SMOKEP$1         0.791      0.138      5.713      0.000      0.097
+    B1SMOKEC$1         1.692      0.151     11.199      0.000      0.079
+    B1ALCOHO$1         1.301      0.161      8.076      0.000      0.140
+    B1ALCOHO$1         0.547      0.138      3.974      0.000      0.124
+
+ Residual Variances
+    B1PSR              0.931      0.019     48.933      0.000      0.077
+    B1NEGAFF           0.767      0.018     42.340      0.000      0.130
+    B1SLEEP            0.951      0.022     43.464      0.000      0.011
+    B1SSQ              0.861      0.017     50.306      0.000      0.068
+    B1PHYSACT          0.895      0.016     56.668      0.000      0.059
+    B4F                0.959      0.020     48.233      0.000      0.170
+    B1LIFESTRE         0.126      0.009     14.133      0.000      0.162
+
+ Dispersion
+    B1LIFESTRE         0.126      0.009     14.133      0.000      0.162
+    C1SCHRON           0.352      0.023     15.249      0.000      0.553
+    B1SCHRON           0.254      0.017     15.121      0.000      0.226
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Average Condition Number for the Information Matrix      0.370E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           TAU
+              B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________
+ 1                172           173           174           175
+
+
+           NU
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1SLEEP2
+              ________
+ 1                  0
+
+
+           LAMBDA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           LAMBDA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           LAMBDA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           LAMBDA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           LAMBDA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           LAMBDA
+              B1SLEEP2
+              ________
+ B1LIFEST           0
+ B1LIFEST           0
+ C1SCHRON           0
+ C1SCHRON           0
+ B1SCHRON           0
+ B1SCHRON           0
+ B1SMOKEP           0
+ B1SMOKEC           0
+ B1ALCOHO           0
+ B1ALCOHO           0
+ B1PSR              0
+ B1NEGAFF           0
+ B1SLEEP            0
+ B1SSQ              0
+ B1PHYSAC           0
+ B4F                0
+ B1PAGE_M           0
+ RAA                0
+ ROTHER             0
+ FEMALE             0
+ B1SC1              0
+ M1CHADV            0
+ DSES               0
+ PSRXSES            0
+ PSRXDSES           0
+ B1SLEEP2           0
+
+
+           THETA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST           0
+ B1LIFEST           0             0
+ C1SCHRON           0             0             0
+ C1SCHRON           0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           THETA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1SCHRON           0
+ B1SMOKEP           0             0
+ B1SMOKEC           0             0             0
+ B1ALCOHO           0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           THETA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1PSR              0
+ B1NEGAFF           0             0
+ B1SLEEP            0             0             0
+ B1SSQ              0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           THETA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B4F                0
+ B1PAGE_M           0             0
+ RAA                0             0             0
+ ROTHER             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           THETA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1SC1              0
+ M1CHADV            0             0
+ DSES               0             0             0
+ PSRXSES            0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           THETA
+              B1SLEEP2
+              ________
+ B1SLEEP2           0
+
+
+           ALPHA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ 1                  0             1             0             2             0
+
+
+           ALPHA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ 1                  3             0             0             0             0
+
+
+           ALPHA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ 1                  4             5             6             7             8
+
+
+           ALPHA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ 1                  9             0             0             0             0
+
+
+           ALPHA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           ALPHA
+              B1SLEEP2
+              ________
+ 1                  0
+
+
+           BETA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON           0            17             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0            36             0             0             0
+ B1SMOKEP           0            55             0             0             0
+ B1SMOKEC           0            65             0             0             0
+ B1ALCOHO           0            75             0             0             0
+ B1ALCOHO           0            85             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0           102             0             0             0
+ B1SLEEP            0           113             0             0             0
+ B1SSQ              0           124             0             0             0
+ B1PHYSAC           0           135             0             0             0
+ B4F                0           145             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           BETA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON          18            19            20            21            22
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0            37            38            39            40
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0           146           147           148           149
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           BETA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0             0             0             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON          23            24            25            26            27
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON          41            42            43            44            45
+ B1SMOKEP          56            57             0             0             0
+ B1SMOKEC          66            67             0             0             0
+ B1ALCOHO          76            77             0             0             0
+ B1ALCOHO          86            87             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF         103             0             0             0             0
+ B1SLEEP          114           115             0             0             0
+ B1SSQ            125           126             0             0             0
+ B1PHYSAC         136           137             0             0             0
+ B4F              150           151           152           153           154
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           BETA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST           0            10            11            12            13
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON          28            29            30            31            32
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON          46            47            48            49            50
+ B1SMOKEP           0            58            59            60            61
+ B1SMOKEC           0            68            69            70            71
+ B1ALCOHO           0            78            79            80            81
+ B1ALCOHO           0            88            89            90            91
+ B1PSR              0            95            96            97            98
+ B1NEGAFF           0           104           105           106           107
+ B1SLEEP            0           116           117           118           119
+ B1SSQ              0           127           128           129           130
+ B1PHYSAC           0           138           139           140           141
+ B4F                0           155           156           157           158
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           BETA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1LIFEST           0             0             0             0             0
+ B1LIFEST          14            15            16             0             0
+ C1SCHRON           0             0             0             0             0
+ C1SCHRON          33            34            35             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON          51            52            53             0             0
+ B1SMOKEP          62            63            64             0             0
+ B1SMOKEC          72            73            74             0             0
+ B1ALCOHO          82            83            84             0             0
+ B1ALCOHO          92            93            94             0             0
+ B1PSR             99           100           101             0             0
+ B1NEGAFF         108           109           110           111           112
+ B1SLEEP          120           121           122           123             0
+ B1SSQ            131           132           133             0           134
+ B1PHYSAC         142           143           144             0             0
+ B4F              159           160           161             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           BETA
+              B1SLEEP2
+              ________
+ B1LIFEST           0
+ B1LIFEST           0
+ C1SCHRON           0
+ C1SCHRON           0
+ B1SCHRON           0
+ B1SCHRON          54
+ B1SMOKEP           0
+ B1SMOKEC           0
+ B1ALCOHO           0
+ B1ALCOHO           0
+ B1PSR              0
+ B1NEGAFF           0
+ B1SLEEP            0
+ B1SSQ              0
+ B1PHYSAC           0
+ B4F              162
+ B1PAGE_M           0
+ RAA                0
+ ROTHER             0
+ FEMALE             0
+ B1SC1              0
+ M1CHADV            0
+ DSES               0
+ PSRXSES            0
+ PSRXDSES           0
+ B1SLEEP2           0
+
+
+           PSI
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST           0
+ B1LIFEST           0           163
+ C1SCHRON           0             0             0
+ C1SCHRON           0             0             0           164
+ B1SCHRON           0             0             0             0             0
+ B1SCHRON           0             0             0             0             0
+ B1SMOKEP           0             0             0             0             0
+ B1SMOKEC           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           PSI
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1SCHRON         165
+ B1SMOKEP           0             0
+ B1SMOKEC           0             0             0
+ B1ALCOHO           0             0             0             0
+ B1ALCOHO           0             0             0             0             0
+ B1PSR              0             0             0             0             0
+ B1NEGAFF           0             0             0             0             0
+ B1SLEEP            0             0             0             0             0
+ B1SSQ              0             0             0             0             0
+ B1PHYSAC           0             0             0             0             0
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           PSI
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1PSR            166
+ B1NEGAFF           0           167
+ B1SLEEP            0             0           168
+ B1SSQ              0             0             0           169
+ B1PHYSAC           0             0             0             0           170
+ B4F                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+ RAA                0             0             0             0             0
+ ROTHER             0             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           PSI
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B4F              171
+ B1PAGE_M           0             0
+ RAA                0             0             0
+ ROTHER             0             0             0             0
+ FEMALE             0             0             0             0             0
+ B1SC1              0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           PSI
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1SC1              0
+ M1CHADV            0             0
+ DSES               0             0             0
+ PSRXSES            0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ B1SLEEP2           0             0             0             0             0
+
+
+           PSI
+              B1SLEEP2
+              ________
+ B1SLEEP2           0
+
+
+     STARTING VALUES
+
+
+           TAU
+              B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________
+ 1              0.723         1.602         1.622         0.333
+
+
+           NU
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1SLEEP2
+              ________
+ 1              0.000
+
+
+           LAMBDA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST       1.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         1.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         1.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         1.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         1.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       1.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         1.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         1.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         1.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         1.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          1.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         1.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         1.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         1.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         1.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            1.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         1.000         0.000         0.000         0.000
+ RAA            0.000         0.000         1.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         1.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         1.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          1.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         1.000         0.000         0.000         0.000
+ DSES           0.000         0.000         1.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         1.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         1.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              B1SLEEP2
+              ________
+ B1LIFEST       0.000
+ B1LIFEST       0.000
+ C1SCHRON       0.000
+ C1SCHRON       0.000
+ B1SCHRON       0.000
+ B1SCHRON       0.000
+ B1SMOKEP       0.000
+ B1SMOKEC       0.000
+ B1ALCOHO       0.000
+ B1ALCOHO       0.000
+ B1PSR          0.000
+ B1NEGAFF       0.000
+ B1SLEEP        0.000
+ B1SSQ          0.000
+ B1PHYSAC       0.000
+ B4F            0.000
+ B1PAGE_M       0.000
+ RAA            0.000
+ ROTHER         0.000
+ FEMALE         0.000
+ B1SC1          0.000
+ M1CHADV        0.000
+ DSES           0.000
+ PSRXSES        0.000
+ PSRXDSES       0.000
+ B1SLEEP2       1.000
+
+
+           THETA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000
+ B1LIFEST       0.000         0.000
+ C1SCHRON       0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1SCHRON       0.000
+ B1SMOKEP       0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1PSR          0.000
+ B1NEGAFF       0.000         0.000
+ B1SLEEP        0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B4F            0.000
+ B1PAGE_M       0.000         0.000
+ RAA            0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1SC1          0.000
+ M1CHADV        0.000         0.000
+ DSES           0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1SLEEP2
+              ________
+ B1SLEEP2       0.000
+
+
+           ALPHA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ 1            -20.000         1.423       -20.000         1.621       -20.000
+
+
+           ALPHA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ 1              1.315         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              B1SLEEP2
+              ________
+ 1              0.000
+
+
+           BETA
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ B1LIFEST       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              B1SLEEP2
+              ________
+ B1LIFEST       0.000
+ B1LIFEST       0.000
+ C1SCHRON       0.000
+ C1SCHRON       0.000
+ B1SCHRON       0.000
+ B1SCHRON       0.000
+ B1SMOKEP       0.000
+ B1SMOKEC       0.000
+ B1ALCOHO       0.000
+ B1ALCOHO       0.000
+ B1PSR          0.000
+ B1NEGAFF       0.000
+ B1SLEEP        0.000
+ B1SSQ          0.000
+ B1PHYSAC       0.000
+ B4F            0.000
+ B1PAGE_M       0.000
+ RAA            0.000
+ ROTHER         0.000
+ FEMALE         0.000
+ B1SC1          0.000
+ M1CHADV        0.000
+ DSES           0.000
+ PSRXSES        0.000
+ PSRXDSES       0.000
+ B1SLEEP2       0.000
+
+
+           PSI
+              B1LIFEST      B1LIFEST      C1SCHRON      C1SCHRON      B1SCHRON
+              ________      ________      ________      ________      ________
+ B1LIFEST       0.000
+ B1LIFEST       0.000         0.207
+ C1SCHRON       0.000         0.000         0.000
+ C1SCHRON       0.000         0.000         0.000         0.557
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SCHRON       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEP       0.000         0.000         0.000         0.000         0.000
+ B1SMOKEC       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         0.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B1SCHRON      B1SMOKEP      B1SMOKEC      B1ALCOHO      B1ALCOHO
+              ________      ________      ________      ________      ________
+ B1SCHRON       0.532
+ B1SMOKEP       0.000         1.000
+ B1SMOKEC       0.000         0.000         1.000
+ B1ALCOHO       0.000         0.000         0.000         1.000
+ B1ALCOHO       0.000         0.000         0.000         0.000         1.000
+ B1PSR          0.000         0.000         0.000         0.000         0.000
+ B1NEGAFF       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP        0.000         0.000         0.000         0.000         0.000
+ B1SSQ          0.000         0.000         0.000         0.000         0.000
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.000
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B1PSR         B1NEGAFF      B1SLEEP       B1SSQ         B1PHYSAC
+              ________      ________      ________      ________      ________
+ B1PSR          0.500
+ B1NEGAFF       0.000         0.500
+ B1SLEEP        0.000         0.000         0.500
+ B1SSQ          0.000         0.000         0.000         0.500
+ B1PHYSAC       0.000         0.000         0.000         0.000         0.500
+ B4F            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+ RAA            0.000         0.000         0.000         0.000         0.000
+ ROTHER         0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B4F           B1PAGE_M      RAA           ROTHER        FEMALE
+              ________      ________      ________      ________      ________
+ B4F            0.500
+ B1PAGE_M       0.000         0.774
+ RAA            0.000         0.000         0.061
+ ROTHER         0.000         0.000         0.000         0.017
+ FEMALE         0.000         0.000         0.000         0.000         0.124
+ B1SC1          0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B1SC1         M1CHADV       DSES          PSRXSES       PSRXDSES
+              ________      ________      ________      ________      ________
+ B1SC1          0.035
+ M1CHADV        0.000         0.500
+ DSES           0.000         0.000         0.500
+ PSRXSES        0.000         0.000         0.000         0.497
+ PSRXDSES       0.000         0.000         0.000         0.000         0.504
+ B1SLEEP2       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              B1SLEEP2
+              ________
+ B1SLEEP2       1.362
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\jwile\onedrive\projects\midus\jw-midus-al\midus_rcm_imputed\rcm_int.dgm
+
+     Beginning Time:  11:28:21
+        Ending Time:  11:29:32
+       Elapsed Time:  00:01:11
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

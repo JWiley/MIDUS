@@ -1,0 +1,380 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/11/2016  10:30 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m2_stresscfa3b.dat";
+
+  VARIABLE:
+  NAMES = B1SJOBDI B1SPIWOR B1SPIHOM B1SKINNE B1SFDSNE B1SSPCRI B1SPIFAM B1SLFEDI
+       B1SDAYDI B4QPS_PS;
+   MISSING=.;
+
+      CATEGORICAL ARE
+        B1SLFEDI B1SDAYDI B1SJOBDI
+        B1SPIWOR B1SPIHOM B1SPIFAM
+        B4QPS_PS B1SKINNE B1SFDSNE B1SSPCRI;
+
+  ANALYSIS:
+
+     ESTIMATOR = WLSMV;
+     PROCESSORS = 2;
+  MODEL:
+
+     Disc BY B1SLFEDI B1SDAYDI B1SJOBDI
+       B1SPIWOR B1SPIHOM B1SPIFAM;
+     Perc BY B4QPS_PS B1SKINNE B1SFDSNE B1SSPCRI;
+
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  2364
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4621
+
+Number of dependent variables                                   10
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   B1SJOBDI    B1SPIWOR    B1SPIHOM    B1SKINNE    B1SFDSNE    B1SSPCRI
+   B1SPIFAM    B1SLFEDI    B1SDAYDI    B4QPS_PS
+
+Continuous latent variables
+   DISC        PERC
+
+
+Estimator                                                    WLSMV
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Parameterization                                             DELTA
+
+Input data file(s)
+  m2_stresscfa3b.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            95
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              B1SJOBDI      B1SPIWOR      B1SPIHOM      B1SKINNE      B1SFDSNE
+              ________      ________      ________      ________      ________
+ B1SJOBDI       0.642
+ B1SPIWOR       0.636         0.639
+ B1SPIHOM       0.640         0.638         0.996
+ B1SKINNE       0.639         0.637         0.992         0.994
+ B1SFDSNE       0.637         0.635         0.988         0.987         0.990
+ B1SSPCRI       0.480         0.479         0.707         0.706         0.703
+ B1SPIFAM       0.554         0.551         0.866         0.866         0.862
+ B1SLFEDI       0.626         0.623         0.964         0.963         0.958
+ B1SDAYDI       0.636         0.633         0.984         0.982         0.977
+ B4QPS_PS       0.189         0.188         0.269         0.269         0.267
+
+
+           Covariance Coverage
+              B1SSPCRI      B1SPIFAM      B1SLFEDI      B1SDAYDI      B4QPS_PS
+              ________      ________      ________      ________      ________
+ B1SSPCRI       0.708
+ B1SPIFAM       0.653         0.868
+ B1SLFEDI       0.684         0.840         0.967
+ B1SDAYDI       0.701         0.858         0.960         0.986
+ B4QPS_PS       0.190         0.234         0.266         0.268         0.270
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    B1SJOBDI
+      Category 1    0.410     1215.000
+      Category 2    0.244      725.000
+      Category 3    0.159      473.000
+      Category 4    0.186      553.000
+    B1SPIWOR
+      Category 1    0.453     1338.000
+      Category 2    0.203      599.000
+      Category 3    0.192      566.000
+      Category 4    0.153      452.000
+    B1SPIHOM
+      Category 1    0.430     1981.000
+      Category 2    0.250     1151.000
+      Category 3    0.150      688.000
+      Category 4    0.170      782.000
+    B1SKINNE
+      Category 1    0.242     1113.000
+      Category 2    0.342     1571.000
+      Category 3    0.143      658.000
+      Category 4    0.097      444.000
+      Category 5    0.176      807.000
+    B1SFDSNE
+      Category 1    0.216      986.000
+      Category 2    0.238     1089.000
+      Category 3    0.304     1389.000
+      Category 4    0.112      511.000
+      Category 5    0.131      598.000
+    B1SSPCRI
+      Category 1    0.263      862.000
+      Category 2    0.244      800.000
+      Category 3    0.093      305.000
+      Category 4    0.168      550.000
+      Category 5    0.231      755.000
+    B1SPIFAM
+      Category 1    0.433     1735.000
+      Category 2    0.234      940.000
+      Category 3    0.172      690.000
+      Category 4    0.161      645.000
+    B1SLFEDI
+      Category 1    0.745     3326.000
+      Category 2    0.103      459.000
+      Category 3    0.153      682.000
+    B1SDAYDI
+      Category 1    0.456     2079.000
+      Category 2    0.187      853.000
+      Category 3    0.172      785.000
+      Category 4    0.184      840.000
+    B4QPS_PS
+      Category 1    0.249      311.000
+      Category 2    0.180      225.000
+      Category 3    0.175      218.000
+      Category 4    0.198      247.000
+      Category 5    0.198      247.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       44
+
+Chi-Square Test of Model Fit
+
+          Value                            648.821*
+          Degrees of Freedom                    34
+          P-Value                           0.0000
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.063
+          90 Percent C.I.                    0.058  0.067
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.929
+          TLI                                0.906
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           8677.618
+          Degrees of Freedom                    45
+          P-Value                           0.0000
+
+WRMR (Weighted Root Mean Square Residual)
+
+          Value                              2.521
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    B1SLFEDI           1.000      0.000    999.000    999.000
+    B1SDAYDI           1.265      0.056     22.634      0.000
+    B1SJOBDI           1.125      0.056     20.267      0.000
+    B1SPIWOR           1.194      0.058     20.521      0.000
+    B1SPIHOM           0.940      0.049     19.249      0.000
+    B1SPIFAM           0.911      0.051     18.013      0.000
+
+ PERC     BY
+    B4QPS_PS           1.000      0.000    999.000    999.000
+    B1SKINNE           1.210      0.063     19.356      0.000
+    B1SFDSNE           1.066      0.056     19.068      0.000
+    B1SSPCRI           0.884      0.053     16.843      0.000
+
+ PERC     WITH
+    DISC               0.215      0.014     15.097      0.000
+
+ Thresholds
+    B1SJOBDI$1        -0.228      0.023     -9.834      0.000
+    B1SJOBDI$2         0.396      0.024     16.737      0.000
+    B1SJOBDI$3         0.891      0.027     33.421      0.000
+    B1SPIWOR$1        -0.119      0.023     -5.131      0.000
+    B1SPIWOR$2         0.400      0.024     16.858      0.000
+    B1SPIWOR$3         1.024      0.028     36.522      0.000
+    B1SPIHOM$1        -0.175      0.019     -9.430      0.000
+    B1SPIHOM$2         0.469      0.019     24.400      0.000
+    B1SPIHOM$3         0.954      0.022     43.615      0.000
+    B1SKINNE$1        -0.699      0.020    -34.542      0.000
+    B1SKINNE$2         0.213      0.019     11.427      0.000
+    B1SKINNE$3         0.606      0.020     30.619      0.000
+    B1SKINNE$4         0.932      0.022     42.886      0.000
+    B1SFDSNE$1        -0.787      0.021    -37.880      0.000
+    B1SFDSNE$2        -0.116      0.019     -6.254      0.000
+    B1SFDSNE$3         0.698      0.020     34.443      0.000
+    B1SFDSNE$4         1.123      0.023     47.835      0.000
+    B1SSPCRI$1        -0.633      0.024    -26.833      0.000
+    B1SSPCRI$2         0.020      0.022      0.909      0.363
+    B1SSPCRI$3         0.256      0.022     11.561      0.000
+    B1SSPCRI$4         0.736      0.024     30.414      0.000
+    B1SPIFAM$1        -0.170      0.020     -8.524      0.000
+    B1SPIFAM$2         0.432      0.020     21.090      0.000
+    B1SPIFAM$3         0.991      0.024     41.703      0.000
+    B1SLFEDI$1         0.658      0.020     32.386      0.000
+    B1SLFEDI$2         1.025      0.023     44.936      0.000
+    B1SDAYDI$1        -0.110      0.019     -5.910      0.000
+    B1SDAYDI$2         0.368      0.019     19.317      0.000
+    B1SDAYDI$3         0.899      0.022     41.682      0.000
+    B4QPS_PS$1        -0.677      0.039    -17.541      0.000
+    B4QPS_PS$2        -0.178      0.036     -4.980      0.000
+    B4QPS_PS$3         0.264      0.036      7.352      0.000
+    B4QPS_PS$4         0.849      0.041     20.944      0.000
+
+ Variances
+    DISC               0.273      0.021     12.967      0.000
+    PERC               0.372      0.035     10.568      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ DISC     BY
+    B1SLFEDI           0.523      0.020     25.933      0.000
+    B1SDAYDI           0.661      0.016     42.317      0.000
+    B1SJOBDI           0.588      0.019     30.822      0.000
+    B1SPIWOR           0.624      0.020     31.933      0.000
+    B1SPIHOM           0.491      0.017     29.174      0.000
+    B1SPIFAM           0.476      0.019     25.310      0.000
+
+ PERC     BY
+    B4QPS_PS           0.610      0.029     21.137      0.000
+    B1SKINNE           0.738      0.014     52.403      0.000
+    B1SFDSNE           0.650      0.014     46.002      0.000
+    B1SSPCRI           0.540      0.019     28.104      0.000
+
+ PERC     WITH
+    DISC               0.674      0.017     38.571      0.000
+
+ Thresholds
+    B1SJOBDI$1        -0.228      0.023     -9.834      0.000
+    B1SJOBDI$2         0.396      0.024     16.737      0.000
+    B1SJOBDI$3         0.891      0.027     33.421      0.000
+    B1SPIWOR$1        -0.119      0.023     -5.131      0.000
+    B1SPIWOR$2         0.400      0.024     16.858      0.000
+    B1SPIWOR$3         1.024      0.028     36.522      0.000
+    B1SPIHOM$1        -0.175      0.019     -9.430      0.000
+    B1SPIHOM$2         0.469      0.019     24.400      0.000
+    B1SPIHOM$3         0.954      0.022     43.615      0.000
+    B1SKINNE$1        -0.699      0.020    -34.542      0.000
+    B1SKINNE$2         0.213      0.019     11.427      0.000
+    B1SKINNE$3         0.606      0.020     30.619      0.000
+    B1SKINNE$4         0.932      0.022     42.886      0.000
+    B1SFDSNE$1        -0.787      0.021    -37.880      0.000
+    B1SFDSNE$2        -0.116      0.019     -6.254      0.000
+    B1SFDSNE$3         0.698      0.020     34.443      0.000
+    B1SFDSNE$4         1.123      0.023     47.835      0.000
+    B1SSPCRI$1        -0.633      0.024    -26.833      0.000
+    B1SSPCRI$2         0.020      0.022      0.909      0.363
+    B1SSPCRI$3         0.256      0.022     11.561      0.000
+    B1SSPCRI$4         0.736      0.024     30.414      0.000
+    B1SPIFAM$1        -0.170      0.020     -8.524      0.000
+    B1SPIFAM$2         0.432      0.020     21.090      0.000
+    B1SPIFAM$3         0.991      0.024     41.703      0.000
+    B1SLFEDI$1         0.658      0.020     32.386      0.000
+    B1SLFEDI$2         1.025      0.023     44.936      0.000
+    B1SDAYDI$1        -0.110      0.019     -5.910      0.000
+    B1SDAYDI$2         0.368      0.019     19.317      0.000
+    B1SDAYDI$3         0.899      0.022     41.682      0.000
+    B4QPS_PS$1        -0.677      0.039    -17.541      0.000
+    B4QPS_PS$2        -0.178      0.036     -4.980      0.000
+    B4QPS_PS$3         0.264      0.036      7.352      0.000
+    B4QPS_PS$4         0.849      0.041     20.944      0.000
+
+ Variances
+    DISC               1.000      0.000    999.000    999.000
+    PERC               1.000      0.000    999.000    999.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed   Residual
+    Variable        Estimate       S.E.  Est./S.E.    P-Value    Variance
+
+    B1SJOBDI           0.346      0.022     15.411      0.000      0.654
+    B1SPIWOR           0.389      0.024     15.966      0.000      0.611
+    B1SPIHOM           0.242      0.017     14.587      0.000      0.758
+    B1SKINNE           0.545      0.021     26.202      0.000      0.455
+    B1SFDSNE           0.423      0.018     23.001      0.000      0.577
+    B1SSPCRI           0.291      0.021     14.052      0.000      0.709
+    B1SPIFAM           0.227      0.018     12.655      0.000      0.773
+    B1SLFEDI           0.273      0.021     12.967      0.000      0.727
+    B1SDAYDI           0.437      0.021     21.158      0.000      0.563
+    B4QPS_PS           0.372      0.035     10.568      0.000      0.628
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.229E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  22:30:24
+        Ending Time:  22:30:25
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

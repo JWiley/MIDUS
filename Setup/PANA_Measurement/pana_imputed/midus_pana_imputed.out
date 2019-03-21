@@ -1,0 +1,1624 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+09/03/2015  12:05 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "MIDUS_pana_imputed.dat";
+
+  VARIABLE:
+  NAMES = B1SA24A B1SA24B B1SA24C B1SA24D B1SA24E B1SA24F B1SA24H B1SA24I B1SA24J
+       B1SA24K B1SA24L B1SA26A B1SA26B B1SA26C B1SA26D B1SA26E B1SA26F B1SA26I B1SA26J
+       B1SA26K B1SA26L M2ID M2FAMNUM;
+   MISSING=.;
+
+  USEVARIABLES ARE
+    ! NA items
+    B1SA24A B1SA24B B1SA24C B1SA24D B1SA24E B1SA24F
+    B1SA24H B1SA24I B1SA24J B1SA24K B1SA24L
+    ! PA items
+    B1SA26A B1SA26B B1SA26C B1SA26D B1SA26E
+    B1SA26F B1SA26I B1SA26J B1SA26K B1SA26L
+  ;
+
+  CATEGORICAL ARE
+    ! NA items
+    B1SA24A B1SA24B B1SA24C B1SA24D B1SA24E B1SA24F
+    B1SA24H B1SA24I B1SA24J B1SA24K B1SA24L
+    ! PA items
+    B1SA26A B1SA26B B1SA26C B1SA26D B1SA26E
+    B1SA26F B1SA26I B1SA26J B1SA26K B1SA26L
+  ;
+    IDVARIABLE = M2ID;
+    !CLUSTER = M2FAMNUM;
+
+  ANALYSIS:
+
+    ESTIMATOR = BAYES;
+    PROCESSORS = 8;
+    BSEED = 12345;
+  MODEL:
+
+    NA BY B1SA24A*-1 B1SA24B*-1 B1SA24C*-1 B1SA24D*-1 B1SA24E*-1 B1SA24F*-1
+      B1SA24H*-1 B1SA24I*-1 B1SA24J*-1 B1SA24K*-1 B1SA24L*-1;
+    PA BY B1SA26A*-1 B1SA26B*-1 B1SA26C*-1 B1SA26D*-1 B1SA26E*-1
+    B1SA26F*-1 B1SA26I*-1 B1SA26J*-1 B1SA26K*-1 B1SA26L*-1;
+    NA@1;
+    PA@1;
+
+  OUTPUT:
+  STDYX;
+  SAVEDATA:
+
+    DATA IMPUTATION:
+    NDATASETS = 50;
+    SAVE = pana_imp*.dat;
+    SAVEDATA: FILE = pana_plaus.dat;
+    SAVE = FSCORES (50);
+    FACTORS = NA PA;
+
+
+
+*** WARNING in ANALYSIS command
+  For ESTIMATOR=BAYES, the actual number of PROCESSORS used is equal to the number
+  of MCMC chains.  One processor will be used for each MCMC chain.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  938
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4617
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                   21
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   B1SA24A     B1SA24B     B1SA24C     B1SA24D     B1SA24E     B1SA24F
+   B1SA24H     B1SA24I     B1SA24J     B1SA24K     B1SA24L     B1SA26A
+   B1SA26B     B1SA26C     B1SA26D     B1SA26E     B1SA26F     B1SA26I
+   B1SA26J     B1SA26K     B1SA26L
+
+Continuous latent variables
+   NA          PA
+
+Variables with special functions
+
+  ID variable           M2ID
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               2
+  Random seed for the first chain                            12345
+  Starting value information                           UNPERTURBED
+  Treatment of categorical mediator                         LATENT
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                               1
+Specifications for Data Imputation
+  Number of imputed data sets                                   50
+  Iteration intervals for thinning                             100
+
+Input data file(s)
+  MIDUS_pana_imputed.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+
+
+SUMMARY OF MISSING DATA PATTERNS
+
+     Number of missing data patterns           114
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
+ B1SA24A   x  x  x  x  x  x        x  x     x  x  x  x  x     x  x  x
+ B1SA24B   x  x  x  x  x  x        x  x  x  x     x  x  x     x  x  x
+ B1SA24C   x  x  x  x  x  x        x  x     x  x  x  x           x  x
+ B1SA24D   x  x  x  x  x  x        x  x     x  x  x  x  x     x  x  x
+ B1SA24E   x  x  x  x  x  x        x  x     x  x  x  x  x     x  x  x
+ B1SA24F   x     x  x  x           x  x     x  x  x  x  x     x  x  x
+ B1SA24H   x  x  x  x  x           x  x     x  x  x  x  x     x  x  x
+ B1SA24I   x  x  x  x  x  x        x  x     x  x     x  x     x  x  x
+ B1SA24J   x  x  x     x  x        x  x     x  x  x  x  x     x  x  x
+ B1SA24K   x  x  x  x  x           x  x     x  x  x  x  x     x  x  x
+ B1SA24L   x  x  x  x  x           x  x     x  x  x  x  x  x  x  x  x
+ B1SA26A   x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26B   x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26C   x  x  x  x  x  x  x        x  x     x  x  x     x  x  x  x
+ B1SA26D   x  x     x  x  x  x     x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26E   x  x  x  x  x  x  x     x  x  x  x  x  x  x     x  x  x  x
+ B1SA26F   x  x  x  x  x  x  x     x  x  x  x  x  x        x  x  x  x
+ B1SA26I   x  x  x  x  x  x  x     x     x  x  x  x  x  x  x  x  x
+ B1SA26J   x  x  x  x  x  x  x        x  x  x  x  x  x  x  x  x
+ B1SA26K   x  x  x  x     x  x     x  x  x  x  x  x  x     x  x  x  x
+ B1SA26L   x  x  x  x  x  x  x     x  x  x  x  x  x  x  x  x  x  x  x
+
+          21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+ B1SA24A   x  x  x     x  x  x     x     x  x  x  x  x  x  x  x
+ B1SA24B   x  x  x  x  x  x  x  x  x     x     x  x  x  x  x  x
+ B1SA24C   x  x  x  x  x  x  x     x     x     x     x  x  x        x
+ B1SA24D      x  x     x           x     x     x     x  x  x  x
+ B1SA24E   x  x  x  x  x  x  x  x  x  x  x        x  x  x  x  x
+ B1SA24F      x  x  x     x  x     x     x     x  x  x  x  x  x
+ B1SA24H   x  x  x  x  x  x  x  x  x     x     x  x     x  x  x
+ B1SA24I   x  x  x  x  x  x  x  x  x     x     x  x  x  x  x  x
+ B1SA24J   x     x  x  x  x  x  x  x     x     x  x  x  x  x  x  x
+ B1SA24K   x  x  x  x  x  x  x  x  x     x     x  x  x  x     x
+ B1SA24L   x  x  x  x  x  x  x  x  x           x  x  x  x  x  x  x
+ B1SA26A   x  x     x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26B   x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26C   x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26D   x  x  x  x  x  x  x  x  x  x  x  x  x  x  x     x  x  x  x
+ B1SA26E   x  x  x  x     x  x  x  x  x  x     x  x  x     x  x  x  x
+ B1SA26F   x  x  x  x  x  x  x  x  x  x  x  x  x  x  x     x  x  x  x
+ B1SA26I   x  x  x  x  x     x  x  x  x  x        x  x     x     x
+ B1SA26J   x     x  x  x  x  x  x  x  x  x     x  x  x     x  x  x
+ B1SA26K   x  x  x  x  x  x  x  x  x  x  x  x  x  x  x     x  x  x  x
+ B1SA26L   x  x  x  x  x  x  x  x     x  x  x  x  x  x     x  x  x  x
+
+          41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60
+ B1SA24A   x     x  x  x  x  x        x  x  x     x  x  x  x  x  x  x
+ B1SA24B   x     x  x  x  x     x  x  x  x  x     x  x  x     x  x
+ B1SA24C   x     x  x  x     x     x  x     x     x  x  x  x  x     x
+ B1SA24D   x     x  x  x        x     x  x        x  x  x  x  x  x  x
+ B1SA24E         x  x  x     x  x        x        x  x  x        x  x
+ B1SA24F   x        x        x  x  x     x           x  x  x        x
+ B1SA24H   x     x  x  x     x  x        x  x           x  x  x  x  x
+ B1SA24I   x        x  x     x  x        x  x     x  x  x  x  x  x  x
+ B1SA24J   x        x  x  x  x  x        x  x     x  x  x  x  x  x  x
+ B1SA24K   x     x  x        x  x        x        x  x     x  x  x  x
+ B1SA24L   x     x  x  x  x  x  x  x     x  x  x  x  x  x  x  x  x  x
+ B1SA26A   x     x     x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26B   x     x     x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26C   x  x        x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26D   x           x  x  x  x  x  x  x  x     x  x  x  x  x  x  x
+ B1SA26E   x     x     x  x     x  x  x     x  x  x  x  x  x  x  x  x
+ B1SA26F   x  x  x     x  x  x  x  x  x  x  x  x  x     x  x  x  x
+ B1SA26I   x     x     x  x  x  x  x  x  x  x  x  x        x  x  x  x
+ B1SA26J   x     x     x  x  x  x  x  x  x  x  x  x  x  x  x  x     x
+ B1SA26K   x     x     x  x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+ B1SA26L   x  x  x        x  x  x  x  x  x  x  x  x  x  x  x  x  x  x
+
+          61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80
+ B1SA24A   x  x        x  x  x  x     x  x        x  x     x  x  x  x
+ B1SA24B   x  x  x     x  x  x  x  x  x           x  x     x  x  x
+ B1SA24C   x  x  x     x  x  x  x  x  x           x  x     x  x  x
+ B1SA24D   x  x  x     x  x  x  x  x  x           x        x  x  x
+ B1SA24E   x  x  x     x  x  x  x  x  x  x        x  x     x  x  x
+ B1SA24F   x  x  x     x  x  x  x  x  x     x              x  x  x
+ B1SA24H   x  x  x     x  x  x  x  x  x     x     x        x  x  x
+ B1SA24I   x  x  x     x  x  x  x  x  x  x        x  x        x  x
+ B1SA24J   x  x  x     x  x  x  x  x  x           x        x  x  x
+ B1SA24K   x  x  x     x  x  x  x  x  x           x           x  x
+ B1SA24L   x  x  x     x  x     x  x  x              x     x  x
+ B1SA26A   x     x  x  x  x  x  x  x  x  x  x     x  x     x  x  x  x
+ B1SA26B   x  x  x  x     x     x  x  x  x  x     x  x     x  x  x  x
+ B1SA26C   x     x  x  x  x  x     x  x  x  x  x  x  x     x  x     x
+ B1SA26D   x  x  x  x  x     x  x  x  x  x  x     x  x     x  x  x  x
+ B1SA26E   x  x  x  x  x     x  x     x  x  x     x  x  x  x     x  x
+ B1SA26F   x     x     x     x     x  x  x  x  x  x  x     x  x  x  x
+ B1SA26I      x  x  x  x  x  x     x  x  x  x     x  x     x  x  x  x
+ B1SA26J      x  x  x  x  x  x     x  x  x  x     x  x        x  x  x
+ B1SA26K      x  x  x  x  x  x     x        x     x  x     x  x  x  x
+ B1SA26L      x  x  x  x  x  x  x  x     x  x     x  x     x  x  x  x
+
+          81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100
+ B1SA24A   x           x  x  x  x  x  x     x     x     x     x  x   x
+ B1SA24B   x              x  x     x        x     x     x        x   x
+ B1SA24C   x     x        x  x     x        x  x        x     x  x   x
+ B1SA24D   x                 x  x  x  x     x  x        x     x  x   x
+ B1SA24E   x              x  x  x     x     x  x        x     x  x   x
+ B1SA24F   x              x  x  x     x     x  x        x     x  x   x
+ B1SA24H   x        x     x  x  x  x  x     x  x        x  x  x  x   x
+ B1SA24I   x              x     x  x  x        x        x        x   x
+ B1SA24J   x              x  x  x  x  x  x  x  x        x            x
+ B1SA24K   x              x  x  x  x  x     x  x        x     x  x   x
+ B1SA24L   x              x  x  x  x  x     x  x        x  x  x  x   x
+ B1SA26A      x     x  x  x  x  x  x  x  x     x  x  x  x  x  x      x
+ B1SA26B      x     x     x  x  x     x  x  x  x  x  x     x  x      x
+ B1SA26C   x  x     x     x  x  x  x  x  x     x  x  x  x  x  x      x
+ B1SA26D   x  x     x     x     x  x  x  x     x  x  x     x  x      x
+ B1SA26E   x  x     x     x  x  x  x  x  x     x  x  x  x  x  x  x   x
+ B1SA26F   x  x     x     x  x  x  x     x     x  x  x  x  x  x  x   x
+ B1SA26I   x                 x  x  x  x  x     x  x     x  x     x   x
+ B1SA26J   x  x     x     x  x  x  x  x  x     x  x  x  x  x     x
+ B1SA26K   x  x     x        x  x  x  x  x     x  x     x  x  x  x
+ B1SA26L   x  x     x     x  x  x  x  x  x     x  x  x  x  x  x  x   x
+
+          101 102 103 104 105 106 107 108 109 110 111 112 113 114
+ B1SA24A        x   x   x   x   x   x   x   x   x   x   x   x   x
+ B1SA24B        x   x           x   x   x       x       x   x
+ B1SA24C    x   x               x   x   x               x   x   x
+ B1SA24D        x           x   x   x   x   x   x       x   x   x
+ B1SA24E        x   x       x   x   x   x                   x   x
+ B1SA24F        x   x               x   x   x   x       x   x   x
+ B1SA24H        x   x                   x       x       x   x   x
+ B1SA24I        x   x               x   x       x       x   x   x
+ B1SA24J    x   x   x       x           x       x       x   x
+ B1SA24K        x       x           x   x   x   x       x   x   x
+ B1SA24L        x   x                   x       x       x   x   x
+ B1SA26A    x   x   x   x   x   x   x   x   x   x   x   x   x   x
+ B1SA26B    x   x   x   x   x   x   x   x   x   x       x   x   x
+ B1SA26C    x   x   x   x   x   x   x       x           x   x   x
+ B1SA26D    x   x   x   x   x   x   x   x   x   x   x   x   x   x
+ B1SA26E    x   x   x   x   x   x   x   x   x   x       x       x
+ B1SA26F    x   x   x   x   x   x   x   x   x   x       x   x   x
+ B1SA26I    x   x   x   x   x   x   x   x   x   x       x   x   x
+ B1SA26J    x       x   x   x   x   x   x   x   x           x   x
+ B1SA26K    x   x   x   x   x   x           x   x       x       x
+ B1SA26L    x       x   x   x   x   x   x   x   x       x   x   x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1        4344          39           2          77           1
+          2           7          40           1          78           5
+          3           3          41           9          79           3
+          4          10          42           1          80           2
+          5           6          43           1          81           1
+          6           1          44           1          82           1
+          7           7          45           1          83           1
+          8           1          46           1          84           1
+          9           3          47           1          85           1
+         10           5          48           1          86           1
+         11           1          49           1          87           1
+         12          16          50           1          88           1
+         13           6          51           1          89           1
+         14           8          52           1          90           1
+         15           8          53           1          91           2
+         16           1          54           1          92           1
+         17           1          55           1          93           1
+         18          14          56           2          94           1
+         19           5          57           1          95           1
+         20           3          58           1          96           1
+         21           2          59           1          97           1
+         22           1          60           1          98           1
+         23           6          61           1          99           1
+         24           1          62           1         100           1
+         25           1          63           3         101           1
+         26           3          64           1         102           1
+         27          14          65           3         103           1
+         28           1          66           1         104           1
+         29           7          67           1         105           1
+         30           1          68           1         106           1
+         31           9          69           1         107           1
+         32           1          70           1         108           1
+         33           2          71           1         109           1
+         34           1          72           1         110           1
+         35           5          73           1         111           1
+         36           1          74           1         112           1
+         37          12          75           1         113           1
+         38           1          76           1         114           1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              B1SA24A       B1SA24B       B1SA24C       B1SA24D       B1SA24E
+              ________      ________      ________      ________      ________
+ B1SA24A        0.992
+ B1SA24B        0.987         0.989
+ B1SA24C        0.985         0.984         0.987
+ B1SA24D        0.985         0.983         0.981         0.986
+ B1SA24E        0.986         0.985         0.982         0.982         0.988
+ B1SA24F        0.985         0.984         0.982         0.982         0.983
+ B1SA24H        0.987         0.986         0.983         0.983         0.985
+ B1SA24I        0.987         0.985         0.983         0.982         0.985
+ B1SA24J        0.986         0.985         0.982         0.982         0.984
+ B1SA24K        0.985         0.984         0.981         0.982         0.983
+ B1SA24L        0.986         0.985         0.982         0.982         0.984
+ B1SA26A        0.990         0.987         0.984         0.984         0.986
+ B1SA26B        0.990         0.987         0.985         0.984         0.986
+ B1SA26C        0.985         0.982         0.980         0.979         0.982
+ B1SA26D        0.989         0.987         0.984         0.984         0.986
+ B1SA26E        0.988         0.986         0.984         0.983         0.985
+ B1SA26F        0.988         0.986         0.983         0.982         0.984
+ B1SA26I        0.986         0.984         0.981         0.982         0.983
+ B1SA26J        0.986         0.984         0.982         0.981         0.983
+ B1SA26K        0.987         0.985         0.983         0.982         0.984
+ B1SA26L        0.989         0.986         0.984         0.983         0.985
+
+
+           Covariance Coverage
+              B1SA24F       B1SA24H       B1SA24I       B1SA24J       B1SA24K
+              ________      ________      ________      ________      ________
+ B1SA24F        0.987
+ B1SA24H        0.985         0.989
+ B1SA24I        0.984         0.986         0.988
+ B1SA24J        0.983         0.985         0.985         0.989
+ B1SA24K        0.983         0.985         0.984         0.983         0.987
+ B1SA24L        0.984         0.986         0.985         0.985         0.983
+ B1SA26A        0.985         0.987         0.986         0.987         0.985
+ B1SA26B        0.985         0.987         0.986         0.987         0.985
+ B1SA26C        0.981         0.983         0.982         0.982         0.980
+ B1SA26D        0.985         0.987         0.987         0.987         0.985
+ B1SA26E        0.984         0.986         0.985         0.985         0.984
+ B1SA26F        0.983         0.986         0.985         0.985         0.983
+ B1SA26I        0.982         0.984         0.984         0.984         0.982
+ B1SA26J        0.982         0.984         0.984         0.984         0.982
+ B1SA26K        0.983         0.986         0.984         0.985         0.983
+ B1SA26L        0.984         0.986         0.985         0.986         0.984
+
+
+           Covariance Coverage
+              B1SA24L       B1SA26A       B1SA26B       B1SA26C       B1SA26D
+              ________      ________      ________      ________      ________
+ B1SA24L        0.989
+ B1SA26A        0.987         0.997
+ B1SA26B        0.987         0.995         0.997
+ B1SA26C        0.983         0.990         0.990         0.992
+ B1SA26D        0.986         0.994         0.995         0.990         0.996
+ B1SA26E        0.986         0.993         0.993         0.989         0.993
+ B1SA26F        0.985         0.993         0.993         0.989         0.993
+ B1SA26I        0.984         0.990         0.990         0.986         0.990
+ B1SA26J        0.984         0.991         0.991         0.988         0.991
+ B1SA26K        0.985         0.992         0.992         0.988         0.992
+ B1SA26L        0.986         0.994         0.994         0.989         0.994
+
+
+           Covariance Coverage
+              B1SA26E       B1SA26F       B1SA26I       B1SA26J       B1SA26K
+              ________      ________      ________      ________      ________
+ B1SA26E        0.995
+ B1SA26F        0.992         0.995
+ B1SA26I        0.990         0.989         0.992
+ B1SA26J        0.990         0.990         0.989         0.993
+ B1SA26K        0.992         0.991         0.989         0.990         0.994
+ B1SA26L        0.993         0.992         0.990         0.991         0.992
+
+
+           Covariance Coverage
+              B1SA26L
+              ________
+ B1SA26L        0.996
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    B1SA24A
+      Category 1    0.006       28.000
+      Category 2    0.019       88.000
+      Category 3    0.070      320.000
+      Category 4    0.196      898.000
+      Category 5    0.709     3246.000
+    B1SA24B
+      Category 1    0.006       28.000
+      Category 2    0.031      141.000
+      Category 3    0.148      676.000
+      Category 4    0.370     1691.000
+      Category 5    0.445     2031.000
+    B1SA24C
+      Category 1    0.009       43.000
+      Category 2    0.032      147.000
+      Category 3    0.153      696.000
+      Category 4    0.342     1557.000
+      Category 5    0.464     2113.000
+    B1SA24D
+      Category 1    0.007       32.000
+      Category 2    0.015       68.000
+      Category 3    0.052      236.000
+      Category 4    0.112      510.000
+      Category 5    0.814     3706.000
+    B1SA24E
+      Category 1    0.020       92.000
+      Category 2    0.039      179.000
+      Category 3    0.120      546.000
+      Category 4    0.263     1200.000
+      Category 5    0.558     2545.000
+    B1SA24F
+      Category 1    0.007       30.000
+      Category 2    0.016       71.000
+      Category 3    0.052      235.000
+      Category 4    0.108      492.000
+      Category 5    0.818     3729.000
+    B1SA24H
+      Category 1    0.004       19.000
+      Category 2    0.013       60.000
+      Category 3    0.051      232.000
+      Category 4    0.170      777.000
+      Category 5    0.762     3480.000
+    B1SA24I
+      Category 1    0.006       27.000
+      Category 2    0.018       80.000
+      Category 3    0.065      298.000
+      Category 4    0.205      937.000
+      Category 5    0.706     3221.000
+    B1SA24J
+      Category 1    0.009       39.000
+      Category 2    0.028      128.000
+      Category 3    0.174      793.000
+      Category 4    0.420     1917.000
+      Category 5    0.370     1688.000
+    B1SA24K
+      Category 1    0.005       22.000
+      Category 2    0.009       39.000
+      Category 3    0.041      188.000
+      Category 4    0.126      572.000
+      Category 5    0.820     3736.000
+    B1SA24L
+      Category 1    0.010       45.000
+      Category 2    0.027      125.000
+      Category 3    0.192      876.000
+      Category 4    0.425     1940.000
+      Category 5    0.346     1580.000
+    B1SA26A
+      Category 1    0.056      259.000
+      Category 2    0.612     2816.000
+      Category 3    0.256     1179.000
+      Category 4    0.069      319.000
+      Category 5    0.006       29.000
+    B1SA26B
+      Category 1    0.080      368.000
+      Category 2    0.660     3036.000
+      Category 3    0.199      918.000
+      Category 4    0.056      258.000
+      Category 5    0.005       22.000
+    B1SA26C
+      Category 1    0.045      204.000
+      Category 2    0.275     1260.000
+      Category 3    0.377     1728.000
+      Category 4    0.228     1045.000
+      Category 5    0.075      343.000
+    B1SA26D
+      Category 1    0.077      354.000
+      Category 2    0.503     2313.000
+      Category 3    0.281     1294.000
+      Category 4    0.116      533.000
+      Category 5    0.023      105.000
+    B1SA26E
+      Category 1    0.088      405.000
+      Category 2    0.501     2301.000
+      Category 3    0.269     1238.000
+      Category 4    0.112      515.000
+      Category 5    0.030      136.000
+    B1SA26F
+      Category 1    0.101      466.000
+      Category 2    0.382     1753.000
+      Category 3    0.304     1398.000
+      Category 4    0.160      735.000
+      Category 5    0.052      241.000
+    B1SA26I
+      Category 1    0.107      492.000
+      Category 2    0.425     1947.000
+      Category 3    0.325     1491.000
+      Category 4    0.113      517.000
+      Category 5    0.029      134.000
+    B1SA26J
+      Category 1    0.128      586.000
+      Category 2    0.530     2431.000
+      Category 3    0.254     1166.000
+      Category 4    0.078      359.000
+      Category 5    0.009       43.000
+    B1SA26K
+      Category 1    0.171      783.000
+      Category 2    0.427     1958.000
+      Category 3    0.272     1249.000
+      Category 4    0.104      476.000
+      Category 5    0.027      124.000
+    B1SA26L
+      Category 1    0.168      770.000
+      Category 2    0.456     2094.000
+      Category 3    0.251     1156.000
+      Category 4    0.101      463.000
+      Category 5    0.025      114.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                             106
+
+Bayesian Posterior Predictive Checking using Chi-Square
+
+          95% Confidence Interval for the Difference Between
+          the Observed and the Replicated Chi-Square Values
+
+                               1912.644          2184.808
+
+          Posterior Predictive P-Value              0.000
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+ NA       BY
+    B1SA24A            1.310       0.038      0.000       1.236       1.385      *
+    B1SA24B            1.144       0.032      0.000       1.087       1.210      *
+    B1SA24C            1.173       0.029      0.000       1.117       1.232      *
+    B1SA24D            1.798       0.062      0.000       1.676       1.910      *
+    B1SA24E            1.115       0.029      0.000       1.058       1.177      *
+    B1SA24F            1.584       0.059      0.000       1.478       1.708      *
+    B1SA24H            1.155       0.037      0.000       1.081       1.226      *
+    B1SA24I            1.229       0.037      0.000       1.159       1.303      *
+    B1SA24J            1.205       0.033      0.000       1.138       1.267      *
+    B1SA24K            1.082       0.036      0.000       1.011       1.150      *
+    B1SA24L            1.130       0.031      0.000       1.071       1.190      *
+
+ PA       BY
+    B1SA26A            1.703       0.045      0.000       1.626       1.806      *
+    B1SA26B            1.882       0.048      0.000       1.794       1.980      *
+    B1SA26C            1.365       0.029      0.000       1.309       1.424      *
+    B1SA26D            1.296       0.030      0.000       1.234       1.351      *
+    B1SA26E            1.455       0.034      0.000       1.389       1.520      *
+    B1SA26F            1.733       0.040      0.000       1.658       1.813      *
+    B1SA26I            1.637       0.038      0.000       1.564       1.712      *
+    B1SA26J            1.126       0.027      0.000       1.072       1.177      *
+    B1SA26K            1.165       0.027      0.000       1.112       1.222      *
+    B1SA26L            1.055       0.025      0.000       1.006       1.104      *
+
+ PA       WITH
+    NA                -0.664       0.010      0.000      -0.683      -0.644      *
+
+ Thresholds
+    B1SA24A$1         -4.280       0.108      0.000      -4.541      -4.112      *
+    B1SA24A$2         -3.311       0.074      0.000      -3.456      -3.165      *
+    B1SA24A$3         -2.130       0.045      0.000      -2.225      -2.048      *
+    B1SA24A$4         -0.869       0.032      0.000      -0.934      -0.805      *
+    B1SA24B$1         -3.970       0.113      0.000      -4.187      -3.732      *
+    B1SA24B$2         -2.751       0.058      0.000      -2.871      -2.639      *
+    B1SA24B$3         -1.332       0.032      0.000      -1.399      -1.270      *
+    B1SA24B$4          0.209       0.027      0.000       0.158       0.265      *
+    B1SA24C$1         -3.664       0.084      0.000      -3.828      -3.508      *
+    B1SA24C$2         -2.678       0.054      0.000      -2.782      -2.579      *
+    B1SA24C$3         -1.294       0.033      0.000      -1.364      -1.230      *
+    B1SA24C$4          0.138       0.027      0.000       0.083       0.190      *
+    B1SA24D$1         -5.334       0.183      0.000      -5.697      -5.006      *
+    B1SA24D$2         -4.250       0.121      0.000      -4.461      -4.014      *
+    B1SA24D$3         -2.940       0.082      0.000      -3.094      -2.781      *
+    B1SA24D$4         -1.761       0.058      0.000      -1.861      -1.637      *
+    B1SA24E$1         -3.027       0.057      0.000      -3.131      -2.914      *
+    B1SA24E$2         -2.356       0.045      0.000      -2.434      -2.252      *
+    B1SA24E$3         -1.378       0.034      0.000      -1.440      -1.309      *
+    B1SA24E$4         -0.208       0.027      0.000      -0.256      -0.152      *
+    B1SA24F$1         -4.836       0.166      0.000      -5.181      -4.575      *
+    B1SA24F$2         -3.869       0.113      0.000      -4.068      -3.639      *
+    B1SA24F$3         -2.688       0.069      0.000      -2.810      -2.544      *
+    B1SA24F$4         -1.642       0.050      0.000      -1.732      -1.539      *
+    B1SA24H$1         -4.267       0.121      0.000      -4.487      -4.012      *
+    B1SA24H$2         -3.296       0.079      0.000      -3.449      -3.136      *
+    B1SA24H$3         -2.244       0.048      0.000      -2.348      -2.153      *
+    B1SA24H$4         -1.056       0.032      0.000      -1.121      -0.994      *
+    B1SA24I$1         -4.135       0.110      0.000      -4.338      -3.898      *
+    B1SA24I$2         -3.206       0.071      0.000      -3.355      -3.068      *
+    B1SA24I$3         -2.103       0.047      0.000      -2.201      -2.011      *
+    B1SA24I$4         -0.826       0.032      0.000      -0.887      -0.761      *
+    B1SA24J$1         -3.861       0.102      0.000      -4.048      -3.635      *
+    B1SA24J$2         -2.818       0.067      0.000      -2.949      -2.693      *
+    B1SA24J$3         -1.225       0.037      0.000      -1.298      -1.153      *
+    B1SA24J$4          0.505       0.027      0.000       0.455       0.560      *
+    B1SA24K$1         -3.965       0.101      0.000      -4.147      -3.758      *
+    B1SA24K$2         -3.348       0.074      0.000      -3.491      -3.205      *
+    B1SA24K$3         -2.349       0.051      0.000      -2.450      -2.249      *
+    B1SA24K$4         -1.312       0.035      0.000      -1.377      -1.240      *
+    B1SA24L$1         -3.627       0.090      0.000      -3.803      -3.445      *
+    B1SA24L$2         -2.708       0.065      0.000      -2.830      -2.580      *
+    B1SA24L$3         -1.082       0.032      0.000      -1.142      -1.016      *
+    B1SA24L$4          0.585       0.026      0.000       0.532       0.635      *
+    B1SA26A$1         -3.093       0.074      0.000      -3.263      -2.959      *
+    B1SA26A$2          0.819       0.036      0.000       0.750       0.889      *
+    B1SA26A$3          2.811       0.061      0.000       2.692       2.936      *
+    B1SA26A$4          4.955       0.126      0.000       4.729       5.218      *
+    B1SA26B$1         -2.855       0.070      0.000      -3.003      -2.738      *
+    B1SA26B$2          1.325       0.042      0.000       1.247       1.407      *
+    B1SA26B$3          3.305       0.070      0.000       3.176       3.438      *
+    B1SA26B$4          5.613       0.165      0.000       5.302       5.924      *
+    B1SA26C$1         -2.891       0.061      0.000      -3.030      -2.776      *
+    B1SA26C$2         -0.762       0.033      0.000      -0.829      -0.702      *
+    B1SA26C$3          0.857       0.031      0.000       0.799       0.919      *
+    B1SA26C$4          2.391       0.044      0.000       2.306       2.478      *
+    B1SA26D$1         -2.280       0.046      0.000      -2.367      -2.180      *
+    B1SA26D$2          0.314       0.030      0.000       0.253       0.372      *
+    B1SA26D$3          1.761       0.041      0.000       1.683       1.838      *
+    B1SA26D$4          3.249       0.065      0.000       3.131       3.391      *
+    B1SA26E$1         -2.318       0.053      0.000      -2.424      -2.213      *
+    B1SA26E$2          0.372       0.029      0.000       0.316       0.426      *
+    B1SA26E$3          1.884       0.040      0.000       1.803       1.960      *
+    B1SA26E$4          3.327       0.063      0.000       3.209       3.455      *
+    B1SA26F$1         -2.430       0.049      0.000      -2.531      -2.341      *
+    B1SA26F$2         -0.100       0.034      0.002      -0.167      -0.031      *
+    B1SA26F$3          1.565       0.043      0.000       1.491       1.650      *
+    B1SA26F$4          3.241       0.067      0.000       3.110       3.387      *
+    B1SA26I$1         -2.281       0.052      0.000      -2.386      -2.175      *
+    B1SA26I$2          0.142       0.034      0.000       0.074       0.207      *
+    B1SA26I$3          2.035       0.045      0.000       1.942       2.119      *
+    B1SA26I$4          3.603       0.077      0.000       3.429       3.750      *
+    B1SA26J$1         -1.657       0.037      0.000      -1.729      -1.585      *
+    B1SA26J$2          0.598       0.027      0.000       0.546       0.654      *
+    B1SA26J$3          2.021       0.039      0.000       1.946       2.101      *
+    B1SA26J$4          3.589       0.078      0.000       3.446       3.747      *
+    B1SA26K$1         -1.413       0.034      0.000      -1.477      -1.345      *
+    B1SA26K$2          0.364       0.028      0.000       0.310       0.420      *
+    B1SA26K$3          1.713       0.038      0.000       1.637       1.787      *
+    B1SA26K$4          2.954       0.058      0.000       2.847       3.075      *
+    B1SA26L$1         -1.361       0.032      0.000      -1.427      -1.299      *
+    B1SA26L$2          0.441       0.027      0.000       0.388       0.495      *
+    B1SA26L$3          1.652       0.036      0.000       1.579       1.725      *
+    B1SA26L$4          2.874       0.057      0.000       2.765       2.991      *
+
+ Variances
+    NA                 1.000       0.000      0.000       1.000       1.000
+    PA                 1.000       0.000      0.000       1.000       1.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+ NA       BY
+    B1SA24A            0.795       0.008      0.000       0.777       0.811      *
+    B1SA24B            0.753       0.009      0.000       0.736       0.771      *
+    B1SA24C            0.761       0.008      0.000       0.745       0.776      *
+    B1SA24D            0.874       0.007      0.000       0.859       0.886      *
+    B1SA24E            0.745       0.009      0.000       0.727       0.762      *
+    B1SA24F            0.846       0.009      0.000       0.828       0.863      *
+    B1SA24H            0.756       0.010      0.000       0.734       0.775      *
+    B1SA24I            0.776       0.009      0.000       0.757       0.793      *
+    B1SA24J            0.769       0.009      0.000       0.751       0.785      *
+    B1SA24K            0.734       0.011      0.000       0.711       0.755      *
+    B1SA24L            0.749       0.009      0.000       0.731       0.765      *
+
+ PA       BY
+    B1SA26A            0.862       0.006      0.000       0.852       0.875      *
+    B1SA26B            0.883       0.005      0.000       0.873       0.893      *
+    B1SA26C            0.807       0.006      0.000       0.795       0.818      *
+    B1SA26D            0.792       0.007      0.000       0.777       0.804      *
+    B1SA26E            0.824       0.006      0.000       0.812       0.835      *
+    B1SA26F            0.866       0.005      0.000       0.856       0.876      *
+    B1SA26I            0.853       0.005      0.000       0.842       0.864      *
+    B1SA26J            0.748       0.008      0.000       0.731       0.762      *
+    B1SA26K            0.759       0.008      0.000       0.744       0.774      *
+    B1SA26L            0.726       0.008      0.000       0.709       0.741      *
+
+ PA       WITH
+    NA                -0.664       0.010      0.000      -0.683      -0.644      *
+
+ Thresholds
+    B1SA24A$1         -2.601       0.061      0.000      -2.733      -2.492      *
+    B1SA24A$2         -2.009       0.040      0.000      -2.084      -1.929      *
+    B1SA24A$3         -1.293       0.025      0.000      -1.341      -1.244      *
+    B1SA24A$4         -0.528       0.019      0.000      -0.563      -0.489      *
+    B1SA24B$1         -2.610       0.068      0.000      -2.744      -2.475      *
+    B1SA24B$2         -1.809       0.035      0.000      -1.880      -1.741      *
+    B1SA24B$3         -0.877       0.020      0.000      -0.917      -0.837      *
+    B1SA24B$4          0.137       0.018      0.000       0.104       0.173      *
+    B1SA24C$1         -2.377       0.051      0.000      -2.476      -2.279      *
+    B1SA24C$2         -1.737       0.033      0.000      -1.802      -1.670      *
+    B1SA24C$3         -0.840       0.020      0.000      -0.879      -0.800      *
+    B1SA24C$4          0.089       0.018      0.000       0.054       0.123      *
+    B1SA24D$1         -2.591       0.066      0.000      -2.735      -2.476      *
+    B1SA24D$2         -2.069       0.039      0.000      -2.144      -1.988      *
+    B1SA24D$3         -1.433       0.028      0.000      -1.484      -1.375      *
+    B1SA24D$4         -0.855       0.021      0.000      -0.895      -0.814      *
+    B1SA24E$1         -2.019       0.037      0.000      -2.093      -1.948      *
+    B1SA24E$2         -1.572       0.028      0.000      -1.623      -1.513      *
+    B1SA24E$3         -0.920       0.021      0.000      -0.959      -0.876      *
+    B1SA24E$4         -0.139       0.018      0.000      -0.171      -0.102      *
+    B1SA24F$1         -2.584       0.063      0.000      -2.724      -2.478      *
+    B1SA24F$2         -2.059       0.040      0.000      -2.136      -1.976      *
+    B1SA24F$3         -1.431       0.028      0.000      -1.486      -1.379      *
+    B1SA24F$4         -0.876       0.022      0.000      -0.915      -0.831      *
+    B1SA24H$1         -2.791       0.074      0.000      -2.941      -2.654      *
+    B1SA24H$2         -2.157       0.045      0.000      -2.246      -2.076      *
+    B1SA24H$3         -1.471       0.027      0.000      -1.523      -1.416      *
+    B1SA24H$4         -0.692       0.019      0.000      -0.729      -0.654      *
+    B1SA24I$1         -2.606       0.065      0.000      -2.743      -2.482      *
+    B1SA24I$2         -2.023       0.039      0.000      -2.102      -1.946      *
+    B1SA24I$3         -1.327       0.027      0.000      -1.381      -1.275      *
+    B1SA24I$4         -0.521       0.019      0.000      -0.556      -0.484      *
+    B1SA24J$1         -2.461       0.057      0.000      -2.577      -2.353      *
+    B1SA24J$2         -1.800       0.036      0.000      -1.874      -1.732      *
+    B1SA24J$3         -0.783       0.021      0.000      -0.823      -0.741      *
+    B1SA24J$4          0.322       0.018      0.000       0.289       0.359      *
+    B1SA24K$1         -2.693       0.068      0.000      -2.822      -2.560      *
+    B1SA24K$2         -2.273       0.047      0.000      -2.365      -2.183      *
+    B1SA24K$3         -1.596       0.031      0.000      -1.655      -1.533      *
+    B1SA24K$4         -0.890       0.021      0.000      -0.932      -0.850      *
+    B1SA24L$1         -2.404       0.053      0.000      -2.509      -2.304      *
+    B1SA24L$2         -1.793       0.035      0.000      -1.860      -1.723      *
+    B1SA24L$3         -0.717       0.020      0.000      -0.755      -0.679      *
+    B1SA24L$4          0.387       0.018      0.000       0.353       0.422      *
+    B1SA26A$1         -1.566       0.028      0.000      -1.622      -1.510      *
+    B1SA26A$2          0.413       0.018      0.000       0.380       0.450      *
+    B1SA26A$3          1.423       0.025      0.000       1.374       1.473      *
+    B1SA26A$4          2.504       0.055      0.000       2.402       2.616      *
+    B1SA26B$1         -1.342       0.026      0.000      -1.391      -1.290      *
+    B1SA26B$2          0.621       0.018      0.000       0.587       0.657      *
+    B1SA26B$3          1.550       0.027      0.000       1.502       1.605      *
+    B1SA26B$4          2.629       0.069      0.000       2.506       2.775      *
+    B1SA26C$1         -1.710       0.033      0.000      -1.777      -1.645      *
+    B1SA26C$2         -0.451       0.019      0.000      -0.488      -0.415      *
+    B1SA26C$3          0.506       0.018      0.000       0.472       0.544      *
+    B1SA26C$4          1.413       0.026      0.000       1.364       1.467      *
+    B1SA26D$1         -1.394       0.026      0.000      -1.446      -1.344      *
+    B1SA26D$2          0.192       0.018      0.000       0.155       0.228      *
+    B1SA26D$3          1.077       0.023      0.000       1.031       1.121      *
+    B1SA26D$4          1.988       0.037      0.000       1.916       2.063      *
+    B1SA26E$1         -1.313       0.025      0.000      -1.362      -1.263      *
+    B1SA26E$2          0.210       0.017      0.000       0.179       0.242      *
+    B1SA26E$3          1.068       0.021      0.000       1.026       1.108      *
+    B1SA26E$4          1.885       0.033      0.000       1.822       1.954      *
+    B1SA26F$1         -1.216       0.023      0.000      -1.262      -1.169      *
+    B1SA26F$2         -0.050       0.017      0.002      -0.083      -0.016      *
+    B1SA26F$3          0.782       0.020      0.000       0.745       0.824      *
+    B1SA26F$4          1.620       0.029      0.000       1.568       1.680      *
+    B1SA26I$1         -1.189       0.024      0.000      -1.233      -1.140      *
+    B1SA26I$2          0.074       0.018      0.000       0.038       0.108      *
+    B1SA26I$3          1.060       0.021      0.000       1.019       1.101      *
+    B1SA26I$4          1.879       0.034      0.000       1.809       1.943      *
+    B1SA26J$1         -1.100       0.023      0.000      -1.144      -1.054      *
+    B1SA26J$2          0.398       0.018      0.000       0.363       0.432      *
+    B1SA26J$3          1.342       0.025      0.000       1.294       1.392      *
+    B1SA26J$4          2.381       0.053      0.000       2.287       2.487      *
+    B1SA26K$1         -0.919       0.021      0.000      -0.959      -0.877      *
+    B1SA26K$2          0.237       0.018      0.000       0.201       0.275      *
+    B1SA26K$3          1.115       0.023      0.000       1.071       1.162      *
+    B1SA26K$4          1.925       0.036      0.000       1.854       1.995      *
+    B1SA26L$1         -0.936       0.022      0.000      -0.980      -0.895      *
+    B1SA26L$2          0.304       0.019      0.000       0.267       0.342      *
+    B1SA26L$3          1.136       0.025      0.000       1.088       1.185      *
+    B1SA26L$4          1.978       0.039      0.000       1.898       2.053      *
+
+ Variances
+    NA                 1.000       0.000      0.000       1.000       1.000
+    PA                 1.000       0.000      0.000       1.000       1.000
+
+
+R-SQUARE
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    B1SA24A            0.632       0.013      0.000       0.604       0.657
+    B1SA24B            0.567       0.014      0.000       0.541       0.594
+    B1SA24C            0.579       0.012      0.000       0.555       0.603
+    B1SA24D            0.764       0.012      0.000       0.738       0.785
+    B1SA24E            0.554       0.013      0.000       0.528       0.581
+    B1SA24F            0.715       0.015      0.000       0.686       0.745
+    B1SA24H            0.571       0.016      0.000       0.539       0.601
+    B1SA24I            0.602       0.014      0.000       0.573       0.629
+    B1SA24J            0.592       0.013      0.000       0.564       0.616
+    B1SA24K            0.539       0.016      0.000       0.505       0.569
+    B1SA24L            0.561       0.014      0.000       0.534       0.586
+    B1SA26A            0.744       0.010      0.000       0.726       0.765
+    B1SA26B            0.780       0.009      0.000       0.763       0.797
+    B1SA26C            0.651       0.010      0.000       0.631       0.670
+    B1SA26D            0.627       0.011      0.000       0.604       0.646
+    B1SA26E            0.679       0.010      0.000       0.659       0.698
+    B1SA26F            0.750       0.009      0.000       0.733       0.767
+    B1SA26I            0.728       0.009      0.000       0.710       0.746
+    B1SA26J            0.559       0.012      0.000       0.535       0.581
+    B1SA26K            0.576       0.011      0.000       0.553       0.599
+    B1SA26L            0.527       0.012      0.000       0.503       0.549
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           TAU
+              B1SA24A$      B1SA24A$      B1SA24A$      B1SA24A$      B1SA24B$
+              ________      ________      ________      ________      ________
+ 1                 23            24            25            26            27
+
+
+           TAU
+              B1SA24B$      B1SA24B$      B1SA24B$      B1SA24C$      B1SA24C$
+              ________      ________      ________      ________      ________
+ 1                 28            29            30            31            32
+
+
+           TAU
+              B1SA24C$      B1SA24C$      B1SA24D$      B1SA24D$      B1SA24D$
+              ________      ________      ________      ________      ________
+ 1                 33            34            35            36            37
+
+
+           TAU
+              B1SA24D$      B1SA24E$      B1SA24E$      B1SA24E$      B1SA24E$
+              ________      ________      ________      ________      ________
+ 1                 38            39            40            41            42
+
+
+           TAU
+              B1SA24F$      B1SA24F$      B1SA24F$      B1SA24F$      B1SA24H$
+              ________      ________      ________      ________      ________
+ 1                 43            44            45            46            47
+
+
+           TAU
+              B1SA24H$      B1SA24H$      B1SA24H$      B1SA24I$      B1SA24I$
+              ________      ________      ________      ________      ________
+ 1                 48            49            50            51            52
+
+
+           TAU
+              B1SA24I$      B1SA24I$      B1SA24J$      B1SA24J$      B1SA24J$
+              ________      ________      ________      ________      ________
+ 1                 53            54            55            56            57
+
+
+           TAU
+              B1SA24J$      B1SA24K$      B1SA24K$      B1SA24K$      B1SA24K$
+              ________      ________      ________      ________      ________
+ 1                 58            59            60            61            62
+
+
+           TAU
+              B1SA24L$      B1SA24L$      B1SA24L$      B1SA24L$      B1SA26A$
+              ________      ________      ________      ________      ________
+ 1                 63            64            65            66            67
+
+
+           TAU
+              B1SA26A$      B1SA26A$      B1SA26A$      B1SA26B$      B1SA26B$
+              ________      ________      ________      ________      ________
+ 1                 68            69            70            71            72
+
+
+           TAU
+              B1SA26B$      B1SA26B$      B1SA26C$      B1SA26C$      B1SA26C$
+              ________      ________      ________      ________      ________
+ 1                 73            74            75            76            77
+
+
+           TAU
+              B1SA26C$      B1SA26D$      B1SA26D$      B1SA26D$      B1SA26D$
+              ________      ________      ________      ________      ________
+ 1                 78            79            80            81            82
+
+
+           TAU
+              B1SA26E$      B1SA26E$      B1SA26E$      B1SA26E$      B1SA26F$
+              ________      ________      ________      ________      ________
+ 1                 83            84            85            86            87
+
+
+           TAU
+              B1SA26F$      B1SA26F$      B1SA26F$      B1SA26I$      B1SA26I$
+              ________      ________      ________      ________      ________
+ 1                 88            89            90            91            92
+
+
+           TAU
+              B1SA26I$      B1SA26I$      B1SA26J$      B1SA26J$      B1SA26J$
+              ________      ________      ________      ________      ________
+ 1                 93            94            95            96            97
+
+
+           TAU
+              B1SA26J$      B1SA26K$      B1SA26K$      B1SA26K$      B1SA26K$
+              ________      ________      ________      ________      ________
+ 1                 98            99           100           101           102
+
+
+           TAU
+              B1SA26L$      B1SA26L$      B1SA26L$      B1SA26L$
+              ________      ________      ________      ________
+ 1                103           104           105           106
+
+
+           NU
+              B1SA24A       B1SA24B       B1SA24C       B1SA24D       B1SA24E
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1SA24F       B1SA24H       B1SA24I       B1SA24J       B1SA24K
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1SA24L       B1SA26A       B1SA26B       B1SA26C       B1SA26D
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1SA26E       B1SA26F       B1SA26I       B1SA26J       B1SA26K
+              ________      ________      ________      ________      ________
+ 1                  0             0             0             0             0
+
+
+           NU
+              B1SA26L
+              ________
+ 1                  0
+
+
+           LAMBDA
+              NA            PA
+              ________      ________
+ B1SA24A            1             0
+ B1SA24B            2             0
+ B1SA24C            3             0
+ B1SA24D            4             0
+ B1SA24E            5             0
+ B1SA24F            6             0
+ B1SA24H            7             0
+ B1SA24I            8             0
+ B1SA24J            9             0
+ B1SA24K           10             0
+ B1SA24L           11             0
+ B1SA26A            0            12
+ B1SA26B            0            13
+ B1SA26C            0            14
+ B1SA26D            0            15
+ B1SA26E            0            16
+ B1SA26F            0            17
+ B1SA26I            0            18
+ B1SA26J            0            19
+ B1SA26K            0            20
+ B1SA26L            0            21
+
+
+           THETA
+              B1SA24A       B1SA24B       B1SA24C       B1SA24D       B1SA24E
+              ________      ________      ________      ________      ________
+ B1SA24A            0
+ B1SA24B            0             0
+ B1SA24C            0             0             0
+ B1SA24D            0             0             0             0
+ B1SA24E            0             0             0             0             0
+ B1SA24F            0             0             0             0             0
+ B1SA24H            0             0             0             0             0
+ B1SA24I            0             0             0             0             0
+ B1SA24J            0             0             0             0             0
+ B1SA24K            0             0             0             0             0
+ B1SA24L            0             0             0             0             0
+ B1SA26A            0             0             0             0             0
+ B1SA26B            0             0             0             0             0
+ B1SA26C            0             0             0             0             0
+ B1SA26D            0             0             0             0             0
+ B1SA26E            0             0             0             0             0
+ B1SA26F            0             0             0             0             0
+ B1SA26I            0             0             0             0             0
+ B1SA26J            0             0             0             0             0
+ B1SA26K            0             0             0             0             0
+ B1SA26L            0             0             0             0             0
+
+
+           THETA
+              B1SA24F       B1SA24H       B1SA24I       B1SA24J       B1SA24K
+              ________      ________      ________      ________      ________
+ B1SA24F            0
+ B1SA24H            0             0
+ B1SA24I            0             0             0
+ B1SA24J            0             0             0             0
+ B1SA24K            0             0             0             0             0
+ B1SA24L            0             0             0             0             0
+ B1SA26A            0             0             0             0             0
+ B1SA26B            0             0             0             0             0
+ B1SA26C            0             0             0             0             0
+ B1SA26D            0             0             0             0             0
+ B1SA26E            0             0             0             0             0
+ B1SA26F            0             0             0             0             0
+ B1SA26I            0             0             0             0             0
+ B1SA26J            0             0             0             0             0
+ B1SA26K            0             0             0             0             0
+ B1SA26L            0             0             0             0             0
+
+
+           THETA
+              B1SA24L       B1SA26A       B1SA26B       B1SA26C       B1SA26D
+              ________      ________      ________      ________      ________
+ B1SA24L            0
+ B1SA26A            0             0
+ B1SA26B            0             0             0
+ B1SA26C            0             0             0             0
+ B1SA26D            0             0             0             0             0
+ B1SA26E            0             0             0             0             0
+ B1SA26F            0             0             0             0             0
+ B1SA26I            0             0             0             0             0
+ B1SA26J            0             0             0             0             0
+ B1SA26K            0             0             0             0             0
+ B1SA26L            0             0             0             0             0
+
+
+           THETA
+              B1SA26E       B1SA26F       B1SA26I       B1SA26J       B1SA26K
+              ________      ________      ________      ________      ________
+ B1SA26E            0
+ B1SA26F            0             0
+ B1SA26I            0             0             0
+ B1SA26J            0             0             0             0
+ B1SA26K            0             0             0             0             0
+ B1SA26L            0             0             0             0             0
+
+
+           THETA
+              B1SA26L
+              ________
+ B1SA26L            0
+
+
+           ALPHA
+              NA            PA
+              ________      ________
+ 1                  0             0
+
+
+           BETA
+              NA            PA
+              ________      ________
+ NA                 0             0
+ PA                 0             0
+
+
+           PSI
+              NA            PA
+              ________      ________
+ NA                 0
+ PA                22             0
+
+
+     STARTING VALUES
+
+
+           TAU
+              B1SA24A$      B1SA24A$      B1SA24A$      B1SA24A$      B1SA24B$
+              ________      ________      ________      ________      ________
+ 1             -2.828        -2.028        -1.251        -0.494        -2.827
+
+
+           TAU
+              B1SA24B$      B1SA24B$      B1SA24B$      B1SA24C$      B1SA24C$
+              ________      ________      ________      ________      ________
+ 1             -1.811        -0.824         0.123        -2.585        -1.741
+
+
+           TAU
+              B1SA24C$      B1SA24C$      B1SA24D$      B1SA24D$      B1SA24D$
+              ________      ________      ________      ________      ________
+ 1             -0.790         0.081        -2.750        -2.109        -1.405
+
+
+           TAU
+              B1SA24D$      B1SA24E$      B1SA24E$      B1SA24E$      B1SA24E$
+              ________      ________      ________      ________      ________
+ 1             -0.821        -2.157        -1.535        -0.846        -0.129
+
+
+           TAU
+              B1SA24F$      B1SA24F$      B1SA24F$      B1SA24F$      B1SA24H$
+              ________      ________      ________      ________      ________
+ 1             -2.787        -2.104        -1.406        -0.836        -3.043
+
+
+           TAU
+              B1SA24H$      B1SA24H$      B1SA24H$      B1SA24I$      B1SA24I$
+              ________      ________      ________      ________      ________
+ 1             -2.244        -1.454        -0.646        -2.847        -2.072
+
+
+           TAU
+              B1SA24I$      B1SA24I$      B1SA24J$      B1SA24J$      B1SA24J$
+              ________      ________      ________      ________      ________
+ 1             -1.294        -0.486        -2.641        -1.817        -0.735
+
+
+           TAU
+              B1SA24J$      B1SA24K$      B1SA24K$      B1SA24K$      B1SA24K$
+              ________      ________      ________      ________      ________
+ 1              0.296        -2.960        -2.389        -1.584        -0.842
+
+
+           TAU
+              B1SA24L$      B1SA24L$      B1SA24L$      B1SA24L$      B1SA26A$
+              ________      ________      ________      ________      ________
+ 1             -2.561        -1.807        -0.674         0.354        -1.566
+
+
+           TAU
+              B1SA26A$      B1SA26A$      B1SA26A$      B1SA26B$      B1SA26B$
+              ________      ________      ________      ________      ________
+ 1              0.389         1.391         2.811        -1.357         0.580
+
+
+           TAU
+              B1SA26B$      B1SA26B$      B1SA26C$      B1SA26C$      B1SA26C$
+              ________      ________      ________      ________      ________
+ 1              1.520         2.966        -1.703        -0.420         0.463
+
+
+           TAU
+              B1SA26C$      B1SA26D$      B1SA26D$      B1SA26D$      B1SA26D$
+              ________      ________      ________      ________      ________
+ 1              1.397        -1.380         0.179         1.014         2.087
+
+
+           TAU
+              B1SA26E$      B1SA26E$      B1SA26E$      B1SA26E$      B1SA26F$
+              ________      ________      ________      ________      ________
+ 1             -1.298         0.200         1.001         1.939        -1.212
+
+
+           TAU
+              B1SA26F$      B1SA26F$      B1SA26F$      B1SA26I$      B1SA26I$
+              ________      ________      ________      ________      ________
+ 1             -0.038         0.728         1.608        -1.176         0.072
+
+
+           TAU
+              B1SA26I$      B1SA26I$      B1SA26J$      B1SA26J$      B1SA26J$
+              ________      ________      ________      ________      ________
+ 1              0.999         1.946        -1.067         0.364         1.301
+
+
+           TAU
+              B1SA26J$      B1SA26K$      B1SA26K$      B1SA26K$      B1SA26K$
+              ________      ________      ________      ________      ________
+ 1              2.589        -0.879         0.219         1.053         1.991
+
+
+           TAU
+              B1SA26L$      B1SA26L$      B1SA26L$      B1SA26L$
+              ________      ________      ________      ________
+ 1             -0.891         0.279         1.078         2.040
+
+
+           NU
+              B1SA24A       B1SA24B       B1SA24C       B1SA24D       B1SA24E
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1SA24F       B1SA24H       B1SA24I       B1SA24J       B1SA24K
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1SA24L       B1SA26A       B1SA26B       B1SA26C       B1SA26D
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1SA26E       B1SA26F       B1SA26I       B1SA26J       B1SA26K
+              ________      ________      ________      ________      ________
+ 1              0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              B1SA26L
+              ________
+ 1              0.000
+
+
+           LAMBDA
+              NA            PA
+              ________      ________
+ B1SA24A       -1.000         0.000
+ B1SA24B       -1.000         0.000
+ B1SA24C       -1.000         0.000
+ B1SA24D       -1.000         0.000
+ B1SA24E       -1.000         0.000
+ B1SA24F       -1.000         0.000
+ B1SA24H       -1.000         0.000
+ B1SA24I       -1.000         0.000
+ B1SA24J       -1.000         0.000
+ B1SA24K       -1.000         0.000
+ B1SA24L       -1.000         0.000
+ B1SA26A        0.000        -1.000
+ B1SA26B        0.000        -1.000
+ B1SA26C        0.000        -1.000
+ B1SA26D        0.000        -1.000
+ B1SA26E        0.000        -1.000
+ B1SA26F        0.000        -1.000
+ B1SA26I        0.000        -1.000
+ B1SA26J        0.000        -1.000
+ B1SA26K        0.000        -1.000
+ B1SA26L        0.000        -1.000
+
+
+           THETA
+              B1SA24A       B1SA24B       B1SA24C       B1SA24D       B1SA24E
+              ________      ________      ________      ________      ________
+ B1SA24A        1.000
+ B1SA24B        0.000         1.000
+ B1SA24C        0.000         0.000         1.000
+ B1SA24D        0.000         0.000         0.000         1.000
+ B1SA24E        0.000         0.000         0.000         0.000         1.000
+ B1SA24F        0.000         0.000         0.000         0.000         0.000
+ B1SA24H        0.000         0.000         0.000         0.000         0.000
+ B1SA24I        0.000         0.000         0.000         0.000         0.000
+ B1SA24J        0.000         0.000         0.000         0.000         0.000
+ B1SA24K        0.000         0.000         0.000         0.000         0.000
+ B1SA24L        0.000         0.000         0.000         0.000         0.000
+ B1SA26A        0.000         0.000         0.000         0.000         0.000
+ B1SA26B        0.000         0.000         0.000         0.000         0.000
+ B1SA26C        0.000         0.000         0.000         0.000         0.000
+ B1SA26D        0.000         0.000         0.000         0.000         0.000
+ B1SA26E        0.000         0.000         0.000         0.000         0.000
+ B1SA26F        0.000         0.000         0.000         0.000         0.000
+ B1SA26I        0.000         0.000         0.000         0.000         0.000
+ B1SA26J        0.000         0.000         0.000         0.000         0.000
+ B1SA26K        0.000         0.000         0.000         0.000         0.000
+ B1SA26L        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1SA24F       B1SA24H       B1SA24I       B1SA24J       B1SA24K
+              ________      ________      ________      ________      ________
+ B1SA24F        1.000
+ B1SA24H        0.000         1.000
+ B1SA24I        0.000         0.000         1.000
+ B1SA24J        0.000         0.000         0.000         1.000
+ B1SA24K        0.000         0.000         0.000         0.000         1.000
+ B1SA24L        0.000         0.000         0.000         0.000         0.000
+ B1SA26A        0.000         0.000         0.000         0.000         0.000
+ B1SA26B        0.000         0.000         0.000         0.000         0.000
+ B1SA26C        0.000         0.000         0.000         0.000         0.000
+ B1SA26D        0.000         0.000         0.000         0.000         0.000
+ B1SA26E        0.000         0.000         0.000         0.000         0.000
+ B1SA26F        0.000         0.000         0.000         0.000         0.000
+ B1SA26I        0.000         0.000         0.000         0.000         0.000
+ B1SA26J        0.000         0.000         0.000         0.000         0.000
+ B1SA26K        0.000         0.000         0.000         0.000         0.000
+ B1SA26L        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1SA24L       B1SA26A       B1SA26B       B1SA26C       B1SA26D
+              ________      ________      ________      ________      ________
+ B1SA24L        1.000
+ B1SA26A        0.000         1.000
+ B1SA26B        0.000         0.000         1.000
+ B1SA26C        0.000         0.000         0.000         1.000
+ B1SA26D        0.000         0.000         0.000         0.000         1.000
+ B1SA26E        0.000         0.000         0.000         0.000         0.000
+ B1SA26F        0.000         0.000         0.000         0.000         0.000
+ B1SA26I        0.000         0.000         0.000         0.000         0.000
+ B1SA26J        0.000         0.000         0.000         0.000         0.000
+ B1SA26K        0.000         0.000         0.000         0.000         0.000
+ B1SA26L        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1SA26E       B1SA26F       B1SA26I       B1SA26J       B1SA26K
+              ________      ________      ________      ________      ________
+ B1SA26E        1.000
+ B1SA26F        0.000         1.000
+ B1SA26I        0.000         0.000         1.000
+ B1SA26J        0.000         0.000         0.000         1.000
+ B1SA26K        0.000         0.000         0.000         0.000         1.000
+ B1SA26L        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              B1SA26L
+              ________
+ B1SA26L        1.000
+
+
+           ALPHA
+              NA            PA
+              ________      ________
+ 1              0.000         0.000
+
+
+           BETA
+              NA            PA
+              ________      ________
+ NA             0.000         0.000
+ PA             0.000         0.000
+
+
+           PSI
+              NA            PA
+              ________      ________
+ NA             1.000
+ PA             0.000         1.000
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 2~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 3~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 4~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 5~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 6~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 7~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 8~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 9~N(0.000,5.000)              0.0000              5.0000              2.2361
+     Parameter 10~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 11~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 12~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 13~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 14~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 15~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 16~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 17~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 18~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 19~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 20~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 21~N(0.000,5.000)             0.0000              5.0000              2.2361
+     Parameter 22~IW(0.000,3)
+     Parameter 23~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 24~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 25~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 26~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 27~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 28~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 29~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 30~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 31~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 32~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 33~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 34~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 35~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 36~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 37~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 38~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 39~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 40~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 41~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 42~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 43~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 44~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 45~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 46~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 47~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 48~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 49~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 50~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 51~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 52~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 53~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 54~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 55~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 56~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 57~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 58~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 59~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 60~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 61~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 62~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 63~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 64~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 65~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 66~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 67~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 68~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 69~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 70~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 71~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 72~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 73~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 74~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 75~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 76~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 77~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 78~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 79~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 80~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 81~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 82~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 83~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 84~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 85~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 86~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 87~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 88~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 89~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 90~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 91~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 92~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 93~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 94~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 95~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 96~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 97~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 98~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 99~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 100~N(0.000,infinity)         0.0000            infinity            infinity
+     Parameter 101~N(0.000,infinity)         0.0000            infinity            infinity
+     Parameter 102~N(0.000,infinity)         0.0000            infinity            infinity
+     Parameter 103~N(0.000,infinity)         0.0000            infinity            infinity
+     Parameter 104~N(0.000,infinity)         0.0000            infinity            infinity
+     Parameter 105~N(0.000,infinity)         0.0000            infinity            infinity
+     Parameter 106~N(0.000,infinity)         0.0000            infinity            infinity
+
+
+SUMMARIES OF PLAUSIBLE VALUES (N = NUMBER OF OBSERVATIONS * NUMBER OF IMPUTATIONS)
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              NA            PA
+              ________      ________
+ 1             -0.004         0.003
+
+
+           Covariances
+              NA            PA
+              ________      ________
+ NA             0.995
+ PA            -0.664         0.998
+
+
+           Correlations
+              NA            PA
+              ________      ________
+ NA             1.000
+ PA            -0.667         1.000
+
+
+SUMMARY OF PLAUSIBLE STANDARD DEVIATION (N = NUMBER OF OBSERVATIONS)
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              NA_SD         PA_SD
+              ________      ________
+ 1              0.338         0.256
+
+
+           Covariances
+              NA_SD         PA_SD
+              ________      ________
+ NA_SD          0.011
+ PA_SD          0.002         0.002
+
+
+           Correlations
+              NA_SD         PA_SD
+              ________      ________
+ NA_SD          1.000
+ PA_SD          0.410         1.000
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    pana_imp*.dat
+
+  Order of variables
+
+    B1SA24A
+    B1SA24B
+    B1SA24C
+    B1SA24D
+    B1SA24E
+    B1SA24F
+    B1SA24H
+    B1SA24I
+    B1SA24J
+    B1SA24K
+    B1SA24L
+    B1SA26A
+    B1SA26B
+    B1SA26C
+    B1SA26D
+    B1SA26E
+    B1SA26F
+    B1SA26I
+    B1SA26J
+    B1SA26K
+    B1SA26L
+    M2ID
+    NA
+    PA
+
+  Save file format           Free
+
+  Save file record length    10000
+
+
+  Save file
+    pana_plaus.dat
+
+  Order and format of variables
+
+    B1SA24A                          F10.3
+    B1SA24B                          F10.3
+    B1SA24C                          F10.3
+    B1SA24D                          F10.3
+    B1SA24E                          F10.3
+    B1SA24F                          F10.3
+    B1SA24H                          F10.3
+    B1SA24I                          F10.3
+    B1SA24J                          F10.3
+    B1SA24K                          F10.3
+    B1SA24L                          F10.3
+    B1SA26A                          F10.3
+    B1SA26B                          F10.3
+    B1SA26C                          F10.3
+    B1SA26D                          F10.3
+    B1SA26E                          F10.3
+    B1SA26F                          F10.3
+    B1SA26I                          F10.3
+    B1SA26J                          F10.3
+    B1SA26K                          F10.3
+    B1SA26L                          F10.3
+    M2ID                             I6
+   +NA                               F10.3
+    NA Mean                          F10.3
+    NA Median                        F10.3
+    NA Standard Deviation            F10.3
+    NA 2.5% Value                    F10.3
+    NA 97.5% Value                   F10.3
+   +PA                               F10.3
+    PA Mean                          F10.3
+    PA Median                        F10.3
+    PA Standard Deviation            F10.3
+    PA 2.5% Value                    F10.3
+    PA 97.5% Value                   F10.3
+
+  + variables that have a value for each of the 50 imputations
+
+  Save file format
+    21F10.3 I6 110F10.3
+
+  Save file record length    10000
+
+
+     Beginning Time:  00:05:10
+        Ending Time:  00:12:23
+       Elapsed Time:  00:07:13
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

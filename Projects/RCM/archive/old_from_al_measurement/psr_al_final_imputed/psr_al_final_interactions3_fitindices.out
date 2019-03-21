@@ -1,0 +1,1854 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/28/2015   7:26 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  PSR AL Model
+  DATA:
+
+  FILE = implist.dat;
+  TYPE = IMPUTATION;
+
+  VARIABLE:
+  NAMES = M2ID m2famnum b1page_m2 sex m1chadv m2aadv LifeStress LifeStress2
+       p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+       PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+       FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+       B4QMA_LI B4QMA_AA B4QMA_PA Imputation MASTERY CONSTRAINT SELFESTEEM OPTIMISM
+       PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR bi_sym bi_hpa bi_card bi_gluc
+       bi_lipid bi_infl bi_para F NegAff PosAff PSR CAHeavy CAFrequent CAInfrequent
+       CANone dSES Milwaukee;
+
+
+     USEVARIABLES =
+        m1chadv dSES PSR LifeStress
+        sex b1page_m2
+        NegAff
+        F
+        PSQI3 CurrentSmoke RiskyBehaviors
+        CANone CAFrequent CAHeavy PhysAct
+        OverallDiet
+        p4majorconditions
+        PSRxStress
+        PSRxSES PSRxdSES
+        !PSRxSex
+        ;
+
+
+  MISSING=.;
+    IDVARIABLE = M2ID;
+      CLUSTER = m2famnum;
+      !COUNT = LifeStress p4majorconditions;
+      !CATEGORICAL = CANone CAFrequent CAHeavy
+      !   CurrentSmoke PhysAct RiskyBehaviors;
+      DEFINE:
+      PSRxStress = LifeStress * PSR;
+      PSRxSES = m1chadv * PSR;
+      PSRxdSES = dSES * PSR;
+      !PSRxSex = Sex * PSR;
+
+
+  ANALYSIS:
+
+    TYPE = COMPLEX;
+    Estimator = MLR;
+    PROCESSORS = 10;
+    !MCONVERGENCE  = .000005;
+    !H1CONVERGENCE = .000005;
+    !LOGCRITERION  = .000005;
+    !RLOGCRITERION = .000005;
+    !ITERATIONS = 15000;
+    !MITERATIONS = 7500;
+    !H1ITERATIONS = 15000;
+    !INTEGRATION = MONTECARLO (500);
+
+  MODEL:
+
+  !  [PSRxStress PSRxSES PSRxdSES PSRxSex];
+  !  PSRxStress WITH PSRxSES* PSRxdSES* PSRxSex*;
+  !  PSRxSES WITH PSRxdSES* PSRxSex*;
+  !  PSRxdSES WITH PSRxSex*;
+
+    [PSRxStress PSRxSES PSRxdSES];
+    PSRxStress WITH PSRxSES* PSRxdSES*;
+    PSRxSES WITH PSRxdSES*;
+
+    PSR WITH PSRxStress* PSRxSES PSRxdSES;
+    !LifeStress WITH PSRxStress*;
+    !CANone WITH CAFrequent CAHeavy;
+    !CAFrequent WITH CAHeavy;
+
+    ! Step 1
+      LifeStress ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        ;
+
+      PSR ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        ;
+
+      ! Step 2
+      NegAff ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        !PSRxStress
+        PSRxSES
+        PSRxdSES
+        !PSRxSex
+        ;
+
+      ! Step 3
+        PSQI3 ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        PSRxSES
+        PSRxdSES
+        !PSRxSex
+        ;
+
+        CurrentSmoke ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+        ;
+
+        RiskyBehaviors ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !SRxSex
+        ;
+
+        CANone ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+        ;
+        CAFrequent ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+        ;
+        CAHeavy ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+        ;
+
+
+        PhysAct ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+        ;
+
+        OverallDiet ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+        ;
+
+
+      ! Step 4
+        F ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        PSQI3
+        CurrentSmoke
+        RiskyBehaviors
+        CANone
+        CAFrequent
+        CAHeavy
+        PhysAct
+        OverallDiet
+        !PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+       ;
+
+        ! Step 5
+        p4majorconditions ON
+        sex b1page_m2
+        m1chadv
+        dSES
+        PSR
+        LifeStress
+        NegAff
+        PSQI3
+        CurrentSmoke
+        RiskyBehaviors
+        CANone
+        CAFrequent
+        CAHeavy
+        PhysAct
+        OverallDiet
+        F
+        PSRxStress
+        !PSRxSES
+        !PSRxdSES
+        !PSRxSex
+        ;
+
+
+  OUTPUT:
+
+     MODINDICES (ALL 10);
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING in OUTPUT command
+  MODINDICES option is not available for multiple imputation.
+  Request for MODINDICES is ignored.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+PSR AL Model
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Average number of observations                                1253
+
+Number of replications
+    Requested                                                   50
+    Completed                                                   50
+
+Number of dependent variables                                   13
+Number of independent variables                                  7
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   PSR         LIFESTRESS  NEGAFF      F           PSQI3       CURRENTSMO
+   RISKYBEHAV  CANONE      CAFREQUENT  CAHEAVY     PHYSACT     OVERALLDIE
+   P4MAJORCON
+
+Observed independent variables
+   M1CHADV     DSES        SEX         B1PAGE_M    PSRXSTRE    PSRXSES
+   PSRXDSES
+
+Variables with special functions
+
+  Cluster variable      M2FAMNUM
+  ID variable           M2ID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  Multiple data files from
+    implist.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA FOR THE FIRST DATA SET
+
+     Number of missing data patterns            10
+     Number of clusters        1096
+
+
+
+SUMMARY OF MISSING DATA PATTERNS FOR THE FIRST DATA SET
+
+
+     MISSING DATA PATTERNS (x = not missing)
+
+           1  2  3  4  5  6  7  8  9 10
+ PSR       x  x  x  x  x  x  x
+ LIFESTRE  x  x  x  x  x  x  x
+ NEGAFF    x  x  x  x  x
+ F         x  x  x  x  x  x  x  x  x  x
+ PSQI3     x  x  x        x  x  x  x
+ CURRENTS  x  x  x  x  x  x  x  x  x  x
+ RISKYBEH  x  x  x  x  x  x  x  x  x  x
+ CANONE    x  x     x  x  x  x  x  x  x
+ CAFREQUE  x  x     x  x  x  x  x  x  x
+ CAHEAVY   x  x     x  x  x  x  x  x  x
+ PHYSACT   x  x  x  x  x  x  x  x  x  x
+ OVERALLD  x     x  x     x     x     x
+ P4MAJORC  x  x  x  x  x  x  x  x  x  x
+ PSRXSTRE  x  x  x  x  x  x  x
+ PSRXSES   x  x  x  x  x  x  x
+ PSRXDSES  x  x  x  x  x  x  x
+ M1CHADV   x  x  x  x  x  x  x  x  x  x
+ DSES      x  x  x  x  x  x  x  x  x  x
+ SEX       x  x  x  x  x  x  x  x  x  x
+ B1PAGE_M  x  x  x  x  x  x  x  x  x  x
+
+
+     MISSING DATA PATTERN FREQUENCIES
+
+    Pattern   Frequency     Pattern   Frequency     Pattern   Frequency
+          1         972           5           1           9           8
+          2          56           6           2          10           7
+          3           2           7           1
+          4          19           8         185
+
+
+COVARIANCE COVERAGE OF DATA FOR THE FIRST DATA SET
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR            0.840
+ LIFESTRE       0.840         0.840
+ NEGAFF         0.838         0.838         0.838
+ F              0.840         0.840         0.838         1.000
+ PSQI3          0.824         0.824         0.822         0.978         0.978
+ CURRENTS       0.840         0.840         0.838         1.000         0.978
+ RISKYBEH       0.840         0.840         0.838         1.000         0.978
+ CANONE         0.839         0.839         0.836         0.998         0.977
+ CAFREQUE       0.839         0.839         0.836         0.998         0.977
+ CAHEAVY        0.839         0.839         0.836         0.998         0.977
+ PHYSACT        0.840         0.840         0.838         1.000         0.978
+ OVERALLD       0.794         0.794         0.792         0.947         0.927
+ P4MAJORC       0.840         0.840         0.838         1.000         0.978
+ PSRXSTRE       0.840         0.840         0.838         0.840         0.824
+ PSRXSES        0.840         0.840         0.838         0.840         0.824
+ PSRXDSES       0.840         0.840         0.838         0.840         0.824
+ M1CHADV        0.840         0.840         0.838         1.000         0.978
+ DSES           0.840         0.840         0.838         1.000         0.978
+ SEX            0.840         0.840         0.838         1.000         0.978
+ B1PAGE_M       0.840         0.840         0.838         1.000         0.978
+
+
+           Covariance Coverage
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ CURRENTS       1.000
+ RISKYBEH       1.000         1.000
+ CANONE         0.998         0.998         0.998
+ CAFREQUE       0.998         0.998         0.998         0.998
+ CAHEAVY        0.998         0.998         0.998         0.998         0.998
+ PHYSACT        1.000         1.000         0.998         0.998         0.998
+ OVERALLD       0.947         0.947         0.946         0.946         0.946
+ P4MAJORC       1.000         1.000         0.998         0.998         0.998
+ PSRXSTRE       0.840         0.840         0.839         0.839         0.839
+ PSRXSES        0.840         0.840         0.839         0.839         0.839
+ PSRXDSES       0.840         0.840         0.839         0.839         0.839
+ M1CHADV        1.000         1.000         0.998         0.998         0.998
+ DSES           1.000         1.000         0.998         0.998         0.998
+ SEX            1.000         1.000         0.998         0.998         0.998
+ B1PAGE_M       1.000         1.000         0.998         0.998         0.998
+
+
+           Covariance Coverage
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PHYSACT        1.000
+ OVERALLD       0.947         0.947
+ P4MAJORC       1.000         0.947         1.000
+ PSRXSTRE       0.840         0.794         0.840         0.840
+ PSRXSES        0.840         0.794         0.840         0.840         0.840
+ PSRXDSES       0.840         0.794         0.840         0.840         0.840
+ M1CHADV        1.000         0.947         1.000         0.840         0.840
+ DSES           1.000         0.947         1.000         0.840         0.840
+ SEX            1.000         0.947         1.000         0.840         0.840
+ B1PAGE_M       1.000         0.947         1.000         0.840         0.840
+
+
+           Covariance Coverage
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSRXDSES       0.840
+ M1CHADV        0.840         1.000
+ DSES           0.840         1.000         1.000
+ SEX            0.840         1.000         1.000         1.000
+ B1PAGE_M       0.840         1.000         1.000         1.000         1.000
+
+
+SAMPLE STATISTICS
+
+NOTE:  These are average results over 50 data sets.
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ 1             -0.067         3.556         0.043        -0.002         5.623
+
+
+           Means
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ 1              0.148         0.067         0.353         0.195         0.051
+
+
+           Means
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ 1              2.515         1.105         1.095        -0.818         0.095
+
+
+           Means
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ 1              0.206         0.000         0.001         0.568        -0.046
+
+
+           Covariances
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR            1.027
+ LIFESTRE      -0.587         6.211
+ NEGAFF        -0.539         0.602         1.016
+ F             -0.079         0.459         0.120         0.983
+ PSQI3         -0.738         2.001         1.008         0.647         9.687
+ CURRENTS      -0.059         0.200         0.081         0.042         0.141
+ RISKYBEH      -0.012         0.021         0.005         0.005        -0.007
+ CANONE        -0.007        -0.029        -0.013         0.036         0.024
+ CAFREQUE       0.024        -0.043         0.001        -0.043        -0.037
+ CAHEAVY       -0.014         0.091         0.018         0.021         0.036
+ PHYSACT        0.119        -0.106        -0.066        -0.237        -0.319
+ OVERALLD      -0.129         0.168         0.103         0.146         0.320
+ P4MAJORC      -0.027         0.364         0.057         0.330         0.711
+ PSRXSTRE       3.771        -3.802        -2.221        -0.413        -3.981
+ PSRXSES        0.031         0.024         0.009        -0.014         0.156
+ PSRXDSES       0.031         0.258         0.062         0.076         0.140
+ M1CHADV        0.121        -0.584        -0.041        -0.125        -0.411
+ DSES           0.209        -0.273        -0.252        -0.076        -0.300
+ SEX            0.012        -0.062         0.037        -0.001         0.193
+ B1PAGE_M       0.210        -0.019        -0.318        -0.006        -0.219
+
+
+           Covariances
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ CURRENTS       0.126
+ RISKYBEH       0.003         0.063
+ CANONE        -0.005        -0.004         0.228
+ CAFREQUE      -0.001         0.000        -0.069         0.157
+ CAHEAVY        0.016         0.003        -0.018        -0.010         0.049
+ PHYSACT       -0.010         0.013        -0.023         0.042         0.011
+ OVERALLD       0.057         0.022         0.013        -0.018         0.015
+ P4MAJORC      -0.003         0.011         0.063        -0.015        -0.013
+ PSRXSTRE      -0.364        -0.045         0.015         0.102        -0.084
+ PSRXSES        0.009        -0.004        -0.028        -0.002         0.008
+ PSRXDSES       0.028         0.004         0.034         0.001        -0.002
+ M1CHADV       -0.020        -0.008        -0.019         0.025        -0.005
+ DSES          -0.071        -0.009        -0.034         0.039        -0.027
+ SEX           -0.006        -0.019         0.026        -0.028        -0.016
+ B1PAGE_M      -0.071        -0.003         0.044         0.036        -0.037
+
+
+           Covariances
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PHYSACT        1.222
+ OVERALLD      -0.108         0.487
+ P4MAJORC      -0.239         0.019         1.401
+ PSRXSTRE       0.469        -0.562        -0.030        21.085
+ PSRXSES        0.028         0.009         0.023        -0.272         0.914
+ PSRXDSES      -0.054        -0.014         0.023        -0.407        -0.749
+ M1CHADV        0.082        -0.058        -0.080         0.483        -0.038
+ DSES           0.023        -0.059        -0.062         1.046         0.041
+ SEX           -0.055        -0.051         0.023        -0.019         0.021
+ B1PAGE_M      -0.087        -0.128         0.472         0.917        -0.026
+
+
+           Covariances
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSRXDSES       1.484
+ M1CHADV        0.041         0.999
+ DSES          -0.113        -0.769         1.536
+ SEX            0.007        -0.021        -0.048         0.245
+ B1PAGE_M       0.006        -0.127         0.285        -0.027         1.371
+
+
+           Correlations
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR            1.000
+ LIFESTRE      -0.232         1.000
+ NEGAFF        -0.528         0.240         1.000
+ F             -0.078         0.186         0.120         1.000
+ PSQI3         -0.234         0.258         0.321         0.210         1.000
+ CURRENTS      -0.164         0.226         0.227         0.118         0.127
+ RISKYBEH      -0.046         0.033         0.022         0.021        -0.009
+ CANONE        -0.014        -0.025        -0.028         0.075         0.016
+ CAFREQUE       0.060        -0.043         0.002        -0.109        -0.030
+ CAHEAVY       -0.064         0.165         0.081         0.094         0.052
+ PHYSACT        0.106        -0.039        -0.059        -0.216        -0.093
+ OVERALLD      -0.183         0.096         0.146         0.210         0.147
+ P4MAJORC      -0.023         0.123         0.048         0.281         0.193
+ PSRXSTRE       0.810        -0.332        -0.480        -0.091        -0.279
+ PSRXSES        0.032         0.010         0.010        -0.015         0.052
+ PSRXDSES       0.025         0.085         0.050         0.063         0.037
+ M1CHADV        0.120        -0.235        -0.041        -0.126        -0.132
+ DSES           0.167        -0.088        -0.202        -0.062        -0.078
+ SEX            0.023        -0.050         0.074        -0.003         0.125
+ B1PAGE_M       0.177        -0.007        -0.270        -0.005        -0.060
+
+
+           Correlations
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ CURRENTS       1.000
+ RISKYBEH       0.032         1.000
+ CANONE        -0.027        -0.029         1.000
+ CAFREQUE      -0.007        -0.002        -0.364         1.000
+ CAHEAVY        0.199         0.055        -0.172        -0.114         1.000
+ PHYSACT       -0.026         0.048        -0.044         0.097         0.046
+ OVERALLD       0.231         0.126         0.040        -0.063         0.101
+ P4MAJORC      -0.007         0.038         0.112        -0.033        -0.049
+ PSRXSTRE      -0.223        -0.039         0.007         0.056        -0.083
+ PSRXSES        0.028        -0.017        -0.061        -0.004         0.037
+ PSRXDSES       0.064         0.014         0.059         0.002        -0.007
+ M1CHADV       -0.057        -0.031        -0.041         0.064        -0.024
+ DSES          -0.161        -0.029        -0.057         0.079        -0.098
+ SEX           -0.035        -0.153         0.111        -0.145        -0.150
+ B1PAGE_M      -0.171        -0.010         0.079         0.078        -0.145
+
+
+           Correlations
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PHYSACT        1.000
+ OVERALLD      -0.140         1.000
+ P4MAJORC      -0.183         0.023         1.000
+ PSRXSTRE       0.092        -0.175        -0.006         1.000
+ PSRXSES        0.027         0.014         0.020        -0.062         1.000
+ PSRXDSES      -0.040        -0.017         0.016        -0.073        -0.643
+ M1CHADV        0.074        -0.084        -0.068         0.105        -0.039
+ DSES           0.017        -0.068        -0.042         0.184         0.035
+ SEX           -0.101        -0.148         0.040        -0.008         0.044
+ B1PAGE_M      -0.067        -0.157         0.341         0.171        -0.023
+
+
+           Correlations
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSRXDSES       1.000
+ M1CHADV        0.034         1.000
+ DSES          -0.075        -0.621         1.000
+ SEX            0.011        -0.043        -0.078         1.000
+ B1PAGE_M       0.005        -0.109         0.197        -0.047         1.000
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      144
+
+Loglikelihood
+
+    H0 Value
+
+        Mean                            -21693.810
+        Std Dev                             48.588
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000       -21806.841     -21802.143
+           0.980       0.960       -21793.596     -21802.143
+           0.950       0.920       -21773.733     -21796.114
+           0.900       0.880       -21756.081     -21775.512
+           0.800       0.800       -21734.702     -21742.546
+           0.700       0.760       -21719.290     -21716.118
+           0.500       0.540       -21693.810     -21692.391
+           0.300       0.320       -21668.331     -21662.878
+           0.200       0.240       -21652.919     -21649.456
+           0.100       0.120       -21631.540     -21628.891
+           0.050       0.020       -21613.888     -21628.862
+           0.020       0.020       -21594.025     -21615.709
+           0.010       0.000       -21580.780     -21615.709
+
+    H1 Value
+
+        Mean                            -21385.733
+        Std Dev                             50.360
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       0.980       -21502.885     -21504.209
+           0.980       0.960       -21489.157     -21504.209
+           0.950       0.900       -21468.570     -21500.333
+           0.900       0.880       -21450.274     -21471.563
+           0.800       0.800       -21428.116     -21432.408
+           0.700       0.760       -21412.142     -21406.976
+           0.500       0.520       -21385.733     -21384.475
+           0.300       0.320       -21359.324     -21354.303
+           0.200       0.220       -21343.350     -21342.374
+           0.100       0.080       -21321.192     -21326.837
+           0.050       0.040       -21302.896     -21320.938
+           0.020       0.000       -21282.309     -21298.895
+           0.010       0.000       -21268.581     -21298.895
+
+Information Criteria
+
+    Akaike (AIC)
+
+        Mean                             43675.621
+        Std Dev                             97.176
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        43449.559      43468.169
+           0.980       0.980        43476.050      43468.169
+           0.950       0.980        43515.775      43519.419
+           0.900       0.880        43551.080      43545.723
+           0.800       0.760        43593.837      43581.724
+           0.700       0.680        43624.662      43612.989
+           0.500       0.460        43675.621      43672.393
+           0.300       0.240        43726.580      43716.438
+           0.200       0.200        43757.405      43747.743
+           0.100       0.120        43800.162      43801.742
+           0.050       0.080        43835.467      43839.023
+           0.020       0.040        43875.192      43880.228
+           0.010       0.000        43901.683      43880.228
+
+    Bayesian (BIC)
+
+        Mean                             44414.816
+        Std Dev                             97.176
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        44188.754      44207.363
+           0.980       0.980        44215.244      44207.363
+           0.950       0.980        44254.970      44258.613
+           0.900       0.880        44290.274      44284.918
+           0.800       0.760        44333.032      44320.919
+           0.700       0.680        44363.856      44352.184
+           0.500       0.460        44414.816      44411.588
+           0.300       0.240        44465.775      44455.633
+           0.200       0.200        44496.599      44486.938
+           0.100       0.120        44539.357      44540.936
+           0.050       0.080        44574.661      44578.218
+           0.020       0.040        44614.387      44619.422
+           0.010       0.000        44640.877      44619.422
+
+    Sample-Size Adjusted BIC (n* = (n + 2) / 24)
+
+        Mean                             43957.405
+        Std Dev                             97.176
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000        43731.344      43749.953
+           0.980       0.980        43757.834      43749.953
+           0.950       0.980        43797.560      43801.203
+           0.900       0.880        43832.864      43827.508
+           0.800       0.760        43875.622      43863.509
+           0.700       0.680        43906.446      43894.774
+           0.500       0.460        43957.405      43954.178
+           0.300       0.240        44008.365      43998.222
+           0.200       0.200        44039.189      44029.527
+           0.100       0.120        44081.947      44083.526
+           0.050       0.080        44117.251      44120.808
+           0.020       0.040        44156.977      44162.012
+           0.010       0.000        44183.467      44162.012
+
+Chi-Square Test of Model Fit
+
+        Degrees of freedom                      72
+
+        Mean                               563.745
+        Std Dev                             17.467
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000           47.051        524.196
+           0.980       1.000           49.548        524.196
+           0.950       1.000           53.462        532.450
+           0.900       1.000           57.113        537.321
+           0.800       1.000           61.756        547.019
+           0.700       1.000           65.258        553.994
+           0.500       1.000           71.334        562.333
+           0.300       1.000           77.778        575.352
+           0.200       1.000           81.857        581.228
+           0.100       1.000           87.743        586.504
+           0.050       1.000           92.808        587.875
+           0.020       1.000           98.733        592.258
+           0.010       1.000          102.816        592.258
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+        Mean                                 0.074
+        Std Dev                              0.001
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000            0.071          0.071
+           0.980       0.980            0.071          0.071
+           0.950       0.940            0.072          0.071
+           0.900       0.920            0.072          0.072
+           0.800       0.760            0.073          0.073
+           0.700       0.680            0.073          0.073
+           0.500       0.500            0.074          0.074
+           0.300       0.340            0.075          0.075
+           0.200       0.260            0.075          0.075
+           0.100       0.140            0.076          0.076
+           0.050       0.020            0.076          0.076
+           0.020       0.000            0.077          0.076
+           0.010       0.000            0.077          0.076
+
+CFI/TLI
+
+    CFI
+
+        Mean                                 0.841
+        Std Dev                              0.006
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000            0.828          0.830
+           0.980       1.000            0.830          0.830
+           0.950       0.980            0.832          0.832
+           0.900       0.900            0.834          0.833
+           0.800       0.760            0.837          0.836
+           0.700       0.620            0.838          0.837
+           0.500       0.500            0.841          0.841
+           0.300       0.380            0.844          0.845
+           0.200       0.260            0.846          0.847
+           0.100       0.140            0.849          0.849
+           0.050       0.040            0.851          0.849
+           0.020       0.020            0.853          0.851
+           0.010       0.000            0.855          0.851
+
+    TLI
+
+        Mean                                 0.628
+        Std Dev                              0.013
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000            0.597          0.601
+           0.980       1.000            0.600          0.601
+           0.950       0.980            0.606          0.606
+           0.900       0.900            0.611          0.608
+           0.800       0.760            0.617          0.615
+           0.700       0.620            0.621          0.617
+           0.500       0.500            0.628          0.627
+           0.300       0.380            0.635          0.636
+           0.200       0.260            0.639          0.641
+           0.100       0.140            0.645          0.646
+           0.050       0.040            0.650          0.646
+           0.020       0.020            0.656          0.651
+           0.010       0.000            0.659          0.651
+
+SRMR (Standardized Root Mean Square Residual)
+
+        Mean                                 0.058
+        Std Dev                              0.001
+        Number of successful computations       50
+
+             Proportions                   Percentiles
+        Expected    Observed         Expected       Observed
+           0.990       1.000            0.056          0.056
+           0.980       1.000            0.056          0.056
+           0.950       0.960            0.056          0.056
+           0.900       0.880            0.057          0.057
+           0.800       0.760            0.057          0.057
+           0.700       0.720            0.058          0.058
+           0.500       0.480            0.058          0.058
+           0.300       0.300            0.059          0.059
+           0.200       0.220            0.059          0.060
+           0.100       0.080            0.060          0.060
+           0.050       0.060            0.060          0.060
+           0.020       0.020            0.061          0.061
+           0.010       0.020            0.061          0.061
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed   Rate of
+                    Estimate       S.E.  Est./S.E.    P-Value    Missing
+
+ LIFESTRE ON
+    SEX               -0.524      0.149     -3.522      0.000      0.001
+    B1PAGE_M2          0.020      0.062      0.333      0.739      0.001
+    M1CHADV           -1.234      0.099    -12.511      0.000      0.001
+    DSES              -0.826      0.084     -9.877      0.000      0.001
+
+ PSR      ON
+    SEX                0.062      0.039      1.591      0.112      0.155
+    B1PAGE_M2          0.035      0.018      1.989      0.047      0.162
+    M1CHADV            0.092      0.027      3.397      0.001      0.149
+    DSES               0.065      0.022      2.952      0.003      0.181
+
+ NEGAFF   ON
+    SEX                0.137      0.060      2.293      0.022      0.224
+    B1PAGE_M2         -0.150      0.025     -5.967      0.000      0.171
+    M1CHADV           -0.040      0.041     -0.974      0.330      0.167
+    DSES              -0.082      0.033     -2.481      0.013      0.184
+    PSR               -0.449      0.033    -13.789      0.000      0.282
+    LIFESTRESS         0.047      0.013      3.533      0.000      0.167
+    PSRXSES            0.083      0.039      2.119      0.034      0.263
+    PSRXDSES           0.078      0.031      2.524      0.012      0.227
+
+ PSQI3    ON
+    SEX                0.640      0.174      3.689      0.000      0.015
+    B1PAGE_M2          0.046      0.075      0.617      0.537      0.021
+    M1CHADV           -0.415      0.125     -3.317      0.001      0.016
+    DSES              -0.226      0.100     -2.264      0.024      0.015
+    PSR               -0.136      0.136     -0.999      0.318      0.258
+    LIFESTRESS         0.197      0.048      4.066      0.000      0.009
+    NEGAFF             0.715      0.134      5.340      0.000      0.205
+    PSRXSES            0.260      0.134      1.941      0.052      0.154
+    PSRXDSES           0.151      0.112      1.344      0.179      0.143
+
+ CURRENTS ON
+    SEX               -0.049      0.020     -2.440      0.015      0.009
+    B1PAGE_M2         -0.037      0.007     -4.892      0.000      0.020
+    M1CHADV           -0.062      0.014     -4.280      0.000      0.010
+    DSES              -0.063      0.012     -5.357      0.000      0.010
+    PSR                0.018      0.016      1.121      0.262      0.218
+    LIFESTRESS         0.022      0.006      3.726      0.000      0.007
+    NEGAFF             0.046      0.016      2.949      0.003      0.171
+
+ RISKYBEH ON
+    SEX               -0.084      0.016     -5.322      0.000      0.004
+    B1PAGE_M2         -0.001      0.005     -0.170      0.865      0.015
+    M1CHADV           -0.026      0.010     -2.606      0.009      0.007
+    DSES              -0.021      0.007     -2.811      0.005      0.010
+    PSR               -0.005      0.010     -0.520      0.603      0.239
+    LIFESTRESS        -0.001      0.003     -0.369      0.712      0.005
+    NEGAFF             0.001      0.010      0.118      0.906      0.212
+
+ CANONE   ON
+    SEX                0.094      0.028      3.362      0.001      0.007
+    B1PAGE_M2          0.037      0.013      2.897      0.004      0.010
+    M1CHADV           -0.070      0.019     -3.687      0.000      0.011
+    DSES              -0.066      0.015     -4.296      0.000      0.010
+    PSR               -0.022      0.022     -1.037      0.300      0.292
+    LIFESTRESS        -0.014      0.007     -2.033      0.042      0.006
+    NEGAFF            -0.029      0.022     -1.287      0.198      0.210
+
+ CAFREQUE ON
+    SEX               -0.104      0.024     -4.356      0.000      0.008
+    B1PAGE_M2          0.026      0.010      2.490      0.013      0.014
+    M1CHADV            0.067      0.016      4.155      0.000      0.006
+    DSES               0.055      0.013      4.339      0.000      0.007
+    PSR                0.022      0.016      1.369      0.171      0.229
+    LIFESTRESS        -0.001      0.005     -0.207      0.836      0.008
+    NEGAFF             0.042      0.016      2.617      0.009      0.289
+
+ CAHEAVY  ON
+    SEX               -0.075      0.014     -5.465      0.000      0.005
+    B1PAGE_M2         -0.026      0.005     -5.693      0.000      0.019
+    M1CHADV           -0.023      0.009     -2.472      0.013      0.009
+    DSES              -0.025      0.007     -3.535      0.000      0.011
+    PSR                0.019      0.010      1.873      0.061      0.223
+    LIFESTRESS         0.013      0.004      3.349      0.001      0.007
+    NEGAFF             0.005      0.010      0.484      0.628      0.161
+
+ PHYSACT  ON
+    SEX               -0.216      0.066     -3.288      0.001      0.006
+    B1PAGE_M2         -0.088      0.027     -3.272      0.001      0.012
+    M1CHADV            0.107      0.045      2.400      0.016      0.007
+    DSES               0.065      0.035      1.846      0.065      0.009
+    PSR                0.110      0.047      2.360      0.018      0.245
+    LIFESTRESS         0.002      0.016      0.140      0.889      0.005
+    NEGAFF            -0.015      0.047     -0.315      0.753      0.228
+
+ OVERALLD ON
+    SEX               -0.248      0.042     -5.938      0.000      0.007
+    B1PAGE_M2         -0.079      0.017     -4.605      0.000      0.013
+    M1CHADV           -0.132      0.029     -4.559      0.000      0.008
+    DSES              -0.087      0.023     -3.828      0.000      0.007
+    PSR               -0.049      0.032     -1.545      0.122      0.251
+    LIFESTRESS         0.004      0.010      0.378      0.706      0.006
+    NEGAFF             0.036      0.032      1.134      0.257      0.220
+
+ F        ON
+    SEX               -0.073      0.087     -0.846      0.398      0.559
+    B1PAGE_M2          0.022      0.037      0.614      0.539      0.542
+    M1CHADV           -0.133      0.046     -2.875      0.004      0.270
+    DSES              -0.090      0.037     -2.424      0.015      0.263
+    PSR                0.084      0.043      1.938      0.053      0.364
+    LIFESTRESS         0.033      0.016      2.032      0.042      0.296
+    NEGAFF             0.041      0.045      0.919      0.358      0.330
+    PSQI3              0.042      0.011      3.700      0.000      0.238
+    CURRENTSMO         0.048      0.096      0.502      0.616      0.283
+    RISKYBEHAV         0.003      0.122      0.027      0.978      0.228
+    CANONE             0.102      0.071      1.432      0.152      0.234
+    CAFREQUENT        -0.118      0.080     -1.475      0.140      0.223
+    CAHEAVY            0.216      0.153      1.409      0.159      0.194
+    PHYSACT           -0.158      0.028     -5.677      0.000      0.250
+    OVERALLDIE         0.182      0.046      3.941      0.000      0.224
+
+ P4MAJORC ON
+    SEX                0.040      0.066      0.607      0.544      0.068
+    B1PAGE_M2          0.363      0.030     11.932      0.000      0.053
+    M1CHADV           -0.026      0.043     -0.589      0.556      0.032
+    DSES              -0.088      0.035     -2.494      0.013      0.034
+    PSR               -0.059      0.061     -0.970      0.332      0.182
+    LIFESTRESS         0.023      0.017      1.372      0.170      0.024
+    NEGAFF             0.078      0.046      1.703      0.089      0.160
+    PSQI3              0.051      0.011      4.529      0.000      0.020
+    CURRENTSMO        -0.047      0.092     -0.506      0.613      0.026
+    RISKYBEHAV         0.218      0.138      1.575      0.115      0.012
+    CANONE             0.133      0.071      1.877      0.060      0.018
+    CAFREQUENT         0.004      0.080      0.047      0.963      0.023
+    CAHEAVY           -0.157      0.123     -1.275      0.202      0.029
+    PHYSACT           -0.100      0.027     -3.657      0.000      0.029
+    OVERALLDIE        -0.027      0.049     -0.559      0.576      0.023
+    F                  0.259      0.036      7.157      0.000      0.211
+    PSRXSTRESS         0.028      0.014      2.028      0.043      0.158
+
+ PSRXSTRE WITH
+    PSRXSES           -0.247      0.260     -0.949      0.343      0.146
+    PSRXDSES          -0.382      0.368     -1.039      0.299      0.123
+
+ PSRXSES  WITH
+    PSRXDSES          -0.749      0.088     -8.552      0.000      0.120
+
+ PSR      WITH
+    PSRXSTRESS         3.526      0.231     15.281      0.000      0.065
+    PSRXSES            0.035      0.058      0.612      0.540      0.162
+    PSRXDSES           0.038      0.072      0.525      0.599      0.136
+
+ Means
+    PSRXSTRESS        -0.512      0.144     -3.547      0.000      0.041
+    PSRXSES            0.092      0.032      2.845      0.004      0.088
+    PSRXDSES           0.190      0.041      4.636      0.000      0.122
+
+ Intercepts
+    PSR               -0.052      0.040     -1.308      0.191      0.050
+    LIFESTRESS         3.871      0.118     32.890      0.000      0.000
+    NEGAFF            -0.259      0.069     -3.764      0.000      0.221
+    F                 -0.147      0.139     -1.056      0.291      0.301
+    PSQI3              4.484      0.216     20.746      0.000      0.016
+    CURRENTSMO         0.097      0.025      3.813      0.000      0.008
+    RISKYBEHAV         0.119      0.019      6.203      0.000      0.004
+    CANONE             0.351      0.034     10.449      0.000      0.007
+    CAFREQUENT         0.258      0.028      9.189      0.000      0.008
+    CAHEAVY            0.045      0.017      2.671      0.008      0.007
+    PHYSACT            2.628      0.079     33.278      0.000      0.006
+    OVERALLDIE         1.226      0.051     24.205      0.000      0.006
+    P4MAJORCON         0.967      0.137      7.059      0.000      0.022
+
+ Variances
+    PSRXSTRESS        20.379      2.209      9.224      0.000      0.091
+    PSRXSES            0.913      0.085     10.682      0.000      0.099
+    PSRXDSES           1.481      0.138     10.735      0.000      0.124
+
+ Residual Variances
+    PSR                0.956      0.042     22.944      0.000      0.022
+    LIFESTRESS         5.302      0.305     17.360      0.000      0.000
+    NEGAFF             0.667      0.042     15.790      0.000      0.381
+    F                  0.833      0.051     16.448      0.000      0.575
+    PSQI3              8.093      0.373     21.668      0.000      0.018
+    CURRENTSMO         0.110      0.006     17.234      0.000      0.004
+    RISKYBEHAV         0.061      0.006     10.516      0.000      0.000
+    CANONE             0.219      0.005     47.882      0.000      0.015
+    CAFREQUENT         0.149      0.007     22.514      0.000      0.006
+    CAHEAVY            0.044      0.005      9.292      0.000      0.001
+    PHYSACT            1.177      0.030     38.969      0.000      0.012
+    OVERALLDIE         0.441      0.023     18.854      0.000      0.002
+    P4MAJORCON         1.048      0.052     20.121      0.000      0.019
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Average Condition Number for the Information Matrix      0.488E-04
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+      1           0             0             0             0             0
+
+
+           NU
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+      1           0             0             0             0             0
+
+
+           NU
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+      1           0             0             0             0             0
+
+
+           NU
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+      1           0             0             0             0             0
+
+
+           LAMBDA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR                0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ PSR                0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PSR                0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           LAMBDA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSR                0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                  0             0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR                0
+ LIFESTRE           0             0
+ NEGAFF             0             0             0
+ F                  0             0             0             0
+ PSQI3              0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ CURRENTS           0
+ RISKYBEH           0             0
+ CANONE             0             0             0
+ CAFREQUE           0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PHYSACT            0
+ OVERALLD           0             0
+ P4MAJORC           0             0             0
+ PSRXSTRE           0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           THETA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSRXDSES           0
+ M1CHADV            0             0
+ DSES               0             0             0
+ SEX                0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           ALPHA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+      1           1             2             3             4             5
+
+
+           ALPHA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+      1           6             7             8             9            10
+
+
+           ALPHA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+      1          11            12            13            14            15
+
+
+           ALPHA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+      1          16             0             0             0             0
+
+
+           BETA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR                0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ NEGAFF            25            26             0             0             0
+ F                 33            34            35             0            36
+ PSQI3             48            49            50             0             0
+ CURRENTS          57            58            59             0             0
+ RISKYBEH          64            65            66             0             0
+ CANONE            71            72            73             0             0
+ CAFREQUE          78            79            80             0             0
+ CAHEAVY           85            86            87             0             0
+ PHYSACT           92            93            94             0             0
+ OVERALLD          99           100           101             0             0
+ P4MAJORC         106           107           108           109           110
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ PSR                0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ NEGAFF             0             0             0             0             0
+ F                 37            38            39            40            41
+ PSQI3              0             0             0             0             0
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC         111           112           113           114           115
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PSR                0             0             0             0             0
+ LIFESTRE           0             0             0             0             0
+ NEGAFF             0             0             0             0            27
+ F                 42            43             0             0             0
+ PSQI3              0             0             0             0            51
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC         116           117             0           118             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           BETA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSR                0            17            18            19            20
+ LIFESTRE           0            21            22            23            24
+ NEGAFF            28            29            30            31            32
+ F                  0            44            45            46            47
+ PSQI3             52            53            54            55            56
+ CURRENTS           0            60            61            62            63
+ RISKYBEH           0            67            68            69            70
+ CANONE             0            74            75            76            77
+ CAFREQUE           0            81            82            83            84
+ CAHEAVY            0            88            89            90            91
+ PHYSACT            0            95            96            97            98
+ OVERALLD           0           102           103           104           105
+ P4MAJORC           0           119           120           121           122
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR              123
+ LIFESTRE           0           124
+ NEGAFF             0             0           125
+ F                  0             0             0           126
+ PSQI3              0             0             0             0           127
+ CURRENTS           0             0             0             0             0
+ RISKYBEH           0             0             0             0             0
+ CANONE             0             0             0             0             0
+ CAFREQUE           0             0             0             0             0
+ CAHEAVY            0             0             0             0             0
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE         136             0             0             0             0
+ PSRXSES          138             0             0             0             0
+ PSRXDSES         141             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ CURRENTS         128
+ RISKYBEH           0           129
+ CANONE             0             0           130
+ CAFREQUE           0             0             0           131
+ CAHEAVY            0             0             0             0           132
+ PHYSACT            0             0             0             0             0
+ OVERALLD           0             0             0             0             0
+ P4MAJORC           0             0             0             0             0
+ PSRXSTRE           0             0             0             0             0
+ PSRXSES            0             0             0             0             0
+ PSRXDSES           0             0             0             0             0
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PHYSACT          133
+ OVERALLD           0           134
+ P4MAJORC           0             0           135
+ PSRXSTRE           0             0             0           137
+ PSRXSES            0             0             0           139           140
+ PSRXDSES           0             0             0           142           143
+ M1CHADV            0             0             0             0             0
+ DSES               0             0             0             0             0
+ SEX                0             0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+           PSI
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSRXDSES         144
+ M1CHADV            0             0
+ DSES               0             0             0
+ SEX                0             0             0             0
+ B1PAGE_M           0             0             0             0             0
+
+
+     STARTING VALUES
+
+
+           NU
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR            1.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         1.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         1.000         0.000         0.000
+ F              0.000         0.000         0.000         1.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         1.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ PSR            0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       1.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         1.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         1.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         1.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         1.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PSR            0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        1.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         1.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         1.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         1.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         1.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSR            0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       1.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         1.000         0.000         0.000         0.000
+ DSES           0.000         0.000         1.000         0.000         0.000
+ SEX            0.000         0.000         0.000         1.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         1.000
+
+
+           THETA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR            0.000
+ LIFESTRE       0.000         0.000
+ NEGAFF         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ CURRENTS       0.000
+ RISKYBEH       0.000         0.000
+ CANONE         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PHYSACT        0.000
+ OVERALLD       0.000         0.000
+ P4MAJORC       0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSRXDSES       0.000
+ M1CHADV        0.000         0.000
+ DSES           0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+      1         0.000         3.364        -0.031        -0.011         5.607
+
+
+           ALPHA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+      1         0.148         0.067         0.353         0.195         0.051
+
+
+           ALPHA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+      1         2.515         1.103         1.095         0.000         0.000
+
+
+           ALPHA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+      1         0.000         0.000         0.001         0.568        -0.046
+
+
+           BETA
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR            0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ PSR            0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PSR            0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSR            0.000         0.000         0.000         0.000         0.000
+ LIFESTRE       0.000         0.000         0.000         0.000         0.000
+ NEGAFF         0.000         0.000         0.000         0.000         0.000
+ F              0.000         0.000         0.000         0.000         0.000
+ PSQI3          0.000         0.000         0.000         0.000         0.000
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PSR           LIFESTRE      NEGAFF        F             PSQI3
+              ________      ________      ________      ________      ________
+ PSR            0.500
+ LIFESTRE       0.000         2.955
+ NEGAFF         0.000         0.000         0.488
+ F              0.000         0.000         0.000         0.509
+ PSQI3          0.000         0.000         0.000         0.000         4.821
+ CURRENTS       0.000         0.000         0.000         0.000         0.000
+ RISKYBEH       0.000         0.000         0.000         0.000         0.000
+ CANONE         0.000         0.000         0.000         0.000         0.000
+ CAFREQUE       0.000         0.000         0.000         0.000         0.000
+ CAHEAVY        0.000         0.000         0.000         0.000         0.000
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              CURRENTS      RISKYBEH      CANONE        CAFREQUE      CAHEAVY
+              ________      ________      ________      ________      ________
+ CURRENTS       0.063
+ RISKYBEH       0.000         0.031
+ CANONE         0.000         0.000         0.114
+ CAFREQUE       0.000         0.000         0.000         0.079
+ CAHEAVY        0.000         0.000         0.000         0.000         0.024
+ PHYSACT        0.000         0.000         0.000         0.000         0.000
+ OVERALLD       0.000         0.000         0.000         0.000         0.000
+ P4MAJORC       0.000         0.000         0.000         0.000         0.000
+ PSRXSTRE       0.000         0.000         0.000         0.000         0.000
+ PSRXSES        0.000         0.000         0.000         0.000         0.000
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PHYSACT       OVERALLD      P4MAJORC      PSRXSTRE      PSRXSES
+              ________      ________      ________      ________      ________
+ PHYSACT        0.611
+ OVERALLD       0.000         0.243
+ P4MAJORC       0.000         0.000         0.701
+ PSRXSTRE       0.000         0.000         0.000        10.335
+ PSRXSES        0.000         0.000         0.000         0.000         0.477
+ PSRXDSES       0.000         0.000         0.000         0.000         0.000
+ M1CHADV        0.000         0.000         0.000         0.000         0.000
+ DSES           0.000         0.000         0.000         0.000         0.000
+ SEX            0.000         0.000         0.000         0.000         0.000
+ B1PAGE_M       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PSRXDSES      M1CHADV       DSES          SEX           B1PAGE_M
+              ________      ________      ________      ________      ________
+ PSRXDSES       0.808
+ M1CHADV        0.000         0.999
+ DSES           0.000        -0.769         1.536
+ SEX            0.000        -0.021        -0.048         0.245
+ B1PAGE_M       0.000        -0.127         0.285        -0.027         1.371
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\joshua\onedrive\projects\midus\jw-midus-al\psr_al_final_imputed\psr_al_final_interactio
+
+     Beginning Time:  19:26:07
+        Ending Time:  19:26:43
+       Elapsed Time:  00:00:36
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

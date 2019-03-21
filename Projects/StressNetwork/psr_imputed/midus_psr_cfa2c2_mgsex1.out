@@ -1,0 +1,2270 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+02/15/2016   1:40 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "MIDUS_PSR_cfa2c2_mgsex1.dat";
+
+  VARIABLE:
+  NAMES = M2ID M2FAMNUM M1 M2 M3 M4 LC1 LC2 LC3 LC4 LC5 LC6 LC7 LC8 SE1 SE2 SE3 SE4
+       SE5 SE6 SE7 Opt1 Opt2 Opt3 Pess1 Pess2 Pess3 PLife1 PLife2 PLife3 PLife4 PLife5
+       PLife6 PLife7 Ctrl1 Ctrl2 Ctrl3 Con1 Con2 Con3 Con4 Con5 Ext1 Ext2 Ext3 Ext4
+       Ext5 FamS1 FamS2 FamS3 FamS4 FriS1 FriS2 FriS3 FriS4 SpoS1 SpoS2 SpoS3 SpoS4
+       SpoS5 SpoS6 SI1 SI2 SI3 AGE SEX;
+   MISSING=.;
+
+  USEVARIABLES ARE
+   M1 M2 M3  LC2 LC5 LC7
+   SE2 SE4 SE6  Opt1 Opt2 Opt3
+   PLife2 PLife3 PLife5
+   Con2 Con3 Con5  Ext1 Ext3 Ext4
+   FamS1 FamS2 FamS4  FriS1 FriS2 FriS4
+   SpoS1 SpoS2 SpoS3  SI1 SI2 SI3;
+
+  CATEGORICAL ARE
+   M1 M2 M3  LC2 LC5 LC7
+   SE2 SE4 SE6  Opt1 Opt2 Opt3
+   PLife2 PLife3 PLife5
+   Con2 Con3 Con5  Ext1 Ext3 Ext4
+   FamS1 FamS2 FamS4  FriS1 FriS2 FriS4
+   SpoS1 SpoS2 SpoS3  SI1 SI2 SI3;
+
+  IDVARIABLE = M2ID;
+  GROUPING = SEX (1 = Men 2 = Women);
+
+  ANALYSIS:
+
+    ESTIMATOR = WLSMV;
+    PROCESSORS = 2;
+  MODEL:
+
+   M BY M1@1 M2*1 M3*1;
+   LC BY LC2@-1 LC5*-1 LC7*-1;
+   SE BY SE2@1 SE4*1 SE6*1;
+   Opt BY Opt1@1 Opt2*1 Opt3*1;
+   PLife BY PLife2@1 PLife3*1 PLife5*1;
+   Con BY Con2@1 Con3*1 Con5*1;
+   EXT BY Ext1@1 Ext3*1 Ext4*1;
+   FamS BY FamS1@1 FamS2*1 FamS4*1;
+   FriS BY FriS1@1 FriS2*1 FriS4*1;
+   SpoS BY SpoS1@1 SpoS2*1 SpoS3*1;
+   SI BY SI1@-1 SI2*1 SI3*1;
+
+   PR BY M@1 LC*1 SE*1 Opt*1
+     PLife*1 Con*1 EXT*1;
+   SR BY FamS@1 FriS*1 SpoS*1 SI*1;
+   PR WITH SR*;
+  [M@0 LC@0 SE@0 Opt@0 PLife@0 Con@0 EXT@0 FamS@0 FriS@0 SpoS@0 SI@0] (fm1-fm11);
+
+  OUTPUT:
+  STDYX;
+  PLOT:
+  TYPE IS PLOT2;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 2
+Number of observations
+   Group MEN                                                  1586
+   Group WOMEN                                                2035
+   Total sample size                                          3621
+
+Number of dependent variables                                   33
+Number of independent variables                                  0
+Number of continuous latent variables                           13
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   M1          M2          M3          LC2         LC5         LC7
+   SE2         SE4         SE6         OPT1        OPT2        OPT3
+   PLIFE2      PLIFE3      PLIFE5      CON2        CON3        CON5
+   EXT1        EXT3        EXT4        FAMS1       FAMS2       FAMS4
+   FRIS1       FRIS2       FRIS4       SPOS1       SPOS2       SPOS3
+   SI1         SI2         SI3
+
+Continuous latent variables
+   M           LC          SE          OPT         PLIFE       CON
+   EXT         FAMS        FRIS        SPOS        SI          PR
+   SR
+
+Variables with special functions
+
+  Grouping variable     SEX
+  ID variable           M2ID
+
+Estimator                                                    WLSMV
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Parameterization                                             DELTA
+
+Input data file(s)
+  MIDUS_PSR_cfa2c2_mgsex1.dat
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+   Group MEN
+     Number of missing data patterns            85
+
+   Group WOMEN
+     Number of missing data patterns           142
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR MEN
+
+
+           Covariance Coverage
+              M1            M2            M3            LC2           LC5
+              ________      ________      ________      ________      ________
+ M1             0.945
+ M2             0.943         0.943
+ M3             0.944         0.943         0.944
+ LC2            0.944         0.942         0.943         0.944
+ LC5            0.944         0.943         0.943         0.943         0.944
+ LC7            0.944         0.943         0.944         0.943         0.943
+ SE2            0.939         0.938         0.938         0.938         0.938
+ SE4            0.941         0.939         0.939         0.939         0.939
+ SE6            0.941         0.939         0.940         0.940         0.940
+ OPT1           0.941         0.939         0.940         0.940         0.940
+ OPT2           0.939         0.937         0.938         0.938         0.938
+ OPT3           0.941         0.939         0.940         0.940         0.940
+ PLIFE2         0.939         0.937         0.938         0.938         0.938
+ PLIFE3         0.941         0.939         0.940         0.940         0.940
+ PLIFE5         0.944         0.942         0.943         0.943         0.943
+ CON2           0.941         0.939         0.939         0.940         0.939
+ CON3           0.940         0.938         0.939         0.939         0.939
+ CON5           0.924         0.922         0.923         0.924         0.923
+ EXT1           0.938         0.936         0.937         0.938         0.937
+ EXT3           0.934         0.933         0.933         0.934         0.933
+ EXT4           0.928         0.926         0.927         0.927         0.927
+ FAMS1          0.938         0.936         0.936         0.936         0.936
+ FAMS2          0.934         0.933         0.933         0.933         0.933
+ FAMS4          0.936         0.934         0.934         0.934         0.934
+ FRIS1          0.927         0.925         0.926         0.926         0.926
+ FRIS2          0.928         0.926         0.927         0.927         0.927
+ FRIS4          0.926         0.924         0.924         0.924         0.924
+ SPOS1          0.751         0.749         0.750         0.750         0.750
+ SPOS2          0.751         0.749         0.750         0.750         0.750
+ SPOS3          0.750         0.748         0.750         0.750         0.749
+ SI1            0.936         0.934         0.934         0.934         0.934
+ SI2            0.935         0.933         0.934         0.934         0.934
+ SI3            0.938         0.936         0.937         0.937         0.937
+
+
+           Covariance Coverage
+              LC7           SE2           SE4           SE6           OPT1
+              ________      ________      ________      ________      ________
+ LC7            0.944
+ SE2            0.938         0.941
+ SE4            0.939         0.940         0.943
+ SE6            0.940         0.940         0.941         0.943
+ OPT1           0.940         0.938         0.939         0.939         0.945
+ OPT2           0.938         0.935         0.936         0.937         0.942
+ OPT3           0.940         0.938         0.939         0.939         0.945
+ PLIFE2         0.938         0.935         0.936         0.937         0.938
+ PLIFE3         0.940         0.938         0.939         0.939         0.941
+ PLIFE5         0.943         0.940         0.941         0.942         0.943
+ CON2           0.939         0.938         0.939         0.939         0.939
+ CON3           0.939         0.937         0.938         0.939         0.939
+ CON5           0.923         0.921         0.922         0.923         0.924
+ EXT1           0.937         0.935         0.936         0.937         0.937
+ EXT3           0.933         0.931         0.933         0.933         0.933
+ EXT4           0.927         0.925         0.926         0.927         0.927
+ FAMS1          0.936         0.934         0.934         0.935         0.937
+ FAMS2          0.933         0.931         0.931         0.932         0.934
+ FAMS4          0.934         0.932         0.933         0.933         0.935
+ FRIS1          0.926         0.923         0.924         0.924         0.926
+ FRIS2          0.927         0.924         0.925         0.926         0.927
+ FRIS4          0.924         0.922         0.922         0.923         0.925
+ SPOS1          0.750         0.748         0.750         0.750         0.751
+ SPOS2          0.750         0.748         0.750         0.750         0.751
+ SPOS3          0.750         0.748         0.749         0.749         0.750
+ SI1            0.934         0.933         0.933         0.933         0.935
+ SI2            0.934         0.932         0.932         0.933         0.934
+ SI3            0.937         0.935         0.935         0.936         0.938
+
+
+           Covariance Coverage
+              OPT2          OPT3          PLIFE2        PLIFE3        PLIFE5
+              ________      ________      ________      ________      ________
+ OPT2           0.943
+ OPT3           0.942         0.945
+ PLIFE2         0.936         0.938         0.941
+ PLIFE3         0.938         0.941         0.939         0.944
+ PLIFE5         0.940         0.943         0.941         0.943         0.946
+ CON2           0.937         0.939         0.937         0.939         0.942
+ CON3           0.936         0.939         0.936         0.939         0.941
+ CON5           0.922         0.924         0.922         0.923         0.926
+ EXT1           0.935         0.937         0.934         0.937         0.939
+ EXT3           0.931         0.934         0.931         0.933         0.936
+ EXT4           0.924         0.927         0.926         0.927         0.929
+ FAMS1          0.934         0.937         0.933         0.936         0.938
+ FAMS2          0.931         0.934         0.930         0.933         0.935
+ FAMS4          0.933         0.935         0.931         0.934         0.936
+ FRIS1          0.924         0.926         0.923         0.926         0.928
+ FRIS2          0.924         0.927         0.924         0.927         0.929
+ FRIS4          0.922         0.925         0.922         0.925         0.927
+ SPOS1          0.750         0.751         0.748         0.751         0.752
+ SPOS2          0.750         0.751         0.748         0.751         0.752
+ SPOS3          0.750         0.750         0.747         0.750         0.752
+ SI1            0.933         0.935         0.932         0.934         0.936
+ SI2            0.932         0.934         0.931         0.933         0.936
+ SI3            0.935         0.938         0.934         0.936         0.939
+
+
+           Covariance Coverage
+              CON2          CON3          CON5          EXT1          EXT3
+              ________      ________      ________      ________      ________
+ CON2           0.943
+ CON3           0.943         0.943
+ CON5           0.927         0.926         0.927
+ EXT1           0.941         0.940         0.925         0.941
+ EXT3           0.937         0.936         0.921         0.935         0.937
+ EXT4           0.931         0.930         0.925         0.928         0.925
+ FAMS1          0.935         0.934         0.919         0.933         0.929
+ FAMS2          0.932         0.931         0.916         0.929         0.926
+ FAMS4          0.933         0.933         0.917         0.931         0.927
+ FRIS1          0.924         0.924         0.909         0.922         0.918
+ FRIS2          0.926         0.925         0.910         0.923         0.919
+ FRIS4          0.923         0.922         0.908         0.921         0.917
+ SPOS1          0.750         0.750         0.737         0.748         0.745
+ SPOS2          0.750         0.750         0.737         0.748         0.745
+ SPOS3          0.750         0.749         0.736         0.748         0.744
+ SI1            0.933         0.933         0.917         0.931         0.927
+ SI2            0.933         0.932         0.917         0.930         0.926
+ SI3            0.936         0.935         0.920         0.933         0.929
+
+
+           Covariance Coverage
+              EXT4          FAMS1         FAMS2         FAMS4         FRIS1
+              ________      ________      ________      ________      ________
+ EXT4           0.931
+ FAMS1          0.923         0.992
+ FAMS2          0.920         0.989         0.989
+ FAMS4          0.921         0.989         0.987         0.989
+ FRIS1          0.913         0.979         0.977         0.978         0.980
+ FRIS2          0.914         0.979         0.977         0.978         0.979
+ FRIS4          0.912         0.977         0.975         0.976         0.977
+ SPOS1          0.740         0.782         0.779         0.781         0.776
+ SPOS2          0.740         0.783         0.780         0.781         0.776
+ SPOS3          0.739         0.782         0.779         0.781         0.775
+ SI1            0.921         0.936         0.933         0.934         0.926
+ SI2            0.921         0.936         0.933         0.934         0.925
+ SI3            0.924         0.939         0.936         0.937         0.928
+
+
+           Covariance Coverage
+              FRIS2         FRIS4         SPOS1         SPOS2         SPOS3
+              ________      ________      ________      ________      ________
+ FRIS2          0.980
+ FRIS4          0.976         0.979
+ SPOS1          0.774         0.774         0.784
+ SPOS2          0.774         0.774         0.784         0.784
+ SPOS3          0.774         0.774         0.783         0.784         0.784
+ SI1            0.926         0.924         0.750         0.750         0.749
+ SI2            0.926         0.924         0.748         0.748         0.748
+ SI3            0.929         0.927         0.752         0.752         0.751
+
+
+           Covariance Coverage
+              SI1           SI2           SI3
+              ________      ________      ________
+ SI1            0.940
+ SI2            0.936         0.939
+ SI3            0.939         0.939         0.943
+
+
+     PROPORTION OF DATA PRESENT FOR WOMEN
+
+
+           Covariance Coverage
+              M1            M2            M3            LC2           LC5
+              ________      ________      ________      ________      ________
+ M1             0.933
+ M2             0.930         0.932
+ M3             0.929         0.930         0.932
+ LC2            0.931         0.929         0.928         0.932
+ LC5            0.930         0.930         0.929         0.929         0.932
+ LC7            0.927         0.927         0.927         0.926         0.927
+ SE2            0.928         0.927         0.927         0.927         0.927
+ SE4            0.928         0.927         0.927         0.927         0.928
+ SE6            0.928         0.927         0.927         0.927         0.927
+ OPT1           0.926         0.925         0.925         0.925         0.925
+ OPT2           0.923         0.922         0.922         0.922         0.923
+ OPT3           0.929         0.928         0.928         0.928         0.928
+ PLIFE2         0.931         0.930         0.929         0.930         0.930
+ PLIFE3         0.929         0.928         0.928         0.928         0.928
+ PLIFE5         0.930         0.929         0.929         0.929         0.929
+ CON2           0.928         0.928         0.927         0.927         0.928
+ CON3           0.927         0.927         0.926         0.926         0.926
+ CON5           0.913         0.913         0.912         0.912         0.913
+ EXT1           0.923         0.922         0.921         0.922         0.922
+ EXT3           0.925         0.924         0.923         0.924         0.924
+ EXT4           0.920         0.919         0.918         0.918         0.919
+ FAMS1          0.927         0.925         0.925         0.925         0.925
+ FAMS2          0.927         0.926         0.925         0.925         0.925
+ FAMS4          0.927         0.926         0.925         0.926         0.926
+ FRIS1          0.918         0.917         0.916         0.916         0.917
+ FRIS2          0.917         0.916         0.915         0.916         0.916
+ FRIS4          0.921         0.919         0.919         0.919         0.920
+ SPOS1          0.590         0.592         0.590         0.590         0.591
+ SPOS2          0.589         0.591         0.589         0.589         0.590
+ SPOS3          0.588         0.589         0.588         0.587         0.589
+ SI1            0.917         0.916         0.916         0.915         0.916
+ SI2            0.916         0.915         0.915         0.915         0.916
+ SI3            0.918         0.917         0.917         0.917         0.918
+
+
+           Covariance Coverage
+              LC7           SE2           SE4           SE6           OPT1
+              ________      ________      ________      ________      ________
+ LC7            0.929
+ SE2            0.924         0.933
+ SE4            0.925         0.930         0.933
+ SE6            0.924         0.930         0.930         0.933
+ OPT1           0.922         0.927         0.926         0.926         0.935
+ OPT2           0.919         0.924         0.924         0.923         0.928
+ OPT3           0.925         0.930         0.929         0.929         0.934
+ PLIFE2         0.927         0.930         0.930         0.930         0.929
+ PLIFE3         0.926         0.928         0.928         0.928         0.927
+ PLIFE5         0.926         0.930         0.930         0.930         0.929
+ CON2           0.924         0.928         0.928         0.928         0.927
+ CON3           0.923         0.928         0.927         0.927         0.927
+ CON5           0.910         0.914         0.913         0.913         0.913
+ EXT1           0.919         0.923         0.923         0.923         0.922
+ EXT3           0.921         0.925         0.925         0.925         0.924
+ EXT4           0.916         0.919         0.919         0.919         0.918
+ FAMS1          0.923         0.927         0.926         0.926         0.929
+ FAMS2          0.923         0.927         0.926         0.926         0.929
+ FAMS4          0.923         0.927         0.927         0.927         0.929
+ FRIS1          0.914         0.918         0.917         0.917         0.920
+ FRIS2          0.914         0.917         0.917         0.917         0.920
+ FRIS4          0.917         0.921         0.920         0.921         0.923
+ SPOS1          0.590         0.590         0.591         0.589         0.591
+ SPOS2          0.589         0.589         0.590         0.588         0.590
+ SPOS3          0.587         0.588         0.588         0.587         0.589
+ SI1            0.913         0.917         0.917         0.917         0.919
+ SI2            0.913         0.917         0.916         0.916         0.919
+ SI3            0.914         0.919         0.918         0.918         0.921
+
+
+           Covariance Coverage
+              OPT2          OPT3          PLIFE2        PLIFE3        PLIFE5
+              ________      ________      ________      ________      ________
+ OPT2           0.932
+ OPT3           0.931         0.938
+ PLIFE2         0.926         0.932         0.936
+ PLIFE3         0.924         0.930         0.932         0.934
+ PLIFE5         0.926         0.932         0.933         0.932         0.937
+ CON2           0.925         0.930         0.931         0.929         0.931
+ CON3           0.924         0.930         0.930         0.928         0.930
+ CON5           0.911         0.916         0.915         0.914         0.915
+ EXT1           0.919         0.925         0.925         0.923         0.926
+ EXT3           0.921         0.927         0.928         0.926         0.928
+ EXT4           0.915         0.921         0.922         0.920         0.922
+ FAMS1          0.925         0.931         0.930         0.928         0.930
+ FAMS2          0.925         0.931         0.930         0.928         0.930
+ FAMS4          0.926         0.932         0.930         0.928         0.930
+ FRIS1          0.916         0.922         0.921         0.919         0.921
+ FRIS2          0.916         0.922         0.920         0.918         0.920
+ FRIS4          0.919         0.925         0.924         0.922         0.924
+ SPOS1          0.590         0.593         0.593         0.591         0.593
+ SPOS2          0.589         0.592         0.592         0.591         0.592
+ SPOS3          0.588         0.591         0.591         0.589         0.590
+ SI1            0.916         0.921         0.920         0.918         0.920
+ SI2            0.916         0.921         0.919         0.918         0.920
+ SI3            0.918         0.924         0.921         0.920         0.922
+
+
+           Covariance Coverage
+              CON2          CON3          CON5          EXT1          EXT3
+              ________      ________      ________      ________      ________
+ CON2           0.935
+ CON3           0.932         0.933
+ CON5           0.918         0.918         0.919
+ EXT1           0.928         0.927         0.914         0.929
+ EXT3           0.930         0.929         0.915         0.926         0.931
+ EXT4           0.924         0.923         0.916         0.919         0.921
+ FAMS1          0.927         0.926         0.912         0.923         0.925
+ FAMS2          0.928         0.927         0.913         0.923         0.925
+ FAMS4          0.928         0.927         0.913         0.923         0.925
+ FRIS1          0.919         0.918         0.904         0.914         0.916
+ FRIS2          0.918         0.917         0.904         0.913         0.915
+ FRIS4          0.921         0.920         0.907         0.916         0.918
+ SPOS1          0.592         0.592         0.586         0.590         0.590
+ SPOS2          0.591         0.591         0.585         0.589         0.589
+ SPOS3          0.589         0.589         0.584         0.588         0.588
+ SI1            0.919         0.917         0.905         0.913         0.915
+ SI2            0.918         0.917         0.904         0.912         0.914
+ SI3            0.920         0.919         0.906         0.914         0.916
+
+
+           Covariance Coverage
+              EXT4          FAMS1         FAMS2         FAMS4         FRIS1
+              ________      ________      ________      ________      ________
+ EXT4           0.925
+ FAMS1          0.918         0.992
+ FAMS2          0.918         0.991         0.992
+ FAMS4          0.919         0.991         0.991         0.993
+ FRIS1          0.910         0.979         0.980         0.980         0.983
+ FRIS2          0.909         0.979         0.979         0.979         0.980
+ FRIS4          0.912         0.982         0.982         0.983         0.981
+ SPOS1          0.588         0.607         0.607         0.607         0.604
+ SPOS2          0.587         0.606         0.606         0.606         0.603
+ SPOS3          0.586         0.604         0.604         0.604         0.601
+ SI1            0.910         0.922         0.922         0.923         0.914
+ SI2            0.909         0.922         0.922         0.923         0.914
+ SI3            0.911         0.924         0.924         0.925         0.915
+
+
+           Covariance Coverage
+              FRIS2         FRIS4         SPOS1         SPOS2         SPOS3
+              ________      ________      ________      ________      ________
+ FRIS2          0.982
+ FRIS4          0.981         0.986
+ SPOS1          0.603         0.603         0.609
+ SPOS2          0.602         0.602         0.608         0.608
+ SPOS3          0.600         0.600         0.605         0.605         0.605
+ SI1            0.914         0.917         0.588         0.587         0.586
+ SI2            0.914         0.917         0.586         0.586         0.585
+ SI3            0.915         0.918         0.588         0.588         0.587
+
+
+           Covariance Coverage
+              SI1           SI2           SI3
+              ________      ________      ________
+ SI1            0.926
+ SI2            0.921         0.925
+ SI3            0.922         0.922         0.927
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+  Group MEN
+    M1
+      Category 1    0.359      538.000
+      Category 2    0.364      545.000
+      Category 3    0.131      197.000
+      Category 4    0.054       81.000
+      Category 5    0.039       59.000
+      Category 6    0.033       49.000
+      Category 7    0.020       30.000
+    M2
+      Category 1    0.400      598.000
+      Category 2    0.386      578.000
+      Category 3    0.128      191.000
+      Category 4    0.043       64.000
+      Category 5    0.019       29.000
+      Category 6    0.017       26.000
+      Category 7    0.007       10.000
+    M3
+      Category 1    0.228      342.000
+      Category 2    0.385      576.000
+      Category 3    0.170      255.000
+      Category 4    0.084      125.000
+      Category 5    0.072      108.000
+      Category 6    0.045       68.000
+      Category 7    0.015       23.000
+    LC2
+      Category 1    0.024       36.000
+      Category 2    0.052       78.000
+      Category 3    0.097      145.000
+      Category 4    0.071      106.000
+      Category 5    0.094      141.000
+      Category 6    0.260      389.000
+      Category 7    0.402      602.000
+    LC5
+      Category 1    0.047       71.000
+      Category 2    0.142      213.000
+      Category 3    0.229      343.000
+      Category 4    0.142      213.000
+      Category 5    0.100      150.000
+      Category 6    0.206      308.000
+      Category 7    0.133      199.000
+    LC7
+      Category 1    0.010       15.000
+      Category 2    0.023       35.000
+      Category 3    0.031       46.000
+      Category 4    0.063       94.000
+      Category 5    0.071      107.000
+      Category 6    0.299      447.000
+      Category 7    0.503      753.000
+    SE2
+      Category 1    0.431      643.000
+      Category 2    0.358      535.000
+      Category 3    0.128      191.000
+      Category 4    0.034       51.000
+      Category 5    0.025       38.000
+      Category 6    0.017       26.000
+      Category 7    0.006        9.000
+    SE4
+      Category 1    0.359      536.000
+      Category 2    0.428      640.000
+      Category 3    0.093      139.000
+      Category 4    0.060       89.000
+      Category 5    0.025       37.000
+      Category 6    0.022       33.000
+      Category 7    0.014       21.000
+    SE6
+      Category 1    0.398      595.000
+      Category 2    0.394      590.000
+      Category 3    0.090      135.000
+      Category 4    0.043       65.000
+      Category 5    0.035       52.000
+      Category 6    0.027       40.000
+      Category 7    0.013       19.000
+    OPT1
+      Category 1    0.252      378.000
+      Category 2    0.431      646.000
+      Category 3    0.169      253.000
+      Category 4    0.114      171.000
+      Category 5    0.034       51.000
+    OPT2
+      Category 1    0.339      507.000
+      Category 2    0.441      659.000
+      Category 3    0.106      159.000
+      Category 4    0.093      139.000
+      Category 5    0.021       31.000
+    OPT3
+      Category 1    0.439      658.000
+      Category 2    0.382      572.000
+      Category 3    0.110      165.000
+      Category 4    0.039       59.000
+      Category 5    0.030       45.000
+    PLIFE2
+      Category 1    0.357      533.000
+      Category 2    0.368      550.000
+      Category 3    0.125      186.000
+      Category 4    0.069      103.000
+      Category 5    0.030       45.000
+      Category 6    0.035       52.000
+      Category 7    0.016       24.000
+    PLIFE3
+      Category 1    0.023       35.000
+      Category 2    0.062       93.000
+      Category 3    0.088      132.000
+      Category 4    0.116      173.000
+      Category 5    0.075      112.000
+      Category 6    0.230      345.000
+      Category 7    0.405      607.000
+    PLIFE5
+      Category 1    0.296      445.000
+      Category 2    0.340      510.000
+      Category 3    0.171      257.000
+      Category 4    0.117      176.000
+      Category 5    0.036       54.000
+      Category 6    0.029       43.000
+      Category 7    0.011       16.000
+    CON2
+      Category 1    0.702     1050.000
+      Category 2    0.256      383.000
+      Category 3    0.039       58.000
+      Category 4    0.003        5.000
+    CON3
+      Category 1    0.649      970.000
+      Category 2    0.276      412.000
+      Category 3    0.063       94.000
+      Category 4    0.013       19.000
+    CON5
+      Category 1    0.310      456.000
+      Category 2    0.458      673.000
+      Category 3    0.212      311.000
+      Category 4    0.020       30.000
+    EXT1
+      Category 1    0.325      485.000
+      Category 2    0.415      619.000
+      Category 3    0.213      318.000
+      Category 4    0.047       70.000
+    EXT3
+      Category 1    0.243      361.000
+      Category 2    0.478      711.000
+      Category 3    0.252      374.000
+      Category 4    0.027       40.000
+    EXT4
+      Category 1    0.391      577.000
+      Category 2    0.429      633.000
+      Category 3    0.157      231.000
+      Category 4    0.024       35.000
+    FAMS1
+      Category 1    0.792     1246.000
+      Category 2    0.158      248.000
+      Category 3    0.041       64.000
+      Category 4    0.010       15.000
+    FAMS2
+      Category 1    0.439      689.000
+      Category 2    0.399      626.000
+      Category 3    0.134      210.000
+      Category 4    0.027       43.000
+    FAMS4
+      Category 1    0.484      759.000
+      Category 2    0.318      499.000
+      Category 3    0.145      228.000
+      Category 4    0.053       83.000
+    FRIS1
+      Category 1    0.450      700.000
+      Category 2    0.422      656.000
+      Category 3    0.110      171.000
+      Category 4    0.018       28.000
+    FRIS2
+      Category 1    0.269      418.000
+      Category 2    0.494      768.000
+      Category 3    0.205      318.000
+      Category 4    0.033       51.000
+    FRIS4
+      Category 1    0.326      507.000
+      Category 2    0.380      590.000
+      Category 3    0.227      353.000
+      Category 4    0.066      103.000
+    SPOS1
+      Category 1    0.871     1083.000
+      Category 2    0.106      132.000
+      Category 3    0.022       27.000
+      Category 4    0.001        1.000
+    SPOS2
+      Category 1    0.591      735.000
+      Category 2    0.320      398.000
+      Category 3    0.077       96.000
+      Category 4    0.012       15.000
+    SPOS3
+      Category 1    0.747      928.000
+      Category 2    0.197      245.000
+      Category 3    0.050       62.000
+      Category 4    0.006        8.000
+    SI1
+      Category 1    0.027       40.000
+      Category 2    0.068      101.000
+      Category 3    0.093      139.000
+      Category 4    0.152      227.000
+      Category 5    0.103      153.000
+      Category 6    0.225      335.000
+      Category 7    0.333      496.000
+    SI2
+      Category 1    0.090      134.000
+      Category 2    0.234      349.000
+      Category 3    0.246      367.000
+      Category 4    0.219      327.000
+      Category 5    0.097      144.000
+      Category 6    0.075      112.000
+      Category 7    0.038       57.000
+    SI3
+      Category 1    0.082      123.000
+      Category 2    0.256      382.000
+      Category 3    0.209      312.000
+      Category 4    0.272      406.000
+      Category 5    0.082      122.000
+      Category 6    0.057       85.000
+      Category 7    0.043       65.000
+
+  Group WOMEN
+    M1
+      Category 1    0.398      755.000
+      Category 2    0.343      652.000
+      Category 3    0.117      222.000
+      Category 4    0.049       93.000
+      Category 5    0.035       67.000
+      Category 6    0.044       84.000
+      Category 7    0.014       26.000
+    M2
+      Category 1    0.410      778.000
+      Category 2    0.357      678.000
+      Category 3    0.126      239.000
+      Category 4    0.051       96.000
+      Category 5    0.020       38.000
+      Category 6    0.023       43.000
+      Category 7    0.013       25.000
+    M3
+      Category 1    0.206      390.000
+      Category 2    0.324      615.000
+      Category 3    0.167      316.000
+      Category 4    0.120      228.000
+      Category 5    0.078      148.000
+      Category 6    0.075      142.000
+      Category 7    0.030       57.000
+    LC2
+      Category 1    0.032       60.000
+      Category 2    0.089      169.000
+      Category 3    0.147      278.000
+      Category 4    0.070      132.000
+      Category 5    0.086      163.000
+      Category 6    0.221      419.000
+      Category 7    0.356      676.000
+    LC5
+      Category 1    0.070      133.000
+      Category 2    0.163      309.000
+      Category 3    0.207      393.000
+      Category 4    0.116      221.000
+      Category 5    0.092      174.000
+      Category 6    0.207      393.000
+      Category 7    0.144      274.000
+    LC7
+      Category 1    0.024       45.000
+      Category 2    0.038       71.000
+      Category 3    0.047       89.000
+      Category 4    0.082      155.000
+      Category 5    0.088      167.000
+      Category 6    0.271      512.000
+      Category 7    0.451      852.000
+    SE2
+      Category 1    0.432      821.000
+      Category 2    0.332      631.000
+      Category 3    0.121      229.000
+      Category 4    0.037       70.000
+      Category 5    0.038       72.000
+      Category 6    0.025       48.000
+      Category 7    0.015       28.000
+    SE4
+      Category 1    0.333      632.000
+      Category 2    0.402      763.000
+      Category 3    0.120      227.000
+      Category 4    0.056      107.000
+      Category 5    0.036       68.000
+      Category 6    0.031       58.000
+      Category 7    0.023       44.000
+    SE6
+      Category 1    0.419      795.000
+      Category 2    0.321      610.000
+      Category 3    0.107      203.000
+      Category 4    0.044       84.000
+      Category 5    0.045       86.000
+      Category 6    0.042       80.000
+      Category 7    0.022       41.000
+    OPT1
+      Category 1    0.287      545.000
+      Category 2    0.387      737.000
+      Category 3    0.169      322.000
+      Category 4    0.118      224.000
+      Category 5    0.039       74.000
+    OPT2
+      Category 1    0.313      593.000
+      Category 2    0.413      783.000
+      Category 3    0.135      256.000
+      Category 4    0.113      214.000
+      Category 5    0.026       50.000
+    OPT3
+      Category 1    0.490      934.000
+      Category 2    0.303      579.000
+      Category 3    0.121      231.000
+      Category 4    0.055      104.000
+      Category 5    0.031       60.000
+    PLIFE2
+      Category 1    0.405      772.000
+      Category 2    0.324      618.000
+      Category 3    0.105      200.000
+      Category 4    0.082      157.000
+      Category 5    0.029       55.000
+      Category 6    0.035       66.000
+      Category 7    0.019       37.000
+    PLIFE3
+      Category 1    0.028       54.000
+      Category 2    0.052       99.000
+      Category 3    0.093      177.000
+      Category 4    0.120      228.000
+      Category 5    0.070      134.000
+      Category 6    0.203      385.000
+      Category 7    0.433      824.000
+    PLIFE5
+      Category 1    0.382      728.000
+      Category 2    0.295      563.000
+      Category 3    0.148      282.000
+      Category 4    0.111      212.000
+      Category 5    0.028       54.000
+      Category 6    0.023       43.000
+      Category 7    0.013       24.000
+    CON2
+      Category 1    0.793     1509.000
+      Category 2    0.184      350.000
+      Category 3    0.019       36.000
+      Category 4    0.004        7.000
+    CON3
+      Category 1    0.718     1364.000
+      Category 2    0.216      411.000
+      Category 3    0.052       99.000
+      Category 4    0.013       25.000
+    CON5
+      Category 1    0.361      676.000
+      Category 2    0.420      785.000
+      Category 3    0.191      357.000
+      Category 4    0.028       52.000
+    EXT1
+      Category 1    0.375      709.000
+      Category 2    0.403      763.000
+      Category 3    0.175      330.000
+      Category 4    0.047       89.000
+    EXT3
+      Category 1    0.330      625.000
+      Category 2    0.404      765.000
+      Category 3    0.230      435.000
+      Category 4    0.037       70.000
+    EXT4
+      Category 1    0.366      689.000
+      Category 2    0.403      759.000
+      Category 3    0.196      370.000
+      Category 4    0.035       65.000
+    FAMS1
+      Category 1    0.840     1696.000
+      Category 2    0.112      226.000
+      Category 3    0.040       81.000
+      Category 4    0.008       16.000
+    FAMS2
+      Category 1    0.495     1000.000
+      Category 2    0.381      769.000
+      Category 3    0.090      182.000
+      Category 4    0.034       68.000
+    FAMS4
+      Category 1    0.575     1162.000
+      Category 2    0.267      540.000
+      Category 3    0.115      232.000
+      Category 4    0.043       87.000
+    FRIS1
+      Category 1    0.594     1188.000
+      Category 2    0.328      656.000
+      Category 3    0.063      126.000
+      Category 4    0.015       30.000
+    FRIS2
+      Category 1    0.435      869.000
+      Category 2    0.424      848.000
+      Category 3    0.114      227.000
+      Category 4    0.028       55.000
+    FRIS4
+      Category 1    0.483      970.000
+      Category 2    0.337      677.000
+      Category 3    0.135      270.000
+      Category 4    0.045       90.000
+    SPOS1
+      Category 1    0.853     1057.000
+      Category 2    0.098      121.000
+      Category 3    0.041       51.000
+      Category 4    0.008       10.000
+    SPOS2
+      Category 1    0.435      538.000
+      Category 2    0.406      502.000
+      Category 3    0.122      151.000
+      Category 4    0.037       46.000
+    SPOS3
+      Category 1    0.649      800.000
+      Category 2    0.252      310.000
+      Category 3    0.072       89.000
+      Category 4    0.027       33.000
+    SI1
+      Category 1    0.032       60.000
+      Category 2    0.067      126.000
+      Category 3    0.099      186.000
+      Category 4    0.170      320.000
+      Category 5    0.079      149.000
+      Category 6    0.179      338.000
+      Category 7    0.374      705.000
+    SI2
+      Category 1    0.125      235.000
+      Category 2    0.260      489.000
+      Category 3    0.217      409.000
+      Category 4    0.173      325.000
+      Category 5    0.078      146.000
+      Category 6    0.093      176.000
+      Category 7    0.055      103.000
+    SI3
+      Category 1    0.119      224.000
+      Category 2    0.237      448.000
+      Category 3    0.190      358.000
+      Category 4    0.261      492.000
+      Category 5    0.071      134.000
+      Category 6    0.073      137.000
+      Category 7    0.050       94.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                      250
+
+Chi-Square Test of Model Fit
+
+          Value                           4970.848*
+          Degrees of Freedom                  1100
+          P-Value                           0.0000
+
+Chi-Square Contribution From Each Group
+
+          MEN                             2224.006
+          WOMEN                           2746.843
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.044
+          90 Percent C.I.                    0.043  0.045
+          Probability RMSEA <= .05           1.000
+
+CFI/TLI
+
+          CFI                                0.954
+          TLI                                0.956
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          85266.062
+          Degrees of Freedom                  1056
+          P-Value                           0.0000
+
+WRMR (Weighted Root Mean Square Residual)
+
+          Value                              2.683
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group MEN
+
+ M        BY
+    M1                 1.000      0.000    999.000    999.000
+    M2                 1.093      0.025     43.372      0.000
+    M3                 0.865      0.027     32.001      0.000
+
+ LC       BY
+    LC2               -1.000      0.000    999.000    999.000
+    LC5               -0.614      0.022    -28.095      0.000
+    LC7               -0.924      0.022    -41.280      0.000
+
+ SE       BY
+    SE2                1.000      0.000    999.000    999.000
+    SE4                0.695      0.019     36.821      0.000
+    SE6                0.947      0.014     68.671      0.000
+
+ OPT      BY
+    OPT1               1.000      0.000    999.000    999.000
+    OPT2               1.454      0.055     26.521      0.000
+    OPT3               1.394      0.054     25.765      0.000
+
+ PLIFE    BY
+    PLIFE2             1.000      0.000    999.000    999.000
+    PLIFE3            -0.932      0.023    -40.810      0.000
+    PLIFE5             0.930      0.022     43.070      0.000
+
+ CON      BY
+    CON2               1.000      0.000    999.000    999.000
+    CON3               0.969      0.044     21.892      0.000
+    CON5               0.871      0.041     21.457      0.000
+
+ EXT      BY
+    EXT1               1.000      0.000    999.000    999.000
+    EXT3               1.249      0.046     27.431      0.000
+    EXT4               1.266      0.051     25.031      0.000
+
+ FAMS     BY
+    FAMS1              1.000      0.000    999.000    999.000
+    FAMS2              1.114      0.036     30.763      0.000
+    FAMS4              0.920      0.031     30.111      0.000
+
+ FRIS     BY
+    FRIS1              1.000      0.000    999.000    999.000
+    FRIS2              1.034      0.023     44.360      0.000
+    FRIS4              0.882      0.020     44.236      0.000
+
+ SPOS     BY
+    SPOS1              1.000      0.000    999.000    999.000
+    SPOS2              0.987      0.027     36.106      0.000
+    SPOS3              1.017      0.029     34.689      0.000
+
+ SI       BY
+    SI1               -1.000      0.000    999.000    999.000
+    SI2                0.964      0.032     30.170      0.000
+    SI3                0.829      0.029     28.345      0.000
+
+ PR       BY
+    M                  1.000      0.000    999.000    999.000
+    LC                 1.099      0.033     33.022      0.000
+    SE                 1.352      0.036     38.061      0.000
+    OPT                0.722      0.034     20.952      0.000
+    PLIFE              1.166      0.035     33.228      0.000
+    CON                0.827      0.041     20.210      0.000
+    EXT                0.753      0.034     21.996      0.000
+
+ SR       BY
+    FAMS               1.000      0.000    999.000    999.000
+    FRIS               1.213      0.081     15.061      0.000
+    SPOS               1.016      0.093     10.971      0.000
+    SI                 1.199      0.081     14.750      0.000
+
+ PR       WITH
+    SR                 0.210      0.016     13.275      0.000
+
+ Means
+    PR                 0.000      0.000    999.000    999.000
+    SR                 0.000      0.000    999.000    999.000
+
+ Intercepts
+    M                  0.000      0.000    999.000    999.000
+    LC                 0.000      0.000    999.000    999.000
+    SE                 0.000      0.000    999.000    999.000
+    OPT                0.000      0.000    999.000    999.000
+    PLIFE              0.000      0.000    999.000    999.000
+    CON                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    FAMS               0.000      0.000    999.000    999.000
+    FRIS               0.000      0.000    999.000    999.000
+    SPOS               0.000      0.000    999.000    999.000
+    SI                 0.000      0.000    999.000    999.000
+
+ Thresholds
+    M1$1              -0.302      0.026    -11.441      0.000
+    M1$2               0.624      0.027     22.981      0.000
+    M1$3               1.067      0.033     32.607      0.000
+    M1$4               1.329      0.038     35.394      0.000
+    M1$5               1.597      0.044     35.958      0.000
+    M1$6               2.133      0.064     33.411      0.000
+    M2$1              -0.242      0.027     -9.025      0.000
+    M2$2               0.779      0.030     26.182      0.000
+    M2$3               1.330      0.039     34.134      0.000
+    M2$4               1.684      0.048     34.887      0.000
+    M2$5               1.920      0.057     33.401      0.000
+    M2$6               2.373      0.079     29.951      0.000
+    M3$1              -0.862      0.032    -26.752      0.000
+    M3$2               0.200      0.026      7.615      0.000
+    M3$3               0.714      0.029     24.407      0.000
+    M3$4               1.116      0.034     32.361      0.000
+    M3$5               1.550      0.043     35.663      0.000
+    M3$6               2.254      0.067     33.399      0.000
+    LC2$1             -2.114      0.063    -33.524      0.000
+    LC2$2             -1.424      0.043    -33.100      0.000
+    LC2$3             -0.846      0.033    -25.918      0.000
+    LC2$4             -0.605      0.030    -20.195      0.000
+    LC2$5             -0.333      0.028    -11.725      0.000
+    LC2$6              0.335      0.030     11.308      0.000
+    LC5$1             -1.650      0.047    -35.043      0.000
+    LC5$2             -0.842      0.030    -28.366      0.000
+    LC5$3             -0.187      0.024     -7.654      0.000
+    LC5$4              0.154      0.025      6.192      0.000
+    LC5$5              0.417      0.027     15.640      0.000
+    LC5$6              1.142      0.037     31.085      0.000
+    LC7$1             -2.447      0.077    -31.703      0.000
+    LC7$2             -1.908      0.054    -35.104      0.000
+    LC7$3             -1.551      0.044    -34.878      0.000
+    LC7$4             -1.132      0.036    -31.705      0.000
+    LC7$5             -0.803      0.031    -25.714      0.000
+    LC7$6              0.063      0.028      2.241      0.025
+    SE2$1             -0.184      0.030     -6.038      0.000
+    SE2$2              0.828      0.032     25.583      0.000
+    SE2$3              1.401      0.041     34.329      0.000
+    SE2$4              1.665      0.047     35.215      0.000
+    SE2$5              2.029      0.059     34.576      0.000
+    SE2$6              2.543      0.086     29.618      0.000
+    SE4$1             -0.414      0.028    -14.912      0.000
+    SE4$2              0.734      0.029     25.517      0.000
+    SE4$3              1.158      0.034     33.874      0.000
+    SE4$4              1.496      0.041     36.133      0.000
+    SE4$5              1.768      0.049     36.345      0.000
+    SE4$6              2.174      0.064     33.824      0.000
+    SE6$1             -0.247      0.030     -8.257      0.000
+    SE6$2              0.786      0.032     24.786      0.000
+    SE6$3              1.194      0.037     32.413      0.000
+    SE6$4              1.446      0.041     34.864      0.000
+    SE6$5              1.775      0.050     35.663      0.000
+    SE6$6              2.313      0.071     32.760      0.000
+    OPT1$1            -0.614      0.028    -21.867      0.000
+    OPT1$2             0.469      0.026     18.273      0.000
+    OPT1$3             1.038      0.034     30.692      0.000
+    OPT1$4             1.812      0.054     33.585      0.000
+    OPT2$1            -0.470      0.029    -16.324      0.000
+    OPT2$2             0.707      0.030     23.400      0.000
+    OPT2$3             1.188      0.038     31.088      0.000
+    OPT2$4             2.070      0.064     32.485      0.000
+    OPT3$1            -0.088      0.026     -3.334      0.001
+    OPT3$2             0.914      0.033     27.761      0.000
+    OPT3$3             1.503      0.044     33.852      0.000
+    OPT3$4             1.978      0.058     34.147      0.000
+    PLIFE2$1          -0.296      0.027    -10.809      0.000
+    PLIFE2$2           0.616      0.028     21.870      0.000
+    PLIFE2$3           1.015      0.033     30.365      0.000
+    PLIFE2$4           1.410      0.041     34.550      0.000
+    PLIFE2$5           1.642      0.047     35.067      0.000
+    PLIFE2$6           2.127      0.065     32.891      0.000
+    PLIFE3$1          -1.958      0.059    -33.020      0.000
+    PLIFE3$2          -1.400      0.041    -33.884      0.000
+    PLIFE3$3          -0.950      0.033    -29.096      0.000
+    PLIFE3$4          -0.555      0.028    -20.106      0.000
+    PLIFE3$5          -0.353      0.026    -13.545      0.000
+    PLIFE3$6           0.198      0.026      7.615      0.000
+    PLIFE5$1          -0.392      0.027    -14.262      0.000
+    PLIFE5$2           0.409      0.026     15.834      0.000
+    PLIFE5$3           0.899      0.030     29.667      0.000
+    PLIFE5$4           1.474      0.040     36.457      0.000
+    PLIFE5$5           1.772      0.049     36.129      0.000
+    PLIFE5$6           2.244      0.071     31.416      0.000
+    CON2$1             0.657      0.029     23.002      0.000
+    CON2$2             1.784      0.055     32.542      0.000
+    CON2$3             2.559      0.107     23.816      0.000
+    CON3$1             0.468      0.025     18.362      0.000
+    CON3$2             1.400      0.045     31.423      0.000
+    CON3$3             2.103      0.075     28.009      0.000
+    CON5$1            -0.405      0.026    -15.791      0.000
+    CON5$2             0.745      0.030     24.745      0.000
+    CON5$3             1.927      0.068     28.459      0.000
+    EXT1$1            -0.380      0.026    -14.744      0.000
+    EXT1$2             0.720      0.029     25.071      0.000
+    EXT1$3             1.697      0.050     34.100      0.000
+    EXT3$1            -0.585      0.030    -19.643      0.000
+    EXT3$2             0.643      0.029     21.986      0.000
+    EXT3$3             1.966      0.059     33.278      0.000
+    EXT4$1            -0.323      0.027    -11.983      0.000
+    EXT4$2             0.851      0.033     26.126      0.000
+    EXT4$3             1.974      0.062     31.736      0.000
+    FAMS1$1            0.834      0.031     27.226      0.000
+    FAMS1$2            1.566      0.048     32.608      0.000
+    FAMS1$3            2.289      0.079     28.991      0.000
+    FAMS2$1           -0.152      0.026     -5.756      0.000
+    FAMS2$2            1.058      0.036     29.711      0.000
+    FAMS2$3            1.894      0.061     30.807      0.000
+    FAMS4$1            0.023      0.024      0.975      0.329
+    FAMS4$2            0.866      0.031     27.737      0.000
+    FAMS4$3            1.602      0.048     33.273      0.000
+    FRIS1$1            0.003      0.025      0.121      0.904
+    FRIS1$2            1.178      0.037     32.100      0.000
+    FRIS1$3            2.004      0.063     31.674      0.000
+    FRIS2$1           -0.427      0.028    -15.132      0.000
+    FRIS2$2            0.824      0.031     26.843      0.000
+    FRIS2$3            1.802      0.054     33.091      0.000
+    FRIS4$1           -0.271      0.025    -10.724      0.000
+    FRIS4$2            0.656      0.027     23.874      0.000
+    FRIS4$3            1.495      0.043     34.506      0.000
+    SPOS1$1            1.184      0.042     28.515      0.000
+    SPOS1$2            2.046      0.069     29.535      0.000
+    SPOS1$3            3.125      0.167     18.758      0.000
+    SPOS2$1            0.026      0.031      0.819      0.413
+    SPOS2$2            1.313      0.046     28.496      0.000
+    SPOS2$3            2.321      0.083     27.937      0.000
+    SPOS3$1            0.554      0.034     16.518      0.000
+    SPOS3$2            1.594      0.054     29.601      0.000
+    SPOS3$3            2.485      0.099     25.080      0.000
+    SI1$1             -2.005      0.059    -33.857      0.000
+    SI1$2             -1.355      0.041    -33.106      0.000
+    SI1$3             -0.880      0.033    -26.777      0.000
+    SI1$4             -0.340      0.028    -12.114      0.000
+    SI1$5             -0.083      0.027     -3.030      0.002
+    SI1$6              0.482      0.030     16.269      0.000
+    SI2$1             -1.407      0.041    -34.119      0.000
+    SI2$2             -0.469      0.029    -16.441      0.000
+    SI2$3              0.165      0.027      6.171      0.000
+    SI2$4              0.763      0.031     24.796      0.000
+    SI2$5              1.127      0.036     30.876      0.000
+    SI2$6              1.727      0.051     33.930      0.000
+    SI3$1             -1.424      0.041    -35.064      0.000
+    SI3$2             -0.479      0.027    -17.539      0.000
+    SI3$3              0.061      0.026      2.366      0.018
+    SI3$4              0.877      0.031     28.057      0.000
+    SI3$5              1.228      0.037     33.236      0.000
+    SI3$6              1.718      0.048     35.826      0.000
+
+ Variances
+    PR                 0.380      0.020     19.179      0.000
+    SR                 0.254      0.028      8.974      0.000
+
+ Residual Variances
+    M                  0.177      0.012     14.485      0.000
+    LC                 0.280      0.021     13.372      0.000
+    SE                 0.077      0.012      6.170      0.000
+    OPT                0.094      0.009     10.384      0.000
+    PLIFE              0.100      0.012      8.462      0.000
+    CON                0.320      0.026     12.352      0.000
+    EXT                0.164      0.014     11.798      0.000
+    FAMS               0.438      0.027     16.292      0.000
+    FRIS               0.398      0.027     14.650      0.000
+    SPOS               0.550      0.037     15.056      0.000
+    SI                 0.260      0.028      9.407      0.000
+
+ Scales
+    M1                 1.000      0.000    999.000    999.000
+    M2                 1.000      0.000    999.000    999.000
+    M3                 1.000      0.000    999.000    999.000
+    LC2                1.000      0.000    999.000    999.000
+    LC5                1.000      0.000    999.000    999.000
+    LC7                1.000      0.000    999.000    999.000
+    SE2                1.000      0.000    999.000    999.000
+    SE4                1.000      0.000    999.000    999.000
+    SE6                1.000      0.000    999.000    999.000
+    OPT1               1.000      0.000    999.000    999.000
+    OPT2               1.000      0.000    999.000    999.000
+    OPT3               1.000      0.000    999.000    999.000
+    PLIFE2             1.000      0.000    999.000    999.000
+    PLIFE3             1.000      0.000    999.000    999.000
+    PLIFE5             1.000      0.000    999.000    999.000
+    CON2               1.000      0.000    999.000    999.000
+    CON3               1.000      0.000    999.000    999.000
+    CON5               1.000      0.000    999.000    999.000
+    EXT1               1.000      0.000    999.000    999.000
+    EXT3               1.000      0.000    999.000    999.000
+    EXT4               1.000      0.000    999.000    999.000
+    FAMS1              1.000      0.000    999.000    999.000
+    FAMS2              1.000      0.000    999.000    999.000
+    FAMS4              1.000      0.000    999.000    999.000
+    FRIS1              1.000      0.000    999.000    999.000
+    FRIS2              1.000      0.000    999.000    999.000
+    FRIS4              1.000      0.000    999.000    999.000
+    SPOS1              1.000      0.000    999.000    999.000
+    SPOS2              1.000      0.000    999.000    999.000
+    SPOS3              1.000      0.000    999.000    999.000
+    SI1                1.000      0.000    999.000    999.000
+    SI2                1.000      0.000    999.000    999.000
+    SI3                1.000      0.000    999.000    999.000
+
+Group WOMEN
+
+ M        BY
+    M1                 1.000      0.000    999.000    999.000
+    M2                 1.093      0.025     43.372      0.000
+    M3                 0.865      0.027     32.001      0.000
+
+ LC       BY
+    LC2               -1.000      0.000    999.000    999.000
+    LC5               -0.614      0.022    -28.095      0.000
+    LC7               -0.924      0.022    -41.280      0.000
+
+ SE       BY
+    SE2                1.000      0.000    999.000    999.000
+    SE4                0.695      0.019     36.821      0.000
+    SE6                0.947      0.014     68.671      0.000
+
+ OPT      BY
+    OPT1               1.000      0.000    999.000    999.000
+    OPT2               1.454      0.055     26.521      0.000
+    OPT3               1.394      0.054     25.765      0.000
+
+ PLIFE    BY
+    PLIFE2             1.000      0.000    999.000    999.000
+    PLIFE3            -0.932      0.023    -40.810      0.000
+    PLIFE5             0.930      0.022     43.070      0.000
+
+ CON      BY
+    CON2               1.000      0.000    999.000    999.000
+    CON3               0.969      0.044     21.892      0.000
+    CON5               0.871      0.041     21.457      0.000
+
+ EXT      BY
+    EXT1               1.000      0.000    999.000    999.000
+    EXT3               1.249      0.046     27.431      0.000
+    EXT4               1.266      0.051     25.031      0.000
+
+ FAMS     BY
+    FAMS1              1.000      0.000    999.000    999.000
+    FAMS2              1.114      0.036     30.763      0.000
+    FAMS4              0.920      0.031     30.111      0.000
+
+ FRIS     BY
+    FRIS1              1.000      0.000    999.000    999.000
+    FRIS2              1.034      0.023     44.360      0.000
+    FRIS4              0.882      0.020     44.236      0.000
+
+ SPOS     BY
+    SPOS1              1.000      0.000    999.000    999.000
+    SPOS2              0.987      0.027     36.106      0.000
+    SPOS3              1.017      0.029     34.689      0.000
+
+ SI       BY
+    SI1               -1.000      0.000    999.000    999.000
+    SI2                0.964      0.032     30.170      0.000
+    SI3                0.829      0.029     28.345      0.000
+
+ PR       BY
+    M                  1.000      0.000    999.000    999.000
+    LC                 1.298      0.067     19.514      0.000
+    SE                 1.527      0.066     23.187      0.000
+    OPT                0.754      0.040     19.065      0.000
+    PLIFE              1.121      0.052     21.554      0.000
+    CON                0.730      0.050     14.698      0.000
+    EXT                0.797      0.045     17.851      0.000
+
+ SR       BY
+    FAMS               1.000      0.000    999.000    999.000
+    FRIS               1.058      0.086     12.290      0.000
+    SPOS               1.228      0.132      9.306      0.000
+    SI                 1.207      0.093     13.046      0.000
+
+ PR       WITH
+    SR                 0.256      0.022     11.701      0.000
+
+ Means
+    PR                 0.004      0.024      0.176      0.860
+    SR                -0.124      0.025     -5.001      0.000
+
+ Intercepts
+    M                  0.000      0.000    999.000    999.000
+    LC                 0.000      0.000    999.000    999.000
+    SE                 0.000      0.000    999.000    999.000
+    OPT                0.000      0.000    999.000    999.000
+    PLIFE              0.000      0.000    999.000    999.000
+    CON                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    FAMS               0.000      0.000    999.000    999.000
+    FRIS               0.000      0.000    999.000    999.000
+    SPOS               0.000      0.000    999.000    999.000
+    SI                 0.000      0.000    999.000    999.000
+
+ Thresholds
+    M1$1              -0.302      0.026    -11.441      0.000
+    M1$2               0.624      0.027     22.981      0.000
+    M1$3               1.067      0.033     32.607      0.000
+    M1$4               1.329      0.038     35.394      0.000
+    M1$5               1.597      0.044     35.958      0.000
+    M1$6               2.133      0.064     33.411      0.000
+    M2$1              -0.242      0.027     -9.025      0.000
+    M2$2               0.779      0.030     26.182      0.000
+    M2$3               1.330      0.039     34.134      0.000
+    M2$4               1.684      0.048     34.887      0.000
+    M2$5               1.920      0.057     33.401      0.000
+    M2$6               2.373      0.079     29.951      0.000
+    M3$1              -0.862      0.032    -26.752      0.000
+    M3$2               0.200      0.026      7.615      0.000
+    M3$3               0.714      0.029     24.407      0.000
+    M3$4               1.116      0.034     32.361      0.000
+    M3$5               1.550      0.043     35.663      0.000
+    M3$6               2.254      0.067     33.399      0.000
+    LC2$1             -2.114      0.063    -33.524      0.000
+    LC2$2             -1.424      0.043    -33.100      0.000
+    LC2$3             -0.846      0.033    -25.918      0.000
+    LC2$4             -0.605      0.030    -20.195      0.000
+    LC2$5             -0.333      0.028    -11.725      0.000
+    LC2$6              0.335      0.030     11.308      0.000
+    LC5$1             -1.650      0.047    -35.043      0.000
+    LC5$2             -0.842      0.030    -28.366      0.000
+    LC5$3             -0.187      0.024     -7.654      0.000
+    LC5$4              0.154      0.025      6.192      0.000
+    LC5$5              0.417      0.027     15.640      0.000
+    LC5$6              1.142      0.037     31.085      0.000
+    LC7$1             -2.447      0.077    -31.703      0.000
+    LC7$2             -1.908      0.054    -35.104      0.000
+    LC7$3             -1.551      0.044    -34.878      0.000
+    LC7$4             -1.132      0.036    -31.705      0.000
+    LC7$5             -0.803      0.031    -25.714      0.000
+    LC7$6              0.063      0.028      2.241      0.025
+    SE2$1             -0.184      0.030     -6.038      0.000
+    SE2$2              0.828      0.032     25.583      0.000
+    SE2$3              1.401      0.041     34.329      0.000
+    SE2$4              1.665      0.047     35.215      0.000
+    SE2$5              2.029      0.059     34.576      0.000
+    SE2$6              2.543      0.086     29.618      0.000
+    SE4$1             -0.414      0.028    -14.912      0.000
+    SE4$2              0.734      0.029     25.517      0.000
+    SE4$3              1.158      0.034     33.874      0.000
+    SE4$4              1.496      0.041     36.133      0.000
+    SE4$5              1.768      0.049     36.345      0.000
+    SE4$6              2.174      0.064     33.824      0.000
+    SE6$1             -0.247      0.030     -8.257      0.000
+    SE6$2              0.786      0.032     24.786      0.000
+    SE6$3              1.194      0.037     32.413      0.000
+    SE6$4              1.446      0.041     34.864      0.000
+    SE6$5              1.775      0.050     35.663      0.000
+    SE6$6              2.313      0.071     32.760      0.000
+    OPT1$1            -0.614      0.028    -21.867      0.000
+    OPT1$2             0.469      0.026     18.273      0.000
+    OPT1$3             1.038      0.034     30.692      0.000
+    OPT1$4             1.812      0.054     33.585      0.000
+    OPT2$1            -0.470      0.029    -16.324      0.000
+    OPT2$2             0.707      0.030     23.400      0.000
+    OPT2$3             1.188      0.038     31.088      0.000
+    OPT2$4             2.070      0.064     32.485      0.000
+    OPT3$1            -0.088      0.026     -3.334      0.001
+    OPT3$2             0.914      0.033     27.761      0.000
+    OPT3$3             1.503      0.044     33.852      0.000
+    OPT3$4             1.978      0.058     34.147      0.000
+    PLIFE2$1          -0.296      0.027    -10.809      0.000
+    PLIFE2$2           0.616      0.028     21.870      0.000
+    PLIFE2$3           1.015      0.033     30.365      0.000
+    PLIFE2$4           1.410      0.041     34.550      0.000
+    PLIFE2$5           1.642      0.047     35.067      0.000
+    PLIFE2$6           2.127      0.065     32.891      0.000
+    PLIFE3$1          -1.958      0.059    -33.020      0.000
+    PLIFE3$2          -1.400      0.041    -33.884      0.000
+    PLIFE3$3          -0.950      0.033    -29.096      0.000
+    PLIFE3$4          -0.555      0.028    -20.106      0.000
+    PLIFE3$5          -0.353      0.026    -13.545      0.000
+    PLIFE3$6           0.198      0.026      7.615      0.000
+    PLIFE5$1          -0.392      0.027    -14.262      0.000
+    PLIFE5$2           0.409      0.026     15.834      0.000
+    PLIFE5$3           0.899      0.030     29.667      0.000
+    PLIFE5$4           1.474      0.040     36.457      0.000
+    PLIFE5$5           1.772      0.049     36.129      0.000
+    PLIFE5$6           2.244      0.071     31.416      0.000
+    CON2$1             0.657      0.029     23.002      0.000
+    CON2$2             1.784      0.055     32.542      0.000
+    CON2$3             2.559      0.107     23.816      0.000
+    CON3$1             0.468      0.025     18.362      0.000
+    CON3$2             1.400      0.045     31.423      0.000
+    CON3$3             2.103      0.075     28.009      0.000
+    CON5$1            -0.405      0.026    -15.791      0.000
+    CON5$2             0.745      0.030     24.745      0.000
+    CON5$3             1.927      0.068     28.459      0.000
+    EXT1$1            -0.380      0.026    -14.744      0.000
+    EXT1$2             0.720      0.029     25.071      0.000
+    EXT1$3             1.697      0.050     34.100      0.000
+    EXT3$1            -0.585      0.030    -19.643      0.000
+    EXT3$2             0.643      0.029     21.986      0.000
+    EXT3$3             1.966      0.059     33.278      0.000
+    EXT4$1            -0.323      0.027    -11.983      0.000
+    EXT4$2             0.851      0.033     26.126      0.000
+    EXT4$3             1.974      0.062     31.736      0.000
+    FAMS1$1            0.834      0.031     27.226      0.000
+    FAMS1$2            1.566      0.048     32.608      0.000
+    FAMS1$3            2.289      0.079     28.991      0.000
+    FAMS2$1           -0.152      0.026     -5.756      0.000
+    FAMS2$2            1.058      0.036     29.711      0.000
+    FAMS2$3            1.894      0.061     30.807      0.000
+    FAMS4$1            0.023      0.024      0.975      0.329
+    FAMS4$2            0.866      0.031     27.737      0.000
+    FAMS4$3            1.602      0.048     33.273      0.000
+    FRIS1$1            0.003      0.025      0.121      0.904
+    FRIS1$2            1.178      0.037     32.100      0.000
+    FRIS1$3            2.004      0.063     31.674      0.000
+    FRIS2$1           -0.427      0.028    -15.132      0.000
+    FRIS2$2            0.824      0.031     26.843      0.000
+    FRIS2$3            1.802      0.054     33.091      0.000
+    FRIS4$1           -0.271      0.025    -10.724      0.000
+    FRIS4$2            0.656      0.027     23.874      0.000
+    FRIS4$3            1.495      0.043     34.506      0.000
+    SPOS1$1            1.184      0.042     28.515      0.000
+    SPOS1$2            2.046      0.069     29.535      0.000
+    SPOS1$3            3.125      0.167     18.758      0.000
+    SPOS2$1            0.026      0.031      0.819      0.413
+    SPOS2$2            1.313      0.046     28.496      0.000
+    SPOS2$3            2.321      0.083     27.937      0.000
+    SPOS3$1            0.554      0.034     16.518      0.000
+    SPOS3$2            1.594      0.054     29.601      0.000
+    SPOS3$3            2.485      0.099     25.080      0.000
+    SI1$1             -2.005      0.059    -33.857      0.000
+    SI1$2             -1.355      0.041    -33.106      0.000
+    SI1$3             -0.880      0.033    -26.777      0.000
+    SI1$4             -0.340      0.028    -12.114      0.000
+    SI1$5             -0.083      0.027     -3.030      0.002
+    SI1$6              0.482      0.030     16.269      0.000
+    SI2$1             -1.407      0.041    -34.119      0.000
+    SI2$2             -0.469      0.029    -16.441      0.000
+    SI2$3              0.165      0.027      6.171      0.000
+    SI2$4              0.763      0.031     24.796      0.000
+    SI2$5              1.127      0.036     30.876      0.000
+    SI2$6              1.727      0.051     33.930      0.000
+    SI3$1             -1.424      0.041    -35.064      0.000
+    SI3$2             -0.479      0.027    -17.539      0.000
+    SI3$3              0.061      0.026      2.366      0.018
+    SI3$4              0.877      0.031     28.057      0.000
+    SI3$5              1.228      0.037     33.236      0.000
+    SI3$6              1.718      0.048     35.826      0.000
+
+ Variances
+    PR                 0.398      0.032     12.443      0.000
+    SR                 0.302      0.038      7.902      0.000
+
+ Residual Variances
+    M                  0.268      0.022     12.321      0.000
+    LC                 0.418      0.039     10.813      0.000
+    SE                 0.130      0.017      7.774      0.000
+    OPT                0.130      0.012     10.493      0.000
+    PLIFE              0.104      0.013      8.340      0.000
+    CON                0.273      0.028      9.719      0.000
+    EXT                0.213      0.019     11.336      0.000
+    FAMS               0.463      0.041     11.216      0.000
+    FRIS               0.415      0.036     11.631      0.000
+    SPOS               1.152      0.119      9.688      0.000
+    SI                 0.416      0.040     10.452      0.000
+
+ Scales
+    M1                 0.997      0.031     32.567      0.000
+    M2                 0.959      0.031     31.344      0.000
+    M3                 0.810      0.026     31.700      0.000
+    LC2                0.830      0.030     28.013      0.000
+    LC5                0.905      0.029     31.019      0.000
+    LC7                0.784      0.026     30.516      0.000
+    SE2                0.852      0.028     30.762      0.000
+    SE4                0.924      0.028     33.578      0.000
+    SE6                0.855      0.027     32.020      0.000
+    OPT1               0.980      0.033     29.323      0.000
+    OPT2               0.927      0.033     28.518      0.000
+    OPT3               0.900      0.031     29.161      0.000
+    PLIFE2             0.979      0.029     33.293      0.000
+    PLIFE3             0.986      0.032     31.290      0.000
+    PLIFE5             1.018      0.030     33.989      0.000
+    CON2               1.088      0.044     24.776      0.000
+    CON3               1.101      0.043     25.862      0.000
+    CON5               1.032      0.042     24.782      0.000
+    EXT1               0.979      0.034     28.813      0.000
+    EXT3               0.897      0.030     29.476      0.000
+    EXT4               0.925      0.033     28.237      0.000
+    FAMS1              1.020      0.038     26.576      0.000
+    FAMS2              0.909      0.037     24.397      0.000
+    FAMS4              1.008      0.039     26.086      0.000
+    FRIS1              1.053      0.037     28.406      0.000
+    FRIS2              1.008      0.036     27.852      0.000
+    FRIS4              1.058      0.036     29.424      0.000
+    SPOS1              0.736      0.035     21.035      0.000
+    SPOS2              0.705      0.034     20.992      0.000
+    SPOS3              0.731      0.036     20.153      0.000
+    SI1                0.830      0.028     29.741      0.000
+    SI2                0.872      0.026     33.722      0.000
+    SI3                0.891      0.025     36.068      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Group MEN
+
+ M        BY
+    M1                 0.746      0.013     57.014      0.000
+    M2                 0.816      0.013     63.009      0.000
+    M3                 0.645      0.017     37.353      0.000
+
+ LC       BY
+    LC2               -0.860      0.014    -62.703      0.000
+    LC5               -0.528      0.018    -29.147      0.000
+    LC7               -0.795      0.015    -53.952      0.000
+
+ SE       BY
+    SE2                0.879      0.009     93.336      0.000
+    SE4                0.610      0.016     37.312      0.000
+    SE6                0.832      0.010     81.935      0.000
+
+ OPT      BY
+    OPT1               0.540      0.019     28.279      0.000
+    OPT2               0.786      0.016     48.506      0.000
+    OPT3               0.753      0.017     43.552      0.000
+
+ PLIFE    BY
+    PLIFE2             0.786      0.013     60.984      0.000
+    PLIFE3            -0.732      0.015    -49.130      0.000
+    PLIFE5             0.731      0.014     52.273      0.000
+
+ CON      BY
+    CON2               0.762      0.024     32.239      0.000
+    CON3               0.738      0.023     32.694      0.000
+    CON5               0.664      0.023     28.591      0.000
+
+ EXT      BY
+    EXT1               0.616      0.020     30.386      0.000
+    EXT3               0.769      0.016     48.810      0.000
+    EXT4               0.780      0.019     40.806      0.000
+
+ FAMS     BY
+    FAMS1              0.832      0.019     42.693      0.000
+    FAMS2              0.926      0.016     59.364      0.000
+    FAMS4              0.765      0.019     41.026      0.000
+
+ FRIS     BY
+    FRIS1              0.878      0.013     69.980      0.000
+    FRIS2              0.908      0.012     77.058      0.000
+    FRIS4              0.774      0.014     53.599      0.000
+
+ SPOS     BY
+    SPOS1              0.901      0.018     50.127      0.000
+    SPOS2              0.890      0.018     48.870      0.000
+    SPOS3              0.916      0.015     59.732      0.000
+
+ SI       BY
+    SI1               -0.790      0.018    -43.923      0.000
+    SI2                0.761      0.016     48.766      0.000
+    SI3                0.655      0.017     38.845      0.000
+
+ PR       BY
+    M                  0.826      0.013     63.487      0.000
+    LC                 0.788      0.015     51.347      0.000
+    SE                 0.949      0.008    115.684      0.000
+    OPT                0.824      0.016     50.184      0.000
+    PLIFE              0.915      0.010     88.813      0.000
+    CON                0.670      0.023     29.499      0.000
+    EXT                0.754      0.018     41.531      0.000
+
+ SR       BY
+    FAMS               0.605      0.027     22.090      0.000
+    FRIS               0.696      0.024     29.320      0.000
+    SPOS               0.568      0.037     15.154      0.000
+    SI                 0.764      0.025     30.702      0.000
+
+ PR       WITH
+    SR                 0.675      0.023     29.480      0.000
+
+ Means
+    PR                 0.000      0.000    999.000    999.000
+    SR                 0.000      0.000    999.000    999.000
+
+ Intercepts
+    M                  0.000      0.000    999.000    999.000
+    LC                 0.000      0.000    999.000    999.000
+    SE                 0.000      0.000    999.000    999.000
+    OPT                0.000      0.000    999.000    999.000
+    PLIFE              0.000      0.000    999.000    999.000
+    CON                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    FAMS               0.000      0.000    999.000    999.000
+    FRIS               0.000      0.000    999.000    999.000
+    SPOS               0.000      0.000    999.000    999.000
+    SI                 0.000      0.000    999.000    999.000
+
+ Thresholds
+    M1$1              -0.302      0.026    -11.441      0.000
+    M1$2               0.624      0.027     22.981      0.000
+    M1$3               1.067      0.033     32.607      0.000
+    M1$4               1.329      0.038     35.394      0.000
+    M1$5               1.597      0.044     35.958      0.000
+    M1$6               2.133      0.064     33.411      0.000
+    M2$1              -0.242      0.027     -9.025      0.000
+    M2$2               0.779      0.030     26.182      0.000
+    M2$3               1.330      0.039     34.134      0.000
+    M2$4               1.684      0.048     34.887      0.000
+    M2$5               1.920      0.057     33.401      0.000
+    M2$6               2.373      0.079     29.951      0.000
+    M3$1              -0.862      0.032    -26.752      0.000
+    M3$2               0.200      0.026      7.615      0.000
+    M3$3               0.714      0.029     24.407      0.000
+    M3$4               1.116      0.034     32.361      0.000
+    M3$5               1.550      0.043     35.663      0.000
+    M3$6               2.254      0.067     33.399      0.000
+    LC2$1             -2.114      0.063    -33.524      0.000
+    LC2$2             -1.424      0.043    -33.100      0.000
+    LC2$3             -0.846      0.033    -25.918      0.000
+    LC2$4             -0.605      0.030    -20.195      0.000
+    LC2$5             -0.333      0.028    -11.725      0.000
+    LC2$6              0.335      0.030     11.308      0.000
+    LC5$1             -1.650      0.047    -35.043      0.000
+    LC5$2             -0.842      0.030    -28.366      0.000
+    LC5$3             -0.187      0.024     -7.654      0.000
+    LC5$4              0.154      0.025      6.192      0.000
+    LC5$5              0.417      0.027     15.640      0.000
+    LC5$6              1.142      0.037     31.085      0.000
+    LC7$1             -2.447      0.077    -31.703      0.000
+    LC7$2             -1.908      0.054    -35.104      0.000
+    LC7$3             -1.551      0.044    -34.878      0.000
+    LC7$4             -1.132      0.036    -31.705      0.000
+    LC7$5             -0.803      0.031    -25.714      0.000
+    LC7$6              0.063      0.028      2.241      0.025
+    SE2$1             -0.184      0.030     -6.038      0.000
+    SE2$2              0.828      0.032     25.583      0.000
+    SE2$3              1.401      0.041     34.329      0.000
+    SE2$4              1.665      0.047     35.215      0.000
+    SE2$5              2.029      0.059     34.576      0.000
+    SE2$6              2.543      0.086     29.618      0.000
+    SE4$1             -0.414      0.028    -14.912      0.000
+    SE4$2              0.734      0.029     25.517      0.000
+    SE4$3              1.158      0.034     33.874      0.000
+    SE4$4              1.496      0.041     36.133      0.000
+    SE4$5              1.768      0.049     36.345      0.000
+    SE4$6              2.174      0.064     33.824      0.000
+    SE6$1             -0.247      0.030     -8.257      0.000
+    SE6$2              0.786      0.032     24.786      0.000
+    SE6$3              1.194      0.037     32.413      0.000
+    SE6$4              1.446      0.041     34.864      0.000
+    SE6$5              1.775      0.050     35.663      0.000
+    SE6$6              2.313      0.071     32.760      0.000
+    OPT1$1            -0.614      0.028    -21.867      0.000
+    OPT1$2             0.469      0.026     18.273      0.000
+    OPT1$3             1.038      0.034     30.692      0.000
+    OPT1$4             1.812      0.054     33.585      0.000
+    OPT2$1            -0.470      0.029    -16.324      0.000
+    OPT2$2             0.707      0.030     23.400      0.000
+    OPT2$3             1.188      0.038     31.088      0.000
+    OPT2$4             2.070      0.064     32.485      0.000
+    OPT3$1            -0.088      0.026     -3.334      0.001
+    OPT3$2             0.914      0.033     27.761      0.000
+    OPT3$3             1.503      0.044     33.852      0.000
+    OPT3$4             1.978      0.058     34.147      0.000
+    PLIFE2$1          -0.296      0.027    -10.809      0.000
+    PLIFE2$2           0.616      0.028     21.870      0.000
+    PLIFE2$3           1.015      0.033     30.365      0.000
+    PLIFE2$4           1.410      0.041     34.550      0.000
+    PLIFE2$5           1.642      0.047     35.067      0.000
+    PLIFE2$6           2.127      0.065     32.891      0.000
+    PLIFE3$1          -1.958      0.059    -33.020      0.000
+    PLIFE3$2          -1.400      0.041    -33.884      0.000
+    PLIFE3$3          -0.950      0.033    -29.096      0.000
+    PLIFE3$4          -0.555      0.028    -20.106      0.000
+    PLIFE3$5          -0.353      0.026    -13.545      0.000
+    PLIFE3$6           0.198      0.026      7.615      0.000
+    PLIFE5$1          -0.392      0.027    -14.262      0.000
+    PLIFE5$2           0.409      0.026     15.834      0.000
+    PLIFE5$3           0.899      0.030     29.667      0.000
+    PLIFE5$4           1.474      0.040     36.457      0.000
+    PLIFE5$5           1.772      0.049     36.129      0.000
+    PLIFE5$6           2.244      0.071     31.416      0.000
+    CON2$1             0.657      0.029     23.002      0.000
+    CON2$2             1.784      0.055     32.542      0.000
+    CON2$3             2.559      0.107     23.816      0.000
+    CON3$1             0.468      0.025     18.362      0.000
+    CON3$2             1.400      0.045     31.423      0.000
+    CON3$3             2.103      0.075     28.009      0.000
+    CON5$1            -0.405      0.026    -15.791      0.000
+    CON5$2             0.745      0.030     24.745      0.000
+    CON5$3             1.927      0.068     28.459      0.000
+    EXT1$1            -0.380      0.026    -14.744      0.000
+    EXT1$2             0.720      0.029     25.071      0.000
+    EXT1$3             1.697      0.050     34.100      0.000
+    EXT3$1            -0.585      0.030    -19.643      0.000
+    EXT3$2             0.643      0.029     21.986      0.000
+    EXT3$3             1.966      0.059     33.278      0.000
+    EXT4$1            -0.323      0.027    -11.983      0.000
+    EXT4$2             0.851      0.033     26.126      0.000
+    EXT4$3             1.974      0.062     31.736      0.000
+    FAMS1$1            0.834      0.031     27.226      0.000
+    FAMS1$2            1.566      0.048     32.608      0.000
+    FAMS1$3            2.289      0.079     28.991      0.000
+    FAMS2$1           -0.152      0.026     -5.756      0.000
+    FAMS2$2            1.058      0.036     29.711      0.000
+    FAMS2$3            1.894      0.061     30.807      0.000
+    FAMS4$1            0.023      0.024      0.975      0.329
+    FAMS4$2            0.866      0.031     27.737      0.000
+    FAMS4$3            1.602      0.048     33.273      0.000
+    FRIS1$1            0.003      0.025      0.121      0.904
+    FRIS1$2            1.178      0.037     32.100      0.000
+    FRIS1$3            2.004      0.063     31.674      0.000
+    FRIS2$1           -0.427      0.028    -15.132      0.000
+    FRIS2$2            0.824      0.031     26.843      0.000
+    FRIS2$3            1.802      0.054     33.091      0.000
+    FRIS4$1           -0.271      0.025    -10.724      0.000
+    FRIS4$2            0.656      0.027     23.874      0.000
+    FRIS4$3            1.495      0.043     34.506      0.000
+    SPOS1$1            1.184      0.042     28.515      0.000
+    SPOS1$2            2.046      0.069     29.535      0.000
+    SPOS1$3            3.125      0.167     18.758      0.000
+    SPOS2$1            0.026      0.031      0.819      0.413
+    SPOS2$2            1.313      0.046     28.496      0.000
+    SPOS2$3            2.321      0.083     27.937      0.000
+    SPOS3$1            0.554      0.034     16.518      0.000
+    SPOS3$2            1.594      0.054     29.601      0.000
+    SPOS3$3            2.485      0.099     25.080      0.000
+    SI1$1             -2.005      0.059    -33.857      0.000
+    SI1$2             -1.355      0.041    -33.106      0.000
+    SI1$3             -0.880      0.033    -26.777      0.000
+    SI1$4             -0.340      0.028    -12.114      0.000
+    SI1$5             -0.083      0.027     -3.030      0.002
+    SI1$6              0.482      0.030     16.269      0.000
+    SI2$1             -1.407      0.041    -34.119      0.000
+    SI2$2             -0.469      0.029    -16.441      0.000
+    SI2$3              0.165      0.027      6.171      0.000
+    SI2$4              0.763      0.031     24.796      0.000
+    SI2$5              1.127      0.036     30.876      0.000
+    SI2$6              1.727      0.051     33.930      0.000
+    SI3$1             -1.424      0.041    -35.064      0.000
+    SI3$2             -0.479      0.027    -17.539      0.000
+    SI3$3              0.061      0.026      2.366      0.018
+    SI3$4              0.877      0.031     28.057      0.000
+    SI3$5              1.228      0.037     33.236      0.000
+    SI3$6              1.718      0.048     35.826      0.000
+
+ Variances
+    PR                 1.000      0.000    999.000    999.000
+    SR                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    M                  0.317      0.022     14.739      0.000
+    LC                 0.378      0.024     15.628      0.000
+    SE                 0.099      0.016      6.364      0.000
+    OPT                0.322      0.027     11.892      0.000
+    PLIFE              0.162      0.019      8.606      0.000
+    CON                0.551      0.030     18.136      0.000
+    EXT                0.432      0.027     15.776      0.000
+    FAMS               0.633      0.033     19.088      0.000
+    FRIS               0.516      0.033     15.619      0.000
+    SPOS               0.677      0.043     15.911      0.000
+    SI                 0.416      0.038     10.949      0.000
+
+ Scales
+    M1                 1.000      0.000      0.000      1.000
+    M2                 1.000      0.000      0.000      1.000
+    M3                 1.000      0.000      0.000      1.000
+    LC2                1.000      0.000      0.000      1.000
+    LC5                1.000      0.000      0.000      1.000
+    LC7                1.000      0.000      0.000      1.000
+    SE2                1.000      0.000      0.000      1.000
+    SE4                1.000      0.000      0.000      1.000
+    SE6                1.000      0.000      0.000      1.000
+    OPT1               1.000      0.000      0.000      1.000
+    OPT2               1.000      0.000      0.000      1.000
+    OPT3               1.000      0.000      0.000      1.000
+    PLIFE2             1.000      0.000      0.000      1.000
+    PLIFE3             1.000      0.000      0.000      1.000
+    PLIFE5             1.000      0.000      0.000      1.000
+    CON2               1.000      0.000      0.000      1.000
+    CON3               1.000      0.000      0.000      1.000
+    CON5               1.000      0.000      0.000      1.000
+    EXT1               1.000      0.000      0.000      1.000
+    EXT3               1.000      0.000      0.000      1.000
+    EXT4               1.000      0.000      0.000      1.000
+    FAMS1              1.000      0.000      0.000      1.000
+    FAMS2              1.000      0.000      0.000      1.000
+    FAMS4              1.000      0.000      0.000      1.000
+    FRIS1              1.000      0.000      0.000      1.000
+    FRIS2              1.000      0.000      0.000      1.000
+    FRIS4              1.000      0.000      0.000      1.000
+    SPOS1              1.000      0.000      0.000      1.000
+    SPOS2              1.000      0.000      0.000      1.000
+    SPOS3              1.000      0.000      0.000      1.000
+    SI1                1.000      0.000      0.000      1.000
+    SI2                1.000      0.000      0.000      1.000
+    SI3                1.000      0.000      0.000      1.000
+
+Group WOMEN
+
+ M        BY
+    M1                 0.814      0.011     71.679      0.000
+    M2                 0.856      0.011     78.971      0.000
+    M3                 0.571      0.016     36.385      0.000
+
+ LC       BY
+    LC2               -0.866      0.011    -75.562      0.000
+    LC5               -0.579      0.016    -35.188      0.000
+    LC7               -0.757      0.014    -53.712      0.000
+
+ SE       BY
+    SE2                0.876      0.009    101.926      0.000
+    SE4                0.660      0.014     47.024      0.000
+    SE6                0.833      0.010     86.768      0.000
+
+ OPT      BY
+    OPT1               0.585      0.017     34.127      0.000
+    OPT2               0.805      0.014     56.867      0.000
+    OPT3               0.749      0.017     45.104      0.000
+
+ PLIFE    BY
+    PLIFE2             0.761      0.012     62.200      0.000
+    PLIFE3            -0.714      0.014    -51.063      0.000
+    PLIFE5             0.736      0.013     56.460      0.000
+
+ CON      BY
+    CON2               0.758      0.026     29.427      0.000
+    CON3               0.743      0.023     32.163      0.000
+    CON5               0.626      0.022     28.472      0.000
+
+ EXT      BY
+    EXT1               0.667      0.018     37.517      0.000
+    EXT3               0.764      0.014     53.555      0.000
+    EXT4               0.799      0.016     49.034      0.000
+
+ FAMS     BY
+    FAMS1              0.892      0.016     57.165      0.000
+    FAMS2              0.886      0.015     60.820      0.000
+    FAMS4              0.811      0.015     55.321      0.000
+
+ FRIS     BY
+    FRIS1              0.913      0.010     91.337      0.000
+    FRIS2              0.904      0.010     90.392      0.000
+    FRIS4              0.809      0.012     67.462      0.000
+
+ SPOS     BY
+    SPOS1              0.933      0.014     68.929      0.000
+    SPOS2              0.882      0.015     58.911      0.000
+    SPOS3              0.943      0.012     80.455      0.000
+
+ SI       BY
+    SI1               -0.769      0.017    -44.824      0.000
+    SI2                0.778      0.013     58.506      0.000
+    SI3                0.683      0.014     49.162      0.000
+
+ PR       BY
+    M                  0.773      0.013     57.893      0.000
+    LC                 0.785      0.014     56.805      0.000
+    SE                 0.936      0.008    119.607      0.000
+    OPT                0.796      0.014     57.137      0.000
+    PLIFE              0.909      0.010     92.529      0.000
+    CON                0.661      0.023     28.627      0.000
+    EXT                0.737      0.016     47.195      0.000
+
+ SR       BY
+    FAMS               0.628      0.025     24.929      0.000
+    FRIS               0.670      0.023     29.463      0.000
+    SPOS               0.532      0.037     14.257      0.000
+    SI                 0.717      0.022     33.278      0.000
+
+ PR       WITH
+    SR                 0.738      0.019     38.790      0.000
+
+ Means
+    PR                 0.007      0.038      0.176      0.861
+    SR                -0.226      0.042     -5.357      0.000
+
+ Intercepts
+    M                  0.000      0.000    999.000    999.000
+    LC                 0.000      0.000    999.000    999.000
+    SE                 0.000      0.000    999.000    999.000
+    OPT                0.000      0.000    999.000    999.000
+    PLIFE              0.000      0.000    999.000    999.000
+    CON                0.000      0.000    999.000    999.000
+    EXT                0.000      0.000    999.000    999.000
+    FAMS               0.000      0.000    999.000    999.000
+    FRIS               0.000      0.000    999.000    999.000
+    SPOS               0.000      0.000    999.000    999.000
+    SI                 0.000      0.000    999.000    999.000
+
+ Thresholds
+    M1$1              -0.301      0.025    -12.030      0.000
+    M1$2               0.623      0.029     21.792      0.000
+    M1$3               1.064      0.034     30.896      0.000
+    M1$4               1.325      0.039     33.934      0.000
+    M1$5               1.593      0.045     35.533      0.000
+    M1$6               2.127      0.064     33.401      0.000
+    M2$1              -0.232      0.025     -9.377      0.000
+    M2$2               0.747      0.030     24.966      0.000
+    M2$3               1.275      0.038     33.295      0.000
+    M2$4               1.615      0.046     35.348      0.000
+    M2$5               1.841      0.052     35.524      0.000
+    M2$6               2.275      0.072     31.441      0.000
+    M3$1              -0.698      0.025    -27.618      0.000
+    M3$2               0.162      0.022      7.446      0.000
+    M3$3               0.578      0.025     22.825      0.000
+    M3$4               0.904      0.030     30.219      0.000
+    M3$5               1.256      0.036     34.727      0.000
+    M3$6               1.826      0.052     35.352      0.000
+    LC2$1             -1.754      0.053    -33.267      0.000
+    LC2$2             -1.182      0.037    -31.730      0.000
+    LC2$3             -0.702      0.029    -23.981      0.000
+    LC2$4             -0.502      0.027    -18.630      0.000
+    LC2$5             -0.276      0.025    -11.113      0.000
+    LC2$6              0.278      0.023     11.878      0.000
+    LC5$1             -1.492      0.041    -36.640      0.000
+    LC5$2             -0.762      0.028    -27.199      0.000
+    LC5$3             -0.169      0.022     -7.519      0.000
+    LC5$4              0.139      0.022      6.310      0.000
+    LC5$5              0.377      0.023     16.426      0.000
+    LC5$6              1.033      0.030     34.060      0.000
+    LC7$1             -1.920      0.057    -33.427      0.000
+    LC7$2             -1.497      0.043    -34.447      0.000
+    LC7$3             -1.217      0.037    -33.203      0.000
+    LC7$4             -0.888      0.031    -28.812      0.000
+    LC7$5             -0.630      0.027    -23.383      0.000
+    LC7$6              0.049      0.022      2.260      0.024
+    SE2$1             -0.157      0.025     -6.239      0.000
+    SE2$2              0.705      0.031     22.847      0.000
+    SE2$3              1.194      0.039     30.894      0.000
+    SE2$4              1.418      0.043     32.677      0.000
+    SE2$5              1.729      0.052     33.320      0.000
+    SE2$6              2.167      0.070     30.968      0.000
+    SE4$1             -0.383      0.024    -15.729      0.000
+    SE4$2              0.678      0.028     24.154      0.000
+    SE4$3              1.070      0.034     31.896      0.000
+    SE4$4              1.382      0.039     35.445      0.000
+    SE4$5              1.633      0.045     36.063      0.000
+    SE4$6              2.009      0.058     34.396      0.000
+    SE6$1             -0.211      0.024     -8.630      0.000
+    SE6$2              0.672      0.030     22.665      0.000
+    SE6$3              1.022      0.035     29.311      0.000
+    SE6$4              1.237      0.039     31.990      0.000
+    SE6$5              1.518      0.045     33.727      0.000
+    SE6$6              1.978      0.060     32.909      0.000
+    OPT1$1            -0.602      0.026    -23.425      0.000
+    OPT1$2             0.460      0.025     18.176      0.000
+    OPT1$3             1.017      0.032     31.754      0.000
+    OPT1$4             1.776      0.049     36.059      0.000
+    OPT2$1            -0.436      0.025    -17.166      0.000
+    OPT2$2             0.655      0.028     23.091      0.000
+    OPT2$3             1.102      0.035     31.597      0.000
+    OPT2$4             1.919      0.057     33.805      0.000
+    OPT3$1            -0.079      0.023     -3.369      0.001
+    OPT3$2             0.823      0.030     27.503      0.000
+    OPT3$3             1.353      0.040     34.238      0.000
+    OPT3$4             1.781      0.052     34.094      0.000
+    PLIFE2$1          -0.290      0.026    -11.316      0.000
+    PLIFE2$2           0.603      0.028     21.258      0.000
+    PLIFE2$3           0.994      0.033     30.311      0.000
+    PLIFE2$4           1.380      0.040     34.773      0.000
+    PLIFE2$5           1.607      0.045     35.862      0.000
+    PLIFE2$6           2.082      0.061     34.369      0.000
+    PLIFE3$1          -1.931      0.054    -35.745      0.000
+    PLIFE3$2          -1.381      0.040    -34.617      0.000
+    PLIFE3$3          -0.936      0.032    -29.253      0.000
+    PLIFE3$4          -0.548      0.028    -19.755      0.000
+    PLIFE3$5          -0.348      0.026    -13.209      0.000
+    PLIFE3$6           0.196      0.025      7.826      0.000
+    PLIFE5$1          -0.399      0.026    -15.305      0.000
+    PLIFE5$2           0.416      0.027     15.231      0.000
+    PLIFE5$3           0.915      0.032     28.570      0.000
+    PLIFE5$4           1.500      0.043     35.115      0.000
+    PLIFE5$5           1.803      0.051     35.682      0.000
+    PLIFE5$6           2.283      0.070     32.785      0.000
+    CON2$1             0.715      0.030     23.950      0.000
+    CON2$2             1.942      0.061     31.824      0.000
+    CON2$3             2.785      0.112     24.970      0.000
+    CON3$1             0.515      0.027     19.036      0.000
+    CON3$2             1.542      0.044     35.082      0.000
+    CON3$3             2.316      0.070     32.895      0.000
+    CON5$1            -0.418      0.025    -16.627      0.000
+    CON5$2             0.769      0.029     26.211      0.000
+    CON5$3             1.989      0.057     35.185      0.000
+    EXT1$1            -0.372      0.024    -15.238      0.000
+    EXT1$2             0.704      0.028     25.004      0.000
+    EXT1$3             1.660      0.046     35.716      0.000
+    EXT3$1            -0.525      0.025    -20.765      0.000
+    EXT3$2             0.577      0.026     21.927      0.000
+    EXT3$3             1.764      0.050     35.477      0.000
+    EXT4$1            -0.299      0.024    -12.224      0.000
+    EXT4$2             0.788      0.029     26.987      0.000
+    EXT4$3             1.827      0.051     35.490      0.000
+    FAMS1$1            0.850      0.033     26.100      0.000
+    FAMS1$2            1.597      0.048     33.092      0.000
+    FAMS1$3            2.334      0.081     28.779      0.000
+    FAMS2$1           -0.138      0.024     -5.876      0.000
+    FAMS2$2            0.962      0.036     26.956      0.000
+    FAMS2$3            1.723      0.053     32.198      0.000
+    FAMS4$1            0.024      0.024      0.972      0.331
+    FAMS4$2            0.873      0.033     26.804      0.000
+    FAMS4$3            1.615      0.049     32.782      0.000
+    FRIS1$1            0.003      0.026      0.121      0.904
+    FRIS1$2            1.239      0.040     30.897      0.000
+    FRIS1$3            2.110      0.067     31.549      0.000
+    FRIS2$1           -0.430      0.026    -16.305      0.000
+    FRIS2$2            0.831      0.033     25.329      0.000
+    FRIS2$3            1.816      0.056     32.648      0.000
+    FRIS4$1           -0.286      0.026    -11.220      0.000
+    FRIS4$2            0.694      0.030     22.772      0.000
+    FRIS4$3            1.582      0.047     33.366      0.000
+    SPOS1$1            0.871      0.040     21.587      0.000
+    SPOS1$2            1.506      0.062     24.434      0.000
+    SPOS1$3            2.300      0.110     20.916      0.000
+    SPOS2$1            0.018      0.022      0.817      0.414
+    SPOS2$2            0.925      0.041     22.618      0.000
+    SPOS2$3            1.636      0.067     24.514      0.000
+    SPOS3$1            0.405      0.028     14.291      0.000
+    SPOS3$2            1.166      0.050     23.364      0.000
+    SPOS3$3            1.817      0.075     24.154      0.000
+    SI1$1             -1.665      0.051    -32.493      0.000
+    SI1$2             -1.125      0.036    -30.896      0.000
+    SI1$3             -0.731      0.029    -25.172      0.000
+    SI1$4             -0.282      0.024    -11.827      0.000
+    SI1$5             -0.069      0.023     -3.010      0.003
+    SI1$6              0.400      0.024     16.905      0.000
+    SI2$1             -1.228      0.034    -36.606      0.000
+    SI2$2             -0.409      0.024    -16.922      0.000
+    SI2$3              0.143      0.023      6.119      0.000
+    SI2$4              0.665      0.027     24.348      0.000
+    SI2$5              0.983      0.031     31.305      0.000
+    SI2$6              1.506      0.042     35.813      0.000
+    SI3$1             -1.268      0.033    -38.181      0.000
+    SI3$2             -0.427      0.024    -17.823      0.000
+    SI3$3              0.054      0.023      2.363      0.018
+    SI3$4              0.781      0.028     27.895      0.000
+    SI3$5              1.093      0.033     33.641      0.000
+    SI3$6              1.530      0.042     36.234      0.000
+
+ Variances
+    PR                 1.000      0.000    999.000    999.000
+    SR                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    M                  0.403      0.021     19.519      0.000
+    LC                 0.384      0.022     17.712      0.000
+    SE                 0.123      0.015      8.395      0.000
+    OPT                0.366      0.022     16.486      0.000
+    PLIFE              0.173      0.018      9.667      0.000
+    CON                0.563      0.031     18.442      0.000
+    EXT                0.457      0.023     19.855      0.000
+    FAMS               0.605      0.032     19.095      0.000
+    FRIS               0.551      0.030     18.085      0.000
+    SPOS               0.717      0.040     18.025      0.000
+    SI                 0.486      0.031     15.726      0.000
+
+ Scales
+    M1                 1.000      0.000      0.000      1.000
+    M2                 1.000      0.000      0.000      1.000
+    M3                 1.000      0.000      0.000      1.000
+    LC2                1.000      0.000      0.000      1.000
+    LC5                1.000      0.000      0.000      1.000
+    LC7                1.000      0.000      0.000      1.000
+    SE2                1.000      0.000      0.000      1.000
+    SE4                1.000      0.000      0.000      1.000
+    SE6                1.000      0.000      0.000      1.000
+    OPT1               1.000      0.000      0.000      1.000
+    OPT2               1.000      0.000      0.000      1.000
+    OPT3               1.000      0.000      0.000      1.000
+    PLIFE2             1.000      0.000      0.000      1.000
+    PLIFE3             1.000      0.000      0.000      1.000
+    PLIFE5             1.000      0.000      0.000      1.000
+    CON2               1.000      0.000      0.000      1.000
+    CON3               1.000      0.000      0.000      1.000
+    CON5               1.000      0.000      0.000      1.000
+    EXT1               1.000      0.000      0.000      1.000
+    EXT3               1.000      0.000      0.000      1.000
+    EXT4               1.000      0.000      0.000      1.000
+    FAMS1              1.000      0.000      0.000      1.000
+    FAMS2              1.000      0.000      0.000      1.000
+    FAMS4              1.000      0.000      0.000      1.000
+    FRIS1              1.000      0.000      0.000      1.000
+    FRIS2              1.000      0.000      0.000      1.000
+    FRIS4              1.000      0.000      0.000      1.000
+    SPOS1              1.000      0.000      0.000      1.000
+    SPOS2              1.000      0.000      0.000      1.000
+    SPOS3              1.000      0.000      0.000      1.000
+    SI1                1.000      0.000      0.000      1.000
+    SI2                1.000      0.000      0.000      1.000
+    SI3                1.000      0.000      0.000      1.000
+
+
+R-SQUARE
+
+Group MEN
+
+    Observed                                        Two-Tailed   Residual
+    Variable        Estimate       S.E.  Est./S.E.    P-Value    Variance
+
+    M1                 0.557      0.020     28.507      0.000      0.443
+    M2                 0.666      0.021     31.505      0.000      0.334
+    M3                 0.416      0.022     18.677      0.000      0.584
+    LC2                0.739      0.024     31.351      0.000      0.261
+    LC5                0.278      0.019     14.574      0.000      0.722
+    LC7                0.632      0.023     26.976      0.000      0.368
+    SE2                0.772      0.017     46.668      0.000      0.228
+    SE4                0.372      0.020     18.656      0.000      0.628
+    SE6                0.692      0.017     40.968      0.000      0.308
+    OPT1               0.292      0.021     14.140      0.000      0.708
+    OPT2               0.618      0.025     24.253      0.000      0.382
+    OPT3               0.567      0.026     21.776      0.000      0.433
+    PLIFE2             0.618      0.020     30.492      0.000      0.382
+    PLIFE3             0.536      0.022     24.565      0.000      0.464
+    PLIFE5             0.534      0.020     26.136      0.000      0.466
+    CON2               0.581      0.036     16.120      0.000      0.419
+    CON3               0.545      0.033     16.347      0.000      0.455
+    CON5               0.440      0.031     14.296      0.000      0.560
+    EXT1               0.379      0.025     15.193      0.000      0.621
+    EXT3               0.592      0.024     24.405      0.000      0.408
+    EXT4               0.608      0.030     20.403      0.000      0.392
+    FAMS1              0.692      0.032     21.346      0.000      0.308
+    FAMS2              0.858      0.029     29.682      0.000      0.142
+    FAMS4              0.585      0.029     20.513      0.000      0.415
+    FRIS1              0.771      0.022     34.990      0.000      0.229
+    FRIS2              0.824      0.021     38.529      0.000      0.176
+    FRIS4              0.599      0.022     26.799      0.000      0.401
+    SPOS1              0.812      0.032     25.064      0.000      0.188
+    SPOS2              0.792      0.032     24.435      0.000      0.208
+    SPOS3              0.840      0.028     29.866      0.000      0.160
+    SI1                0.624      0.028     21.962      0.000      0.376
+    SI2                0.580      0.024     24.383      0.000      0.420
+    SI3                0.429      0.022     19.422      0.000      0.571
+
+     Latent                                         Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    M                  0.683      0.022     31.743      0.000
+    LC                 0.622      0.024     25.673      0.000
+    SE                 0.901      0.016     57.842      0.000
+    OPT                0.678      0.027     25.092      0.000
+    PLIFE              0.838      0.019     44.406      0.000
+    CON                0.449      0.030     14.750      0.000
+    EXT                0.568      0.027     20.766      0.000
+    FAMS               0.367      0.033     11.045      0.000
+    FRIS               0.484      0.033     14.660      0.000
+    SPOS               0.323      0.043      7.577      0.000
+    SI                 0.584      0.038     15.351      0.000
+
+Group WOMEN
+
+    Observed                                        Two-Tailed   Residual
+    Variable        Estimate       S.E.  Est./S.E.    P-Value    Variance
+
+    M1                 0.662      0.018     35.839      0.000      0.340
+    M2                 0.732      0.019     39.485      0.000      0.292
+    M3                 0.327      0.018     18.193      0.000      1.026
+    LC2                0.749      0.020     37.781      0.000      0.364
+    LC5                0.335      0.019     17.594      0.000      0.812
+    LC7                0.572      0.021     26.856      0.000      0.695
+    SE2                0.768      0.015     50.963      0.000      0.320
+    SE4                0.435      0.019     23.512      0.000      0.661
+    SE6                0.693      0.016     43.384      0.000      0.419
+    OPT1               0.342      0.020     17.064      0.000      0.685
+    OPT2               0.648      0.023     28.433      0.000      0.409
+    OPT3               0.561      0.025     22.552      0.000      0.541
+    PLIFE2             0.579      0.019     31.100      0.000      0.439
+    PLIFE3             0.510      0.020     25.532      0.000      0.503
+    PLIFE5             0.541      0.019     28.230      0.000      0.443
+    CON2               0.574      0.039     14.713      0.000      0.360
+    CON3               0.551      0.034     16.082      0.000      0.370
+    CON5               0.391      0.027     14.236      0.000      0.572
+    EXT1               0.446      0.024     18.759      0.000      0.579
+    EXT3               0.584      0.022     26.778      0.000      0.517
+    EXT4               0.639      0.026     24.517      0.000      0.422
+    FAMS1              0.795      0.028     28.582      0.000      0.197
+    FAMS2              0.785      0.026     30.410      0.000      0.260
+    FAMS4              0.658      0.024     27.661      0.000      0.336
+    FRIS1              0.834      0.018     45.669      0.000      0.150
+    FRIS2              0.817      0.018     45.196      0.000      0.180
+    FRIS4              0.655      0.019     33.731      0.000      0.308
+    SPOS1              0.871      0.025     34.465      0.000      0.239
+    SPOS2              0.778      0.026     29.456      0.000      0.446
+    SPOS3              0.890      0.022     40.227      0.000      0.206
+    SI1                0.591      0.026     22.412      0.000      0.594
+    SI2                0.605      0.021     29.253      0.000      0.519
+    SI3                0.466      0.019     24.581      0.000      0.673
+
+     Latent                                         Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    M                  0.597      0.021     28.947      0.000
+    LC                 0.616      0.022     28.403      0.000
+    SE                 0.877      0.015     59.804      0.000
+    OPT                0.634      0.022     28.568      0.000
+    PLIFE              0.827      0.018     46.264      0.000
+    CON                0.437      0.031     14.314      0.000
+    EXT                0.543      0.023     23.597      0.000
+    FAMS               0.395      0.032     12.464      0.000
+    FRIS               0.449      0.030     14.732      0.000
+    SPOS               0.283      0.040      7.128      0.000
+    SI                 0.514      0.031     16.639      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.144E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Sample proportions and estimated probabilities
+  Item characteristic curves
+  Information curves
+  Measurement parameter plots
+
+     Beginning Time:  13:40:54
+        Ending Time:  13:41:10
+       Elapsed Time:  00:00:16
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen

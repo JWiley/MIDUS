@@ -1,0 +1,138 @@
+TITLE:
+PSR AL Model
+DATA:
+FILE = implist.dat;
+TYPE = IMPUTATION;
+
+VARIABLE:
+
+NAMES = M2ID m2famnum b1page_m2 sex m1chadv m2aadv LifeStress LifeStress2
+     p4majorconditions p4minorconditions p4sumburden Diet ExtremeDiet OverallDiet
+     PSQI1 PSQI2 PSQI3 Smoke CurrentSmoke RiskyBehaviors CurrentAlcohol WorstAlcohol
+     FreqInt FreqDurInt FreqIntW FreqDurIntW PhysAct B4QCESD B4QMA_D B4QMA_A
+     B4QMA_LI B4QMA_AA B4QMA_PA Imputation_x Milwaukee dSES Imputation_y MASTERY
+     CONSTRAINT SELFESTEEM OPTIMISM PESSIMISM FAMILYSUPT FRIENDSUPT SPOUSESUPT PR SR
+     bi_sym bi_hpa bi_card bi_gluc bi_lipid bi_infl bi_para F NegAff PosAff CurAlc2
+     PSR;
+
+   USEVARIABLES =
+      m1chadv dSES PSR LifeStress
+      sex b1page_m2
+      NegAff
+      F
+      PSQI3 CurrentSmoke RiskyBehaviors
+      CurrentAlcohol CurAlc2 PhysAct
+      OverallDiet
+      p4majorconditions
+      ;
+ MISSING=.;
+  IDVARIABLE = M2ID;
+    CLUSTER = m2famnum;
+    COUNT = LifeStress p4majorconditions;
+    CATEGORICAL = CurrentSmoke PhysAct RiskyBehaviors;
+!    DEFINE:
+
+
+ANALYSIS:
+
+  TYPE = COMPLEX;
+  Estimator = MLR;
+  PROCESSORS = 4;
+  INTEGRATION = MONTECARLO (250);
+
+MODEL:
+
+  ! Step 1
+    LifeStress ON
+      sex b1page_m2 m1chadv dSES
+      ;
+
+    PSR ON
+      sex b1page_m2
+      m1chadv dSES;
+
+    ! Step 2
+    NegAff ON
+      sex b1page_m2 m1chadv
+      dSES
+      PSR
+      LifeStress
+      ;
+
+    ! Step 3
+      F ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      PSQI3 CurrentSmoke RiskyBehaviors
+      CurrentAlcohol CurAlc2 PhysAct
+      OverallDiet
+     ;
+
+      PSQI3 ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      ;
+
+      CurrentSmoke ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      ;
+
+      RiskyBehaviors ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      ;
+
+      CurrentAlcohol ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      ;
+
+      CurAlc2 ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      ;
+
+      PhysAct ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      ;
+
+      OverallDiet ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      ;
+
+      ! Step 4
+
+      p4majorconditions ON
+      sex b1page_m2 m1chadv dSES
+      PSR
+      LifeStress
+      NegAff
+      PSQI3 CurrentSmoke RiskyBehaviors
+      CurrentAlcohol CurAlc2 PhysAct
+      OverallDiet
+      F
+      ;
+
+
+OUTPUT:
+
+   STDYX;

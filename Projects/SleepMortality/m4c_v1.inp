@@ -1,0 +1,34 @@
+DATA:
+FILE = "m4c_v1_94b84328da49b4c198c90673e3aee8d4.dat";
+ 
+VARIABLE:
+NAMES = M2ID M2FAMNUM B1Age C1Age LastAge DECEASED B1SOL C1SOL Sex B1SBMI B1SCHRON
+     White SmokeCurr SmokePast AlcHigh AlcMod m2ed_all B1Sleep; 
+ MISSING=.;
+ 
+  IDVARIABLE = M2ID;
+  CLUSTER = M2FAMNUM;
+  TSCORES = B1Age C1Age;
+  SURVIVAL = LastAge;
+  TIMECENSORED = DECEASED (0=RIGHT, 1=NOT);
+ANALYSIS:
+
+  TYPE = COMPLEX RANDOM;
+  ESTIMATOR = MLR;
+  ALGORITHM = INTEGRATION;
+  INTEGRATION = MONTECARLO (1000);
+  PROCESSORS = 2;
+MODEL:
+
+  i s | B1SOL C1SOL at B1Age C1Age;
+  B1SOL C1SOL (e);
+  i WITH s*;
+  i* s*;
+
+  LastAge ON i s;
+  LastAge i s ON Sex B1SBMI B1SCHRON White SmokeCurr SmokePast
+    AlcHigh AlcMod m2ed_all B1Sleep;
+  ![B1SBMI];
+
+OUTPUT:
+CINTERVAL;

@@ -1,0 +1,412 @@
+Mplus VERSION 7.3
+MUTHEN & MUTHEN
+07/13/2016  10:04 AM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "m2_stress_lca1.dat";
+
+  VARIABLE:
+  NAMES = B1SJOBDI B1SPIWOR B1SPIHOM B1SKINNE B1SFDSNE B1SSPCRI B1SPIFAM B1SLFEDI
+       B1SDAYDI B4QPS_PS;
+   MISSING=.;
+
+      CLASSES = c (1);
+
+  ANALYSIS:
+
+     TYPE = MIXTURE;
+     ESTIMATOR = BAYES;
+     BITERATIONS = 20000 (4000);
+     STARTS = 600 120;
+     STVALUES = ML;
+     PROCESSORS = 8;
+
+  MODEL:
+
+     %OVERALL%
+     [B1SLFEDI* B1SDAYDI* B1SJOBDI*
+      B1SPIWOR* B1SPIHOM* B1SPIFAM*
+      B4QPS_PS* B1SKINNE* B1SFDSNE* B1SSPCRI*];
+     B1SLFEDI* B1SDAYDI* B1SJOBDI*
+      B1SPIWOR* B1SPIHOM* B1SPIFAM*
+      B4QPS_PS* B1SKINNE* B1SFDSNE* B1SSPCRI*;
+  OUTPUT:
+  STDYX;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  2364
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        4621
+
+Number of dependent variables                                   10
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   B1SJOBDI    B1SPIWOR    B1SPIHOM    B1SKINNE    B1SFDSNE    B1SSPCRI
+   B1SPIFAM    B1SLFEDI    B1SDAYDI    B4QPS_PS
+
+Categorical latent variables
+   C
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               2
+  Random seed for the first chain                                0
+  Starting value information                                    ML
+  Treatment of categorical mediator                         LATENT
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               20000
+  K-th iteration used for thinning                               1
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Random Starts Specifications
+  Number of initial stage random starts                        600
+  Number of final stage optimizations                          120
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+Cholesky                                                       OFF
+
+Input data file(s)
+  m2_stress_lca1.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+     Number of missing data patterns            95
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              B1SJOBDI      B1SPIWOR      B1SPIHOM      B1SKINNE      B1SFDSNE
+              ________      ________      ________      ________      ________
+ B1SJOBDI       0.642
+ B1SPIWOR       0.636         0.639
+ B1SPIHOM       0.640         0.638         0.996
+ B1SKINNE       0.639         0.637         0.992         0.994
+ B1SFDSNE       0.637         0.635         0.988         0.987         0.990
+ B1SSPCRI       0.480         0.479         0.707         0.706         0.703
+ B1SPIFAM       0.554         0.551         0.866         0.866         0.862
+ B1SLFEDI       0.626         0.623         0.964         0.963         0.958
+ B1SDAYDI       0.636         0.633         0.984         0.982         0.977
+ B4QPS_PS       0.189         0.188         0.269         0.269         0.267
+
+
+           Covariance Coverage
+              B1SSPCRI      B1SPIFAM      B1SLFEDI      B1SDAYDI      B4QPS_PS
+              ________      ________      ________      ________      ________
+ B1SSPCRI       0.708
+ B1SPIFAM       0.653         0.868
+ B1SLFEDI       0.684         0.840         0.967
+ B1SDAYDI       0.701         0.858         0.960         0.986
+ B4QPS_PS       0.190         0.234         0.266         0.268         0.270
+
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+          -54252.686  416250           390
+          -54252.686  673496           218
+          -54252.686  760878           249
+          -54252.686  78862            529
+          -54252.686  425982           485
+          -54252.686  695155           150
+          -54252.686  182524           373
+          -54252.686  608849           224
+          -54252.686  137305           379
+          -54252.686  726035           191
+          -54252.686  117731           570
+          -54252.686  36714            201
+          -54252.686  97158            205
+          -54252.686  358074           560
+          -54252.686  268896           124
+          -54252.686  752769           253
+          -54252.686  970689           266
+          -54252.686  840031           276
+          -54252.686  602797           336
+          -54252.686  399380           436
+          -54252.686  371737           532
+          -54252.686  120506           45
+          -54252.686  972430           491
+          -54252.686  565819           65
+          -54252.686  67009            564
+          -54252.686  732596           320
+          -54252.686  616917           261
+          -54252.686  638611           524
+          -54252.686  4091             548
+          -54252.686  312754           562
+          -54252.686  407168           44
+          -54252.686  486622           522
+          -54252.686  521575           313
+          -54252.686  997222           229
+          -54252.686  699810           571
+          -54252.686  526324           178
+          -54252.686  195873           6
+          -54252.686  887580           493
+          -54252.686  741888           138
+          -54252.686  163110           584
+          -54252.686  127215           9
+          -54252.686  279850           555
+          -54252.686  856536           144
+          -54252.686  462228           298
+          -54252.686  414284           158
+          -54252.686  496881           192
+          -54252.686  100874           108
+          -54252.686  39136            226
+          -54252.686  622860           259
+          -54252.686  281462           285
+          -54252.686  862607           468
+          -54252.686  529455           268
+          -54252.686  576726           280
+          -54252.686  626087           314
+          -54252.686  674171           195
+          -54252.686  879211           453
+          -54252.686  168762           200
+          -54252.686  569131           26
+          -54252.686  545140           278
+          -54252.686  185071           370
+          -54252.686  471040           403
+          -54252.686  170118           238
+          -54252.686  354395           486
+          -54252.686  603842           61
+          -54252.686  121425           511
+          -54252.686  992389           77
+          -54252.686  79945            395
+          -54252.686  238906           430
+          -54252.686  499150           216
+          -54252.686  830292           527
+          -54252.686  291149           536
+          -54252.686  22874            588
+          -54252.686  963053           43
+          -54252.686  570908           98
+          -54252.686  21345            199
+          -54252.686  505879           424
+          -54252.686  195353           225
+          -54252.686  519357           559
+          -54252.686  631413           439
+          -54252.686  508482           446
+          -54252.686  246575           291
+          -54252.686  576596           99
+          -54252.686  804561           59
+          -54252.686  915642           40
+          -54252.686  570782           193
+          -54252.686  926797           406
+          -54252.686  887676           22
+          -54252.686  587946           120
+          -54252.686  379729           512
+          -54252.686  354559           73
+          -54252.686  92689            304
+          -54252.686  34346            330
+          -54252.686  561664           392
+          -54252.686  746978           410
+          -54252.686  342019           301
+          -54252.686  872743           374
+          -54252.686  50887            389
+          -54252.686  923437           398
+          -54252.686  714455           476
+          -54252.686  443917           60
+          -54252.686  783110           72
+          -54252.686  374219           353
+          -54252.686  371246           101
+          -54252.686  340112           126
+          -54252.686  126371           526
+          -54252.686  192071           142
+          -54252.686  81117            305
+          -54252.686  407108           366
+          -54252.686  373505           88
+          -54252.686  416463           467
+          -54252.686  606576           151
+          -54252.686  635245           121
+          -54252.686  23012            352
+          -54252.686  224950           455
+          -54252.686  319575           499
+          -54252.686  350608           334
+          -54252.686  unperturbed      0
+          -54252.686  188640           451
+          -54252.686  655497           376
+          -54252.686  76337            76
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              20
+
+Bayesian Posterior Predictive Checking using Chi-Square
+
+          95% Confidence Interval for the Difference Between
+          the Observed and the Replicated Chi-Square Values
+
+                        4845.137          5080.633
+
+          Posterior Predictive P-Value       0.000
+
+Information Criterion
+
+          Deviance (DIC)                       108545.283
+          Estimated number of parameters (pD)      19.938
+          Bayesian (BIC)                       108674.160
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1          0.00000          0.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1          0.00000          0.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1                0          0.00000
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1
+
+    1   0.000
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Latent Class 1
+
+ Means
+    B1SJOBDI          10.579       0.082      0.000      10.420      10.738      *
+    B1SPIWOR           1.610       0.010      0.000       1.591       1.630      *
+    B1SPIHOM           1.469       0.007      0.000       1.454       1.483      *
+    B1SKINNE           2.063       0.009      0.000       2.045       2.081      *
+    B1SFDSNE           1.843       0.008      0.000       1.828       1.858      *
+    B1SSPCRI           2.141       0.011      0.000       2.120       2.162      *
+    B1SPIFAM           1.574       0.008      0.000       1.559       1.591      *
+    B1SLFEDI           1.047       0.025      0.000       0.996       1.095      *
+    B1SDAYDI          12.856       0.067      0.000      12.727      12.985      *
+    B4QPS_PS          22.232       0.175      0.000      21.896      22.593      *
+
+ Variances
+    B1SJOBDI          19.764       0.510      0.000      18.782      20.765      *
+    B1SPIWOR           0.296       0.008      0.000       0.282       0.312      *
+    B1SPIHOM           0.247       0.005      0.000       0.237       0.257      *
+    B1SKINNE           0.388       0.008      0.000       0.372       0.404      *
+    B1SFDSNE           0.274       0.006      0.000       0.263       0.285      *
+    B1SSPCRI           0.378       0.009      0.000       0.361       0.397      *
+    B1SPIFAM           0.249       0.005      0.000       0.238       0.260      *
+    B1SLFEDI           2.843       0.060      0.000       2.731       2.966      *
+    B1SDAYDI          20.624       0.435      0.000      19.790      21.466      *
+    B4QPS_PS          39.882       1.598      0.000      36.807      43.115      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+Latent Class 1
+
+ Means
+    B1SJOBDI           2.380       0.036      0.000       2.310       2.451      *
+    B1SPIWOR           2.960       0.042      0.000       2.877       3.043      *
+    B1SPIHOM           2.956       0.034      0.000       2.890       3.024      *
+    B1SKINNE           3.313       0.038      0.000       3.239       3.387      *
+    B1SFDSNE           3.523       0.039      0.000       3.446       3.598      *
+    B1SSPCRI           3.481       0.046      0.000       3.391       3.571      *
+    B1SPIFAM           3.152       0.038      0.000       3.077       3.229      *
+    B1SLFEDI           0.621       0.016      0.000       0.589       0.653      *
+    B1SDAYDI           2.830       0.033      0.000       2.767       2.896      *
+    B4QPS_PS           3.521       0.077      0.000       3.375       3.672      *
+
+ Variances
+    B1SJOBDI           1.000       0.000      0.000       1.000       1.000
+    B1SPIWOR           1.000       0.000      0.000       1.000       1.000
+    B1SPIHOM           1.000       0.000      0.000       1.000       1.000
+    B1SKINNE           1.000       0.000      0.000       1.000       1.000
+    B1SFDSNE           1.000       0.000      0.000       1.000       1.000
+    B1SSPCRI           1.000       0.000      0.000       1.000       1.000
+    B1SPIFAM           1.000       0.000      0.000       1.000       1.000
+    B1SLFEDI           1.000       0.000      0.000       1.000       1.000
+    B1SDAYDI           1.000       0.000      0.000       1.000       1.000
+    B4QPS_PS           1.000       0.000      0.000       1.000       1.000
+
+
+     Beginning Time:  10:04:01
+        Ending Time:  10:04:16
+       Elapsed Time:  00:00:15
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2014 Muthen & Muthen
